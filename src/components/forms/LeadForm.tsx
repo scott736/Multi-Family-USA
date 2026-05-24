@@ -88,8 +88,12 @@ export default function LeadForm({
 }: LeadFormProps) {
   const isHero = variant === 'hero';
   const isPremium = variant === 'premium';
-  const isPolished = isPremium || isHero;
+  const isPolished = isPremium;
   const isCompact = variant === 'compact';
+
+  const heroSelectClass =
+    'flex h-10 w-full rounded-lg border border-border/80 bg-background/90 px-3 py-2 text-sm shadow-xs focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-accent/30';
+  const heroStepPanelClass = 'min-h-[340px]';
 
   const [step, setStep] = useState(1);
   const [loading, setLoading] = useState(false);
@@ -208,27 +212,54 @@ export default function LeadForm({
 
   const choiceButtonClass = (selected: boolean) =>
     cn(
-      'flex w-full items-center rounded-xl border text-left font-semibold transition-all duration-200',
-      isPolished
+      'flex w-full items-center border text-left font-semibold transition-all duration-200',
+      isPremium
         ? cn(
-            isHero ? 'p-3 text-[13px]' : 'p-3.5 text-sm',
-            'hover:-translate-y-0.5 hover:shadow-md',
+            'rounded-xl p-3.5 text-sm hover:-translate-y-0.5 hover:shadow-md',
             selected
               ? 'border-accent bg-accent/10 shadow-md shadow-accent/10 ring-2 ring-accent/40'
               : 'border-border/80 bg-background/80 hover:border-primary/30 hover:bg-secondary/60',
           )
-        : cn(
-            'text-xs hover:bg-secondary/50',
-            selected ? 'border-primary bg-primary/5 ring-1 ring-primary' : 'border-border bg-card',
-          ),
+        : isHero
+          ? cn(
+              'rounded-lg px-2.5 py-2 text-xs',
+              selected
+                ? 'border-accent bg-accent/10 ring-1 ring-accent/30'
+                : 'border-border/80 bg-background hover:border-primary/25 hover:bg-secondary/50',
+            )
+          : cn(
+              'rounded-xl text-xs hover:bg-secondary/50',
+              selected ? 'border-primary bg-primary/5 ring-1 ring-primary' : 'border-border bg-card',
+            ),
     );
 
   const inputClass = cn(
     'tabular-nums transition-shadow duration-200',
-    isPolished && 'h-12 rounded-xl border-border/80 bg-background/90 focus-visible:ring-2 focus-visible:ring-accent/30',
+    isPremium && 'h-12 rounded-xl border-border/80 bg-background/90 focus-visible:ring-2 focus-visible:ring-accent/30',
+    isHero && 'h-10 rounded-lg border-border/80 bg-background/90 focus-visible:ring-2 focus-visible:ring-accent/30',
   );
 
   const renderStepIndicator = () => {
+    if (isHero) {
+      const progress = (step / STEPS.length) * 100;
+      return (
+        <div className="mb-4">
+          <div className="mb-2 flex items-center justify-between text-[11px] font-medium text-muted-foreground">
+            <span>
+              Step {step} of {STEPS.length}
+            </span>
+            <span className="font-semibold text-accent">{Math.round(progress)}%</span>
+          </div>
+          <div className="h-1 overflow-hidden rounded-full bg-secondary">
+            <div
+              className="h-full rounded-full bg-accent transition-all duration-300 ease-out"
+              style={{ width: `${progress}%` }}
+            />
+          </div>
+        </div>
+      );
+    }
+
     if (isPolished) {
       const progress = ((step - 1) / (STEPS.length - 1)) * 100;
       return (
@@ -317,6 +348,22 @@ export default function LeadForm({
       },
     ];
 
+    if (isHero) {
+      return (
+        <div className="rounded-lg border border-primary/15 bg-primary/[0.04] px-3 py-2.5">
+          <p className="mb-2 text-[10px] font-bold uppercase tracking-wider text-primary">Live read</p>
+          <div className="grid grid-cols-3 gap-2 text-center">
+            {metrics.map(({ label, value, tone }) => (
+              <div key={label}>
+                <p className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">{label}</p>
+                <p className={cn('mt-0.5 text-sm font-bold tabular-nums', tone)}>{value}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      );
+    }
+
     if (isPolished) {
       return (
         <div className="overflow-hidden rounded-2xl border border-primary/15 bg-gradient-to-br from-primary/[0.04] via-background to-accent/[0.06]">
@@ -372,27 +419,25 @@ export default function LeadForm({
     <div
       className={cn(
         '@container transition-all duration-300',
-         
-        isPolished
-          ? cn(
-              'rounded-2xl bg-card shadow-2xl shadow-primary/10',
-              isPremium ? 'p-6 md:p-8' : 'p-5 md:p-7',
-            )
-          : cn(
-              'rounded-2xl border border-border bg-card shadow-lg',
-              isCompact ? 'p-4' : 'p-5 md:p-7',
-            ),
+        isPremium
+          ? 'rounded-2xl bg-card p-6 shadow-2xl shadow-primary/10 md:p-8'
+          : isHero
+            ? 'rounded-xl border border-border/70 bg-card p-4 shadow-md ring-1 ring-primary/[0.06]'
+            : cn(
+                'rounded-2xl border border-border bg-card shadow-lg',
+                isCompact ? 'p-4' : 'p-5 md:p-7',
+              ),
         className,
       )}
     >
-      <div className={cn('mb-5', isCompact && 'mb-4', isPolished && 'mb-6')}>
+      <div className={cn('mb-5', isCompact && 'mb-4', isPremium && 'mb-6', isHero && 'mb-4')}>
         <h3
           className={cn(
             'font-bold tracking-tight text-foreground',
             isPremium
               ? 'text-2xl md:text-[1.65rem]'
               : isHero
-                ? 'text-xl md:text-2xl'
+                ? 'text-base md:text-lg'
                 : isCompact
                   ? 'text-lg leading-snug'
                   : 'text-xl md:text-2xl',
@@ -400,14 +445,19 @@ export default function LeadForm({
         >
           {headline ?? 'Free multifamily deal review'}
         </h3>
-        <p className={cn('mt-1.5 leading-relaxed text-muted-foreground', isPremium ? 'text-sm' : 'text-sm')}>
+        <p
+          className={cn(
+            'mt-1 leading-relaxed text-muted-foreground',
+            isPremium ? 'text-sm' : isHero ? 'text-xs' : 'text-sm',
+          )}
+        >
           {subheadline ?? 'US 5+ unit only. No credit pull. Get a practical underwriting and lender-fit read.'}
         </p>
       </div>
 
       {renderStepIndicator()}
 
-      <form onSubmit={handleSubmit} noValidate className={cn(isPolished ? 'space-y-6' : 'space-y-5')}>
+      <form onSubmit={handleSubmit} noValidate className={cn(isPremium ? 'space-y-6' : isHero ? 'space-y-4' : 'space-y-5')}>
         <input
           type="text"
           name="website"
@@ -419,12 +469,18 @@ export default function LeadForm({
           onChange={(e) => update('website', e.target.value)}
         />
 
-        <div key={step} className="animate-in fade-in slide-in-from-right-3 duration-300 fill-mode-both">
+        <div
+          key={step}
+          className={cn(
+            'animate-in fade-in slide-in-from-right-3 duration-300 fill-mode-both',
+            isHero && heroStepPanelClass,
+          )}
+        >
           {step === 1 && (
-            <div className={cn(isPolished ? 'space-y-6' : 'space-y-5')}>
-              <div className="space-y-3">
-                <Label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Deal purpose</Label>
-                <div className="grid gap-2.5 @sm:grid-cols-2">
+            <div className={cn(isPremium ? 'space-y-6' : isHero ? 'space-y-3.5' : 'space-y-5')}>
+              <div className="space-y-2">
+                <Label className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">Deal purpose</Label>
+                <div className="grid gap-2 @sm:grid-cols-2">
                   {PURPOSES.map((p) => (
                     <button
                       key={p.value}
@@ -438,57 +494,111 @@ export default function LeadForm({
                 </div>
               </div>
 
-              <div className="space-y-3">
-                <Label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Property type</Label>
-                <div className="grid gap-2.5 @sm:grid-cols-2">
-                  {PROPERTY_TYPES.map((p) => (
-                    <button
-                      key={p.value}
-                      type="button"
-                      onClick={() => update('propertyType', p.value)}
-                      className={cn(choiceButtonClass(formData.propertyType === p.value), 'gap-2.5')}
+              {isHero ? (
+                <div className="grid gap-3 @sm:grid-cols-2">
+                  <div className="space-y-2">
+                    <Label className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
+                      Property type
+                    </Label>
+                    <select
+                      id="lf-property-type"
+                      className={heroSelectClass}
+                      value={formData.propertyType}
+                      onChange={(e) => update('propertyType', e.target.value)}
+                      required
                     >
-                      <Building2
-                        className={cn(
-                          'size-4 shrink-0',
-                          formData.propertyType === p.value ? 'text-accent' : 'text-muted-foreground',
-                        )}
-                      />
-                      {p.label}
-                    </button>
-                  ))}
-                </div>
-              </div>
+                      <option value="" disabled>
+                        Select type
+                      </option>
+                      {PROPERTY_TYPES.map((p) => (
+                        <option key={p.value} value={p.value}>
+                          {p.label}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
 
-              <div
-                className={cn(
-                  'grid gap-2 rounded-xl border p-4 transition-colors',
-                  isPolished
-                    ? 'border-border/80 bg-secondary/30'
-                    : 'border-transparent p-0',
-                )}
-              >
-                <Label htmlFor="lf-units" className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-                  Unit count <span className="font-medium normal-case tracking-normal text-foreground/70">(5+ required)</span>
-                </Label>
-                <Input
-                  id="lf-units"
-                  type="number"
-                  inputMode="numeric"
-                  min={5}
-                  placeholder="24"
-                  className={inputClass}
-                  value={formData.units}
-                  onChange={(e) => update('units', e.target.value.replace(/[^0-9]/g, ''))}
-                  required
-                />
-              </div>
+                  <div className="space-y-2">
+                    <Label
+                      htmlFor="lf-units"
+                      className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground"
+                    >
+                      Unit count <span className="font-medium normal-case tracking-normal text-foreground/70">(5+)</span>
+                    </Label>
+                    <Input
+                      id="lf-units"
+                      type="number"
+                      inputMode="numeric"
+                      min={5}
+                      placeholder="24"
+                      className={inputClass}
+                      value={formData.units}
+                      onChange={(e) => update('units', e.target.value.replace(/[^0-9]/g, ''))}
+                      required
+                    />
+                  </div>
+                </div>
+              ) : (
+                <>
+                  <div className="space-y-2">
+                    <Label className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
+                      Property type
+                    </Label>
+                    <div className="grid gap-2 @sm:grid-cols-2">
+                      {PROPERTY_TYPES.map((p) => (
+                        <button
+                          key={p.value}
+                          type="button"
+                          onClick={() => update('propertyType', p.value)}
+                          className={cn(choiceButtonClass(formData.propertyType === p.value), 'gap-2.5')}
+                        >
+                          <Building2
+                            className={cn(
+                              'size-4 shrink-0',
+                              formData.propertyType === p.value ? 'text-accent' : 'text-muted-foreground',
+                            )}
+                          />
+                          {p.label}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+
+                  <div
+                    className={cn(
+                      'grid gap-1.5 transition-colors',
+                      isPremium && 'rounded-xl border border-border/80 bg-secondary/30 p-4',
+                    )}
+                  >
+                    <Label
+                      htmlFor="lf-units"
+                      className={cn(
+                        'font-semibold uppercase tracking-wider text-muted-foreground',
+                        'text-xs',
+                      )}
+                    >
+                      Unit count <span className="font-medium normal-case tracking-normal text-foreground/70">(5+ required)</span>
+                    </Label>
+                    <Input
+                      id="lf-units"
+                      type="number"
+                      inputMode="numeric"
+                      min={5}
+                      placeholder="24"
+                      className={inputClass}
+                      value={formData.units}
+                      onChange={(e) => update('units', e.target.value.replace(/[^0-9]/g, ''))}
+                      required
+                    />
+                  </div>
+                </>
+              )}
             </div>
           )}
 
           {step === 2 && (
-            <div className="space-y-5">
-              <div className="grid gap-4 @md:grid-cols-2">
+            <div className={cn(isHero ? 'space-y-3.5' : 'space-y-5')}>
+              <div className={cn(isHero ? 'grid gap-3 @sm:grid-cols-2' : 'grid gap-4 @md:grid-cols-2')}>
                 {[
                   ['purchasePrice', 'Purchase price', '3,250,000'],
                   ['loanAmount', 'Requested loan amount', '2,200,000'],
@@ -496,7 +606,10 @@ export default function LeadForm({
                   ['occupancy', 'Occupancy %', '93'],
                 ].map(([key, label, placeholder]) => (
                   <div key={key} className="grid gap-1.5">
-                    <Label htmlFor={`lf-${key}`} className="text-xs font-medium text-foreground">
+                    <Label
+                      htmlFor={`lf-${key}`}
+                      className={cn('font-medium text-foreground', isHero ? 'text-[11px]' : 'text-xs')}
+                    >
                       {label}
                     </Label>
                     <div className="relative">
@@ -523,10 +636,13 @@ export default function LeadForm({
           )}
 
           {step === 3 && (
-            <div className="space-y-5">
-              <div className="grid gap-4 @md:grid-cols-2">
+            <div className={cn(isHero ? 'space-y-3.5' : 'space-y-5')}>
+              <div className={cn(isHero ? 'grid gap-3 @sm:grid-cols-2' : 'grid gap-4 @md:grid-cols-2')}>
                 <div className="grid gap-1.5">
-                  <Label htmlFor="lf-credit" className="text-xs font-medium text-foreground">
+                  <Label
+                    htmlFor="lf-credit"
+                    className={cn('font-medium text-foreground', isHero ? 'text-[11px]' : 'text-xs')}
+                  >
                     Estimated sponsor credit score
                   </Label>
                   <Input
@@ -544,14 +660,18 @@ export default function LeadForm({
                 </div>
 
                 <div className="grid gap-1.5">
-                  <Label htmlFor="lf-state" className="text-xs font-medium text-foreground">
+                  <Label
+                    htmlFor="lf-state"
+                    className={cn('font-medium text-foreground', isHero ? 'text-[11px]' : 'text-xs')}
+                  >
                     Property state
                   </Label>
                   <select
                     id="lf-state"
                     className={cn(
                       'flex w-full rounded-md border border-input bg-background px-3 py-2 text-sm shadow-xs focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring',
-                      isPolished && 'h-12 rounded-xl border-border/80 bg-background/90 focus-visible:ring-accent/30',
+                      isPremium && 'h-12 rounded-xl border-border/80 bg-background/90 focus-visible:ring-accent/30',
+                      isHero && heroSelectClass,
                     )}
                     value={formData.state}
                     onChange={(e) => update('state', e.target.value)}
@@ -569,28 +689,57 @@ export default function LeadForm({
                 </div>
               </div>
 
-              <div className="space-y-2.5">
-                <Label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Execution timeline</Label>
-                <div className="grid gap-2 @sm:grid-cols-2">
-                  {TIMELINES.map((o) => (
-                    <button
-                      key={o.value}
-                      type="button"
-                      onClick={() => update('timeline', o.value)}
-                      className={cn(choiceButtonClass(formData.timeline === o.value), 'justify-center text-center')}
-                    >
-                      {o.label}
-                    </button>
-                  ))}
+              {isHero ? (
+                <div className="space-y-2">
+                  <Label className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
+                    Execution timeline
+                  </Label>
+                  <select
+                    id="lf-timeline"
+                    className={heroSelectClass}
+                    value={formData.timeline}
+                    onChange={(e) => update('timeline', e.target.value)}
+                    required
+                  >
+                    <option value="" disabled>
+                      Select timeline
+                    </option>
+                    {TIMELINES.map((o) => (
+                      <option key={o.value} value={o.value}>
+                        {o.label}
+                      </option>
+                    ))}
+                  </select>
                 </div>
-              </div>
+              ) : (
+                <div className="space-y-2.5">
+                  <Label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+                    Execution timeline
+                  </Label>
+                  <div className="grid gap-2 @sm:grid-cols-2">
+                    {TIMELINES.map((o) => (
+                      <button
+                        key={o.value}
+                        type="button"
+                        onClick={() => update('timeline', o.value)}
+                        className={cn(choiceButtonClass(formData.timeline === o.value), 'justify-center text-center')}
+                      >
+                        {o.label}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              )}
             </div>
           )}
 
           {step === 4 && (
-            <div className="space-y-4">
-              <div className="grid gap-1.5">
-                <Label htmlFor="lf-name" className="text-xs font-medium text-foreground">
+            <div className={cn(isHero ? 'grid gap-3 @sm:grid-cols-2' : 'space-y-4')}>
+              <div className={cn('grid gap-1.5', isHero && '@sm:col-span-2')}>
+                <Label
+                  htmlFor="lf-name"
+                  className={cn('font-medium text-foreground', isHero ? 'text-[11px]' : 'text-xs')}
+                >
                   Full name
                 </Label>
                 <div className="relative">
@@ -608,7 +757,10 @@ export default function LeadForm({
               </div>
 
               <div className="grid gap-1.5">
-                <Label htmlFor="lf-email" className="text-xs font-medium text-foreground">
+                <Label
+                  htmlFor="lf-email"
+                  className={cn('font-medium text-foreground', isHero ? 'text-[11px]' : 'text-xs')}
+                >
                   Email
                 </Label>
                 <div className="relative">
@@ -626,7 +778,10 @@ export default function LeadForm({
               </div>
 
               <div className="grid gap-1.5">
-                <Label htmlFor="lf-phone" className="text-xs font-medium text-foreground">
+                <Label
+                  htmlFor="lf-phone"
+                  className={cn('font-medium text-foreground', isHero ? 'text-[11px]' : 'text-xs')}
+                >
                   Phone
                 </Label>
                 <div className="relative">
@@ -660,7 +815,7 @@ export default function LeadForm({
               disabled={loading}
               className={cn(
                 'inline-flex items-center justify-center gap-1.5 border border-border bg-card px-5 text-sm font-bold text-foreground transition hover:bg-secondary/80 disabled:opacity-50',
-                isPolished ? 'h-12 rounded-xl' : 'h-11 rounded-lg',
+                isPremium ? 'h-12 rounded-xl' : isHero ? 'h-10 rounded-lg' : 'h-11 rounded-lg',
               )}
             >
               <ArrowLeft className="size-4" />
@@ -675,12 +830,10 @@ export default function LeadForm({
               disabled={!isStepValid()}
               className={cn(
                 'inline-flex flex-1 items-center justify-center gap-1.5 text-sm font-bold transition disabled:opacity-50',
-                isPolished ? 'h-12 rounded-xl' : 'h-11 rounded-lg',
-                isHero
-                  ? 'bg-gradient-to-r from-accent via-accent to-[hsl(38_90%_48%)] text-accent-foreground shadow-lg shadow-accent/30 hover:shadow-xl hover:shadow-accent/40 hover:brightness-105'
-                  : isPremium
-                    ? 'bg-primary text-primary-foreground shadow-lg shadow-primary/20 hover:bg-primary/95 hover:shadow-xl hover:shadow-primary/25'
-                    : 'bg-primary text-primary-foreground hover:bg-primary/95',
+                isPremium ? 'h-12 rounded-xl' : isHero ? 'h-10 rounded-lg' : 'h-11 rounded-lg',
+                isHero || isPremium
+                  ? 'bg-gradient-to-r from-accent via-accent to-[hsl(38_90%_48%)] text-accent-foreground shadow-md shadow-accent/25 hover:shadow-lg hover:shadow-accent/35 hover:brightness-105'
+                  : 'bg-primary text-primary-foreground hover:bg-primary/95',
               )}
             >
               Continue
@@ -692,9 +845,10 @@ export default function LeadForm({
               disabled={!isStepValid() || loading}
               className={cn(
                 'inline-flex flex-1 items-center justify-center gap-2 text-sm font-bold transition disabled:opacity-50',
-                isPolished
-                  ? 'h-12 rounded-xl bg-gradient-to-r from-accent via-accent to-[hsl(38_90%_48%)] text-accent-foreground shadow-lg shadow-accent/30 hover:shadow-xl hover:shadow-accent/40 hover:brightness-105'
+                isPremium || isHero
+                  ? 'h-10 rounded-lg bg-gradient-to-r from-accent via-accent to-[hsl(38_90%_48%)] text-accent-foreground shadow-md shadow-accent/25 hover:shadow-lg hover:shadow-accent/35 hover:brightness-105'
                   : 'h-11 rounded-lg bg-accent text-accent-foreground shadow-md hover:bg-accent/90',
+                isPremium && 'h-12 rounded-xl shadow-lg shadow-accent/30 hover:shadow-xl hover:shadow-accent/40',
               )}
             >
               {loading ? (
@@ -716,8 +870,8 @@ export default function LeadForm({
       {!isPremium && (
         <p
           className={cn(
-            'mt-4 flex items-center justify-center gap-1.5 text-center leading-normal text-muted-foreground',
-            isHero ? 'text-xs' : 'text-[10px]',
+            'mt-3 flex items-center justify-center gap-1.5 text-center leading-normal text-muted-foreground',
+            isHero ? 'text-[11px]' : 'text-[10px]',
           )}
         >
           <ShieldCheck className="size-3.5 shrink-0 text-success" />
@@ -727,14 +881,17 @@ export default function LeadForm({
     </div>
   );
 
-  if (isPolished) {
+  if (isPremium) {
     return (
-      <div
-        className={cn(
-          'rounded-[1.35rem] bg-gradient-to-br from-accent/50 via-accent/20 to-primary/30 p-[1px] shadow-2xl shadow-primary/20',
-          isHero && 'shadow-xl',
-        )}
-      >
+      <div className="rounded-[1.35rem] bg-gradient-to-br from-accent/50 via-accent/20 to-primary/30 p-[1px] shadow-2xl shadow-primary/20">
+        {formCard}
+      </div>
+    );
+  }
+
+  if (isHero) {
+    return (
+      <div className="rounded-xl border border-accent/15 bg-gradient-to-br from-accent/[0.04] to-transparent p-[1px] shadow-md">
         {formCard}
       </div>
     );
