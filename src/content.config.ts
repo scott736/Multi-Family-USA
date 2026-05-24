@@ -44,8 +44,12 @@ const states = defineCollection({
     tier: z.enum(["1", "2", "3", "special"]),
     avgCapRate: z.number(),
     avgPricePerUnit: z.number(),
+    statePropertyTax: z.number().optional(),
     hasStateIncomeTax: z.boolean(),
     foreclosureType: z.enum(["judicial", "non-judicial", "mixed"]),
+    evictionTimelineDays: z.string().optional(),
+    rentControl: z.boolean(),
+    prohibitsPpp1to4Unit: z.boolean().default(false),
     topMarkets: z.array(z.string()),
   }),
 });
