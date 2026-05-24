@@ -152,6 +152,23 @@ export function getBaseSchemas() {
   ];
 }
 
+export function buildFaqSchema(items: { q: string; a: string }[]) {
+  if (items.length === 0) return null;
+  const stripHtml = (html: string) => html.replace(/<[^>]*>/g, " ").replace(/\s+/g, " ").trim();
+  return {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: items.map((item) => ({
+      "@type": "Question",
+      name: item.q,
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: stripHtml(item.a),
+      },
+    })),
+  };
+}
+
 export function buildBreadcrumbSchema(items: { name: string; url: string }[]) {
   return {
     "@context": "https://schema.org",
