@@ -72,31 +72,44 @@ function buildLegalParagraph(stateName, d) {
 }
 
 function patchFrontmatter(fmBlock, d, slug, mfFm) {
-  let fm = fmBlock;
+  let inner = fmBlock.replace(/^---\n|\n---$/g, "");
+  // Remove any previously appended legal fields (re-sync safe)
+  inner = inner.replace(/\nstatePropertyTax:.*$/m, "");
+  inner = inner.replace(/\nevictionTimelineDays:.*$/m, "");
+  inner = inner.replace(/\nrentControl:.*$/m, "");
+  inner = inner.replace(/\nprohibitsPpp1to4Unit:.*$/m, "");
+
   const anchor = CITY_ANCHORS[slug];
   const avgCapRate = anchor ? anchor.avgCapRate : Number(mfFm.avgCapRate);
   const avgPricePerUnit = anchor ? anchor.avgPricePerUnit : Number(mfFm.avgPricePerUnit);
 
   const setScalar = (key, val) => {
     const re = new RegExp(`^${key}: .*$`, "m");
-    if (re.test(fm)) fm = fm.replace(re, `${key}: ${val}`);
-    else fm = fm.replace(/\n---$/, `\n${key}: ${val}\n---`);
+    inner = re.test(inner) ? inner.replace(re, `${key}: ${val}`) : inner;
   };
 
   setScalar("tier", `'${d.tier}'`);
   setScalar("avgCapRate", avgCapRate);
   setScalar("avgPricePerUnit", avgPricePerUnit);
-  setScalar("statePropertyTax", d.statePropertyTax);
   setScalar("hasStateIncomeTax", d.hasStateIncomeTax);
   setScalar("foreclosureType", d.foreclosureType);
-  setScalar("evictionTimelineDays", d.evictionTimelineDays);
-  setScalar("rentControl", d.rentControl);
-  setScalar("prohibitsPpp1to4Unit", d.prohibitsPpp1to4Unit ?? false);
 
   const markets = (d.topMarkets || []).map((m) => `- ${m}`).join("\n");
-  fm = fm.replace(/topMarkets:\n(?:- .+\n)+/, `topMarkets:\n${markets}\n`);
+  inner = inner.replace(/topMarkets:\n(?:- .+\n)+/, `topMarkets:\n${markets}\n`);
 
-  return { fm, avgCapRate, avgPricePerUnit };
+  const legalBlock = [
+    `statePropertyTax: ${d.statePropertyTax}`,
+    `evictionTimelineDays: ${d.evictionTimelineDays}`,
+    `rentControl: ${d.rentControl}`,
+    `prohibitsPpp1to4Unit: ${d.prohibitsPpp1to4Unit ?? false}`,
+  ].join("\n");
+
+  inner = inner.replace(
+    /^avgPricePerUnit: .+$/m,
+    (line) => `${line}\n${legalBlock}`,
+  );
+
+  return { fm: `---\n${inner}\n---`, avgCapRate, avgPricePerUnit };
 }
 
 function updateBody(body, stateName, d, avgCapRate, avgPricePerUnit) {
