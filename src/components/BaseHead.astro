@@ -2,6 +2,11 @@
 import "../styles/global.css";
 import { SITE_METADATA } from "../consts";
 
+interface AlternateLink {
+  hreflang: string;
+  href: string;
+}
+
 interface Props {
   title?: string;
   description?: string;
@@ -9,16 +14,19 @@ interface Props {
   noindex?: boolean;
   canonical?: string;
   keywords?: string[];
+  alternates?: AlternateLink[];
 }
 
-const { title, description, image, noindex, canonical, keywords } = Astro.props;
+const { title, description, image, noindex, canonical, keywords, alternates = [] } = Astro.props;
 
 const finalTitle = title || SITE_METADATA.title.default;
 const finalDescription = description || SITE_METADATA.description;
-const finalImage = image || SITE_METADATA.openGraph.images[0].url;
+const ogImage = SITE_METADATA.openGraph.images[0];
+const finalImage = image || ogImage.url;
 const canonicalUrl = canonical
   ? new URL(canonical, Astro.site)
   : new URL(Astro.url.pathname, Astro.site);
+const ogImageUrl = new URL(finalImage, Astro.site);
 
 const robotsParts = [
   noindex ? "noindex" : "index",
@@ -28,6 +36,9 @@ const robotsParts = [
   "max-video-preview:-1",
 ];
 ---
+
+<link rel="preconnect" href="https://vitals.vercel-insights.com" crossorigin />
+<link rel="dns-prefetch" href="https://vitals.vercel-insights.com" />
 
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
@@ -40,20 +51,32 @@ const robotsParts = [
 
 <title>{finalTitle}</title>
 <link rel="canonical" href={canonicalUrl} />
+{
+  alternates.map((alt) => (
+    <link rel="alternate" hreflang={alt.hreflang} href={new URL(alt.href, Astro.site)} />
+  ))
+}
 
 <meta property="og:type" content="website" />
 <meta property="og:title" content={finalTitle} />
 <meta property="og:description" content={finalDescription} />
-<meta property="og:image" content={new URL(finalImage, Astro.url)} />
+<meta property="og:image" content={ogImageUrl} />
+<meta property="og:image:width" content={String(ogImage.width)} />
+<meta property="og:image:height" content={String(ogImage.height)} />
+<meta property="og:image:alt" content={ogImage.alt} />
 <meta property="og:url" content={canonicalUrl} />
 <meta property="og:site_name" content={SITE_METADATA.openGraph.siteName} />
 <meta property="og:locale" content={SITE_METADATA.openGraph.locale} />
 
 <meta name="twitter:card" content={SITE_METADATA.twitter.card} />
+<meta name="twitter:site" content={SITE_METADATA.twitter.site} />
+<meta name="twitter:creator" content={SITE_METADATA.twitter.creator} />
 <meta name="twitter:title" content={finalTitle} />
 <meta name="twitter:description" content={finalDescription} />
-<meta name="twitter:image" content={new URL(finalImage, Astro.url)} />
+<meta name="twitter:image" content={ogImageUrl} />
+<meta name="twitter:image:alt" content={ogImage.alt} />
 
 <link rel="alternate" type="application/rss+xml" title="Multi-Family USA Blog RSS" href="/rss.xml" />
 <link rel="alternate" type="text/plain" title="LLMs Index" href="/llms.txt" />
 <link rel="alternate" type="text/plain" title="LLMs Full" href="/llms-full.txt" />
+<link rel="author" type="text/plain" href="/humans.txt" />

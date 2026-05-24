@@ -2,7 +2,14 @@
 import BasicLayout from "@/layouts/BasicLayout.astro";
 ---
 
-<BasicLayout title="Multifamily Financing Rates Context | Multi-Family USA" description="Directional market context for multifamily financing spreads and all-in borrowing costs.">
+<BasicLayout
+  title="Multifamily Financing Rates Context | Multi-Family USA"
+  description="Directional US multifamily financing rate context: agency spreads, bridge pricing, and all-in borrowing costs for 5+ unit commercial properties."
+  crumbs={[
+    { label: "Home", href: "/" },
+    { label: "Rates", href: "/rates" },
+  ]}
+>
   <h1>Rates</h1>
   <p>
     Directional context for US commercial multifamily borrowing costs on 5+ unit assets.

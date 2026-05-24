@@ -9,7 +9,15 @@ export async function getStaticPaths() {
 const { member } = Astro.props;
 ---
 
-<BasicLayout title={`${member.name} | Multi-Family USA`} description={member.shortBio}>
+<BasicLayout
+  title={`${member.name} | Multi-Family USA`}
+  description={member.shortBio}
+  crumbs={[
+    { label: "Home", href: "/" },
+    { label: "Team", href: "/team" },
+    { label: member.name, href: `/team/${member.slug}` },
+  ]}
+>
   <h1>{member.name}</h1>
   <p><strong>{member.jobTitle}</strong></p>
   <p>{member.fullBio}</p>

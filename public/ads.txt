@@ -1,6 +1,6 @@
-# DSCR Authority — ads.txt
+# Multi-Family USA — ads.txt
 # https://iabtechlab.com/ads-txt/
 # We do not currently sell programmatic display inventory.
 # This empty manifest exists to satisfy crawlers that probe /ads.txt
 # and to prevent unauthorized resellers from claiming our domain.
-contact=hello@dscrauthority.com
+contact=scott@lendcity.ca

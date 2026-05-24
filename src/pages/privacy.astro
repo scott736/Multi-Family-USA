@@ -2,7 +2,14 @@
 import BasicLayout from "@/layouts/BasicLayout.astro";
 ---
 
-<BasicLayout title="Privacy Policy | Multi-Family USA" description="Privacy policy for Multi-Family USA.">
+<BasicLayout
+  title="Privacy Policy | Multi-Family USA"
+  description="Privacy policy for Multi-Family USA—how we collect, use, and protect contact and deal information submitted through this site."
+  crumbs={[
+    { label: "Home", href: "/" },
+    { label: "Privacy", href: "/privacy" },
+  ]}
+>
   <h1>Privacy policy</h1>
   <p>We collect contact and deal-intent information only to provide requested financing guidance and follow-up.</p>
 </BasicLayout>

@@ -1,4 +1,4 @@
-# DSCR Authority — app-ads.txt
+# Multi-Family USA — app-ads.txt
 # https://iabtechlab.com/app-ads-txt/
-# DSCR Authority does not publish mobile or CTV apps.
-contact=hello@dscrauthority.com
+# Multi-Family USA does not publish mobile or CTV apps.
+contact=scott@lendcity.ca

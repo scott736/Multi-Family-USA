@@ -1,5 +1,12 @@
 ---
+import Breadcrumbs from "@/components/dscr/Breadcrumbs.astro";
+
 import DefaultLayout from "./DefaultLayout.astro";
+
+interface Crumb {
+  label: string;
+  href: string;
+}
 
 interface Props {
   title?: string;
@@ -8,9 +15,10 @@ interface Props {
   noindex?: boolean;
   canonical?: string;
   schema?: Record<string, unknown> | Array<Record<string, unknown>>;
+  crumbs?: Crumb[];
 }
 
-const { title, description, image, noindex, canonical, schema } = Astro.props;
+const { title, description, image, noindex, canonical, schema, crumbs } = Astro.props;
 ---
 
 <DefaultLayout
@@ -21,6 +29,7 @@ const { title, description, image, noindex, canonical, schema } = Astro.props;
   canonical={canonical}
   schema={schema}
 >
+  {crumbs && crumbs.length > 0 && <Breadcrumbs crumbs={crumbs} />}
   <section class="mx-auto max-w-3xl px-4 py-16 md:py-24">
     <article class="prose-dscr">
       <slot />

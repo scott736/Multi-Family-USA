@@ -2,7 +2,14 @@
 import BasicLayout from "@/layouts/BasicLayout.astro";
 ---
 
-<BasicLayout title="About Multi-Family USA | Multi-Family USA" description="We publish neutral US multifamily financing guidance for operators evaluating 5+ unit opportunities.">
+<BasicLayout
+  title="About Multi-Family USA | Multi-Family USA"
+  description="We publish neutral US multifamily financing guidance for operators evaluating 5+ unit properties—underwriting, capital markets, and execution."
+  crumbs={[
+    { label: "Home", href: "/" },
+    { label: "About", href: "/about" },
+  ]}
+>
   <h1>About</h1>
   <p>
     Multi-Family USA publishes practical educational guidance for US commercial multifamily

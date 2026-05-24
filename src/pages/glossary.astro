@@ -2,7 +2,14 @@
 import BasicLayout from "@/layouts/BasicLayout.astro";
 ---
 
-<BasicLayout title="Multifamily Financing Glossary | Multi-Family USA" description="Core underwriting and capital-markets terms used across this site.">
+<BasicLayout
+  title="Multifamily Financing Glossary | Multi-Family USA"
+  description="Definitions of DSCR, debt yield, NOI, cap rate, and capital-markets terms used in US commercial multifamily financing (5+ units)."
+  crumbs={[
+    { label: "Home", href: "/" },
+    { label: "Glossary", href: "/glossary" },
+  ]}
+>
   <h1>Glossary</h1>
   <p>
     Core US commercial multifamily financing terms used across our guides, tools, and

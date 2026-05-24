@@ -10,6 +10,11 @@ import StickyMobileCta from "@/components/sections/sticky-mobile-cta.astro";
 
 import { getBaseSchemas } from "../consts";
 
+interface AlternateLink {
+  hreflang: string;
+  href: string;
+}
+
 interface Props {
   title?: string;
   description?: string;
@@ -18,9 +23,10 @@ interface Props {
   noindex?: boolean;
   canonical?: string;
   keywords?: string[];
+  alternates?: AlternateLink[];
 }
 
-const { title, description, image, schema, noindex, canonical, keywords } = Astro.props;
+const { title, description, image, schema, noindex, canonical, keywords, alternates } = Astro.props;
 
 const schemaArray = Array.isArray(schema) ? schema : schema ? [schema] : [];
 const allSchemas = [...getBaseSchemas(), ...schemaArray];
@@ -35,6 +41,7 @@ const allSchemas = [...getBaseSchemas(), ...schemaArray];
       noindex={noindex}
       canonical={canonical}
       keywords={keywords}
+      alternates={alternates}
     />
     <script is:inline>
       (() => {

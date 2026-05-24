@@ -2,7 +2,15 @@
 import BasicLayout from "@/layouts/BasicLayout.astro";
 ---
 
-<BasicLayout title="Due Diligence Checklist | Multi-Family USA" description="Multifamily due diligence framework for US commercial 5+ unit acquisitions and refinances.">
+<BasicLayout
+  title="Due Diligence Checklist | Multi-Family USA"
+  description="Multifamily due diligence checklist for US 5+ unit acquisitions and refinances—legal, operating, physical, lease, and lender documentation."
+  crumbs={[
+    { label: "Home", href: "/" },
+    { label: "Checklists", href: "/checklists" },
+    { label: "Due diligence checklist", href: "/checklists/due-diligence-checklist" },
+  ]}
+>
   <h1>Multifamily Due Diligence Checklist</h1>
   <p>
     Practical diligence framework for US commercial multifamily transactions with 5+

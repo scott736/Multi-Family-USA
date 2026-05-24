@@ -2,7 +2,14 @@
 import BasicLayout from "@/layouts/BasicLayout.astro";
 ---
 
-<BasicLayout title="Cookie Policy | Multi-Family USA" description="Cookie policy for Multi-Family USA.">
+<BasicLayout
+  title="Cookie Policy | Multi-Family USA"
+  description="Cookie policy for Multi-Family USA—analytics, preferences, and how to manage cookies on this multifamily financing resource site."
+  crumbs={[
+    { label: "Home", href: "/" },
+    { label: "Cookie policy", href: "/cookie-policy" },
+  ]}
+>
   <h1>Cookie policy</h1>
   <p>We use essential analytics and performance cookies to improve content and site performance.</p>
 </BasicLayout>

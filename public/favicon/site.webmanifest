@@ -1,7 +1,7 @@
 {
-  "name": "DSCR Authority",
-  "short_name": "DSCR Authority",
-  "description": "Neutral DSCR loan resource — calculators, 50-state guides, lender comparisons, and free matching.",
+  "name": "Multi-Family USA",
+  "short_name": "Multi-Family USA",
+  "description": "US commercial multifamily financing resource—guides, calculators, market coverage, and free deal review for 5+ unit properties.",
   "start_url": "/",
   "scope": "/",
   "lang": "en-US",

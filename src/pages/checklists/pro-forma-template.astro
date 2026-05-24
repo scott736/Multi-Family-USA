@@ -2,7 +2,15 @@
 import BasicLayout from "@/layouts/BasicLayout.astro";
 ---
 
-<BasicLayout title="Pro Forma Template | Multi-Family USA" description="Multifamily pro forma structure for underwriting US commercial 5+ unit transactions.">
+<BasicLayout
+  title="Pro Forma Template | Multi-Family USA"
+  description="Multifamily pro forma template for US commercial 5+ unit deals—in-place NOI, stabilized views, debt sizing, and refinance stress cases."
+  crumbs={[
+    { label: "Home", href: "/" },
+    { label: "Checklists", href: "/checklists" },
+    { label: "Pro forma template", href: "/checklists/pro-forma-template" },
+  ]}
+>
   <h1>Multifamily Pro Forma Template</h1>
   <p>
     Practical pro forma structure for US commercial multifamily underwriting on 5+

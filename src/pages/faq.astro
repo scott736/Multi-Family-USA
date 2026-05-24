@@ -1,8 +1,54 @@
 ---
+import { buildFaqSchema } from "@/consts";
 import BasicLayout from "@/layouts/BasicLayout.astro";
+
+const faqItems = [
+  {
+    q: "What types of properties are covered?",
+    a: "Multi-Family USA covers US commercial multifamily properties with five or more units. We do not publish lending guidance for one-to-four-unit residential lending.",
+  },
+  {
+    q: "Do you cover financing outside the United States?",
+    a: "No. Our content focuses only on US lending programs, lender behavior, and execution strategy for US markets.",
+  },
+  {
+    q: "What metrics do lenders use to size multifamily loans?",
+    a: "Most lenders underwrite DSCR, debt yield, and leverage together. Proceeds are usually determined by whichever metric is most constraining after lender-specific adjustments.",
+  },
+  {
+    q: "Why can lender proceeds differ from my model?",
+    a: "Lenders may normalize NOI differently, apply market-specific stress assumptions, and include reserve requirements that lower available proceeds versus a sponsor model.",
+  },
+  {
+    q: "How should I prepare before requesting term sheets?",
+    a: "Prepare lender-ready in-place and stabilized NOI views, support major assumptions, and include downside sensitivity for occupancy, expenses, and refinance rates.",
+  },
+  {
+    q: "When does bridge debt make sense?",
+    a: "Bridge debt can be useful for transitional business plans when sponsors can clearly support renovation pacing, lease-up timelines, reserve strategy, and refinance path.",
+  },
+  {
+    q: "What creates most closing delays?",
+    a: "Delays are commonly caused by late diligence package assembly, unresolved entity and guarantor documentation, and assumptions that change during credit review.",
+  },
+  {
+    q: "What should operators track after close?",
+    a: "Monthly reporting should include occupancy, effective rents, concessions, bad debt, expense variance, capex pacing, and covenant headroom with written variance commentary.",
+  },
+];
+
+const faqSchema = buildFaqSchema(faqItems);
 ---
 
-<BasicLayout title="Multifamily Financing FAQ | Multi-Family USA" description="Answers to common questions on multifamily underwriting and capital execution.">
+<BasicLayout
+  title="Multifamily Financing FAQ | Multi-Family USA"
+  description="Expert answers on US multifamily underwriting, DSCR, debt yield, bridge vs agency execution, and lender sizing for 5+ unit commercial properties."
+  schema={faqSchema ? [faqSchema] : undefined}
+  crumbs={[
+    { label: "Home", href: "/" },
+    { label: "FAQ", href: "/faq" },
+  ]}
+>
   <h1>FAQ</h1>
   <p>
     Answers to common questions on US commercial multifamily financing for 5+ unit
@@ -11,55 +57,31 @@ import BasicLayout from "@/layouts/BasicLayout.astro";
   </p>
 
   <h2>Scope and definitions</h2>
-  <h3>What types of properties are covered?</h3>
-  <p>
-    Multi-Family USA covers US commercial multifamily properties with five or more units.
-    We do not publish lending guidance for one-to-four-unit residential lending.
-  </p>
+  <h3>{faqItems[0].q}</h3>
+  <p>{faqItems[0].a}</p>
 
-  <h3>Do you cover financing outside the United States?</h3>
-  <p>
-    No. Our content focuses only on US lending programs, lender behavior, and execution
-    strategy for US markets.
-  </p>
+  <h3>{faqItems[1].q}</h3>
+  <p>{faqItems[1].a}</p>
 
   <h2>Qualification and debt sizing</h2>
-  <h3>What metrics do lenders use to size multifamily loans?</h3>
-  <p>
-    Most lenders underwrite DSCR, debt yield, and leverage together. Proceeds are usually
-    determined by whichever metric is most constraining after lender-specific adjustments.
-  </p>
+  <h3>{faqItems[2].q}</h3>
+  <p>{faqItems[2].a}</p>
 
-  <h3>Why can lender proceeds differ from my model?</h3>
-  <p>
-    Lenders may normalize NOI differently, apply market-specific stress assumptions, and
-    include reserve requirements that lower available proceeds versus a sponsor model.
-  </p>
+  <h3>{faqItems[3].q}</h3>
+  <p>{faqItems[3].a}</p>
 
-  <h3>How should I prepare before requesting term sheets?</h3>
-  <p>
-    Prepare lender-ready in-place and stabilized NOI views, support major assumptions,
-    and include downside sensitivity for occupancy, expenses, and refinance rates.
-  </p>
+  <h3>{faqItems[4].q}</h3>
+  <p>{faqItems[4].a}</p>
 
   <h2>Execution and risk management</h2>
-  <h3>When does bridge debt make sense?</h3>
-  <p>
-    Bridge debt can be useful for transitional business plans when sponsors can clearly
-    support renovation pacing, lease-up timelines, reserve strategy, and refinance path.
-  </p>
+  <h3>{faqItems[5].q}</h3>
+  <p>{faqItems[5].a}</p>
 
-  <h3>What creates most closing delays?</h3>
-  <p>
-    Delays are commonly caused by late diligence package assembly, unresolved entity and
-    guarantor documentation, and assumptions that change during credit review.
-  </p>
+  <h3>{faqItems[6].q}</h3>
+  <p>{faqItems[6].a}</p>
 
-  <h3>What should operators track after close?</h3>
-  <p>
-    Monthly reporting should include occupancy, effective rents, concessions, bad debt,
-    expense variance, capex pacing, and covenant headroom with written variance commentary.
-  </p>
+  <h3>{faqItems[7].q}</h3>
+  <p>{faqItems[7].a}</p>
 
   <h2>How to use this site</h2>
   <p>

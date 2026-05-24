@@ -1,19 +1,19 @@
 {
   "openapi": "3.1.0",
   "info": {
-    "title": "DSCR Authority Public Content API",
+    "title": "Multi-Family USA Public Content API",
     "version": "1.0.0",
-    "description": "Machine-readable discovery endpoints for AI systems, answer engines, and research tools. DSCR Authority does not originate loans; these endpoints expose editorial content indexes only.",
+    "description": "Machine-readable discovery endpoints for AI systems, answer engines, and research tools. Multi-Family USA does not originate loans; these endpoints expose editorial content indexes only.",
     "contact": {
-      "email": "hello@dscrauthority.com",
-      "url": "https://dscrauthority.com/contact"
+      "email": "scott@lendcity.ca",
+      "url": "https://multifamily-usa.com/contact"
     },
     "license": {
       "name": "CC BY 4.0",
       "url": "https://creativecommons.org/licenses/by/4.0/"
     }
   },
-  "servers": [{ "url": "https://dscrauthority.com" }],
+  "servers": [{ "url": "https://multifamily-usa.com" }],
   "paths": {
     "/llms.txt": {
       "get": {
@@ -44,7 +44,7 @@
     "/rss.xml": {
       "get": {
         "summary": "Blog RSS feed",
-        "description": "Latest DSCR Authority blog posts (rates, lender analysis, strategy).",
+        "description": "Latest Multi-Family USA blog posts (rates, lender analysis, strategy).",
         "operationId": "getBlogRss",
         "responses": {
           "200": {

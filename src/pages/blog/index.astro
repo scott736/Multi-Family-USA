@@ -1,7 +1,8 @@
 ---
 import { getCollection } from "astro:content";
 
-import { buildCollectionPageSchema,SITE_URL } from "@/consts";
+import Breadcrumbs from "@/components/dscr/Breadcrumbs.astro";
+import { buildCollectionPageSchema, SITE_URL } from "@/consts";
 import DefaultLayout from "@/layouts/DefaultLayout.astro";
 import { filterPublished } from "@/lib/scheduled-publish";
 
@@ -25,9 +26,16 @@ const schema = buildCollectionPageSchema({
 
 <DefaultLayout
   title="Multifamily Financing Blog | Multi-Family USA"
-  description="Market updates, financing strategy, and underwriting notes for commercial multifamily operators."
+  description="Weekly market updates, rate spreads, lender behavior, and underwriting strategy for US commercial multifamily operators (5+ units)."
   schema={[schema]}
+  canonical="/blog"
 >
+  <Breadcrumbs
+    crumbs={[
+      { label: "Home", href: "/" },
+      { label: "Blog", href: "/blog" },
+    ]}
+  />
   <section class="container py-10 md:py-14">
     <div class="mx-auto max-w-4xl">
       <p class="text-xs font-bold uppercase tracking-wider text-accent">Blog</p>

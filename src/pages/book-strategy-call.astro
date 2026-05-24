@@ -5,7 +5,14 @@ import { services } from "@/lib/nylas/config";
 const service = services.find((s) => s.id === "strategy-call");
 ---
 
-<BasicLayout title="Book a Strategy Call | Multi-Family USA" description="Book a multifamily financing strategy call.">
+<BasicLayout
+  title="Book a Strategy Call | Multi-Family USA"
+  description="Book a 30-minute US multifamily financing strategy call—underwriting review, capital-stack options, and execution planning for 5+ unit deals."
+  crumbs={[
+    { label: "Home", href: "/" },
+    { label: "Book a strategy call", href: "/book-strategy-call" },
+  ]}
+>
   <h1>Book a strategy call</h1>
   <p>{service?.description ?? "Book a 30-minute call with a multifamily financing specialist."}</p>
   <p>

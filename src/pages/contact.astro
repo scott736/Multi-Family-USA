@@ -3,7 +3,14 @@ import { SITE_PHONE, SITE_PHONE_HREF } from '@/consts';
 import BasicLayout from '@/layouts/BasicLayout.astro';
 ---
 
-<BasicLayout title="Contact | Multi-Family USA" description="Contact Multi-Family USA for financing guidance.">
+<BasicLayout
+  title="Contact | Multi-Family USA"
+  description="Contact Multi-Family USA for multifamily financing questions, deal review follow-ups, and editorial feedback on 5+ unit commercial properties."
+  crumbs={[
+    { label: "Home", href: "/" },
+    { label: "Contact", href: "/contact" },
+  ]}
+>
   <h1>Contact</h1>
   <p>Need help with a multifamily financing scenario? Reach out directly.</p>
   <ul>

@@ -2,7 +2,14 @@
 import BasicLayout from "@/layouts/BasicLayout.astro";
 ---
 
-<BasicLayout title="Terms of Service | Multi-Family USA" description="Terms for using Multi-Family USA.">
+<BasicLayout
+  title="Terms of Service | Multi-Family USA"
+  description="Terms of use for Multi-Family USA educational content, calculators, and deal review requests—no lending commitments or advice."
+  crumbs={[
+    { label: "Home", href: "/" },
+    { label: "Terms", href: "/terms" },
+  ]}
+>
   <h1>Terms of service</h1>
   <p>Information is educational and not a commitment to lend. Financing outcomes vary by lender and underwriting.</p>
 </BasicLayout>

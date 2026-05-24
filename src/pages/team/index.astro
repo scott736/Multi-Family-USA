@@ -3,7 +3,14 @@ import { TEAM_MEMBERS } from "@/content/team/members";
 import BasicLayout from "@/layouts/BasicLayout.astro";
 ---
 
-<BasicLayout title="Team | Multi-Family USA" description="Meet the editorial and advisory contributors at Multi-Family USA.">
+<BasicLayout
+  title="Team | Multi-Family USA"
+  description="Meet the editorial and advisory contributors behind Multi-Family USA's multifamily financing guides and deal review support."
+  crumbs={[
+    { label: "Home", href: "/" },
+    { label: "Team", href: "/team" },
+  ]}
+>
   <h1>Team</h1>
   <p>Multi-Family USA combines editorial analysis with practical multifamily lending and underwriting experience.</p>
   <ul>
