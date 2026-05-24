@@ -3,6 +3,7 @@ import Breadcrumbs from "@/components/dscr/Breadcrumbs.astro";
 import LeadForm from "@/components/forms/LeadForm.astro";
 import { buildServiceSchema, SITE_URL } from "@/consts";
 import DefaultLayout from "@/layouts/DefaultLayout.astro";
+import { BarChart3, Clock, Landmark, ShieldCheck, Sparkles, TrendingUp } from "lucide-react";
 
 const schema = buildServiceSchema({
   name: "Free Multifamily Deal Review",
@@ -10,6 +11,24 @@ const schema = buildServiceSchema({
     "Submit your 5+ unit deal assumptions and receive a lender-fit recommendation, underwriting checkpoints, and execution options.",
   url: `${SITE_URL}/deal-review/`,
 });
+
+const benefits = [
+  {
+    icon: Landmark,
+    title: "Lender-type fit",
+    detail: "Agency, bank, bridge, and debt-fund paths mapped to your scenario.",
+  },
+  {
+    icon: BarChart3,
+    title: "Underwriting snapshot",
+    detail: "LTV, DSCR, and debt-yield pressure points with leverage constraints.",
+  },
+  {
+    icon: TrendingUp,
+    title: "Execution clarity",
+    detail: "Timeline-aware routing so you know what is realistic before term sheets.",
+  },
+];
 ---
 
 <DefaultLayout
@@ -24,15 +43,92 @@ const schema = buildServiceSchema({
       { label: "Free deal review", href: "/deal-review" },
     ]}
   />
-  <section class="container py-12">
-    <div class="mx-auto max-w-4xl space-y-5">
-      <p class="text-xs font-bold uppercase tracking-wider text-accent">Primary CTA</p>
-      <h1 class="text-4xl font-bold md:text-5xl">Free multifamily deal review</h1>
-      <p class="text-lg text-muted-foreground">
-        We review your assumptions and route your scenario to the best-fit execution path.
-        This includes indicative leverage constraints, DSCR/debt-yield pressure points, and lender-type fit.
-      </p>
-      <LeadForm variant="full" sourceContext="deal-review-page" />
+
+  <section class="relative overflow-hidden border-b border-border">
+    <div
+      class="pointer-events-none absolute inset-0 bg-gradient-to-br from-primary via-[hsl(215_55%_12%)] to-[hsl(215_50%_8%)]"
+      aria-hidden="true"
+    />
+    <div
+      class="pointer-events-none absolute inset-0 opacity-[0.35]"
+      style="background-image: radial-gradient(circle at 1px 1px, hsl(0 0% 100% / 0.06) 1px, transparent 0); background-size: 28px 28px;"
+      aria-hidden="true"
+    />
+    <div
+      class="pointer-events-none absolute -right-24 top-0 size-[min(520px,80vw)] rounded-full bg-accent/15 blur-3xl"
+      aria-hidden="true"
+    />
+    <div
+      class="pointer-events-none absolute -bottom-32 -left-16 size-96 rounded-full bg-accent/8 blur-3xl"
+      aria-hidden="true"
+    />
+
+    <div class="container relative py-10 md:py-16 lg:py-20">
+      <div class="grid items-start gap-12 lg:grid-cols-[1fr_minmax(0,520px)] lg:gap-14 xl:grid-cols-[1fr_540px] xl:gap-20">
+        <div class="space-y-8 text-primary-foreground">
+          <div>
+            <p
+              class="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/10 px-4 py-1.5 text-[11px] font-bold uppercase tracking-[0.2em] text-accent backdrop-blur-md"
+            >
+              <Sparkles class="size-3.5" />
+              Free · No credit pull
+            </p>
+            <h1 class="mt-6 text-4xl font-bold leading-[1.08] tracking-tight md:text-5xl lg:text-[3.35rem]">
+              Your multifamily deal, underwritten with <span class="text-accent">lender-fit clarity</span>
+            </h1>
+            <p class="mt-5 max-w-xl text-lg leading-relaxed text-white/72">
+              Share assumptions once. We return leverage constraints, DSCR and debt-yield pressure points,
+              and the capital-stack paths worth pursuing—usually within one business hour.
+            </p>
+          </div>
+
+          <ul class="space-y-4">
+            {
+              benefits.map(({ icon: Icon, title, detail }) => (
+                <li class="flex gap-4 rounded-2xl border border-white/10 bg-white/[0.06] p-4 backdrop-blur-sm transition-colors hover:bg-white/[0.09]">
+                  <span class="flex size-11 shrink-0 items-center justify-center rounded-xl bg-accent/20 text-accent">
+                    <Icon class="size-5" />
+                  </span>
+                  <div>
+                    <p class="font-semibold text-white">{title}</p>
+                    <p class="mt-0.5 text-sm leading-relaxed text-white/65">{detail}</p>
+                  </div>
+                </li>
+              ))
+            }
+          </ul>
+
+          <div class="grid grid-cols-3 gap-3 sm:gap-4">
+            <div class="rounded-2xl border border-white/10 bg-white/[0.06] px-3 py-4 text-center backdrop-blur-sm">
+              <p class="text-2xl font-bold text-accent">5+</p>
+              <p class="mt-1 text-[10px] font-semibold uppercase tracking-wider text-white/55">Units only</p>
+            </div>
+            <div class="rounded-2xl border border-white/10 bg-white/[0.06] px-3 py-4 text-center backdrop-blur-sm">
+              <p class="text-2xl font-bold text-accent">$0</p>
+              <p class="mt-1 text-[10px] font-semibold uppercase tracking-wider text-white/55">No credit pull</p>
+            </div>
+            <div class="rounded-2xl border border-white/10 bg-white/[0.06] px-3 py-4 text-center backdrop-blur-sm">
+              <Clock class="mx-auto size-6 text-accent" />
+              <p class="mt-1 text-[10px] font-semibold uppercase tracking-wider text-white/55">~1 hr response</p>
+            </div>
+          </div>
+
+          <p class="flex items-center gap-2 text-xs text-white/50">
+            <ShieldCheck class="size-4 shrink-0 text-success" />
+            US multifamily only. Info used solely for deal-review follow-up.
+          </p>
+        </div>
+
+        <div class="lg:sticky lg:top-8">
+          <LeadForm
+            variant="premium"
+            sourceContext="deal-review-page"
+            headline="Start your free review"
+            subheadline="Four quick steps. Live LTV, DSCR, and debt-yield read as you enter numbers."
+            submitLabel="Submit for deal review"
+          />
+        </div>
+      </div>
     </div>
   </section>
 </DefaultLayout>

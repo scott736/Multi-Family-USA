@@ -63,6 +63,9 @@ CREATE TABLE IF NOT EXISTS form_leads (
   assigned_officer_id TEXT NOT NULL,
   assigned_officer_name TEXT NOT NULL,
   assigned_officer_email TEXT NOT NULL,
+  lead_score INTEGER,
+  lead_score_tier TEXT,
+  metadata JSONB,
   lang TEXT NOT NULL DEFAULT 'en',
   created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );
