@@ -26,23 +26,62 @@ const esDescription =
     </div>
   </div>
 
-  <section class="container py-14 md:py-20">
-    <div class="grid gap-10 lg:grid-cols-2 lg:items-start">
-      <div>
-        <p class="text-xs font-bold uppercase tracking-wider text-accent">Multifamiliar comercial en EE. UU.</p>
-        <h1 class="mt-4 text-4xl font-bold leading-tight md:text-5xl">
-          Suscríbe operaciones multifamiliares con más claridad y compara rutas de financiamiento.
-        </h1>
-        <p class="mt-5 max-w-2xl text-lg text-muted-foreground">
-          Multi-Family USA es un recurso neutral para propiedades de 5+ unidades. Usa las calculadoras,
-          explora cobertura por estado y ciudad, y solicita una revisión gratuita de tu operación.
-        </p>
-        <div class="mt-6 flex flex-wrap gap-3">
-          <a href="/deal-review" class="inline-flex items-center rounded-md bg-accent px-5 py-3 text-sm font-bold text-accent-foreground hover:bg-accent/90">Revisión gratuita</a>
-          <a href="/es/learn" class="inline-flex items-center rounded-md border border-border px-5 py-3 text-sm font-semibold hover:bg-secondary">Explorar guías</a>
+  <section class="relative overflow-hidden border-b border-border">
+    <div
+      class="pointer-events-none absolute inset-0 bg-gradient-to-br from-secondary/70 via-background to-accent/[0.05]"
+      aria-hidden="true"
+    />
+    <div
+      class="pointer-events-none absolute -right-32 top-0 size-[min(28rem,70vw)] rounded-full bg-accent/12 blur-3xl"
+      aria-hidden="true"
+    />
+
+    <div class="container relative py-14 md:py-20 lg:py-24">
+      <div class="grid items-start gap-10 lg:grid-cols-[1fr_minmax(0,480px)] lg:gap-14 xl:grid-cols-[1fr_520px] xl:gap-16">
+        <div class="space-y-6 lg:py-2">
+          <div>
+            <p class="text-xs font-bold uppercase tracking-[0.18em] text-accent">Multifamiliar comercial en EE. UU.</p>
+            <h1 class="mt-4 text-4xl font-bold leading-[1.08] tracking-tight md:text-5xl lg:text-[3.15rem]">
+              Suscríbe operaciones multifamiliares con más claridad y compara rutas de financiamiento.
+            </h1>
+            <p class="mt-5 max-w-xl text-lg leading-relaxed text-muted-foreground">
+              Multi-Family USA es un recurso neutral para propiedades de 5+ unidades. Usa las calculadoras,
+              explora cobertura por estado y ciudad, y solicita una revisión gratuita de tu operación.
+            </p>
+          </div>
+
+          <div class="flex flex-wrap gap-3">
+            <a
+              href="/deal-review"
+              class="inline-flex items-center rounded-xl bg-accent px-5 py-3 text-sm font-bold text-accent-foreground shadow-md shadow-accent/25 transition hover:bg-accent/90 hover:shadow-lg"
+            >
+              Revisión gratuita
+            </a>
+            <a
+              href="/es/learn"
+              class="inline-flex items-center rounded-xl border border-border bg-card/80 px-5 py-3 text-sm font-semibold backdrop-blur-sm transition hover:border-primary/20 hover:bg-secondary"
+            >
+              Explorar guías
+            </a>
+          </div>
+
+          <div class="flex flex-wrap gap-2 pt-1">
+            <span class="inline-flex items-center rounded-full border border-border/80 bg-card/70 px-3 py-1 text-[11px] font-semibold text-muted-foreground backdrop-blur-sm">
+              Solo 5+ unidades
+            </span>
+            <span class="inline-flex items-center rounded-full border border-border/80 bg-card/70 px-3 py-1 text-[11px] font-semibold text-muted-foreground backdrop-blur-sm">
+              Sin consulta de crédito
+            </span>
+            <span class="inline-flex items-center rounded-full border border-border/80 bg-card/70 px-3 py-1 text-[11px] font-semibold text-muted-foreground backdrop-blur-sm">
+              Respuesta ~1 h
+            </span>
+          </div>
+        </div>
+
+        <div class="lg:sticky lg:top-8">
+          <LeadForm variant="hero" sourceContext="es-homepage-hero" lang="es" />
         </div>
       </div>
-      <LeadForm variant="hero" sourceContext="es-homepage-hero" lang="es" />
     </div>
   </section>
 

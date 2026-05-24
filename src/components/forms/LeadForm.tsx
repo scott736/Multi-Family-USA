@@ -86,8 +86,10 @@ export default function LeadForm({
   submitLabel,
   className = '',
 }: LeadFormProps) {
-  const isNarrow = variant === 'compact' || variant === 'hero';
+  const isHero = variant === 'hero';
   const isPremium = variant === 'premium';
+  const isPolished = isPremium || isHero;
+  const isCompact = variant === 'compact';
 
   const [step, setStep] = useState(1);
   const [loading, setLoading] = useState(false);
@@ -207,9 +209,10 @@ export default function LeadForm({
   const choiceButtonClass = (selected: boolean) =>
     cn(
       'flex w-full items-center rounded-xl border text-left font-semibold transition-all duration-200',
-      isPremium
+      isPolished
         ? cn(
-            'p-3.5 text-sm hover:-translate-y-0.5 hover:shadow-md',
+            isHero ? 'p-3 text-[13px]' : 'p-3.5 text-sm',
+            'hover:-translate-y-0.5 hover:shadow-md',
             selected
               ? 'border-accent bg-accent/10 shadow-md shadow-accent/10 ring-2 ring-accent/40'
               : 'border-border/80 bg-background/80 hover:border-primary/30 hover:bg-secondary/60',
@@ -222,11 +225,11 @@ export default function LeadForm({
 
   const inputClass = cn(
     'tabular-nums transition-shadow duration-200',
-    isPremium && 'h-12 rounded-xl border-border/80 bg-background/90 focus-visible:ring-2 focus-visible:ring-accent/30',
+    isPolished && 'h-12 rounded-xl border-border/80 bg-background/90 focus-visible:ring-2 focus-visible:ring-accent/30',
   );
 
   const renderStepIndicator = () => {
-    if (isPremium) {
+    if (isPolished) {
       const progress = ((step - 1) / (STEPS.length - 1)) * 100;
       return (
         <div className="mb-7">
@@ -314,7 +317,7 @@ export default function LeadForm({
       },
     ];
 
-    if (isPremium) {
+    if (isPolished) {
       return (
         <div className="overflow-hidden rounded-2xl border border-primary/15 bg-gradient-to-br from-primary/[0.04] via-background to-accent/[0.06]">
           <div className="border-b border-primary/10 px-4 py-3">
@@ -355,7 +358,7 @@ export default function LeadForm({
       <div
         className={cn(
           'rounded-xl border border-success/30 bg-success/5 p-8 text-center',
-          isPremium && 'rounded-2xl shadow-2xl',
+          isPolished && 'rounded-2xl shadow-2xl',
         )}
       >
         <CheckCircle2 className="mx-auto mb-4 size-16 text-success" />
@@ -369,21 +372,30 @@ export default function LeadForm({
     <div
       className={cn(
         '@container transition-all duration-300',
-        isPremium
-          ? 'rounded-2xl bg-card p-6 shadow-2xl shadow-primary/10 md:p-8'
+         
+        isPolished
+          ? cn(
+              'rounded-2xl bg-card shadow-2xl shadow-primary/10',
+              isPremium ? 'p-6 md:p-8' : 'p-5 md:p-7',
+            )
           : cn(
               'rounded-2xl border border-border bg-card shadow-lg',
-              isNarrow ? 'p-4' : 'p-5 md:p-7',
-              variant === 'hero' && 'shadow-2xl ring-1 ring-primary/10',
+              isCompact ? 'p-4' : 'p-5 md:p-7',
             ),
         className,
       )}
     >
-      <div className={cn('mb-5', isNarrow && 'mb-4', isPremium && 'mb-6')}>
+      <div className={cn('mb-5', isCompact && 'mb-4', isPolished && 'mb-6')}>
         <h3
           className={cn(
             'font-bold tracking-tight text-foreground',
-            isPremium ? 'text-2xl md:text-[1.65rem]' : isNarrow ? 'text-lg leading-snug' : 'text-xl md:text-2xl',
+            isPremium
+              ? 'text-2xl md:text-[1.65rem]'
+              : isHero
+                ? 'text-xl md:text-2xl'
+                : isCompact
+                  ? 'text-lg leading-snug'
+                  : 'text-xl md:text-2xl',
           )}
         >
           {headline ?? 'Free multifamily deal review'}
@@ -395,7 +407,7 @@ export default function LeadForm({
 
       {renderStepIndicator()}
 
-      <form onSubmit={handleSubmit} noValidate className="space-y-5">
+      <form onSubmit={handleSubmit} noValidate className={cn(isPolished ? 'space-y-6' : 'space-y-5')}>
         <input
           type="text"
           name="website"
@@ -409,10 +421,10 @@ export default function LeadForm({
 
         <div key={step} className="animate-in fade-in slide-in-from-right-3 duration-300 fill-mode-both">
           {step === 1 && (
-            <div className="space-y-5">
-              <div className="space-y-2.5">
+            <div className={cn(isPolished ? 'space-y-6' : 'space-y-5')}>
+              <div className="space-y-3">
                 <Label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Deal purpose</Label>
-                <div className="grid gap-2 @sm:grid-cols-2">
+                <div className="grid gap-2.5 @sm:grid-cols-2">
                   {PURPOSES.map((p) => (
                     <button
                       key={p.value}
@@ -426,9 +438,9 @@ export default function LeadForm({
                 </div>
               </div>
 
-              <div className="space-y-2.5">
+              <div className="space-y-3">
                 <Label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Property type</Label>
-                <div className="grid gap-2 @sm:grid-cols-2">
+                <div className="grid gap-2.5 @sm:grid-cols-2">
                   {PROPERTY_TYPES.map((p) => (
                     <button
                       key={p.value}
@@ -448,9 +460,16 @@ export default function LeadForm({
                 </div>
               </div>
 
-              <div className="grid gap-1.5">
-                <Label htmlFor="lf-units" className="text-xs font-medium text-foreground">
-                  Unit count <span className="text-muted-foreground">(5+ required)</span>
+              <div
+                className={cn(
+                  'grid gap-2 rounded-xl border p-4 transition-colors',
+                  isPolished
+                    ? 'border-border/80 bg-secondary/30'
+                    : 'border-transparent p-0',
+                )}
+              >
+                <Label htmlFor="lf-units" className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+                  Unit count <span className="font-medium normal-case tracking-normal text-foreground/70">(5+ required)</span>
                 </Label>
                 <Input
                   id="lf-units"
@@ -532,7 +551,7 @@ export default function LeadForm({
                     id="lf-state"
                     className={cn(
                       'flex w-full rounded-md border border-input bg-background px-3 py-2 text-sm shadow-xs focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring',
-                      isPremium && 'h-12 rounded-xl border-border/80 bg-background/90 focus-visible:ring-accent/30',
+                      isPolished && 'h-12 rounded-xl border-border/80 bg-background/90 focus-visible:ring-accent/30',
                     )}
                     value={formData.state}
                     onChange={(e) => update('state', e.target.value)}
@@ -640,8 +659,8 @@ export default function LeadForm({
               onClick={back}
               disabled={loading}
               className={cn(
-                'inline-flex h-12 items-center justify-center gap-1.5 rounded-xl border border-border bg-card px-5 text-sm font-bold text-foreground transition hover:bg-secondary/80 disabled:opacity-50',
-                !isPremium && 'h-11 rounded-lg',
+                'inline-flex items-center justify-center gap-1.5 border border-border bg-card px-5 text-sm font-bold text-foreground transition hover:bg-secondary/80 disabled:opacity-50',
+                isPolished ? 'h-12 rounded-xl' : 'h-11 rounded-lg',
               )}
             >
               <ArrowLeft className="size-4" />
@@ -655,9 +674,13 @@ export default function LeadForm({
               onClick={next}
               disabled={!isStepValid()}
               className={cn(
-                'inline-flex h-12 flex-1 items-center justify-center gap-1.5 rounded-xl bg-primary text-sm font-bold text-primary-foreground transition hover:bg-primary/95 disabled:opacity-50',
-                isPremium && 'shadow-lg shadow-primary/20 hover:shadow-xl hover:shadow-primary/25',
-                !isPremium && 'h-11 rounded-lg',
+                'inline-flex flex-1 items-center justify-center gap-1.5 text-sm font-bold transition disabled:opacity-50',
+                isPolished ? 'h-12 rounded-xl' : 'h-11 rounded-lg',
+                isHero
+                  ? 'bg-gradient-to-r from-accent via-accent to-[hsl(38_90%_48%)] text-accent-foreground shadow-lg shadow-accent/30 hover:shadow-xl hover:shadow-accent/40 hover:brightness-105'
+                  : isPremium
+                    ? 'bg-primary text-primary-foreground shadow-lg shadow-primary/20 hover:bg-primary/95 hover:shadow-xl hover:shadow-primary/25'
+                    : 'bg-primary text-primary-foreground hover:bg-primary/95',
               )}
             >
               Continue
@@ -668,9 +691,9 @@ export default function LeadForm({
               type="submit"
               disabled={!isStepValid() || loading}
               className={cn(
-                'inline-flex h-12 flex-1 items-center justify-center gap-2 rounded-xl text-sm font-bold transition disabled:opacity-50',
-                isPremium
-                  ? 'bg-gradient-to-r from-accent via-accent to-[hsl(38_90%_48%)] text-accent-foreground shadow-lg shadow-accent/30 hover:shadow-xl hover:shadow-accent/40 hover:brightness-105'
+                'inline-flex flex-1 items-center justify-center gap-2 text-sm font-bold transition disabled:opacity-50',
+                isPolished
+                  ? 'h-12 rounded-xl bg-gradient-to-r from-accent via-accent to-[hsl(38_90%_48%)] text-accent-foreground shadow-lg shadow-accent/30 hover:shadow-xl hover:shadow-accent/40 hover:brightness-105'
                   : 'h-11 rounded-lg bg-accent text-accent-foreground shadow-md hover:bg-accent/90',
               )}
             >
@@ -691,7 +714,12 @@ export default function LeadForm({
       </form>
 
       {!isPremium && (
-        <p className="mt-4 flex items-center justify-center gap-1.5 text-center text-[10px] leading-normal text-muted-foreground">
+        <p
+          className={cn(
+            'mt-4 flex items-center justify-center gap-1.5 text-center leading-normal text-muted-foreground',
+            isHero ? 'text-xs' : 'text-[10px]',
+          )}
+        >
           <ShieldCheck className="size-3.5 shrink-0 text-success" />
           <span>No credit pull. US multifamily only. Your info is shared only for deal review follow-up.</span>
         </p>
@@ -699,9 +727,14 @@ export default function LeadForm({
     </div>
   );
 
-  if (isPremium) {
+  if (isPolished) {
     return (
-      <div className="rounded-[1.35rem] bg-gradient-to-br from-accent/50 via-accent/20 to-primary/30 p-[1px] shadow-2xl shadow-primary/20">
+      <div
+        className={cn(
+          'rounded-[1.35rem] bg-gradient-to-br from-accent/50 via-accent/20 to-primary/30 p-[1px] shadow-2xl shadow-primary/20',
+          isHero && 'shadow-xl',
+        )}
+      >
         {formCard}
       </div>
     );
