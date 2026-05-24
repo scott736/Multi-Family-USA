@@ -92,7 +92,7 @@ export default function LeadForm({
   const isCompact = variant === 'compact';
 
   const heroSelectClass =
-    'flex h-10 w-full rounded-lg border border-border/80 bg-background/90 px-3 py-2 text-sm shadow-xs focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-accent/30';
+    'flex h-10 w-full rounded-xl border border-border/70 bg-background/80 px-3 py-2 text-sm shadow-xs backdrop-blur-sm transition-shadow duration-200 focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-accent/35';
   const heroStepPanelClass = 'min-h-[340px]';
 
   const [step, setStep] = useState(1);
@@ -222,10 +222,10 @@ export default function LeadForm({
           )
         : isHero
           ? cn(
-              'rounded-lg px-2.5 py-2 text-xs',
+              'rounded-xl px-3 py-2.5 text-xs transition-all duration-200',
               selected
-                ? 'border-accent bg-accent/10 ring-1 ring-accent/30'
-                : 'border-border/80 bg-background hover:border-primary/25 hover:bg-secondary/50',
+                ? 'border-accent bg-accent/12 shadow-sm shadow-accent/15 ring-2 ring-accent/35'
+                : 'border-border/70 bg-background/70 hover:-translate-y-px hover:border-primary/25 hover:bg-secondary/50 hover:shadow-sm',
             )
           : cn(
               'rounded-xl text-xs hover:bg-secondary/50',
@@ -236,25 +236,56 @@ export default function LeadForm({
   const inputClass = cn(
     'tabular-nums transition-shadow duration-200',
     isPremium && 'h-12 rounded-xl border-border/80 bg-background/90 focus-visible:ring-2 focus-visible:ring-accent/30',
-    isHero && 'h-10 rounded-lg border-border/80 bg-background/90 focus-visible:ring-2 focus-visible:ring-accent/30',
+    isHero && 'h-10 rounded-xl border-border/70 bg-background/80 backdrop-blur-sm focus-visible:ring-2 focus-visible:ring-accent/35',
   );
 
   const renderStepIndicator = () => {
     if (isHero) {
       const progress = (step / STEPS.length) * 100;
       return (
-        <div className="mb-4">
-          <div className="mb-2 flex items-center justify-between text-[11px] font-medium text-muted-foreground">
-            <span>
-              Step {step} of {STEPS.length}
+        <div className="mb-5">
+          <div className="mb-2.5 flex items-center justify-between gap-3">
+            <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-accent">Your investor journey</p>
+            <span className="text-[11px] font-semibold tabular-nums text-muted-foreground">
+              Step {step}/{STEPS.length} · {Math.round(progress)}%
             </span>
-            <span className="font-semibold text-accent">{Math.round(progress)}%</span>
           </div>
-          <div className="h-1 overflow-hidden rounded-full bg-secondary">
+          <div className="relative h-1.5 overflow-hidden rounded-full bg-secondary/90">
             <div
-              className="h-full rounded-full bg-accent transition-all duration-300 ease-out"
-              style={{ width: `${progress}%` }}
+              className="absolute inset-y-0 left-0 rounded-full bg-gradient-to-r from-primary via-accent to-[hsl(38_90%_48%)] transition-all duration-500 ease-out"
+              style={{ width: `${Math.max(progress, 8)}%` }}
             />
+          </div>
+          <div className="mt-3.5 grid grid-cols-4 gap-1">
+            {STEPS.map(({ label, short, icon: Icon }, i) => {
+              const stepNum = i + 1;
+              const done = step > stepNum;
+              const active = step === stepNum;
+              return (
+                <div key={label} className="flex flex-col items-center gap-1">
+                  <div
+                    className={cn(
+                      'flex size-7 items-center justify-center rounded-full border transition-all duration-300',
+                      done && 'border-success bg-success text-success-foreground shadow-sm shadow-success/20',
+                      active &&
+                        !done &&
+                        'scale-110 border-accent bg-accent/15 text-accent shadow-md shadow-accent/20',
+                      !done && !active && 'border-border/80 bg-background/80 text-muted-foreground',
+                    )}
+                  >
+                    {done ? <Check className="size-3" strokeWidth={3} /> : <Icon className="size-3.5" />}
+                  </div>
+                  <span
+                    className={cn(
+                      'text-[9px] font-bold uppercase tracking-wider',
+                      active ? 'text-foreground' : 'text-muted-foreground',
+                    )}
+                  >
+                    {short}
+                  </span>
+                </div>
+              );
+            })}
           </div>
         </div>
       );
@@ -350,13 +381,17 @@ export default function LeadForm({
 
     if (isHero) {
       return (
-        <div className="rounded-lg border border-primary/15 bg-primary/[0.04] px-3 py-2.5">
-          <p className="mb-2 text-[10px] font-bold uppercase tracking-wider text-primary">Live read</p>
-          <div className="grid grid-cols-3 gap-2 text-center">
-            {metrics.map(({ label, value, tone }) => (
-              <div key={label}>
-                <p className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">{label}</p>
+        <div className="overflow-hidden rounded-xl border border-primary/12 bg-gradient-to-br from-primary/[0.05] via-background/90 to-accent/[0.06] shadow-inner shadow-primary/[0.04]">
+          <div className="border-b border-primary/8 px-3 py-2">
+            <p className="text-[10px] font-bold uppercase tracking-[0.14em] text-primary">Live directional read</p>
+          </div>
+          <div className="grid grid-cols-3 divide-x divide-border/50">
+            {metrics.map(({ label, value, icon: Icon, tone, hint }) => (
+              <div key={label} className="px-2 py-2.5 text-center">
+                <Icon className="mx-auto mb-1 size-3.5 text-muted-foreground/70" />
+                <p className="text-[9px] font-semibold uppercase tracking-wider text-muted-foreground">{label}</p>
                 <p className={cn('mt-0.5 text-sm font-bold tabular-nums', tone)}>{value}</p>
+                {hint && <p className="mt-0.5 text-[9px] text-muted-foreground">{hint}</p>}
               </div>
             ))}
           </div>
@@ -422,7 +457,7 @@ export default function LeadForm({
         isPremium
           ? 'rounded-2xl bg-card p-6 shadow-2xl shadow-primary/10 md:p-8'
           : isHero
-            ? 'rounded-xl border border-border/70 bg-card p-4 shadow-md ring-1 ring-primary/[0.06]'
+            ? 'rounded-2xl border border-border/60 bg-card/85 p-5 shadow-xl shadow-primary/[0.06] ring-1 ring-primary/[0.05] backdrop-blur-md'
             : cn(
                 'rounded-2xl border border-border bg-card shadow-lg',
                 isCompact ? 'p-4' : 'p-5 md:p-7',
@@ -437,7 +472,7 @@ export default function LeadForm({
             isPremium
               ? 'text-2xl md:text-[1.65rem]'
               : isHero
-                ? 'text-base md:text-lg'
+                ? 'text-lg md:text-xl'
                 : isCompact
                   ? 'text-lg leading-snug'
                   : 'text-xl md:text-2xl',
@@ -447,11 +482,14 @@ export default function LeadForm({
         </h3>
         <p
           className={cn(
-            'mt-1 leading-relaxed text-muted-foreground',
-            isPremium ? 'text-sm' : isHero ? 'text-xs' : 'text-sm',
+            'mt-1.5 leading-relaxed text-muted-foreground',
+            isPremium ? 'text-sm' : isHero ? 'text-xs md:text-sm' : 'text-sm',
           )}
         >
-          {subheadline ?? 'US 5+ unit only. No credit pull. Get a practical underwriting and lender-fit read.'}
+          {subheadline ??
+            (isHero
+              ? 'Four quick steps — asset, numbers, profile, contact. No credit pull.'
+              : 'US 5+ unit only. No credit pull. Get a practical underwriting and lender-fit read.')}
         </p>
       </div>
 
@@ -815,7 +853,7 @@ export default function LeadForm({
               disabled={loading}
               className={cn(
                 'inline-flex items-center justify-center gap-1.5 border border-border bg-card px-5 text-sm font-bold text-foreground transition hover:bg-secondary/80 disabled:opacity-50',
-                isPremium ? 'h-12 rounded-xl' : isHero ? 'h-10 rounded-lg' : 'h-11 rounded-lg',
+                isPremium ? 'h-12 rounded-xl' : isHero ? 'h-11 rounded-xl' : 'h-11 rounded-lg',
               )}
             >
               <ArrowLeft className="size-4" />
@@ -830,7 +868,7 @@ export default function LeadForm({
               disabled={!isStepValid()}
               className={cn(
                 'inline-flex flex-1 items-center justify-center gap-1.5 text-sm font-bold transition disabled:opacity-50',
-                isPremium ? 'h-12 rounded-xl' : isHero ? 'h-10 rounded-lg' : 'h-11 rounded-lg',
+                isPremium ? 'h-12 rounded-xl' : isHero ? 'h-11 rounded-xl' : 'h-11 rounded-lg',
                 isHero || isPremium
                   ? 'bg-gradient-to-r from-accent via-accent to-[hsl(38_90%_48%)] text-accent-foreground shadow-md shadow-accent/25 hover:shadow-lg hover:shadow-accent/35 hover:brightness-105'
                   : 'bg-primary text-primary-foreground hover:bg-primary/95',
@@ -891,8 +929,14 @@ export default function LeadForm({
 
   if (isHero) {
     return (
-      <div className="rounded-xl border border-accent/15 bg-gradient-to-br from-accent/[0.04] to-transparent p-[1px] shadow-md">
-        {formCard}
+      <div className="group relative">
+        <div
+          className="pointer-events-none absolute -inset-3 rounded-[1.35rem] bg-gradient-to-br from-accent/25 via-transparent to-primary/15 opacity-70 blur-2xl transition duration-700 group-hover:opacity-100"
+          aria-hidden="true"
+        />
+        <div className="relative rounded-[1.2rem] bg-gradient-to-br from-accent/35 via-accent/10 to-primary/20 p-px shadow-2xl shadow-primary/10">
+          {formCard}
+        </div>
       </div>
     );
   }

@@ -1,15 +1,48 @@
 ---
-import { buildFaqSchema } from "@/consts";
+import { buildFaqSchema, buildWebPageSchema, SITE_URL } from "@/consts";
 import BasicLayout from "@/layouts/BasicLayout.astro";
+
+const faqPageUrl = `${SITE_URL}/es/faq/`;
+const webPageSchema = buildWebPageSchema({
+  name: "Preguntas frecuentes sobre financiamiento multifamiliar",
+  description:
+    "Respuestas sobre suscripción multifamiliar, DSCR, debt yield, ejecución agency vs bridge y dimensionamiento de deuda en EE. UU. para propiedades de 5+ unidades.",
+  url: faqPageUrl,
+  inLanguage: "es-US",
+});
 
 const faqItems = [
   {
     q: "¿Qué tipos de propiedades cubren?",
-    a: "Multi-Family USA cubre multifamiliar comercial en EE. UU. con cinco o más unidades.",
+    a: "Multi-Family USA cubre multifamiliar comercial en EE. UU. con cinco o más unidades. No publicamos orientación sobre préstamos residenciales de una a cuatro unidades.",
   },
   {
-    q: "¿Qué métricas usan los prestamistas?",
-    a: "La mayoría suscribe DSCR, debt yield y apalancamiento en conjunto y dimensiona por la métrica más restrictiva.",
+    q: "¿Cubren financiamiento fuera de Estados Unidos?",
+    a: "No. Nuestro contenido se centra en programas de préstamo en EE. UU., comportamiento de prestamistas y estrategia de ejecución para mercados estadounidenses.",
+  },
+  {
+    q: "¿Qué métricas usan los prestamistas para dimensionar préstamos multifamiliares?",
+    a: "La mayoría suscribe DSCR, debt yield y apalancamiento en conjunto. Los desembolsos suelen determinarse por la métrica más restrictiva después de ajustes específicos del prestamista.",
+  },
+  {
+    q: "¿Por qué los desembolsos del prestamista pueden diferir de mi modelo?",
+    a: "Los prestamistas pueden normalizar el NOI de forma distinta, aplicar supuestos de estrés según el mercado e incluir reservas que reducen los desembolsos disponibles frente a un modelo del patrocinador.",
+  },
+  {
+    q: "¿Cómo prepararme antes de solicitar term sheets?",
+    a: "Prepare vistas de NOI in-place y estabilizado listas para el prestamista, respalde los supuestos principales e incluya sensibilidad a la baja para ocupación, gastos y tasas de refinanciamiento.",
+  },
+  {
+    q: "¿Cuándo tiene sentido la deuda bridge?",
+    a: "La deuda bridge puede ser útil para planes de negocio transicionales cuando el patrocinador puede respaldar claramente el ritmo de renovación, plazos de lease-up, estrategia de reservas y ruta de refinanciamiento.",
+  },
+  {
+    q: "¿Qué causa la mayoría de los retrasos en el cierre?",
+    a: "Los retrasos suelen deberse a paquetes de diligencia tardíos, documentación pendiente de entidad y garante, y supuestos que cambian durante la revisión crediticia.",
+  },
+  {
+    q: "¿Qué deben monitorear los operadores después del cierre?",
+    a: "El reporte mensual debe incluir ocupación, rentas efectivas, concesiones, morosidad, variación de gastos, ritmo de capex y margen de covenant, con comentario escrito sobre desviaciones.",
   },
 ];
 
@@ -19,7 +52,7 @@ const faqSchema = buildFaqSchema(faqItems);
 <BasicLayout
   title="Preguntas frecuentes | Multi-Family USA"
   description="Respuestas sobre suscripción multifamiliar, DSCR, debt yield y ejecución de deuda en EE. UU. para propiedades de 5+ unidades."
-  schema={faqSchema ? [faqSchema] : undefined}
+  schema={[webPageSchema, ...(faqSchema ? [faqSchema] : [])]}
   canonical="/es/faq"
   enPath="/faq/"
   esPath="/es/faq/"
@@ -29,10 +62,45 @@ const faqSchema = buildFaqSchema(faqItems);
   ]}
 >
   <h1>Preguntas frecuentes</h1>
-  {faqItems.map((item) => (
-    <>
-      <h3>{item.q}</h3>
-      <p>{item.a}</p>
-    </>
-  ))}
+  <p>
+    Respuestas a preguntas comunes sobre financiamiento multifamiliar comercial en EE. UU. para
+    propiedades de 5+ unidades. Esta página es educativa y no sustituye asesoramiento legal,
+    fiscal o crediticio específico de la transacción.
+  </p>
+
+  <h2>Alcance y definiciones</h2>
+  <h3>{faqItems[0].q}</h3>
+  <p>{faqItems[0].a}</p>
+
+  <h3>{faqItems[1].q}</h3>
+  <p>{faqItems[1].a}</p>
+
+  <h2>Calificación y dimensionamiento de deuda</h2>
+  <h3>{faqItems[2].q}</h3>
+  <p>{faqItems[2].a}</p>
+
+  <h3>{faqItems[3].q}</h3>
+  <p>{faqItems[3].a}</p>
+
+  <h3>{faqItems[4].q}</h3>
+  <p>{faqItems[4].a}</p>
+
+  <h2>Ejecución y gestión de riesgo</h2>
+  <h3>{faqItems[5].q}</h3>
+  <p>{faqItems[5].a}</p>
+
+  <h3>{faqItems[6].q}</h3>
+  <p>{faqItems[6].a}</p>
+
+  <h3>{faqItems[7].q}</h3>
+  <p>{faqItems[7].a}</p>
+
+  <h2>Cómo usar este sitio</h2>
+  <p>
+    Comience con la biblioteca <a href="/es/learn">Aprender</a> para marcos fundamentales, use
+    <a href="/es/tools">Herramientas</a> para probar supuestos y consulte páginas de
+    <a href="/es/states">Estados</a> o <a href="/es/cities">Ciudades</a> para contexto de mercado.
+    Si desea retroalimentación sobre un deal activo, use la
+    <a href="/es/deal-review">revisión gratuita de deal</a>.
+  </p>
 </BasicLayout>

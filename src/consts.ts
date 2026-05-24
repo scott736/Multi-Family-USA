@@ -262,6 +262,8 @@ export function buildWebPageSchema(opts: {
   description: string;
   url: string;
   about?: string;
+  inLanguage?: string;
+  dateModified?: string;
 }) {
   return {
     "@context": "https://schema.org",
@@ -269,8 +271,27 @@ export function buildWebPageSchema(opts: {
     name: opts.name,
     description: opts.description,
     url: opts.url,
-    inLanguage: "en-US",
+    inLanguage: opts.inLanguage ?? "en-US",
     isPartOf: { "@id": WEBSITE_ID },
+    ...(opts.dateModified ? { dateModified: opts.dateModified } : {}),
     ...(opts.about ? { about: { "@type": "Thing", name: opts.about } } : {}),
+  };
+}
+
+export function buildFinancialProductSchema(opts: {
+  name: string;
+  description: string;
+  url: string;
+  category?: string;
+}) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "FinancialProduct",
+    name: opts.name,
+    description: opts.description,
+    url: opts.url,
+    category: opts.category ?? "Commercial multifamily loan",
+    provider: { "@id": ORG_ID },
+    areaServed: { "@type": "Country", name: "United States" },
   };
 }

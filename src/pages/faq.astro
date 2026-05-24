@@ -1,6 +1,14 @@
 ---
-import { buildFaqSchema } from "@/consts";
+import { buildFaqSchema, buildWebPageSchema, SITE_URL } from "@/consts";
 import BasicLayout from "@/layouts/BasicLayout.astro";
+
+const faqPageUrl = `${SITE_URL}/faq/`;
+const webPageSchema = buildWebPageSchema({
+  name: "Multifamily Financing FAQ",
+  description:
+    "Expert answers on US multifamily underwriting, DSCR, debt yield, bridge vs agency execution, and lender sizing for 5+ unit commercial properties.",
+  url: faqPageUrl,
+});
 
 const faqItems = [
   {
@@ -43,7 +51,7 @@ const faqSchema = buildFaqSchema(faqItems);
 <BasicLayout
   title="Multifamily Financing FAQ | Multi-Family USA"
   description="Expert answers on US multifamily underwriting, DSCR, debt yield, bridge vs agency execution, and lender sizing for 5+ unit commercial properties."
-  schema={faqSchema ? [faqSchema] : undefined}
+  schema={[webPageSchema, ...(faqSchema ? [faqSchema] : [])]}
   canonical="/faq"
   enPath="/faq/"
   esPath="/es/faq/"

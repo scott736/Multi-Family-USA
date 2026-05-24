@@ -12,7 +12,13 @@ import {
 } from "@/lib/related-links";
 import { getLangFromUrl } from "@/i18n/utils";
 
-import { buildFaqSchema, SITE_URL } from "../../consts";
+import {
+  buildArticleSchema,
+  buildFaqSchema,
+  buildFinancialProductSchema,
+  buildWebPageSchema,
+  SITE_URL,
+} from "../../consts";
 
 interface Faq {
   q: string;
@@ -174,24 +180,53 @@ const relatedGroups =
     ? relatedGroupsProp
     : blogRelatedGroups;
 
-const articleSchema = {
-  "@context": "https://schema.org",
-  "@type": "Article",
-  headline: h1,
-  description,
-  ...(canonical ? { url: canonical, mainEntityOfPage: canonical } : {}),
-  datePublished: publishedDate ?? lastUpdated ?? "2026-05-24",
-  dateModified: lastUpdated ?? publishedDate ?? "2026-05-24",
-  author: {
-    "@type": "Organization",
-    name: author,
-  },
-  ...(keywords?.length ? { keywords: keywords.join(", ") } : {}),
-};
+const pageLanguage = lang === "es" ? "es-US" : "en-US";
+const modifiedDate = lastUpdated ?? publishedDate ?? "2026-05-24";
+const published = publishedDate ?? lastUpdated ?? "2026-05-24";
+
+const webPageSchema =
+  canonical && canonicalSlug
+    ? buildWebPageSchema({
+        name: h1,
+        description,
+        url: canonical,
+        inLanguage: pageLanguage,
+        dateModified: modifiedDate,
+        ...(section ? { about: section } : {}),
+      })
+    : null;
+
+const articleSchema =
+  canonical && canonicalSlug
+    ? buildArticleSchema({
+        headline: h1,
+        description,
+        url: canonical,
+        datePublished: published,
+        dateModified: modifiedDate,
+        authorName: author,
+        keywords,
+      })
+    : null;
+
+const financialProductSchema =
+  relatedKind === "loanType" && canonical && canonicalSlug
+    ? buildFinancialProductSchema({
+        name: h1,
+        description,
+        url: canonical,
+      })
+    : null;
 
 const faqSchema = faqList.length > 0 ? buildFaqSchema(faqList) : null;
 const extrasArray = Array.isArray(extraSchema) ? extraSchema : extraSchema ? [extraSchema] : [];
-const schema = [articleSchema, ...(faqSchema ? [faqSchema] : []), ...extrasArray];
+const schema = [
+  ...(webPageSchema ? [webPageSchema] : []),
+  ...(articleSchema ? [articleSchema] : []),
+  ...(financialProductSchema ? [financialProductSchema] : []),
+  ...(faqSchema ? [faqSchema] : []),
+  ...extrasArray,
+];
 ---
 
 <DefaultLayout

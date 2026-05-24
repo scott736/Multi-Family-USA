@@ -6,7 +6,7 @@ import RelatedReading from "@/components/dscr/RelatedReading.astro";
 import DefaultLayout from "@/layouts/DefaultLayout.astro";
 import { getRelatedLinks } from "@/lib/related-links";
 
-import { buildFaqSchema, SITE_URL } from "../../consts";
+import { buildFaqSchema, buildWebPageSchema, SITE_URL } from "../../consts";
 
 interface Faq {
   q: string;
@@ -67,9 +67,16 @@ const softwareSchema = {
   dateModified: lastUpdated,
 };
 
+const webPageSchema = buildWebPageSchema({
+  name: h1,
+  description,
+  url: canonicalUrl,
+  dateModified: lastUpdated,
+});
+
 const faqSchema = faqList.length > 0 ? buildFaqSchema(faqList) : null;
 const extrasArray = Array.isArray(extraSchema) ? extraSchema : extraSchema ? [extraSchema] : [];
-const schema = [softwareSchema, ...(faqSchema ? [faqSchema] : []), ...extrasArray];
+const schema = [webPageSchema, softwareSchema, ...(faqSchema ? [faqSchema] : []), ...extrasArray];
 const relatedLinks = await getRelatedLinks({
   kind: "tool",
   slug: toolSlug,
