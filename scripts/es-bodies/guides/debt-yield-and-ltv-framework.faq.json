@@ -1,0 +1,22 @@
+[
+  {
+    "q": "¿Para quién es esta guía?",
+    "a": "Esta guía es para operadores y patrocinadores multifamiliares en EE. UU. que evalúan ejecución de deuda en activos de 5+ unidades."
+  },
+  {
+    "q": "¿Reemplaza la suscripción del prestamista?",
+    "a": "No. Es educativa y debe usarse para mejorar la preparación antes de presentar a prestamistas."
+  },
+  {
+    "q": "¿Cómo interactúan debt yield y LTV en el dimensionamiento?",
+    "a": "Los prestamistas suelen aplicar ambos y dimensionar por la restricción más ajustada, especialmente cuando la durabilidad del NOI es incierta."
+  },
+  {
+    "q": "¿Qué métrica suele limitar primero en activos estabilizados?",
+    "a": "En muchas ejecuciones estabilizadas, el apalancamiento o debt yield puede limitar antes que el DSCR según cupón, calidad de NOI y programa."
+  },
+  {
+    "q": "¿Cómo usar debt yield en negociación de term sheets?",
+    "a": "Presente debt yield in-place y estabilizado con respaldo para que el comité valide desembolsos sin preguntas repetidas sobre NOI."
+  }
+]

@@ -1,0 +1,26 @@
+[
+  {
+    "q": "¿Qué rango de debt yield suele acelerar la retroalimentación del prestamista en term sheets multifamiliares?",
+    "a": "En muchas ejecuciones multifamiliares comerciales en EE. UU., los prestamistas tienden a moverse más rápido cuando el debt yield in-place comienza en un rango sólido para el tipo de producto y perfil de riesgo. Un debt yield más alto da confianza a los comités de que el flujo de caja puede soportar el préstamo aunque cap rates o tasas se muevan. Transacciones por debajo del piso interno del prestamista a menudo se retrasan, redimensionan o reprician."
+  },
+  {
+    "q": "¿Por qué importa el debt yield cuando el DSCR ya parece aceptable?",
+    "a": "El DSCR puede verse saludable por factores temporales como periodos solo de interés o timing favorable del índice, mientras el debt yield permanece anclado al NOI versus saldo del préstamo. Eso hace del debt yield una verificación de apalancamiento más limpia para comités de crédito. En mercados volátiles, los prestamistas a menudo confían en debt yield para evitar sobreprestar en márgenes operativos delgados."
+  },
+  {
+    "q": "¿Cómo convertir un debt yield objetivo en monto máximo de préstamo?",
+    "a": "Use la fórmula Monto del préstamo = NOI / Debt yield objetivo. Por ejemplo, si el NOI estabilizado es $1,200,000 y el prestamista exige 9.5% de debt yield, el máximo implícito es cerca de $12.6 millones. Esta matemática explica por qué pequeños cambios de NOI pueden alterar rápidamente los proceeds disponibles."
+  },
+  {
+    "q": "¿Puede una operación pasar DSCR y aún fallar screening de debt yield?",
+    "a": "Sí, especialmente cuando el DSCR se sostiene con una suposición inicial de servicio de deuda más baja pero el apalancamiento sigue alto relativo al NOI. Un préstamo puede cumplir DSCR al cupón de hoy y aún perder el piso de debt yield del prestamista. Ese desajuste es razón común de reducción tardía de term sheets."
+  },
+  {
+    "q": "¿Qué ajustes de suscripción mejoran más la credibilidad del debt yield?",
+    "a": "Los prestamistas responden mejor a calidad durable de NOI, no narrativas optimistas de crecimiento, así que normalice ítems no recurrentes y respalde supuestos de ingreso con datos de leases firmados cuando sea posible. Separe claramente NOI in-place versus forward y documente timing de cada mejora operativa. Ajustes transparentes ayudan a los comités a validar proceeds más rápido."
+  },
+  {
+    "q": "¿Qué paquete deben enviar patrocinadores para mejorar velocidad de term sheet en operaciones sensibles a debt yield?",
+    "a": "Incluya un puente conciso de NOI desde desempeño trailing hasta flujo de caja estabilizado suscrito, más rent roll, tendencias de ocupación y cronograma de capex. Agregue casos de sensibilidad mostrando debt yield, DSCR y LTV bajo supuestos a la baja. Esto da contexto listo para decisión al prestamista y reduce preguntas repetidas."
+  }
+]

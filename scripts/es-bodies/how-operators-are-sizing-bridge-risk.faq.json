@@ -1,0 +1,26 @@
+[
+  {
+    "q": "¿Qué deben suscribir operadores antes de depender de una opción de extensión bridge?",
+    "a": "Suscríban la extensión como si fuera requerida, no opcional, y confirme que la operación puede cumplir pruebas probables bajo NOI estresado y costo de deuda. Muchos prestamistas bridge buscan métricas cerca de 1.05x-1.15x DSCR, debt yield alrededor de 8%-9%, y sin default monetario antes de otorgar extensión. Si la extensión solo funciona con crecimiento de renta optimista, el riesgo de ejecución suele estar subpreciado."
+  },
+  {
+    "q": "¿Cómo eligen patrocinadores estrategia de cap de tasa en préstamos bridge flotantes?",
+    "a": "La mayoría compara strikes de cap contra DSCR a la baja y carry mensual para equilibrar prima upfront versus protección. Un strike más bajo (por ejemplo cerca de 3%-4% sobre el índice) cuesta más pero puede preservar cobertura de servicio de deuda si las tasas a corto plazo permanecen altas. La estructura correcta es la que mantiene el plan de negocio financiable al menos bajo un escenario adverso de tasas."
+  },
+  {
+    "q": "¿Qué supuestos de refinanciamiento deben fijarse al cierre bridge?",
+    "a": "Los patrocinadores deben suscribir el takeout con apalancamiento y niveles de servicio de deuda conservadores, no al pico de valoración pro forma. Una línea base común es probar financiamiento permanente cerca de 65%-70% LTV con DSCR alrededor de pisos exigidos por prestamistas y evidencia de ocupación estabilizada. Si la salida proyectada aún funciona con esos supuestos, la dependencia de extensión baja materialmente."
+  },
+  {
+    "q": "¿Qué apalancamiento es generalmente prudente para deuda bridge value-add multifamiliar en 2026?",
+    "a": "Muchos prestamistas aún cotizan bandas superiores de apalancamiento, pero ejecución prudente a menudo permanece en niveles que pueden refinanciar sin timing perfecto de NOI. En la práctica, patrocinadores frecuentemente apuntan cerca de 65%-72% loan-to-cost y evitan estirarse más allá de ~75% salvo que el activo tenga desempeño in-place sólido. Cuanto más agresivo el apalancamiento, más sensible la operación a volatilidad de cap rate y cap de tasa."
+  },
+  {
+    "q": "¿Dónde aparecen usualmente riesgos de recourse bridge para prestatarios multifamiliares?",
+    "a": "Incluso préstamos bridge nonrecourse pueden incluir exposición significativa vía garantías de completación, garantías de carry y lenguaje carve-out ligado a malos actos o fallas de reporteo. Los operadores deben mapear esos disparadores contra hitos del plan de negocio antes del cierre. El riesgo práctico a menudo está en mecánica de covenants, no en la etiqueta headline de recourse."
+  },
+  {
+    "q": "Si los mercados de refinanciamiento se aprietan, ¿qué acciones debe tomar primero un patrocinador?",
+    "a": "Los equipos típicamente comienzan protegiendo liquidez, reproyectando NOI con supuestos conservadores y abriendo diálogo con prestamistas temprano en lugar de cerca del vencimiento. Rutas paralelas pueden incluir preparación de extensión, planificación de paydown selectivo e identificación de takeouts alternativos agency, banco o debt fund. Acción temprana usualmente preserva poder de negociación y evita penalidades de pricing de último minuto."
+  }
+]

@@ -1,0 +1,104 @@
+---
+import { getCollection } from "astro:content";
+
+import Breadcrumbs from "@/components/dscr/Breadcrumbs.astro";
+import CtaCard from "@/components/dscr/CtaCard.astro";
+import UsMapExplorer from "@/components/sections/us-map-explorer";
+import DefaultLayout from "@/layouts/DefaultLayout.astro";
+
+const entries = await getCollection("esStates");
+const byTier: Record<string, typeof entries> = { "1": [], "2": [], "3": [], special: [] };
+for (const e of entries) {
+  byTier[e.data.tier] ||= [];
+  byTier[e.data.tier].push(e);
+}
+for (const k of Object.keys(byTier)) {
+  byTier[k].sort((a, b) => (a.data.stateName ?? "").localeCompare(b.data.stateName ?? ""));
+}
+
+const mapStates = entries.map((e) => ({
+  slug: e.id.replace(/\.mdx$/, ""),
+  stateName: e.data.stateName,
+  stateCode: e.data.stateCode,
+  tier: e.data.tier,
+  statePropertyTax: e.data.statePropertyTax,
+  hasStateIncomeTax: e.data.hasStateIncomeTax,
+  foreclosureType: e.data.foreclosureType,
+  evictionTimelineDays: e.data.evictionTimelineDays,
+  rentControl: e.data.rentControl,
+  prohibitsPpp1to4Unit: e.data.prohibitsPpp1to4Unit,
+  topMarkets: e.data.topMarkets,
+}));
+---
+
+<DefaultLayout
+  title="Mercados multifamiliares por estado | Multi-Family USA"
+  description="Contexto de financiamiento multifamiliar comercial estado por estado en los 50 estados más DC."
+  canonical="/es/states"
+  enPath="/states/"
+  esPath="/es/states/"
+>
+  <Breadcrumbs crumbs={[
+    { label: "Inicio", href: "/es" },
+    { label: "Mercados", href: "/es/states" },
+  ]} />
+
+  <section class="container py-8">
+    <p class="text-xs font-bold uppercase tracking-wider text-accent">Mercados</p>
+    <h1 class="mt-2 text-4xl font-bold lg:text-5xl">Financiamiento multifamiliar por estado</h1>
+    <p class="mt-4 max-w-3xl text-lg text-muted-foreground">
+      Revise contexto de préstamo y mercado en los 50 estados más DC, con bandas de cap rate,
+      postura de ejecución hipotecaria y anclas de metro principales para ejecución multifamiliar de 5+ unidades.
+    </p>
+  </section>
+
+  <UsMapExplorer states={mapStates} client:visible lang="es" />
+
+  {
+    (["1", "2", "3", "special"] as const).map((tier) =>
+      byTier[tier] && byTier[tier].length > 0 ? (
+        <section class="container py-6">
+          <h2 class="text-2xl font-bold">Estados tier {tier === "special" ? "especial" : tier}</h2>
+          <div class="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+            {byTier[tier].map((entry) => {
+              const slug = entry.id.replace(/\.mdx$/, "");
+              return (
+                <a href={`/es/states/${slug}`} class="rounded-lg border border-border bg-card p-4 hover:border-accent">
+                  <p class="font-semibold">{entry.data.stateName}</p>
+                  <p class="text-xs text-muted-foreground mt-1">
+                    Cap rate prom. {entry.data.avgCapRate.toFixed(1)}% · Prom. $/unidad ${entry.data.avgPricePerUnit.toLocaleString()}
+                  </p>
+                </a>
+              );
+            })}
+          </div>
+        </section>
+      ) : null,
+    )
+  }
+
+  <section class="container py-8">
+    <h2 class="text-2xl font-bold">Convierta contexto de mercado en decisiones de ejecución</h2>
+    <div class="mt-4 grid gap-4 md:grid-cols-3">
+      <a href="/es/loan-types/" class="rounded-lg border border-border bg-card p-5 hover:border-accent">
+        <h3 class="text-lg font-bold">Relacione mercados con productos de préstamo</h3>
+        <p class="mt-2 text-sm text-muted-foreground">Revise qué estructuras de préstamo multifamiliar encajan mejor con el perfil de riesgo de cada estado.</p>
+      </a>
+      <a href="/tools/" class="rounded-lg border border-border bg-card p-5 hover:border-accent">
+        <h3 class="text-lg font-bold">Ejecute suscripción ajustada al mercado</h3>
+        <p class="mt-2 text-sm text-muted-foreground">Use calculadoras para estresar NOI, DSCR comercial, debt yield, LTV y proceeds para mercados objetivo.</p>
+      </a>
+      <a href="/es/learn/" class="rounded-lg border border-border bg-card p-5 hover:border-accent">
+        <h3 class="text-lg font-bold">Construya playbooks de ejecución</h3>
+        <p class="mt-2 text-sm text-muted-foreground">Traduzca snapshots de mercado en supuestos listos para prestamistas y planes de diligencia.</p>
+      </a>
+    </div>
+  </section>
+
+  <section class="container py-12">
+    <CtaCard
+      headline="¿Necesita orientación sobre encaje con prestamistas para un estado específico?"
+      subheadline="Comparta su operación y mapearemos rutas de ejecución probables por mercado y objetivo de apalancamiento."
+    />
+  </section>
+</DefaultLayout>

@@ -1,0 +1,22 @@
+[
+  {
+    "q": "¿Para quién es esta guía?",
+    "a": "Esta guía es para operadores y patrocinadores multifamiliares en EE. UU. que evalúan ejecución de deuda en activos de 5+ unidades."
+  },
+  {
+    "q": "¿Reemplaza la suscripción del prestamista?",
+    "a": "No. Es educativa y debe usarse para mejorar la preparación antes de presentar a prestamistas."
+  },
+  {
+    "q": "¿Cómo planificar exposición a tasa flotante?",
+    "a": "Modele trayectorias del índice, vencimiento de caps, triggers de extensión y timing de refinanciamiento en varios escenarios—no una sola curva."
+  },
+  {
+    "q": "¿Cuándo empezar a planificar refinanciamiento en bridge?",
+    "a": "En o antes del cierre, con hitos ligados a estabilización de NOI y criterios de takeout documentados en el plan operativo."
+  },
+  {
+    "q": "¿Qué lógica de reservas ayuda con riesgo de tasa?",
+    "a": "Buffers de liquidez para servicio de deuda, capex y extensiones pueden preservar opcionalidad cuando tasas o NOI se mueven en contra."
+  }
+]

@@ -1,0 +1,26 @@
+[
+  {
+    "q": "¿Qué rango de spread deben esperar operadores entre ejecuciones agency, bridge y banco hoy?",
+    "a": "Para multifamiliar estabilizado en EE. UU., ejecuciones agency a menudo cierran alrededor de benchmark más 140-220 bps cuando patrocinio y calidad de propiedad son sólidos. Deuda bridge para activos transicionales suele ser más amplia, a menudo benchmark más 300-500 bps más costo de cap de tasa. Pricing de bancos regionales y nacionales frecuentemente se sitúa entre esos rangos pero puede incluir recourse, triggers de cash sweep o covenants más ajustados."
+  },
+  {
+    "q": "¿Por qué pueden ampliarse spreads aunque Treasury o SOFR parezcan estables?",
+    "a": "El spread crediticio puede ampliarse cuando prestamistas ven menor visibilidad de refinanciamiento, debt yield más bajo u operaciones trailing inconsistentes, aunque tasas benchmark no cambien. Disparadores comunes incluyen ocupación física sub-90%, volatilidad de NOI o apalancamiento que empuja dimensionamiento sobre la banda de confort del prestamista. En esos casos, comités precian riesgo de ejecución más que dirección del índice de tasas."
+  },
+  {
+    "q": "¿Cómo estresar proceeds de refinanciamiento cuando los spreads se mueven?",
+    "a": "La mayoría de patrocinadores ejecutan al menos un estrés de costo de deuda de +75 a +100 bps y redimensionan a la métrica más restrictiva entre DSCR, debt yield y LTV. Para muchas operaciones, eso significa probar hacia ~1.20x-1.30x DSCR y pisos de debt yield a menudo en 8.0%-10.0% según tipo de prestamista. Si los proceeds aún funcionan bajo esos supuestos, la certeza de cierre generalmente mejora."
+  },
+  {
+    "q": "¿Qué rangos de apalancamiento siguen siendo realistas para multifamiliar comercial en este entorno?",
+    "a": "Ejecuciones estilo agency estabilizado comúnmente caen alrededor de 65%-75% LTV cuando flujo de caja in-place es durable y liquidez de mercado es sólida. Estructuras bridge para value-add a menudo dimensionan cerca de 60%-70% apalancamiento as-is y pueden estirarse hacia 70%-75% del costo con respaldo sólido del plan de negocio. Operaciones modeladas sobre esos rangos generalmente necesitan patrocinio excepcional, menor riesgo o más equity."
+  },
+  {
+    "q": "¿Cuándo pagar por una tasa más baja realmente mejora la ejecución?",
+    "a": "Buy-downs de tasa son más útiles cuando la transacción está limitada por DSCR y un cupón más bajo desbloquea suficientes proceeds para proteger el capital stack. La decisión debe compararse contra periodo de hold esperado, estructura de prepago y usos alternativos de efectivo como capex o reservas. Si proceeds incrementales son pequeños, preservar liquidez suele ser el mejor movimiento."
+  },
+  {
+    "q": "¿Qué paquete de prestamista ayuda a obtener retroalimentación de spread más rápida y confiable?",
+    "a": "Proporcione un paquete limpio con rent roll actual, estados operativos trailing 12 meses y 3 meses, liquidez del prestatario y narrativa clara de capex y lease-up. Incluya sensibilidades a la baja para que prestamistas vean cómo se comportan DSCR, debt yield y apalancamiento bajo estrés. Presentaciones bien estructuradas a menudo reciben retroalimentación más ajustada y accionable en el primer ciclo de cotización."
+  }
+]
