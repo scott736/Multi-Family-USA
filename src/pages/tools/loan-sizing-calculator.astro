@@ -9,6 +9,9 @@ import ToolShell from "@/components/dscr/ToolShell.astro";
   h1="Loan Sizing Calculator"
   toolSlug="loan-sizing-calculator"
   tagline="Back into maximum supportable debt from target DSCR and fixed operating assumptions."
+  relatedGuides={["multifamily-underwriting-basics", "capital-stack-design-for-value-add", "debt-yield-and-ltv-framework"]}
+  relatedComparisons={["fixed-vs-floating-rate", "agency-vs-bridge"]}
+  relatedLoanTypes={["agency-stabilized", "bank-balance-sheet", "bridge-value-add"]}
 >
   <Fragment slot="calculator">
     <MaxLoanCalculator client:load />

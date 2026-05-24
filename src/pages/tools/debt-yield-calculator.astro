@@ -9,6 +9,9 @@ import ToolShell from "@/components/dscr/ToolShell.astro";
   h1="Debt Yield Calculator"
   toolSlug="debt-yield-calculator"
   tagline="Use NOI and loan amount to pressure-test lender-side return thresholds."
+  relatedGuides={["debt-yield-and-ltv-framework", "rate-risk-and-refinance-planning", "commercial-dscr-explained"]}
+  relatedComparisons={["bank-vs-debt-fund", "fixed-vs-floating-rate"]}
+  relatedLoanTypes={["debt-fund-floating-rate", "bridge-value-add"]}
 >
   <Fragment slot="calculator">
     <DebtYieldCalculator client:load />

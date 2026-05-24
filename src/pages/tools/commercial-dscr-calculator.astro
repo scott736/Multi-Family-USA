@@ -9,6 +9,9 @@ import ToolShell from "@/components/dscr/ToolShell.astro";
   h1="Commercial DSCR Calculator"
   toolSlug="commercial-dscr-calculator"
   tagline="Stress-test coverage ratios and identify lender-fit DSCR ranges."
+  relatedGuides={["commercial-dscr-explained", "debt-yield-and-ltv-framework", "multifamily-underwriting-basics"]}
+  relatedComparisons={["agency-vs-bridge", "fixed-vs-floating-rate"]}
+  relatedLoanTypes={["agency-stabilized", "bridge-value-add"]}
 >
   <Fragment slot="calculator">
     <DscrCalculator client:load />

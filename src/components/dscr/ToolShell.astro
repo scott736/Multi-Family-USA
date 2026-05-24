@@ -2,9 +2,11 @@
 import Breadcrumbs from "@/components/dscr/Breadcrumbs.astro";
 import CtaCard from "@/components/dscr/CtaCard.astro";
 import FaqAccordion from "@/components/dscr/FaqAccordion.astro";
+import RelatedReading from "@/components/dscr/RelatedReading.astro";
 import DefaultLayout from "@/layouts/DefaultLayout.astro";
+import { getRelatedLinks } from "@/lib/related-links";
 
-import { SITE_URL } from "../../consts";
+import { buildFaqSchema, SITE_URL } from "../../consts";
 
 interface Faq {
   q: string;
@@ -22,6 +24,12 @@ interface Props {
   faqs?: Faq[];
   extraSchema?: Record<string, unknown> | Array<Record<string, unknown>>;
   keywords?: string[];
+  relatedGuides?: string[];
+  relatedComparisons?: string[];
+  relatedLoanTypes?: string[];
+  relatedPropertyTypes?: string[];
+  relatedInvestorProfiles?: string[];
+  relatedBlog?: string[];
 }
 
 const {
@@ -35,8 +43,15 @@ const {
   faqs = [],
   extraSchema,
   keywords,
+  relatedGuides,
+  relatedComparisons,
+  relatedLoanTypes,
+  relatedPropertyTypes,
+  relatedInvestorProfiles,
+  relatedBlog,
 } = Astro.props;
 
+const faqList = Array.isArray(faqs) ? faqs : [];
 const toolPath = `/tools/${toolSlug}`;
 const canonicalUrl = `${SITE_URL}${toolPath}`;
 
@@ -52,8 +67,23 @@ const softwareSchema = {
   dateModified: lastUpdated,
 };
 
+const faqSchema = faqList.length > 0 ? buildFaqSchema(faqList) : null;
 const extrasArray = Array.isArray(extraSchema) ? extraSchema : extraSchema ? [extraSchema] : [];
-const schema = [softwareSchema, ...extrasArray];
+const schema = [softwareSchema, ...(faqSchema ? [faqSchema] : []), ...extrasArray];
+const relatedLinks = await getRelatedLinks({
+  kind: "tool",
+  slug: toolSlug,
+  title: h1,
+  description,
+  keywords,
+  relatedGuides,
+  relatedComparisons,
+  relatedLoanTypes,
+  relatedPropertyTypes,
+  relatedInvestorProfiles,
+  relatedBlog,
+  limit: 6,
+});
 ---
 
 <DefaultLayout
@@ -61,7 +91,6 @@ const schema = [softwareSchema, ...extrasArray];
   description={description}
   schema={schema}
   canonical={toolPath}
-  section="Tools"
   keywords={keywords}
 >
   <Breadcrumbs
@@ -82,6 +111,9 @@ const schema = [softwareSchema, ...extrasArray];
   <section class="container grid gap-8 py-6 lg:grid-cols-3">
     <div class="lg:col-span-2 space-y-8">
       <slot name="calculator" />
+      {relatedLinks.length > 0 && (
+        <RelatedReading links={relatedLinks} heading="Related Resources" />
+      )}
       <slot name="content" />
     </div>
     <aside class="lg:col-span-1 space-y-6">
@@ -96,10 +128,10 @@ const schema = [softwareSchema, ...extrasArray];
   </section>
 
   {
-    faqs.length > 0 && (
+    faqList.length > 0 && (
       <section class="container py-12">
         <h2 class="mb-6 text-3xl font-bold text-foreground" id="faq">Frequently asked questions</h2>
-        <FaqAccordion items={faqs} />
+        <FaqAccordion items={faqList} />
       </section>
     )
   }
