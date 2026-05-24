@@ -97,16 +97,10 @@ function patchFrontmatter(fmBlock, d, slug, mfFm) {
   const markets = (d.topMarkets || []).map((m) => `- ${m}`).join("\n");
   inner = inner.replace(/topMarkets:\n(?:- .+\n)+/, `topMarkets:\n${markets}\n`);
 
-  const legalBlock = [
-    `statePropertyTax: ${d.statePropertyTax}`,
-    `evictionTimelineDays: ${d.evictionTimelineDays}`,
-    `rentControl: ${d.rentControl}`,
-    `prohibitsPpp1to4Unit: ${d.prohibitsPpp1to4Unit ?? false}`,
-  ].join("\n");
-
   inner = inner.replace(
-    /^avgPricePerUnit: .+$/m,
-    (line) => `${line}\n${legalBlock}`,
+    /^foreclosureType: .+$/m,
+    (line) =>
+      `${line}\nstatePropertyTax: ${d.statePropertyTax}\nevictionTimelineDays: ${d.evictionTimelineDays}\nrentControl: ${d.rentControl}\nprohibitsPpp1to4Unit: ${d.prohibitsPpp1to4Unit ?? false}`,
   );
 
   return { fm: `---\n${inner}\n---`, avgCapRate, avgPricePerUnit };
@@ -150,39 +144,17 @@ function syncFile(mfPath, dscrPath, slug) {
 }
 
 function syncEsFrontmatterOnly(esPath, enPath) {
-  const es = fs.readFileSync(esPath, "utf8");
-  const en = fs.readFileSync(enPath, "utf8");
-  const enFm = en.match(/^---\n([\s\S]*?)\n---/)?.[1];
-  if (!enFm) return;
+  const esRaw = fs.readFileSync(esPath, "utf8");
+  const es = parseFrontmatter(esRaw);
+  const en = parseFrontmatter(fs.readFileSync(enPath, "utf8"));
+  if (!es || !en) return;
 
-  const pull = (block, key) => block.match(new RegExp(`^${key}: (.+)$`, "m"))?.[1];
-  const pullMarkets = (block) => {
-    const m = block.match(/topMarkets:\n((?:- .+\n)+)/);
-    return m ? m[1].trimEnd() : null;
-  };
-
-  let out = es;
-  for (const key of [
-    "tier",
-    "avgCapRate",
-    "avgPricePerUnit",
-    "statePropertyTax",
-    "hasStateIncomeTax",
-    "foreclosureType",
-    "evictionTimelineDays",
-    "rentControl",
-    "prohibitsPpp1to4Unit",
-  ]) {
-    const val = pull(enFm, key);
-    if (val == null) continue;
-    const re = new RegExp(`^${key}: .*$`, "m");
-    if (re.test(out)) out = out.replace(re, `${key}: ${val}`);
-    else out = out.replace(/^---\n/, `---\n${key}: ${val}\n`);
-  }
-  const markets = pullMarkets(enFm);
-  if (markets) out = out.replace(/topMarkets:\n(?:- .+\n)+/, `topMarkets:\n${markets}\n`);
-
-  fs.writeFileSync(esPath, out);
+  const { fm: newFm } = patchFrontmatter(es.frontmatter, en.fm, path.basename(esPath, ".mdx"), es.fm);
+  // Preserve ES-specific author/title/description from original
+  let inner = newFm.replace(/^---\n|\n---$/g, "");
+  if (es.fm.author) inner = inner.replace(/^author: .*$/m, `author: ${es.fm.author}`);
+  if (es.fm.title) inner = inner.replace(/^title: .*$/m, `title: ${es.fm.title}`);
+  fs.writeFileSync(esPath, `---\n${inner}\n---${es.body}`);
 }
 
 const updated = [];
