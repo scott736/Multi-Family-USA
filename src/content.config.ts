@@ -18,6 +18,13 @@ const commonFields = {
   noindex: z.boolean().optional(),
   relatedTools: z.array(z.string()).optional(),
   relatedGuides: z.array(z.string()).optional(),
+  relatedStates: z.array(z.string()).optional(),
+  relatedCities: z.array(z.string()).optional(),
+  relatedLoanTypes: z.array(z.string()).optional(),
+  relatedPropertyTypes: z.array(z.string()).optional(),
+  relatedComparisons: z.array(z.string()).optional(),
+  relatedInvestorProfiles: z.array(z.string()).optional(),
+  relatedBlog: z.array(z.string()).optional(),
   faq: z
     .array(
       z.object({
@@ -109,6 +116,16 @@ const blog = defineCollection({
     ...commonFields,
     category: z.string().optional(),
     tags: z.array(z.string()).optional(),
+    // Blog FAQs should be substantive when included.
+    faq: z
+      .array(
+        z.object({
+          q: z.string(),
+          a: z.string(),
+        }),
+      )
+      .min(3, "Blog FAQ must include at least 3 items when provided")
+      .optional(),
   }),
 });
 

@@ -1,0 +1,14 @@
+---
+import RelatedLinks from "@/components/dscr/RelatedLinks.astro";
+import type { RelatedLink } from "@/lib/related-links";
+
+interface Props {
+  links: RelatedLink[];
+  heading?: string;
+  className?: string;
+}
+
+const { links, heading = "Related Reading", className } = Astro.props;
+---
+
+<RelatedLinks links={links} heading={heading} className={className} />

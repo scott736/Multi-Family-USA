@@ -2,9 +2,11 @@
 import Breadcrumbs from "@/components/dscr/Breadcrumbs.astro";
 import CtaCard from "@/components/dscr/CtaCard.astro";
 import FaqAccordion from "@/components/dscr/FaqAccordion.astro";
+import RelatedReading from "@/components/dscr/RelatedReading.astro";
 import DefaultLayout from "@/layouts/DefaultLayout.astro";
+import { getRelatedLinks, type ContentKind } from "@/lib/related-links";
 
-import { SITE_URL } from "../../consts";
+import { buildFaqSchema, SITE_URL } from "../../consts";
 
 interface Faq {
   q: string;
@@ -33,6 +35,21 @@ interface Props {
   keywords?: string[];
   section?: string;
   extraSchema?: Record<string, unknown> | Array<Record<string, unknown>>;
+  noindex?: boolean;
+  relatedKind?: ContentKind;
+  relatedSlug?: string;
+  relatedCategory?: string;
+  relatedStateCode?: string;
+  relatedStateName?: string;
+  relatedTools?: string[];
+  relatedGuides?: string[];
+  relatedStates?: string[];
+  relatedCities?: string[];
+  relatedLoanTypes?: string[];
+  relatedPropertyTypes?: string[];
+  relatedComparisons?: string[];
+  relatedInvestorProfiles?: string[];
+  relatedBlog?: string[];
 }
 
 const {
@@ -52,9 +69,73 @@ const {
   keywords,
   section,
   extraSchema,
+  noindex,
+  relatedKind,
+  relatedSlug,
+  relatedCategory,
+  relatedStateCode,
+  relatedStateName,
+  relatedTools,
+  relatedGuides,
+  relatedStates,
+  relatedCities,
+  relatedLoanTypes,
+  relatedPropertyTypes,
+  relatedComparisons,
+  relatedInvestorProfiles,
+  relatedBlog,
 } = Astro.props;
 
+const faqList = Array.isArray(faqs) ? faqs : [];
 const canonical = canonicalSlug ? `${SITE_URL}${canonicalSlug}` : undefined;
+const relatedLinks =
+  relatedKind && relatedSlug
+    ? await getRelatedLinks({
+        kind: relatedKind,
+        slug: relatedSlug,
+        title: h1,
+        description,
+        keywords,
+        category: relatedCategory,
+        stateCode: relatedStateCode,
+        stateName: relatedStateName,
+        relatedTools,
+        relatedGuides,
+        relatedStates,
+        relatedCities,
+        relatedLoanTypes,
+        relatedPropertyTypes,
+        relatedComparisons,
+        relatedInvestorProfiles,
+        relatedBlog,
+        limit: 6,
+      })
+    : [];
+const fallbackBlogRelatedLinks =
+  relatedKind === "blog" && relatedBlog?.length
+    ? relatedBlog
+        .map((value) => value.trim())
+        .filter(Boolean)
+        .map((value) => {
+          const normalized = value.startsWith("/") ? value : `/blog/${value.replace(/^blog\//, "")}`;
+          const href = normalized.endsWith("/") ? normalized : `${normalized}/`;
+          const slug = normalized
+            .replace(/^\/blog\//, "")
+            .replace(/\/$/, "")
+            .replace(/\.mdx$/, "");
+          const title = slug
+            .split("-")
+            .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
+            .join(" ");
+          return {
+            href,
+            title,
+            type: "blog" as const,
+          };
+        })
+    : [];
+const effectiveRelatedLinks =
+  relatedLinks.length > 0 ? relatedLinks : fallbackBlogRelatedLinks;
 
 const articleSchema = {
   "@context": "https://schema.org",
@@ -71,8 +152,9 @@ const articleSchema = {
   ...(keywords?.length ? { keywords: keywords.join(", ") } : {}),
 };
 
+const faqSchema = faqList.length > 0 ? buildFaqSchema(faqList) : null;
 const extrasArray = Array.isArray(extraSchema) ? extraSchema : extraSchema ? [extraSchema] : [];
-const schema = [articleSchema, ...extrasArray];
+const schema = [articleSchema, ...(faqSchema ? [faqSchema] : []), ...extrasArray];
 ---
 
 <DefaultLayout
@@ -82,6 +164,7 @@ const schema = [articleSchema, ...extrasArray];
   image={image}
   canonical={canonicalSlug}
   keywords={keywords}
+  noindex={noindex}
 >
   <Breadcrumbs crumbs={crumbs} />
 
@@ -101,10 +184,15 @@ const schema = [articleSchema, ...extrasArray];
 
     <div class="prose-dscr lg:col-span-3">
       <slot />
-      {faqs.length > 0 && (
+      {effectiveRelatedLinks.length > 0 && (
+        <div class="my-10 lg:hidden">
+          <RelatedReading links={effectiveRelatedLinks} heading="Related Resources" />
+        </div>
+      )}
+      {faqList.length > 0 && (
         <>
           <h2 class="!mt-12" id="faq">Frequently asked questions</h2>
-          <FaqAccordion items={faqs} />
+          <FaqAccordion items={faqList} />
         </>
       )}
     </div>
@@ -112,6 +200,9 @@ const schema = [articleSchema, ...extrasArray];
     <aside class="hidden lg:block lg:col-span-1">
       <div class="lg:sticky lg:top-24 space-y-6">
         <CtaCard variant="compact" sourceContext={`guide:${canonicalSlug ?? title}`} />
+        {effectiveRelatedLinks.length > 0 && (
+          <RelatedReading links={effectiveRelatedLinks} heading="Related Resources" />
+        )}
       </div>
     </aside>
   </article>

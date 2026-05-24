@@ -37,6 +37,19 @@ const canonicalSlug = `/blog/${slug}`;
     { label: data.title, href: canonicalSlug },
   ]}
   faqs={data.faq}
+  noindex={data.noindex}
+  relatedKind="blog"
+  relatedSlug={slug}
+  relatedCategory={data.category}
+  relatedTools={data.relatedTools}
+  relatedGuides={data.relatedGuides}
+  relatedStates={data.relatedStates}
+  relatedCities={data.relatedCities}
+  relatedLoanTypes={data.relatedLoanTypes}
+  relatedPropertyTypes={data.relatedPropertyTypes}
+  relatedComparisons={data.relatedComparisons}
+  relatedInvestorProfiles={data.relatedInvestorProfiles}
+  relatedBlog={data.relatedBlog}
 >
   <Content />
 </GuideShell>
