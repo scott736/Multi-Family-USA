@@ -1,0 +1,32 @@
+---
+import { getCollection } from "astro:content";
+
+import Breadcrumbs from "@/components/dscr/Breadcrumbs.astro";
+import DefaultLayout from "@/layouts/DefaultLayout.astro";
+
+const entries = await getCollection("esGuides");
+---
+
+<DefaultLayout
+  title="Centro de aprendizaje multifamiliar | Multi-Family USA"
+  description="Guías sobre suscripción, mercados de capital y ejecución para multifamiliar comercial de 5+ unidades."
+  canonical="/es/learn"
+  enPath="/learn/"
+  esPath="/es/learn/"
+>
+  <Breadcrumbs crumbs={[{ label: "Inicio", href: "/es" }, { label: "Aprender", href: "/es/learn" }]} />
+  <section class="container py-8">
+    <h1 class="text-4xl font-bold">Centro de aprendizaje multifamiliar</h1>
+    <div class="mt-6 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+      {entries.map((entry) => {
+        const slug = entry.id.replace(/\.mdx$/, "");
+        return (
+          <a href={`/es/learn/${slug}`} class="rounded-lg border border-border bg-card p-5 hover:border-accent">
+            <h2 class="font-bold">{entry.data.title}</h2>
+            <p class="mt-2 text-sm text-muted-foreground">{entry.data.description}</p>
+          </a>
+        );
+      })}
+    </div>
+  </section>
+</DefaultLayout>

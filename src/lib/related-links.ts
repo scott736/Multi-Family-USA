@@ -1,5 +1,6 @@
 import { getCollection, type CollectionEntry } from "astro:content";
 
+import type { Lang } from "@/i18n/utils";
 import { filterPublished } from "@/lib/scheduled-publish";
 
 export type ContentKind =
@@ -29,6 +30,20 @@ export interface RelatedLink {
   title: string;
   description?: string;
   type: RelatedLinkType;
+}
+
+/** Grouped related links for blog posts and rich internal-linking blocks. */
+export interface RelatedGroupLink {
+  href: string;
+  title: string;
+  description: string;
+  kicker: string;
+}
+
+export interface RelatedGroup {
+  label: string;
+  description?: string;
+  links: RelatedGroupLink[];
 }
 
 export interface RelatedLinkInput {
@@ -681,4 +696,278 @@ export async function getRelatedLinks(input: RelatedLinkInput): Promise<RelatedL
     description: item.description,
     type: item.type,
   }));
+}
+
+const GROUP_LABELS = {
+  en: {
+    tools: { label: "Run the numbers", description: "Interactive calculators for this topic." },
+    guides: { label: "Guides & frameworks", description: "Deeper underwriting and execution context." },
+    markets: { label: "Markets", description: "State and city financing snapshots." },
+    loanTypes: { label: "Loan products", description: "Capital options that fit this theme." },
+    propertyTypes: { label: "Property types", description: "Asset profiles and typical lender posture." },
+    comparisons: { label: "Compare options", description: "Side-by-side product trade-offs." },
+    profiles: { label: "Investor playbooks", description: "Operator-specific decision frameworks." },
+    blog: { label: "Related articles", description: "More market and execution notes." },
+    kickers: {
+      tool: "Calculator",
+      guide: "Guide",
+      state: "State",
+      city: "City",
+      "loan-type": "Loan type",
+      "property-type": "Property type",
+      comparison: "Comparison",
+      "investor-profile": "Investor profile",
+      blog: "Blog",
+    },
+  },
+  es: {
+    tools: { label: "Haz los números", description: "Calculadoras interactivas para este tema." },
+    guides: { label: "Guías y marcos", description: "Contexto de suscripción y ejecución." },
+    markets: { label: "Mercados", description: "Panoramas estatales y por ciudad." },
+    loanTypes: { label: "Productos de deuda", description: "Opciones de capital alineadas al tema." },
+    propertyTypes: { label: "Tipos de propiedad", description: "Perfiles de activo y postura del prestamista." },
+    comparisons: { label: "Comparar opciones", description: "Trade-offs entre productos." },
+    profiles: { label: "Playbooks de inversionistas", description: "Marcos por perfil de operador." },
+    blog: { label: "Artículos relacionados", description: "Más notas de mercado y ejecución." },
+    kickers: {
+      tool: "Calculadora",
+      guide: "Guía",
+      state: "Estado",
+      city: "Ciudad",
+      "loan-type": "Tipo de préstamo",
+      "property-type": "Tipo de propiedad",
+      comparison: "Comparación",
+      "investor-profile": "Perfil",
+      blog: "Blog",
+    },
+  },
+} as const;
+
+function langPrefix(lang: Lang): string {
+  return lang === "es" ? "/es" : "";
+}
+
+function localizeHref(href: string, lang: Lang): string {
+  if (lang === "en") return href.startsWith("/es") ? href.replace(/^\/es/, "") || "/" : href;
+  if (href.startsWith("/es")) return href;
+  if (href.startsWith("http")) return href;
+  return href === "/" ? "/es/" : `/es${href.startsWith("/") ? "" : "/"}${href}`;
+}
+
+export interface BlogRelatedGroupsInput {
+  lang?: Lang;
+  slug: string;
+  relatedTools?: string[];
+  relatedGuides?: string[];
+  relatedStates?: string[];
+  relatedCities?: string[];
+  relatedLoanTypes?: string[];
+  relatedPropertyTypes?: string[];
+  relatedComparisons?: string[];
+  relatedInvestorProfiles?: string[];
+  relatedBlog?: string[];
+}
+
+export async function buildBlogRelatedGroups(
+  input: BlogRelatedGroupsInput,
+): Promise<RelatedGroup[]> {
+  const lang: Lang = input.lang ?? "en";
+  const L = GROUP_LABELS[lang];
+  const p = langPrefix(lang);
+  const collections =
+    lang === "es"
+      ? {
+          states: await getCollection("esStates"),
+          cities: await getCollection("esCities"),
+          guides: await getCollection("esGuides"),
+          loanTypes: await getCollection("esLoanTypes"),
+          propertyTypes: await getCollection("esPropertyTypes"),
+          comparisons: await getCollection("esComparisons"),
+          investorProfiles: await getCollection("esInvestorProfiles"),
+          blog: await getCollection("esBlog"),
+        }
+      : await loadCollections();
+  const selfBlogHref = withTrailingSlash(`${p}/blog/${input.slug}`);
+
+  const guideBySlug = new Map(
+    collections.guides.map((e) => [e.id.replace(/\.mdx$/, ""), e]),
+  );
+  const stateBySlug = new Map(
+    collections.states.map((e) => [e.id.replace(/\.mdx$/, ""), e]),
+  );
+  const cityBySlug = new Map(
+    collections.cities.map((e) => [e.id.replace(/\.mdx$/, ""), e]),
+  );
+  const loanBySlug = new Map(
+    collections.loanTypes.map((e) => [e.id.replace(/\.mdx$/, ""), e]),
+  );
+  const propertyBySlug = new Map(
+    collections.propertyTypes.map((e) => [e.id.replace(/\.mdx$/, ""), e]),
+  );
+  const comparisonBySlug = new Map(
+    collections.comparisons.map((e) => [e.id.replace(/\.mdx$/, ""), e]),
+  );
+  const profileBySlug = new Map(
+    collections.investorProfiles.map((e) => [e.id.replace(/\.mdx$/, ""), e]),
+  );
+  const blogBySlug = new Map(
+    collections.blog.map((e) => [e.id.replace(/\.mdx$/, ""), e]),
+  );
+
+  const groups: RelatedGroup[] = [];
+  const seen = new Set<string>([selfBlogHref]);
+
+  function pushGroup(
+    key: keyof typeof L,
+    links: RelatedGroupLink[],
+  ) {
+    if (!links.length) return;
+    const meta = L[key] as { label: string; description?: string };
+    const deduped = links.filter((l) => {
+      if (seen.has(l.href)) return false;
+      seen.add(l.href);
+      return true;
+    });
+    if (deduped.length) {
+      groups.push({ label: meta.label, description: meta.description, links: deduped });
+    }
+  }
+
+  const toolLinks: RelatedGroupLink[] = (input.relatedTools ?? [])
+    .map((slug) => slug.replace(/^\/tools\//, "").replace(/\/$/, ""))
+    .map((slug) => {
+      const tool = TOOL_CATALOG.find((t) => t.slug === slug);
+      if (!tool) return null;
+      return {
+        href: withTrailingSlash(`${p}/tools/${tool.slug}`),
+        title: tool.title,
+        description: tool.description,
+        kicker: L.kickers.tool,
+      };
+    })
+    .filter((l): l is RelatedGroupLink => Boolean(l));
+
+  const guideLinks: RelatedGroupLink[] = (input.relatedGuides ?? [])
+    .map((slug) => slug.replace(/^\/learn\//, "").replace(/\/$/, ""))
+    .map((slug) => {
+      const entry = guideBySlug.get(slug);
+      if (!entry) return null;
+      return {
+        href: withTrailingSlash(`${p}/learn/${slug}`),
+        title: entry.data.title,
+        description: entry.data.description,
+        kicker: L.kickers.guide,
+      };
+    })
+    .filter((l): l is RelatedGroupLink => Boolean(l));
+
+  const marketLinks: RelatedGroupLink[] = [
+    ...(input.relatedStates ?? []).map((slug) => {
+      const entry = stateBySlug.get(slug);
+      if (!entry) return null;
+      return {
+        href: withTrailingSlash(`${p}/states/${slug}`),
+        title: entry.data.title,
+        description: entry.data.description,
+        kicker: L.kickers.state,
+      };
+    }),
+    ...(input.relatedCities ?? []).map((slug) => {
+      const entry = cityBySlug.get(slug);
+      if (!entry) return null;
+      return {
+        href: withTrailingSlash(`${p}/cities/${slug}`),
+        title: entry.data.title,
+        description: entry.data.description,
+        kicker: L.kickers.city,
+      };
+    }),
+  ].filter((l): l is RelatedGroupLink => Boolean(l));
+
+  const loanLinks: RelatedGroupLink[] = (input.relatedLoanTypes ?? [])
+    .map((slug) => {
+      const entry = loanBySlug.get(slug);
+      if (!entry) return null;
+      return {
+        href: withTrailingSlash(`${p}/loan-types/${slug}`),
+        title: entry.data.title,
+        description: entry.data.description,
+        kicker: L.kickers["loan-type"],
+      };
+    })
+    .filter((l): l is RelatedGroupLink => Boolean(l));
+
+  const propertyLinks: RelatedGroupLink[] = (input.relatedPropertyTypes ?? [])
+    .map((slug) => {
+      const entry = propertyBySlug.get(slug);
+      if (!entry) return null;
+      return {
+        href: withTrailingSlash(`${p}/property-types/${slug}`),
+        title: entry.data.title,
+        description: entry.data.description,
+        kicker: L.kickers["property-type"],
+      };
+    })
+    .filter((l): l is RelatedGroupLink => Boolean(l));
+
+  const comparisonLinks: RelatedGroupLink[] = (input.relatedComparisons ?? [])
+    .map((slug) => slug.replace(/^\/compare\//, "").replace(/\/$/, ""))
+    .map((slug) => {
+      const entry = comparisonBySlug.get(slug);
+      if (!entry) return null;
+      return {
+        href: withTrailingSlash(`${p}/compare/${slug}`),
+        title: entry.data.title,
+        description: entry.data.description,
+        kicker: L.kickers.comparison,
+      };
+    })
+    .filter((l): l is RelatedGroupLink => Boolean(l));
+
+  const profileLinks: RelatedGroupLink[] = (input.relatedInvestorProfiles ?? [])
+    .map((slug) => slug.replace(/^\/invest\//, "").replace(/\/$/, ""))
+    .map((slug) => {
+      const entry = profileBySlug.get(slug);
+      if (!entry) return null;
+      return {
+        href: withTrailingSlash(`${p}/invest/${slug}`),
+        title: entry.data.title,
+        description: entry.data.description,
+        kicker: L.kickers["investor-profile"],
+      };
+    })
+    .filter((l): l is RelatedGroupLink => Boolean(l));
+
+  const blogLinks: RelatedGroupLink[] = (input.relatedBlog ?? [])
+    .map((value) => {
+      const normalized = value.startsWith("/") ? value : `/blog/${value.replace(/^blog\//, "")}`;
+      const href = localizeHref(
+        normalized.endsWith("/") ? normalized : `${normalized}/`,
+        lang,
+      );
+      const slug = href
+        .replace(/^\/es\/blog\//, "")
+        .replace(/^\/blog\//, "")
+        .replace(/\/$/, "");
+      const entry = blogBySlug.get(slug);
+      if (!entry) return null;
+      return {
+        href,
+        title: entry.data.title,
+        description: entry.data.description,
+        kicker: L.kickers.blog,
+      };
+    })
+    .filter((l): l is RelatedGroupLink => Boolean(l));
+
+  pushGroup("tools", toolLinks);
+  pushGroup("guides", guideLinks);
+  pushGroup("markets", marketLinks);
+  pushGroup("loanTypes", loanLinks);
+  pushGroup("propertyTypes", propertyLinks);
+  pushGroup("comparisons", comparisonLinks);
+  pushGroup("profiles", profileLinks);
+  pushGroup("blog", blogLinks);
+
+  return groups;
 }

@@ -1,0 +1,63 @@
+---
+import LeadForm from "@/components/forms/LeadForm.astro";
+import LanguageSwitcher from "@/components/ui/language-switcher";
+import DefaultLayout from "@/layouts/DefaultLayout.astro";
+
+import { PILLARS } from "../../consts";
+
+const esTitle = "Multi-Family USA — Recurso de financiamiento multifamiliar comercial";
+const esDescription =
+  "Recurso independiente de financiamiento multifamiliar comercial en EE. UU. para propiedades de 5+ unidades. Guías, calculadoras y revisión gratuita de operaciones.";
+---
+
+<DefaultLayout
+  title={esTitle}
+  description={esDescription}
+  canonical="/es/"
+  enPath="/"
+  esPath="/es/"
+>
+  <div class="border-b border-border bg-secondary/30">
+    <div class="container flex items-center justify-between py-2">
+      <p class="text-xs text-muted-foreground">
+        Versión en español · <a href="/" class="underline hover:text-foreground">Ver en inglés</a>
+      </p>
+      <LanguageSwitcher currentLang="es" enPath="/" esPath="/es/" variant="pill" />
+    </div>
+  </div>
+
+  <section class="container py-14 md:py-20">
+    <div class="grid gap-10 lg:grid-cols-2 lg:items-start">
+      <div>
+        <p class="text-xs font-bold uppercase tracking-wider text-accent">Multifamiliar comercial en EE. UU.</p>
+        <h1 class="mt-4 text-4xl font-bold leading-tight md:text-5xl">
+          Suscríbe operaciones multifamiliares con más claridad y compara rutas de financiamiento.
+        </h1>
+        <p class="mt-5 max-w-2xl text-lg text-muted-foreground">
+          Multi-Family USA es un recurso neutral para propiedades de 5+ unidades. Usa las calculadoras,
+          explora cobertura por estado y ciudad, y solicita una revisión gratuita de tu operación.
+        </p>
+        <div class="mt-6 flex flex-wrap gap-3">
+          <a href="/deal-review" class="inline-flex items-center rounded-md bg-accent px-5 py-3 text-sm font-bold text-accent-foreground hover:bg-accent/90">Revisión gratuita</a>
+          <a href="/es/learn" class="inline-flex items-center rounded-md border border-border px-5 py-3 text-sm font-semibold hover:bg-secondary">Explorar guías</a>
+        </div>
+      </div>
+      <LeadForm variant="hero" sourceContext="es-homepage-hero" lang="es" />
+    </div>
+  </section>
+
+  <section class="container py-8">
+    <div class="grid gap-4 md:grid-cols-2 lg:grid-cols-5">
+      {PILLARS.map((pillar) => (
+        <a
+          href={pillar.slug === "markets" ? "/es/states" : `/es/${pillar.slug}`}
+          class="rounded-xl border border-border bg-card p-5 hover:border-accent"
+        >
+          <p class="text-xs font-bold uppercase tracking-wide text-accent">{pillar.tagline}</p>
+          <h2 class="mt-2 text-lg font-bold">{pillar.title}</h2>
+          <p class="mt-2 text-sm text-muted-foreground">{pillar.description}</p>
+        </a>
+      ))}
+    </div>
+  </section>
+</DefaultLayout>

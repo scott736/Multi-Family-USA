@@ -38,10 +38,10 @@ export default defineConfig({
   output: "static",
   adapter: vercel({
     maxDuration: 60,
-    imageService: true,
   }),
-  image: {
-    responsiveStyles: true,
+  build: {
+    // Vercel build machines expose 4 cores; parallelize static page generation.
+    concurrency: 4,
   },
   vite: {
     plugins: [tailwindcss()],

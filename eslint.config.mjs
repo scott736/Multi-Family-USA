@@ -53,6 +53,6 @@ export default [
 
   // Ignore build output
   {
-    ignores: ["node_modules/**", "dist/**", ".astro/**"],
+    ignores: ["node_modules/**", "dist/**", ".astro/**", ".vercel/**"],
   },
 ];

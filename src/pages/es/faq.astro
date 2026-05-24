@@ -1,0 +1,38 @@
+---
+import { buildFaqSchema } from "@/consts";
+import BasicLayout from "@/layouts/BasicLayout.astro";
+
+const faqItems = [
+  {
+    q: "¿Qué tipos de propiedades cubren?",
+    a: "Multi-Family USA cubre multifamiliar comercial en EE. UU. con cinco o más unidades.",
+  },
+  {
+    q: "¿Qué métricas usan los prestamistas?",
+    a: "La mayoría suscribe DSCR, debt yield y apalancamiento en conjunto y dimensiona por la métrica más restrictiva.",
+  },
+];
+
+const faqSchema = buildFaqSchema(faqItems);
+---
+
+<BasicLayout
+  title="Preguntas frecuentes | Multi-Family USA"
+  description="Respuestas sobre suscripción multifamiliar, DSCR, debt yield y ejecución de deuda en EE. UU. para propiedades de 5+ unidades."
+  schema={faqSchema ? [faqSchema] : undefined}
+  canonical="/es/faq"
+  enPath="/faq/"
+  esPath="/es/faq/"
+  crumbs={[
+    { label: "Inicio", href: "/es" },
+    { label: "Preguntas frecuentes", href: "/es/faq" },
+  ]}
+>
+  <h1>Preguntas frecuentes</h1>
+  {faqItems.map((item) => (
+    <>
+      <h3>{item.q}</h3>
+      <p>{item.a}</p>
+    </>
+  ))}
+</BasicLayout>

@@ -1,6 +1,7 @@
 ---
 import "../styles/global.css";
-import { SITE_METADATA } from "../consts";
+import { buildHreflangAlternates, ensureTrailingSlash, pageLangFromPath } from "@/i18n/alternates";
+import { SITE_URL, SITE_METADATA } from "../consts";
 
 interface AlternateLink {
   hreflang: string;
@@ -14,19 +15,55 @@ interface Props {
   noindex?: boolean;
   canonical?: string;
   keywords?: string[];
+  /** Extra alternates (merged with auto hreflang when not disabled). */
   alternates?: AlternateLink[];
+  /** Override English path for hreflang (trailing slash optional). */
+  enPath?: string;
+  /** Override Spanish path for hreflang (trailing slash optional). */
+  esPath?: string;
+  /** When false, omit es-US alternate (page has no Spanish counterpart). */
+  includeSpanish?: boolean;
+  /** When true, skip auto hreflang (caller supplies full alternates). */
+  disableAutoHreflang?: boolean;
 }
 
-const { title, description, image, noindex, canonical, keywords, alternates = [] } = Astro.props;
+const {
+  title,
+  description,
+  image,
+  noindex,
+  canonical,
+  keywords,
+  alternates = [],
+  enPath,
+  esPath,
+  includeSpanish = true,
+  disableAutoHreflang = false,
+} = Astro.props;
 
+const pageLang = pageLangFromPath(Astro.url.pathname);
 const finalTitle = title || SITE_METADATA.title.default;
 const finalDescription = description || SITE_METADATA.description;
 const ogImage = SITE_METADATA.openGraph.images[0];
 const finalImage = image || ogImage.url;
-const canonicalUrl = canonical
-  ? new URL(canonical, Astro.site)
-  : new URL(Astro.url.pathname, Astro.site);
+
+const canonicalPath = canonical
+  ? ensureTrailingSlash(canonical.startsWith("http") ? new URL(canonical).pathname : canonical)
+  : ensureTrailingSlash(Astro.url.pathname);
+
+const canonicalUrl = new URL(canonicalPath, Astro.site);
 const ogImageUrl = new URL(finalImage, Astro.site);
+
+const autoAlternates = disableAutoHreflang
+  ? []
+  : buildHreflangAlternates(SITE_URL, {
+      pathname: Astro.url.pathname,
+      enPath,
+      esPath,
+      includeSpanish,
+    });
+
+const hreflangLinks = disableAutoHreflang ? alternates : [...autoAlternates, ...alternates];
 
 const robotsParts = [
   noindex ? "noindex" : "index",
@@ -52,8 +89,8 @@ const robotsParts = [
 <title>{finalTitle}</title>
 <link rel="canonical" href={canonicalUrl} />
 {
-  alternates.map((alt) => (
-    <link rel="alternate" hreflang={alt.hreflang} href={new URL(alt.href, Astro.site)} />
+  hreflangLinks.map((alt) => (
+    <link rel="alternate" hreflang={alt.hreflang} href={alt.href} />
   ))
 }
 
@@ -66,7 +103,9 @@ const robotsParts = [
 <meta property="og:image:alt" content={ogImage.alt} />
 <meta property="og:url" content={canonicalUrl} />
 <meta property="og:site_name" content={SITE_METADATA.openGraph.siteName} />
-<meta property="og:locale" content={SITE_METADATA.openGraph.locale} />
+<meta property="og:locale" content={pageLang === "es" ? "es_US" : SITE_METADATA.openGraph.locale} />
+{pageLang === "es" && <meta property="og:locale:alternate" content="en_US" />}
+{pageLang === "en" && includeSpanish && <meta property="og:locale:alternate" content="es_US" />}
 
 <meta name="twitter:card" content={SITE_METADATA.twitter.card} />
 <meta name="twitter:site" content={SITE_METADATA.twitter.site} />

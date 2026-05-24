@@ -129,6 +129,46 @@ const blog = defineCollection({
   }),
 });
 
+const esStates = defineCollection({
+  loader: glob({ pattern: "**/*.mdx", base: "./src/content/es-states" }),
+  schema: states.schema,
+});
+
+const esCities = defineCollection({
+  loader: glob({ pattern: "**/*.mdx", base: "./src/content/es-cities" }),
+  schema: cities.schema,
+});
+
+const esGuides = defineCollection({
+  loader: glob({ pattern: "**/*.mdx", base: "./src/content/es-guides" }),
+  schema: guides.schema,
+});
+
+const esLoanTypes = defineCollection({
+  loader: glob({ pattern: "**/*.mdx", base: "./src/content/es-loan-types" }),
+  schema: loanTypes.schema,
+});
+
+const esPropertyTypes = defineCollection({
+  loader: glob({ pattern: "**/*.mdx", base: "./src/content/es-property-types" }),
+  schema: propertyTypes.schema,
+});
+
+const esComparisons = defineCollection({
+  loader: glob({ pattern: "**/*.mdx", base: "./src/content/es-comparisons" }),
+  schema: comparisons.schema,
+});
+
+const esInvestorProfiles = defineCollection({
+  loader: glob({ pattern: "**/*.mdx", base: "./src/content/es-investor-profiles" }),
+  schema: investorProfiles.schema,
+});
+
+const esBlog = defineCollection({
+  loader: glob({ pattern: "**/*.mdx", base: "./src/content/es-blog" }),
+  schema: blog.schema,
+});
+
 export const collections = {
   states,
   cities,
@@ -138,4 +178,12 @@ export const collections = {
   comparisons,
   investorProfiles,
   blog,
+  esStates,
+  esCities,
+  esGuides,
+  esLoanTypes,
+  esPropertyTypes,
+  esComparisons,
+  esInvestorProfiles,
+  esBlog,
 };

@@ -1,0 +1,75 @@
+---
+import { getCollection, render } from "astro:content";
+
+import GuideShell from "@/components/dscr/GuideShell.astro";
+import { buildBlogRelatedGroups } from "@/lib/related-links";
+import { localizedBlogPaths } from "@/i18n/content-locale";
+import { filterPublished } from "@/lib/scheduled-publish";
+
+export async function getStaticPaths() {
+  const entries = filterPublished(await getCollection("esBlog"));
+  return entries.map((entry) => ({
+    params: { slug: entry.id.replace(/\.mdx$/, "") },
+    props: { entry },
+  }));
+}
+
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+const data = entry.data;
+const slug = entry.id.replace(/\.mdx$/, "");
+const canonicalSlug = `/es/blog/${slug}`;
+const relatedGroups = await buildBlogRelatedGroups({
+  lang: "es",
+  slug,
+  relatedTools: data.relatedTools,
+  relatedGuides: data.relatedGuides,
+  relatedStates: data.relatedStates,
+  relatedCities: data.relatedCities,
+  relatedLoanTypes: data.relatedLoanTypes,
+  relatedPropertyTypes: data.relatedPropertyTypes,
+  relatedComparisons: data.relatedComparisons,
+  relatedInvestorProfiles: data.relatedInvestorProfiles,
+  relatedBlog: data.relatedBlog,
+});
+const localePaths = localizedBlogPaths(slug, true);
+---
+
+<GuideShell
+  title={data.title}
+  description={data.description}
+  h1={data.h1 ?? data.title}
+  kicker={data.category ? `Blog · ${data.category}` : "Blog"}
+  lastUpdated={data.lastUpdated?.toISOString().slice(0, 10) ?? "2026-05-24"}
+  publishedDate={data.published?.toISOString().slice(0, 10)}
+  author={data.author}
+  reviewer={data.reviewer}
+  readTime={data.readTime}
+  canonicalSlug={canonicalSlug}
+  keywords={data.keywords}
+  crumbs={[
+    { label: "Inicio", href: "/es" },
+    { label: "Blog", href: "/es/blog" },
+    { label: data.title, href: canonicalSlug },
+  ]}
+  faqs={data.faq}
+  noindex={data.noindex}
+  relatedKind="blog"
+  relatedSlug={slug}
+  relatedCategory={data.category}
+  relatedTools={data.relatedTools}
+  relatedGuides={data.relatedGuides}
+  relatedStates={data.relatedStates}
+  relatedCities={data.relatedCities}
+  relatedLoanTypes={data.relatedLoanTypes}
+  relatedPropertyTypes={data.relatedPropertyTypes}
+  relatedComparisons={data.relatedComparisons}
+  relatedInvestorProfiles={data.relatedInvestorProfiles}
+  relatedBlog={data.relatedBlog}
+  relatedGroups={relatedGroups}
+  enPath={localePaths.enPath}
+  esPath={localePaths.esPath}
+  includeSpanish={localePaths.includeSpanish}
+>
+  <Content />
+</GuideShell>

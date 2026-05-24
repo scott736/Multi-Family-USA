@@ -1,0 +1,33 @@
+---
+import { getCollection } from "astro:content";
+
+import Breadcrumbs from "@/components/dscr/Breadcrumbs.astro";
+import DefaultLayout from "@/layouts/DefaultLayout.astro";
+import { filterPublished } from "@/lib/scheduled-publish";
+
+const posts = filterPublished(await getCollection("esBlog"));
+---
+
+<DefaultLayout
+  title="Blog multifamiliar | Multi-Family USA"
+  description="Actualizaciones de financiamiento multifamiliar y notas de ejecución para operadores en EE. UU."
+  canonical="/es/blog"
+  enPath="/blog/"
+  esPath="/es/blog/"
+>
+  <Breadcrumbs crumbs={[{ label: "Inicio", href: "/es" }, { label: "Blog", href: "/es/blog" }]} />
+  <section class="container py-8">
+    <h1 class="text-4xl font-bold">Blog</h1>
+    <ol class="mt-6 space-y-4">
+      {posts.map((post) => {
+        const slug = post.id.replace(/\.mdx$/, "");
+        return (
+          <li>
+            <a href={`/es/blog/${slug}`} class="font-semibold hover:text-accent">{post.data.title}</a>
+            <p class="text-sm text-muted-foreground">{post.data.description}</p>
+          </li>
+        );
+      })}
+    </ol>
+  </section>
+</DefaultLayout>

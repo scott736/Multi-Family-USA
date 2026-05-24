@@ -2,6 +2,8 @@
 import { getCollection, render } from "astro:content";
 
 import GuideShell from "@/components/dscr/GuideShell.astro";
+import { buildBlogRelatedGroups } from "@/lib/related-links";
+import { localizedBlogPaths } from "@/i18n/content-locale";
 import { filterPublished } from "@/lib/scheduled-publish";
 
 export async function getStaticPaths() {
@@ -17,6 +19,20 @@ const { Content } = await render(entry);
 const data = entry.data;
 const slug = entry.id.replace(/\.mdx$/, "");
 const canonicalSlug = `/blog/${slug}`;
+const relatedGroups = await buildBlogRelatedGroups({
+  lang: "en",
+  slug,
+  relatedTools: data.relatedTools,
+  relatedGuides: data.relatedGuides,
+  relatedStates: data.relatedStates,
+  relatedCities: data.relatedCities,
+  relatedLoanTypes: data.relatedLoanTypes,
+  relatedPropertyTypes: data.relatedPropertyTypes,
+  relatedComparisons: data.relatedComparisons,
+  relatedInvestorProfiles: data.relatedInvestorProfiles,
+  relatedBlog: data.relatedBlog,
+});
+const localePaths = localizedBlogPaths(slug, true);
 ---
 
 <GuideShell
@@ -50,6 +66,10 @@ const canonicalSlug = `/blog/${slug}`;
   relatedComparisons={data.relatedComparisons}
   relatedInvestorProfiles={data.relatedInvestorProfiles}
   relatedBlog={data.relatedBlog}
+  relatedGroups={relatedGroups}
+  enPath={localePaths.enPath}
+  esPath={localePaths.esPath}
+  includeSpanish={localePaths.includeSpanish}
 >
   <Content />
 </GuideShell>

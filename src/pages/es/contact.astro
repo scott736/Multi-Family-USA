@@ -1,0 +1,23 @@
+---
+import { SITE_PHONE, SITE_PHONE_HREF } from "@/consts";
+import BasicLayout from "@/layouts/BasicLayout.astro";
+---
+
+<BasicLayout
+  title="Contacto | Multi-Family USA"
+  description="Contacta a Multi-Family USA para preguntas de financiamiento multifamiliar y seguimiento de revisiones de operaciones."
+  canonical="/es/contact"
+  enPath="/contact/"
+  esPath="/es/contact/"
+  crumbs={[
+    { label: "Inicio", href: "/es" },
+    { label: "Contacto", href: "/es/contact" },
+  ]}
+>
+  <h1>Contacto</h1>
+  <p>¿Necesitas ayuda con un escenario de financiamiento multifamiliar?</p>
+  <ul>
+    <li><a href={SITE_PHONE_HREF}>{SITE_PHONE}</a></li>
+    <li><a href="mailto:scott@lendcity.ca">scott@lendcity.ca</a></li>
+  </ul>
+</BasicLayout>

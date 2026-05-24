@@ -4,7 +4,13 @@ import CtaCard from "@/components/dscr/CtaCard.astro";
 import FaqAccordion from "@/components/dscr/FaqAccordion.astro";
 import RelatedReading from "@/components/dscr/RelatedReading.astro";
 import DefaultLayout from "@/layouts/DefaultLayout.astro";
-import { getRelatedLinks, type ContentKind } from "@/lib/related-links";
+import {
+  buildBlogRelatedGroups,
+  getRelatedLinks,
+  type ContentKind,
+  type RelatedGroup,
+} from "@/lib/related-links";
+import { getLangFromUrl } from "@/i18n/utils";
 
 import { buildFaqSchema, SITE_URL } from "../../consts";
 
@@ -50,6 +56,10 @@ interface Props {
   relatedComparisons?: string[];
   relatedInvestorProfiles?: string[];
   relatedBlog?: string[];
+  relatedGroups?: RelatedGroup[];
+  enPath?: string;
+  esPath?: string;
+  includeSpanish?: boolean;
 }
 
 const {
@@ -84,8 +94,13 @@ const {
   relatedComparisons,
   relatedInvestorProfiles,
   relatedBlog,
+  relatedGroups: relatedGroupsProp,
+  enPath,
+  esPath,
+  includeSpanish,
 } = Astro.props;
 
+const lang = getLangFromUrl(Astro.url);
 const faqList = Array.isArray(faqs) ? faqs : [];
 const canonical = canonicalSlug ? `${SITE_URL}${canonicalSlug}` : undefined;
 const relatedLinks =
@@ -137,6 +152,28 @@ const fallbackBlogRelatedLinks =
 const effectiveRelatedLinks =
   relatedLinks.length > 0 ? relatedLinks : fallbackBlogRelatedLinks;
 
+const blogRelatedGroups =
+  relatedKind === "blog" && !relatedGroupsProp?.length
+    ? await buildBlogRelatedGroups({
+        lang,
+        slug: relatedSlug ?? "",
+        relatedTools,
+        relatedGuides,
+        relatedStates,
+        relatedCities,
+        relatedLoanTypes,
+        relatedPropertyTypes,
+        relatedComparisons,
+        relatedInvestorProfiles,
+        relatedBlog,
+      })
+    : [];
+
+const relatedGroups =
+  relatedGroupsProp && relatedGroupsProp.length > 0
+    ? relatedGroupsProp
+    : blogRelatedGroups;
+
 const articleSchema = {
   "@context": "https://schema.org",
   "@type": "Article",
@@ -165,6 +202,9 @@ const schema = [articleSchema, ...(faqSchema ? [faqSchema] : []), ...extrasArray
   canonical={canonicalSlug}
   keywords={keywords}
   noindex={noindex}
+  enPath={enPath}
+  esPath={esPath}
+  includeSpanish={includeSpanish}
 >
   <Breadcrumbs crumbs={crumbs} />
 
@@ -184,9 +224,12 @@ const schema = [articleSchema, ...(faqSchema ? [faqSchema] : []), ...extrasArray
 
     <div class="prose-dscr lg:col-span-3">
       <slot />
-      {effectiveRelatedLinks.length > 0 && (
+      {(relatedGroups.length > 0 || effectiveRelatedLinks.length > 0) && (
         <div class="my-10 lg:hidden">
-          <RelatedReading links={effectiveRelatedLinks} heading="Related Resources" />
+          <RelatedReading
+            groups={relatedGroups.length > 0 ? relatedGroups : undefined}
+            links={relatedGroups.length > 0 ? undefined : effectiveRelatedLinks}
+          />
         </div>
       )}
       {faqList.length > 0 && (
@@ -200,8 +243,11 @@ const schema = [articleSchema, ...(faqSchema ? [faqSchema] : []), ...extrasArray
     <aside class="hidden lg:block lg:col-span-1">
       <div class="lg:sticky lg:top-24 space-y-6">
         <CtaCard variant="compact" sourceContext={`guide:${canonicalSlug ?? title}`} />
-        {effectiveRelatedLinks.length > 0 && (
-          <RelatedReading links={effectiveRelatedLinks} heading="Related Resources" />
+        {(relatedGroups.length > 0 || effectiveRelatedLinks.length > 0) && (
+          <RelatedReading
+            groups={relatedGroups.length > 0 ? relatedGroups : undefined}
+            links={relatedGroups.length > 0 ? undefined : effectiveRelatedLinks}
+          />
         )}
       </div>
     </aside>

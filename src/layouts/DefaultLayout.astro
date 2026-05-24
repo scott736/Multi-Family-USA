@@ -8,6 +8,8 @@ import { Footer } from "@/components/sections/footer";
 import Navbar from "@/components/sections/navbar.astro";
 import StickyMobileCta from "@/components/sections/sticky-mobile-cta.astro";
 
+import { pageLangFromPath } from "@/i18n/alternates";
+
 import { getBaseSchemas } from "../consts";
 
 interface AlternateLink {
@@ -24,15 +26,32 @@ interface Props {
   canonical?: string;
   keywords?: string[];
   alternates?: AlternateLink[];
+  enPath?: string;
+  esPath?: string;
+  includeSpanish?: boolean;
 }
 
-const { title, description, image, schema, noindex, canonical, keywords, alternates } = Astro.props;
+const {
+  title,
+  description,
+  image,
+  schema,
+  noindex,
+  canonical,
+  keywords,
+  alternates,
+  enPath,
+  esPath,
+  includeSpanish,
+} = Astro.props;
+
+const htmlLang = pageLangFromPath(Astro.url.pathname) === "es" ? "es-US" : "en-US";
 
 const schemaArray = Array.isArray(schema) ? schema : schema ? [schema] : [];
 const allSchemas = [...getBaseSchemas(), ...schemaArray];
 ---
 
-<html lang="en-US">
+<html lang={htmlLang}>
   <head>
     <BaseHead
       title={title}
@@ -42,6 +61,9 @@ const allSchemas = [...getBaseSchemas(), ...schemaArray];
       canonical={canonical}
       keywords={keywords}
       alternates={alternates}
+      enPath={enPath}
+      esPath={esPath}
+      includeSpanish={includeSpanish}
     />
     <script is:inline>
       (() => {

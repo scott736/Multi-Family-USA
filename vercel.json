@@ -1,5 +1,12 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
+  "installCommand": "npm ci --omit=dev --prefer-offline --no-audit --no-fund",
+  "buildCommand": "npm run build",
+  "build": {
+    "env": {
+      "ASTRO_TELEMETRY_DISABLED": "1"
+    }
+  },
   "headers": [
     {
       "source": "/_astro/(.*)",

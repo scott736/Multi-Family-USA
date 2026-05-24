@@ -2,6 +2,7 @@
 import { getCollection, render } from "astro:content";
 
 import GuideShell from "@/components/dscr/GuideShell.astro";
+import { hasSpanishContent, localizedLearnPaths } from "@/i18n/content-locale";
 
 export async function getStaticPaths() {
   const entries = await getCollection("guides");
@@ -16,6 +17,8 @@ const { Content } = await render(entry);
 const data = entry.data;
 const slug = entry.id.replace(/\.mdx$/, "");
 const canonicalSlug = `/learn/${slug}`;
+const hasEs = await hasSpanishContent("guide", slug);
+const localePaths = localizedLearnPaths(slug, hasEs);
 ---
 
 <GuideShell
@@ -49,6 +52,9 @@ const canonicalSlug = `/learn/${slug}`;
   relatedComparisons={data.relatedComparisons}
   relatedInvestorProfiles={data.relatedInvestorProfiles}
   relatedBlog={data.relatedBlog}
+  enPath={localePaths.enPath}
+  esPath={localePaths.esPath}
+  includeSpanish={localePaths.includeSpanish}
 >
   <Content />
 </GuideShell>

@@ -7,14 +7,14 @@ import { sendEmail, escapeHtml } from '@/lib/email';
 import { LEAD_INBOX } from '@/consts';
 import { logger } from '@/lib/logger';
 
-// Brand colors — DSCR Authority
+// Brand colors — Multi-Family USA
 const BRAND_COLOR = '#0F2544'; // Deep navy
 const BRAND_COLOR_DARK = '#0A1B33'; // Darker navy for buttons/links
 const BRAND_COLOR_LIGHT = '#F5B800'; // Amber accent
 
 // Logo URL (must be absolute for emails)
 // Note: Using PNG for email compatibility (WebP not widely supported in email clients)
-const LOGO_URL = 'https://dscrauthority.com/images/layout/logo.png';
+const LOGO_URL = 'https://multifamily-usa.com/images/layout/logo.png';
 
 // Scott and Aya get Cc'd on booking confirmation emails (pre- and post-confirm)
 // and the internal LO notification.
@@ -97,8 +97,8 @@ export async function sendBookingConfirmationEmail(params: BookingConfirmationEm
           <!-- Logo -->
           <tr>
             <td style="padding: 24px 40px; text-align: center; background-color: #ffffff;">
-              <a href="https://dscrauthority.com" style="display: inline-block;">
-                <img src="${LOGO_URL}" alt="DSCR Authority" width="160" style="max-width: 160px; height: auto;" />
+              <a href="https://multifamily-usa.com" style="display: inline-block;">
+                <img src="${LOGO_URL}" alt="Multi-Family USA" width="160" style="max-width: 160px; height: auto;" />
               </a>
             </td>
           </tr>
@@ -218,7 +218,7 @@ export async function sendBookingConfirmationEmail(params: BookingConfirmationEm
                 ${teamMemberName}
               </p>
               <p style="margin: 0; font-size: 12px; color: #9ca3af;">
-                DSCR Authority
+                Multi-Family USA
               </p>
             </td>
           </tr>
@@ -252,7 +252,7 @@ If you didn't request this booking, you can safely ignore this email.
 
 ---
 ${teamMemberName}
-DSCR Authority
+Multi-Family USA
   `.trim();
 
   await sendEmail({
@@ -334,8 +334,8 @@ export async function sendBookingConfirmedEmail(params: BookingConfirmedEmailPar
           <!-- Logo -->
           <tr>
             <td style="padding: 24px 40px; text-align: center; background-color: #ffffff;">
-              <a href="https://dscrauthority.com" style="display: inline-block;">
-                <img src="${LOGO_URL}" alt="DSCR Authority" width="160" style="max-width: 160px; height: auto;" />
+              <a href="https://multifamily-usa.com" style="display: inline-block;">
+                <img src="${LOGO_URL}" alt="Multi-Family USA" width="160" style="max-width: 160px; height: auto;" />
               </a>
             </td>
           </tr>
@@ -440,12 +440,12 @@ export async function sendBookingConfirmedEmail(params: BookingConfirmedEmailPar
                     <table cellpadding="0" cellspacing="0">
                       <tr>
                         <td style="padding-right: 8px;">
-                          <a href="https://dscrauthority.com/book/reschedule?token=${encodeURIComponent(token)}" style="display: inline-block; background-color: ${BRAND_COLOR_DARK}; color: #ffffff; font-size: 13px; font-weight: 500; text-decoration: none; padding: 10px 20px; border-radius: 6px;">
+                          <a href="https://multifamily-usa.com/book/reschedule?token=${encodeURIComponent(token)}" style="display: inline-block; background-color: ${BRAND_COLOR_DARK}; color: #ffffff; font-size: 13px; font-weight: 500; text-decoration: none; padding: 10px 20px; border-radius: 6px;">
                             Reschedule
                           </a>
                         </td>
                         <td>
-                          <a href="https://dscrauthority.com/book/cancel?token=${encodeURIComponent(token)}" style="display: inline-block; background-color: #ffffff; color: #374151; font-size: 13px; font-weight: 500; text-decoration: none; padding: 10px 20px; border-radius: 6px; border: 1px solid #d1d5db;">
+                          <a href="https://multifamily-usa.com/book/cancel?token=${encodeURIComponent(token)}" style="display: inline-block; background-color: #ffffff; color: #374151; font-size: 13px; font-weight: 500; text-decoration: none; padding: 10px 20px; border-radius: 6px; border: 1px solid #d1d5db;">
                             Cancel
                           </a>
                         </td>
@@ -469,7 +469,7 @@ export async function sendBookingConfirmedEmail(params: BookingConfirmedEmailPar
                 ${teamMemberName}
               </p>
               <p style="margin: 0; font-size: 12px; color: #9ca3af;">
-                DSCR Authority
+                Multi-Family USA
               </p>
             </td>
           </tr>
@@ -499,12 +499,12 @@ Use one of these links to add this meeting to your calendar:
 - Apple/iCal: ${calendarLinks.ical}
 
 ${token ? `NEED TO MAKE CHANGES?
-- Reschedule: https://dscrauthority.com/book/reschedule?token=${encodeURIComponent(token)}
-- Cancel: https://dscrauthority.com/book/cancel?token=${encodeURIComponent(token)}` : `Need to reschedule or cancel? Reply to this email and we'll help you out.`}
+- Reschedule: https://multifamily-usa.com/book/reschedule?token=${encodeURIComponent(token)}
+- Cancel: https://multifamily-usa.com/book/cancel?token=${encodeURIComponent(token)}` : `Need to reschedule or cancel? Reply to this email and we'll help you out.`}
 
 ---
 ${teamMemberName}
-DSCR Authority
+Multi-Family USA
   `.trim();
 
   await sendEmail({
@@ -629,7 +629,7 @@ async function sendWelcomeEmail1(params: WelcomeSeriesParams & { scheduledAt: st
         <table width="100%" cellpadding="0" cellspacing="0" style="max-width: 600px; background-color: #ffffff; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
           <tr>
             <td style="padding: 24px 40px; text-align: center;">
-              <a href="https://dscrauthority.com"><img src="${LOGO_URL}" alt="DSCR Authority" width="160" style="max-width: 160px; height: auto;" /></a>
+              <a href="https://multifamily-usa.com"><img src="${LOGO_URL}" alt="Multi-Family USA" width="160" style="max-width: 160px; height: auto;" /></a>
             </td>
           </tr>
           <tr>
@@ -685,7 +685,7 @@ async function sendWelcomeEmail1(params: WelcomeSeriesParams & { scheduledAt: st
             <td style="background-color: #f9fafb; padding: 24px 40px; border-top: 1px solid #e5e7eb;">
               <p style="margin: 0 0 4px; font-size: 14px; color: #374151;">Talk soon,</p>
               <p style="margin: 0 0 4px; font-size: 14px; font-weight: 600; color: #374151;">${escapeHtml(teamMemberName)}</p>
-              <p style="margin: 0; font-size: 12px; color: #9ca3af;">DSCR Authority &middot; <a href="https://dscrauthority.com" style="color: #9ca3af;">dscrauthority.com</a></p>
+              <p style="margin: 0; font-size: 12px; color: #9ca3af;">Multi-Family USA &middot; <a href="https://multifamily-usa.com" style="color: #9ca3af;">multifamily-usa.com</a></p>
             </td>
           </tr>
         </table>
@@ -718,8 +718,8 @@ If anything changes, you can reschedule or cancel from your confirmation email.
 
 Talk soon,
 ${teamMemberName}
-DSCR Authority
-https://dscrauthority.com`.trim();
+Multi-Family USA
+https://multifamily-usa.com`.trim();
 
   return sendEmail({ to, subject, html, text, scheduledAt });
 }
@@ -747,7 +747,7 @@ async function sendWelcomeEmail2(params: WelcomeSeriesParams & { scheduledAt: st
         <table width="100%" cellpadding="0" cellspacing="0" style="max-width: 600px; background-color: #ffffff; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
           <tr>
             <td style="padding: 24px 40px; text-align: center;">
-              <a href="https://dscrauthority.com"><img src="${LOGO_URL}" alt="DSCR Authority" width="160" style="max-width: 160px; height: auto;" /></a>
+              <a href="https://multifamily-usa.com"><img src="${LOGO_URL}" alt="Multi-Family USA" width="160" style="max-width: 160px; height: auto;" /></a>
             </td>
           </tr>
           <tr>
@@ -756,7 +756,7 @@ async function sendWelcomeEmail2(params: WelcomeSeriesParams & { scheduledAt: st
                 Hi ${escapeHtml(guestName)},
               </p>
               <p style="margin: 0 0 24px; font-size: 16px; color: #374151;">
-                Your strategy call is coming up — here's a quick primer on how DSCR loans work, so you can come prepared with the questions that matter most to your deal.
+                Your strategy call is coming up — here's a quick primer on how US commercial multifamily financing works, so you can come prepared with the questions that matter most to your deal.
               </p>
 
               <table width="100%" cellpadding="0" cellspacing="0" style="background-color: #f9fafb; border-radius: 8px; margin-bottom: 12px; border-left: 4px solid ${BRAND_COLOR};">
@@ -764,7 +764,7 @@ async function sendWelcomeEmail2(params: WelcomeSeriesParams & { scheduledAt: st
                   <td style="padding: 16px 20px;">
                     <p style="margin: 0 0 6px; font-size: 15px; font-weight: 600; color: #111827;">Qualify on the property, not your W-2</p>
                     <p style="margin: 0; font-size: 14px; color: #374151; line-height: 1.6;">
-                      DSCR lenders underwrite based on the property's projected rent vs. its debt service — not your personal income. Most borrowers hit 75% LTV with a 1.0+ DSCR; strong files push to 80% LTV.
+                      Multifamily lenders underwrite 5+ unit deals using NOI, DSCR, debt yield, and leverage together — not personal income alone. Proceeds are usually set by whichever metric is most constraining after lender adjustments.
                     </p>
                   </td>
                 </tr>
@@ -786,7 +786,7 @@ async function sendWelcomeEmail2(params: WelcomeSeriesParams & { scheduledAt: st
                   <td style="padding: 16px 20px;">
                     <p style="margin: 0 0 6px; font-size: 15px; font-weight: 600; color: #111827;">Pricing that rewards a strong deal</p>
                     <p style="margin: 0; font-size: 14px; color: #374151; line-height: 1.6;">
-                      Today DSCR loans price roughly 50–150 bps above conventional investment mortgages. FICO 740+, DSCR 1.25+, and 25% down unlock the best rates. We shop the full lender stack so you see the top three — rate, fees, and prepay — side by side.
+                      Agency, bridge, bank, and debt-fund options price differently by business plan and asset quality. Strong files with durable NOI and clear execution timelines usually get faster term sheets and better structure.
                     </p>
                   </td>
                 </tr>
@@ -800,8 +800,8 @@ async function sendWelcomeEmail2(params: WelcomeSeriesParams & { scheduledAt: st
           <tr>
             <td style="background-color: #f9fafb; padding: 24px 40px; border-top: 1px solid #e5e7eb;">
               <p style="margin: 0 0 4px; font-size: 14px; color: #374151;">See you soon,</p>
-              <p style="margin: 0 0 4px; font-size: 14px; font-weight: 600; color: #374151;">The DSCR Authority Team</p>
-              <p style="margin: 0; font-size: 12px; color: #9ca3af;">DSCR Authority &middot; <a href="https://dscrauthority.com" style="color: #9ca3af;">dscrauthority.com</a></p>
+              <p style="margin: 0 0 4px; font-size: 14px; font-weight: 600; color: #374151;">The Multi-Family USA Team</p>
+              <p style="margin: 0; font-size: 12px; color: #9ca3af;">Multi-Family USA &middot; <a href="https://multifamily-usa.com" style="color: #9ca3af;">multifamily-usa.com</a></p>
             </td>
           </tr>
         </table>
@@ -813,22 +813,22 @@ async function sendWelcomeEmail2(params: WelcomeSeriesParams & { scheduledAt: st
 
   const text = `Hi ${guestName},
 
-Your strategy call is coming up — here's a quick primer on how DSCR loans work, so you can come prepared with the questions that matter most to your deal.
+Your strategy call is coming up — here's a quick primer on how US commercial multifamily financing works, so you can come prepared with the questions that matter most to your deal.
 
-QUALIFY ON THE PROPERTY, NOT YOUR W-2:
-DSCR lenders underwrite based on the property's projected rent vs. its debt service — not your personal income. Most borrowers hit 75% LTV with a 1.0+ DSCR; strong files push to 80% LTV.
+UNDERWRITE NOI, DSCR, AND DEBT YIELD TOGETHER:
+Multifamily lenders size 5+ unit deals on property cash flow and leverage constraints. Proceeds are usually set by whichever metric is most binding after lender adjustments.
 
-LLC TITLING, NO FANNIE CAP:
-Close directly in your LLC with a personal guarantee. No 10-property cap. Portfolio lenders routinely do 20, 40, even 100+ loans for the same investor.
+MATCH THE PRODUCT TO THE BUSINESS PLAN:
+Agency, bridge, bank, and debt-fund paths differ on proceeds, flexibility, and timing. Bring in-place and stabilized NOI views plus downside sensitivity to your call.
 
 PRICING THAT REWARDS A STRONG DEAL:
-DSCR loans price roughly 50-150 bps above conventional investment mortgages. FICO 740+, DSCR 1.25+, and 25% down unlock the best rates. We shop the full lender stack so you see the top three side by side.
+Agency, bridge, bank, and debt-fund options price differently by business plan and asset quality. We help you compare rate, fees, prepay, and timing across realistic lender fits.
 
 Every deal is different — that's exactly what we'll dig into on your call. ${teamMemberName} will walk through the options that fit your specific goals.
 
 See you soon,
-The DSCR Authority Team
-https://dscrauthority.com`.trim();
+The Multi-Family USA Team
+https://multifamily-usa.com`.trim();
 
   return sendEmail({ to, subject, html, text, scheduledAt });
 }
@@ -863,7 +863,7 @@ async function sendWelcomeEmail3(params: WelcomeSeriesParams & { scheduledAt: st
         <table width="100%" cellpadding="0" cellspacing="0" style="max-width: 600px; background-color: #ffffff; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
           <tr>
             <td style="padding: 24px 40px; text-align: center;">
-              <a href="https://dscrauthority.com"><img src="${LOGO_URL}" alt="DSCR Authority" width="160" style="max-width: 160px; height: auto;" /></a>
+              <a href="https://multifamily-usa.com"><img src="${LOGO_URL}" alt="Multi-Family USA" width="160" style="max-width: 160px; height: auto;" /></a>
             </td>
           </tr>
           <tr>
@@ -905,7 +905,7 @@ async function sendWelcomeEmail3(params: WelcomeSeriesParams & { scheduledAt: st
             <td style="background-color: #f9fafb; padding: 24px 40px; border-top: 1px solid #e5e7eb;">
               <p style="margin: 0 0 4px; font-size: 14px; color: #374151;">See you shortly,</p>
               <p style="margin: 0 0 4px; font-size: 14px; font-weight: 600; color: #374151;">${escapeHtml(teamMemberName)}</p>
-              <p style="margin: 0; font-size: 12px; color: #9ca3af;">DSCR Authority &middot; <a href="https://dscrauthority.com" style="color: #9ca3af;">dscrauthority.com</a></p>
+              <p style="margin: 0; font-size: 12px; color: #9ca3af;">Multi-Family USA &middot; <a href="https://multifamily-usa.com" style="color: #9ca3af;">multifamily-usa.com</a></p>
             </td>
           </tr>
         </table>
@@ -927,7 +927,7 @@ If you have a property address or any numbers you've been running, have those ha
 
 See you shortly,
 ${teamMemberName}
-DSCR Authority`.trim();
+Multi-Family USA`.trim();
 
   return sendEmail({ to, subject, html, text, scheduledAt });
 }
@@ -1016,8 +1016,8 @@ export async function sendBookingNotificationEmail(params: BookingNotificationEm
           <!-- Logo -->
           <tr>
             <td style="padding: 24px 40px; text-align: center; background-color: #ffffff;">
-              <a href="https://dscrauthority.com" style="display: inline-block;">
-                <img src="${LOGO_URL}" alt="DSCR Authority" width="160" style="max-width: 160px; height: auto;" />
+              <a href="https://multifamily-usa.com" style="display: inline-block;">
+                <img src="${LOGO_URL}" alt="Multi-Family USA" width="160" style="max-width: 160px; height: auto;" />
               </a>
             </td>
           </tr>
@@ -1153,7 +1153,7 @@ export async function sendBookingNotificationEmail(params: BookingNotificationEm
           <tr>
             <td style="background-color: #f9fafb; padding: 24px 40px; text-align: center; border-top: 1px solid #e5e7eb;">
               <p style="margin: 0; font-size: 12px; color: #9ca3af;">
-                DSCR Authority &middot; Booking Notification
+                Multi-Family USA &middot; Booking Notification
               </p>
             </td>
           </tr>
@@ -1186,7 +1186,7 @@ BOOKING DETAILS:
 ${meetingLink ? `- Video Call: ${meetingLink}` : ''}
 
 ---
-DSCR Authority - Booking Notification
+Multi-Family USA - Booking Notification
   `.trim();
 
   await sendEmail({
