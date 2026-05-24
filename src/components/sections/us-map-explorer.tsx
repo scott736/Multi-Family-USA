@@ -379,11 +379,11 @@ const DetailPanel = ({
           </div>
           <CardDescription className="text-sm">
             {isEs
-              ? `Resumen de préstamos DSCR para ${region.stateName} — ${
+              ? `Resumen de financiación multifamiliar comercial (5+ unidades) en ${region.stateName} — ${
                   region.topMarkets?.slice(0, 3).join(', ') ??
                   'cobertura en todo el estado'
                 }.`
-              : `DSCR lending snapshot for ${region.stateName} — ${
+              : `Commercial multifamily financing snapshot for ${region.stateName} (5+ units) — ${
                   region.topMarkets?.slice(0, 3).join(', ') ??
                   'statewide coverage'
                 }.`}
@@ -455,8 +455,8 @@ const DetailPanel = ({
             style={{ color }}
           >
             {isEs
-              ? `Leer la guía DSCR completa de ${region.stateName}`
-              : `Read the full ${region.stateName} DSCR guide`}
+              ? `Leer la guía comercial completa de ${region.stateName}`
+              : `Read the full ${region.stateName} commercial multifamily guide`}
             <ArrowRight className="size-4" />
           </a>
         </CardFooter>
@@ -506,13 +506,13 @@ const UsMapExplorer = ({
           </p>
           <h2 className="text-3xl font-bold leading-tight tracking-tight md:text-4xl">
             {isEs
-              ? 'Préstamos DSCR en cada estado — haz clic para explorar'
-              : 'DSCR loans in every state — click to explore'}
+              ? 'Financiación multifamiliar comercial por estado — haz clic para explorar'
+              : 'Commercial multifamily financing by state — click to explore'}
           </h2>
           <p className="text-base text-muted-foreground md:text-lg">
             {isEs
-              ? 'Los impuestos a la propiedad, los plazos de ejecución hipotecaria, el control de rentas y las reglas de PPP varían dramáticamente según el estado. Haz clic en cualquier estado para ver su resumen de préstamos DSCR y la guía completa para inversionistas.'
-              : 'Property taxes, foreclosure timelines, rent control, and PPP rules vary dramatically by state. Click any state for its DSCR lending snapshot and the full investor guide.'}
+              ? 'Impuestos, plazos de ejecución hipotecaria, postura legal y dinámica de NOI/cap rate varían por estado. Haz clic en cualquier estado para ver bandas de mercado, contexto de suscripción comercial y la guía de ejecución para propiedades de 5+ unidades.'
+              : 'Tax posture, foreclosure timelines, legal context, and NOI/cap-rate dynamics vary by state. Click any state for market bands, commercial underwriting context, and the 5+ unit execution guide.'}
           </p>
         </div>
 
@@ -532,8 +532,8 @@ const UsMapExplorer = ({
                 role="img"
                 aria-label={
                   isEs
-                    ? 'Mapa interactivo de los Estados Unidos que muestra la cobertura de préstamos DSCR por estado'
-                    : 'Interactive map of the United States showing DSCR loan coverage by state'
+                    ? 'Mapa interactivo de los Estados Unidos con financiación multifamiliar comercial por estado'
+                    : 'Interactive map of the United States showing commercial multifamily financing by state'
                 }
               >
                 <defs>
@@ -728,8 +728,8 @@ const UsMapExplorer = ({
                       <MapPin className="mb-4 size-10 text-muted-foreground opacity-40" />
                       <p className="max-w-xs text-base text-muted-foreground">
                         {isEs
-                          ? 'Haz clic en cualquier estado del mapa para ver su resumen de préstamos DSCR — impuestos, plazos de ejecución hipotecaria, control de rentas y mercados principales.'
-                          : 'Click any state on the map to see its DSCR lending snapshot — taxes, foreclosure timeline, rent control, and top markets.'}
+                          ? 'Haz clic en cualquier estado del mapa para ver bandas de cap rate, contexto de suscripción comercial (NOI, DSCR, debt yield, LTV) y mercados principales.'
+                          : 'Click any state on the map for cap-rate bands, commercial underwriting context (NOI, DSCR, debt yield, LTV), and top markets.'}
                       </p>
                     </CardContent>
                   </Card>

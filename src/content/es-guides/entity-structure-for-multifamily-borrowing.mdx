@@ -1,8 +1,8 @@
 ---
-title: Entity Structure for Multifamily Borrowing
-description: Entity structure, LLC borrowing, guarantor frameworks, and vesting considerations
-  for US commercial multifamily financing on 5+ unit assets.
-h1: Entity Structure for Multifamily Borrowing
+title: Estructura de entidades para préstamos multifamiliares
+description: Estructura de entidades, préstamos a LLC, marcos de garantía y consideraciones
+  de titularidad para financiamiento multifamiliar comercial de 5+ unidades en EE. UU.
+h1: Estructura de entidades para préstamos multifamiliares
 category: execution
 author: Equipo editorial Multi-Family USA
 reviewer: Scott Dillingham
@@ -10,23 +10,25 @@ readTime: 10
 lastUpdated: 2026-05-24
 published: 2026-05-24
 keywords:
-- multifamily entity structure
-- llc borrowing
-- guarantor framework
-- spe multifamily
-- borrowing entity
+- estructura de entidad multifamiliar
+- préstamo a llc
+- marco de garantía
+- spe multifamiliar
+- entidad prestataria
 faq:
-- q: Should multifamily investors always borrow through an LLC?
-  a: Most commercial multifamily lenders expect a dedicated borrowing entity, often
-    an LLC or single-purpose entity (SPE). Personal-name borrowing is uncommon for
-    5+ unit commercial executions.
-- q: Who typically serves as guarantor on nonrecourse multifamily debt?
-  a: Sponsors with meaningful ownership usually provide carve-out or springing recourse
-    guarantees. Exact guarantor scope depends on lender, product, and sponsorship
-    strength.
-- q: When should entity structure be finalized?
-  a: Before term sheet negotiation. Late changes to ownership, manager authority, or
-    vesting can delay legal review and create document conflicts at closing.
+- q: ¿Los inversionistas multifamiliares siempre deben pedir prestado a través de una LLC?
+  a: La mayoría de los prestamistas multifamiliares comerciales esperan una entidad
+    prestataria dedicada, a menudo una LLC o una entidad de propósito único (SPE).
+    Pedir prestado a nombre personal es poco común en ejecuciones comerciales de 5+
+    unidades.
+- q: ¿Quién suele actuar como garante en deuda multifamiliar sin recurso?
+  a: Los patrocinadores con participación significativa suelen otorgar garantías de
+    carve-out o recurso springing. El alcance exacto del garante depende del prestamista,
+    del producto y de la fortaleza del patrocinio.
+- q: ¿Cuándo debe finalizarse la estructura de la entidad?
+  a: Antes de negociar la hoja de términos. Cambios tardíos en titularidad, autoridad
+    del manager o vesting pueden retrasar la revisión legal y generar conflictos
+    documentales al cierre.
 relatedTools:
 - loan-sizing-calculator
 - commercial-dscr-calculator
@@ -40,106 +42,106 @@ relatedLoanTypes:
 - bridge-value-add
 ---
 
-> **Nota editorial:** Metadatos en español para esta guía. El cuerpo se está localizando; la [versión en inglés](/learn/entity-structure-for-multifamily-borrowing/) sigue siendo la referencia editorial más actualizada.
-
-
 import KeyTakeaways from "@/components/dscr/KeyTakeaways.astro";
+import LegalDisclaimer from "@/components/LegalDisclaimer.astro";
 
-## Introduction
+## Introducción
 
-Entity structure is one of the first underwriting filters in US commercial multifamily financing. Lenders evaluate not only property cash flow but also who borrows, who guarantees, and whether the legal stack supports enforceable covenants on 5+ unit assets.
+La estructura de la entidad es uno de los primeros filtros de suscripción en el financiamiento multifamiliar comercial en EE. UU. Los prestamistas evalúan no solo el flujo de caja de la propiedad, sino también quién pide prestado, quién garantiza y si la estructura legal respalda convenios exigibles en activos de 5+ unidades.
 
-This guide explains how sponsors typically structure borrowing entities, guarantor roles, and ownership vesting so loan documents align with the capital stack from day one.
+Esta guía explica cómo los patrocinadores suelen estructurar entidades prestataras, roles de garantes y titularidad para que los documentos del préstamo se alineen con el capital stack desde el primer día.
+
+<LegalDisclaimer locale="es" />
 
 <KeyTakeaways
   points={[
-    "Commercial multifamily lenders usually require a dedicated borrowing entity, not personal-title financing.",
-    "Guarantor scope and liquidity are core credit inputs, even on nonrecourse structures.",
-    "SPE requirements affect how you hold cash, manage reserves, and report to lenders post-close.",
-    "Entity changes after term sheet signing often delay closing and can trigger re-underwriting.",
-    "Align legal, tax, and lender counsel early so ownership waterfalls match loan documents.",
+    "Los prestamistas multifamiliares comerciales suelen exigir una entidad prestataria dedicada, no financiamiento a título personal.",
+    "El alcance del garante y la liquidez son insumos crediticios centrales, incluso en estructuras sin recurso.",
+    "Los requisitos SPE afectan cómo se mantiene el efectivo, las reservas y el reporte al prestamista después del cierre.",
+    "Los cambios de entidad después de firmar la hoja de términos suelen retrasar el cierre y pueden provocar nueva suscripción.",
+    "Alinee asesoría legal, fiscal y del prestamista desde el inicio para que los waterfalls de propiedad coincidan con los documentos del préstamo.",
   ]}
 />
 
-## Borrowing entity basics
+## Fundamentos de la entidad prestataria
 
-Most agency, bridge, bank, and debt-fund executions use a limited liability company (LLC) or single-purpose entity (SPE) as the borrower. The entity holds title (or leasehold interest), receives loan proceeds, and signs loan documents.
+La mayoría de las ejecuciones agency, bridge, bancarias y de debt funds utilizan una sociedad de responsabilidad limitada (LLC) o una SPE como prestatario. La entidad tiene el título (o interés de arrendamiento), recibe los fondos del préstamo y firma los documentos.
 
-Lenders prefer structures that:
+Los prestamistas prefieren estructuras que:
 
-- Limit cross-collateralization with unrelated assets unless portfolio lending is explicit.
-- Provide clear manager authority to execute loan covenants and reporting obligations.
-- Support cash-management and reserve controls required by the loan agreement.
+- Limiten la garantía cruzada con activos no relacionados, salvo préstamos de cartera explícitos.
+- Definan con claridad la autoridad del manager para cumplir convenios y obligaciones de reporte.
+- Permitan controles de cash management y reservas exigidos por el contrato de préstamo.
 
-For acquisitions, confirm the borrowing entity is formed and in good standing before lender submission. For refinances, verify the existing entity still matches title, tax reporting, and insurance records.
+En adquisiciones, confirme que la entidad prestataria esté constituida y al día antes de enviar al prestamista. En refinanciamientos, verifique que la entidad existente siga coincidiendo con título, reporte fiscal y seguros.
 
-## Guarantor framework
+## Marco de garantías
 
-Even on nonrecourse multifamily debt, sponsors usually provide guaranties for certain "bad acts" (often called carve-out or springing recourse). Full recourse may apply on some bank or transitional products.
+Incluso en deuda multifamiliar sin recurso, los patrocinadores suelen otorgar garantías por ciertos “bad acts” (a menudo carve-out o recurso springing). El recurso pleno puede aplicarse en algunos productos bancarios o transicionales.
 
-Credit teams typically evaluate guarantors on:
+Los equipos de crédito suelen evaluar a los garantes en:
 
-- Multifamily track record and relevant asset experience.
-- Liquidity to support reserves, capex, and short-term operating variance.
-- Net worth relative to loan size and portfolio exposure.
-- Organizational stability and willingness to provide ongoing reporting.
+- Historial multifamiliar y experiencia relevante en el activo.
+- Liquidez para reservas, capex y variación operativa a corto plazo.
+- Patrimonio neto frente al tamaño del préstamo y exposición de cartera.
+- Estabilidad organizacional y disposición a reportar de forma continua.
 
-If multiple partners share ownership, define which individuals guarantee and at what ownership threshold guaranties apply. Ambiguity here is a common source of late-stage closing delays.
+Si varios socios comparten la propiedad, defina qué personas garantizan y a partir de qué umbral de participación aplican las garantías. La ambigüedad aquí es una causa frecuente de retrasos al cierre.
 
-## SPE and cash-management requirements
+## Requisitos SPE y cash management
 
-Agency and many permanent lenders impose SPE covenants: separate books, dedicated bank accounts, limits on commingled assets, and restrictions on additional debt or transfers without consent.
+Agency y muchos prestamistas permanentes imponen convenios SPE: libros separados, cuentas bancarias dedicadas, límites a la mezcla de activos y restricciones a deuda o transferencias adicionales sin consentimiento.
 
-Before closing, confirm your operating agreement and property management setup can comply with:
+Antes del cierre, confirme que el operating agreement y la administración de la propiedad puedan cumplir con:
 
-- Required reserve and escrow accounts.
-- Monthly or quarterly lender reporting formats.
-- Restrictions on distributions when covenant headroom is thin.
-- Consent requirements for major leases, capex, or ownership changes.
+- Cuentas de reserva y escrow requeridas.
+- Formatos de reporte mensual o trimestral al prestamista.
+- Restricciones a distribuciones cuando el margen de convenio es estrecho.
+- Consentimientos para arrendamientos importantes, capex o cambios de titularidad.
 
-Violating SPE covenants post-close can trigger default remedies even when NOI is stable.
+Violar convenios SPE después del cierre puede activar remedios de incumplimiento aunque el NOI sea estable.
 
-## Ownership vesting and capital stack alignment
+## Titularidad y alineación del capital stack
 
-Loan documents must reflect actual ownership and control. Common issues include:
+Los documentos del préstamo deben reflejar la titularidad y el control reales. Problemas frecuentes:
 
-- New partners added after term sheet without lender consent workflow.
-- Manager authority that does not match who will sign closing documents.
-- Equity waterfalls that conflict with cash-management or distribution covenants.
-- Related-party management agreements that need lender review.
+- Nuevos socios incorporados después de la hoja de términos sin flujo de consentimiento del prestamista.
+- Autoridad del manager que no coincide con quien firmará al cierre.
+- Waterfalls de equity que chocan con convenios de cash management o distribución.
+- Contratos de administración entre partes relacionadas que requieren revisión del prestamista.
 
-Provide an organizational chart from ultimate beneficial owners through the borrowing entity. If joint ventures include promote structures or preferred equity, share summary terms with lender counsel early.
+Entregue un organigrama desde los beneficiarios finales hasta la entidad prestataria. Si el joint venture incluye promote o equity preferente, comparta un resumen de términos con el asesor del prestamista desde el inicio.
 
-## Entity structure by transaction type
+## Estructura por tipo de transacción
 
-### Stabilized acquisition
+### Adquisición estabilizada
 
-A clean LLC borrower with experienced guarantors and straightforward ownership is usually sufficient. Focus on good-standing certificates, operating agreement authority, and insurance naming the entity.
+Suele bastar una LLC prestataria limpia con garantes experimentados y titularidad sencilla. Enfóquese en certificados de buena reputación, autoridad en el operating agreement y seguros a nombre de la entidad.
 
-### Value-add or bridge acquisition
+### Adquisición value-add o bridge
 
-Lenders may scrutinize capex funding sources, completion guarantees, and whether the entity can hold construction reserves. Confirm the entity permits the business plan and that management is in place before closing.
+Los prestamistas pueden revisar fuentes de capex, garantías de terminación y si la entidad puede mantener reservas de construcción. Confirme que la entidad permita el plan de negocio y que la administración esté lista antes del cierre.
 
-### Refinance or cash-out
+### Refinanciamiento o cash-out
 
-Existing entity records must reconcile with prior loan files. Provide historical reporting samples, reserve reconciliations, and explanation of any ownership or management changes since the prior close.
+Los registros de la entidad existente deben conciliar con el archivo del préstamo anterior. Incluya muestras de reportes históricos, conciliación de reservas y explicación de cambios de titularidad o administración desde el cierre previo.
 
-## Practical checklist before lender submission
+## Lista práctica antes de enviar al prestamista
 
-1. Confirm borrowing entity formation, EIN, and good standing.
-2. Finalize guarantor list and obtain authorization for background and credit review.
-3. Prepare organizational chart and operating agreement excerpts showing manager authority.
-4. Verify property management agreement and insurance certificates name the correct entity.
-5. Align tax advisors on depreciation, distribution timing, and hold-period strategy.
+1. Confirme constitución, EIN y buena reputación de la entidad prestataria.
+2. Finalice la lista de garantes y obtenga autorización para antecedentes y crédito.
+3. Prepare organigrama y extractos del operating agreement con autoridad del manager.
+4. Verifique contrato de administración y certificados de seguro a nombre correcto.
+5. Alinee asesores fiscales sobre depreciación, distribuciones y estrategia de tenencia.
 
-Use the [lender document checklist](/checklists/lender-document-checklist/) to assemble the full submission package.
+Use la [lista de documentos para prestamistas](/es/checklists/lista-documentos-prestamista/) para armar el paquete completo.
 
-## Common mistakes to avoid
+## Errores frecuentes
 
-- Forming the borrowing entity after term sheet without updating lender counsel.
-- Assuming nonrecourse means no guarantor diligence or liquidity requirements.
-- Commingling property cash with unrelated ventures before SPE accounts are established.
-- Adding silent partners or changing vesting without lender consent planning.
-- Treating entity setup as a post-closing task instead of a credit-readiness step.
+- Constituir la entidad prestataria después de la hoja de términos sin actualizar al asesor del prestamista.
+- Asumir que “sin recurso” implica ausencia de diligencia o requisitos de liquidez del garante.
+- Mezclar efectivo de la propiedad con otros negocios antes de abrir cuentas SPE.
+- Incorporar socios silenciosos o cambiar vesting sin plan de consentimiento del prestamista.
+- Tratar la configuración de la entidad como tarea posterior al cierre en lugar de requisito crediticio.
 
-This content is educational and should be combined with transaction-specific advice from financing, legal, tax, and accounting professionals.
+<LegalDisclaimer locale="es" compact />

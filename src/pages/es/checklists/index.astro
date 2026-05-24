@@ -1,0 +1,79 @@
+---
+import Breadcrumbs from "@/components/dscr/Breadcrumbs.astro";
+import DefaultLayout from "@/layouts/DefaultLayout.astro";
+---
+
+<DefaultLayout
+  title="Listas de verificación y plantillas multifamiliares | Multi-Family USA"
+  description="Listas de verificación y plantillas gratuitas para adquisiciones, refinanciamientos y suscripción lista para prestamistas en multifamiliar comercial de 5+ unidades en EE. UU."
+  canonical="/es/checklists"
+  enPath="/checklists/"
+  esPath="/es/checklists/"
+>
+  <Breadcrumbs
+    crumbs={[
+      { label: "Inicio", href: "/es" },
+      { label: "Listas de verificación", href: "/es/checklists" },
+    ]}
+  />
+  <section class="container py-12">
+    <h1 class="text-4xl font-bold">Listas de verificación y plantillas multifamiliares</h1>
+    <p class="mt-3 max-w-3xl text-muted-foreground">
+      Recursos prácticos para financiamiento multifamiliar comercial de 5+ unidades en EE. UU.
+      Use estas páginas para mejorar la calidad de suscripción, la comunicación con prestamistas
+      y la disciplina de ejecución.
+    </p>
+    <div class="mt-6 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+      <a
+        href="/es/checklists/lista-documentos-prestamista"
+        class="rounded-lg border border-border bg-card p-5 hover:border-accent"
+      >
+        <h2 class="text-xl font-bold">Lista de documentos para prestamistas</h2>
+        <p class="mt-2 text-sm text-muted-foreground">
+          Lista previa al envío para patrocinio, entidad, finanzas de la propiedad y paquetes
+          de refinanciamiento antes de solicitar hojas de términos.
+        </p>
+      </a>
+      <a
+        href="/checklists/pro-forma-template"
+        class="rounded-lg border border-border bg-card p-5 hover:border-accent"
+      >
+        <h2 class="text-xl font-bold">Plantilla de pro forma multifamiliar</h2>
+        <p class="mt-2 text-sm text-muted-foreground">
+          Marco de suscripción con vistas in-place y estabilizadas de NOI, escenarios de
+          dimensionamiento de deuda y pruebas de estrés de refinanciamiento. (Versión en inglés)
+        </p>
+      </a>
+      <a
+        href="/checklists/due-diligence-checklist"
+        class="rounded-lg border border-border bg-card p-5 hover:border-accent"
+      >
+        <h2 class="text-xl font-bold">Lista de due diligence</h2>
+        <p class="mt-2 text-sm text-muted-foreground">
+          Marco de preparación al cierre: legal, operativo, físico, arrendamientos y financiamiento.
+          (Versión en inglés)
+        </p>
+      </a>
+    </div>
+
+    <div id="antes-de-aplicar" class="mt-10 max-w-3xl rounded-lg border border-border bg-card p-6">
+      <h2 class="text-2xl font-bold">Antes de solicitar financiamiento</h2>
+      <ol class="mt-3 list-decimal space-y-2 pl-5 text-sm text-muted-foreground">
+        <li>Parta de datos operativos in-place y evite supuestos sin soporte.</li>
+        <li>Ejecute casos base y adversos de suscripción antes de pedir cotizaciones.</li>
+        <li>Use la lista para asignar responsables y fechas a cada flujo de diligencia.</li>
+        <li>Mantenga la documentación actualizada hasta el cierre y en el reporte post-cierre.</li>
+      </ol>
+    </div>
+
+    <div class="mt-10 max-w-3xl rounded-lg border border-border bg-card p-6">
+      <h2 class="text-2xl font-bold">Cómo usar estos recursos</h2>
+      <ol class="mt-3 list-decimal space-y-2 pl-5 text-sm text-muted-foreground">
+        <li>Comience con su operación in-place y evite supuestos no respaldados.</li>
+        <li>Ejecute escenarios base y adversos antes de solicitar cotizaciones.</li>
+        <li>Asigne responsables y fechas límite a cada flujo de trabajo de diligencia.</li>
+        <li>Mantenga la documentación vigente desde el cierre y durante el reporte al prestamista.</li>
+      </ol>
+    </div>
+  </section>
+</DefaultLayout>

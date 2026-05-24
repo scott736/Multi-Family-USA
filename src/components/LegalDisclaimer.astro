@@ -1,0 +1,35 @@
+---
+import Callout from "@/components/Callout.astro";
+
+interface Props {
+  locale?: "en" | "es";
+  compact?: boolean;
+}
+
+const { locale = "en", compact = false } = Astro.props;
+
+const copy =
+  locale === "es"
+    ? {
+        title: "Aviso legal y profesional",
+        body: "Este contenido describe prácticas habituales del mercado con fines educativos. No constituye asesoramiento legal, fiscal ni de inversión. Antes de constituir entidades, designar garantes, estructurar participaciones o firmar documentos de préstamo, debe consultar a su propio abogado calificado y a profesionales fiscales y contables adecuados para obtener asesoramiento específico de su transacción.",
+        compact:
+          "Contenido educativo únicamente. No es asesoramiento legal, fiscal ni de inversión. Consulte a su propio abogado y a profesionales fiscales y contables antes de actuar.",
+      }
+    : {
+        title: "Legal and professional notice",
+        body: "This content describes common market practice for educational purposes only. It is not legal, tax, or investment advice. Before forming entities, naming guarantors, structuring ownership, or signing loan documents, you must consult your own qualified legal counsel and appropriate tax and accounting professionals for advice specific to your transaction.",
+        compact:
+          "Educational content only—not legal, tax, or investment advice. Consult your own legal counsel and tax and accounting professionals before acting.",
+      };
+---
+
+{
+  compact ? (
+    <p class="mt-8 text-sm leading-relaxed text-muted-foreground">{copy.compact}</p>
+  ) : (
+    <Callout type="warn" title={copy.title}>
+      <p>{copy.body}</p>
+    </Callout>
+  )
+}
