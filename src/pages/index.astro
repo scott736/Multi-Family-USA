@@ -1,0 +1,53 @@
+---
+import LeadForm from "@/components/forms/LeadForm.astro";
+import DefaultLayout from "@/layouts/DefaultLayout.astro";
+
+import { PILLARS, SITE_DESCRIPTION, SITE_TITLE } from "../consts";
+---
+
+<DefaultLayout title={SITE_TITLE} description={SITE_DESCRIPTION}>
+  <section class="container py-14 md:py-20">
+    <div class="grid gap-10 lg:grid-cols-2 lg:items-start">
+      <div>
+        <p class="text-xs font-bold uppercase tracking-wider text-accent">US Commercial Multifamily</p>
+        <h1 class="mt-4 text-4xl font-bold leading-tight md:text-5xl">
+          Underwrite smarter multifamily deals and compare financing paths with confidence.
+        </h1>
+        <p class="mt-5 max-w-2xl text-lg text-muted-foreground">
+          Multi-Family USA is a neutral resource for 5+ unit properties. Use the calculator suite,
+          explore state and city coverage, and request a free deal review for agency, bridge, bank,
+          and debt-fund executions.
+        </p>
+        <div class="mt-6 flex flex-wrap gap-3">
+          <a href="/deal-review" class="inline-flex items-center rounded-md bg-accent px-5 py-3 text-sm font-bold text-accent-foreground hover:bg-accent/90">Free Deal Review</a>
+          <a href="/tools" class="inline-flex items-center rounded-md border border-border px-5 py-3 text-sm font-semibold hover:bg-secondary">Explore Tools</a>
+        </div>
+      </div>
+      <LeadForm variant="hero" sourceContext="homepage-hero" />
+    </div>
+  </section>
+
+  <section class="container py-8">
+    <div class="grid gap-4 md:grid-cols-2 lg:grid-cols-5">
+      {PILLARS.map((pillar) => (
+        <a href={pillar.slug === "markets" ? "/states" : `/${pillar.slug}`} class="rounded-xl border border-border bg-card p-5 hover:border-accent">
+          <p class="text-xs font-bold uppercase tracking-wide text-accent">{pillar.tagline}</p>
+          <h2 class="mt-2 text-lg font-bold">{pillar.title}</h2>
+          <p class="mt-2 text-sm text-muted-foreground">{pillar.description}</p>
+        </a>
+      ))}
+    </div>
+  </section>
+
+  <section class="container py-10">
+    <div class="rounded-xl border border-border bg-card p-6 md:p-8">
+      <h2 class="text-2xl font-bold">What you can do here</h2>
+      <ul class="mt-4 grid gap-3 text-sm text-muted-foreground md:grid-cols-2">
+        <li>Model NOI, cap rate, debt yield, commercial DSCR, cash-on-cash, and loan sizing.</li>
+        <li>Review market-level underwriting context across all 50 states plus DC.</li>
+        <li>Compare agency vs bridge, bank vs debt fund, and fixed vs floating structures.</li>
+        <li>Send your rent roll assumptions for a free deal review and lender-fit recommendation.</li>
+      </ul>
+    </div>
+  </section>
+</DefaultLayout>

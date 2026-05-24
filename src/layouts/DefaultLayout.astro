@@ -1,0 +1,65 @@
+---
+import Analytics from "@vercel/analytics/astro";
+
+import { AnalyticsTracker } from "@/components/analytics/AnalyticsTracker";
+import BaseHead from "@/components/BaseHead.astro";
+import TopBanner from "@/components/sections/banner.astro";
+import { Footer } from "@/components/sections/footer";
+import Navbar from "@/components/sections/navbar.astro";
+import StickyMobileCta from "@/components/sections/sticky-mobile-cta.astro";
+
+import { getBaseSchemas } from "../consts";
+
+interface Props {
+  title?: string;
+  description?: string;
+  image?: string;
+  schema?: Record<string, unknown> | Array<Record<string, unknown>>;
+  noindex?: boolean;
+  canonical?: string;
+  keywords?: string[];
+}
+
+const { title, description, image, schema, noindex, canonical, keywords } = Astro.props;
+
+const schemaArray = Array.isArray(schema) ? schema : schema ? [schema] : [];
+const allSchemas = [...getBaseSchemas(), ...schemaArray];
+---
+
+<html lang="en-US">
+  <head>
+    <BaseHead
+      title={title}
+      description={description}
+      image={image}
+      noindex={noindex}
+      canonical={canonical}
+      keywords={keywords}
+    />
+    <script is:inline>
+      (() => {
+        try {
+          const saved = localStorage.getItem("theme");
+          const dark = saved
+            ? saved === "dark"
+            : window.matchMedia("(prefers-color-scheme: dark)").matches;
+          document.documentElement.classList.toggle("dark", dark);
+        } catch {}
+      })();
+    </script>
+    {
+      allSchemas.map((s) => (
+        <script type="application/ld+json" set:html={JSON.stringify(s)} />
+      ))
+    }
+  </head>
+  <body class="min-h-screen antialiased">
+    <TopBanner />
+    <Navbar currentPath={Astro.url.pathname} />
+    <main data-pagefind-body><slot /></main>
+    <Footer currentPath={Astro.url.pathname} />
+    <StickyMobileCta currentPath={Astro.url.pathname} />
+    <AnalyticsTracker client:load />
+    <Analytics />
+  </body>
+</html>

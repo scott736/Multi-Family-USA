@@ -1,0 +1,42 @@
+---
+import { getCollection } from "astro:content";
+
+import Breadcrumbs from "@/components/dscr/Breadcrumbs.astro";
+import CtaCard from "@/components/dscr/CtaCard.astro";
+import DefaultLayout from "@/layouts/DefaultLayout.astro";
+
+const entries = await getCollection("propertyTypes");
+---
+
+<DefaultLayout title="Property-type underwriting guides | Multi-Family USA" description="Coverage by multifamily asset class and unit count.">
+  <Breadcrumbs crumbs={[
+    { label: "Home", href: "/" },
+    { label: "Property Types", href: "/property-types" },
+  ]} />
+
+  <section class="container py-8">
+    <p class="text-xs font-bold uppercase tracking-wider text-accent">Property Types</p>
+    <h1 class="mt-2 text-4xl font-bold lg:text-5xl">Property-type underwriting guides</h1>
+    <p class="mt-4 max-w-3xl text-lg text-muted-foreground">Coverage by multifamily asset class and unit count.</p>
+  </section>
+
+  <section class="container py-4">
+    <div class="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+      {entries
+        .sort((a, b) => (a.data.title ?? "").localeCompare(b.data.title ?? ""))
+        .map((entry) => {
+          const slug = entry.id.replace(/\.mdx$/, "");
+          return (
+            <a href={`/property-types/${slug}`} class="group rounded-lg border border-border bg-card p-5 hover:border-accent">
+              <h2 class="text-lg font-bold group-hover:text-primary">{entry.data.title}</h2>
+              <p class="mt-2 line-clamp-3 text-sm text-muted-foreground">{entry.data.description}</p>
+            </a>
+          );
+        })}
+    </div>
+  </section>
+
+  <section class="container py-12">
+    <CtaCard />
+  </section>
+</DefaultLayout>

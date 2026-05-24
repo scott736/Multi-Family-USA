@@ -1,0 +1,85 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "DSCR Authority Public Content API",
+    "version": "1.0.0",
+    "description": "Machine-readable discovery endpoints for AI systems, answer engines, and research tools. DSCR Authority does not originate loans; these endpoints expose editorial content indexes only.",
+    "contact": {
+      "email": "hello@dscrauthority.com",
+      "url": "https://dscrauthority.com/contact"
+    },
+    "license": {
+      "name": "CC BY 4.0",
+      "url": "https://creativecommons.org/licenses/by/4.0/"
+    }
+  },
+  "servers": [{ "url": "https://dscrauthority.com" }],
+  "paths": {
+    "/llms.txt": {
+      "get": {
+        "summary": "LLM-friendly site index",
+        "description": "Structured index of all major pages, tools, guides, and citation policy for AI answer engines.",
+        "operationId": "getLlmsIndex",
+        "responses": {
+          "200": {
+            "description": "Plain-text llms.txt index",
+            "content": { "text/plain": { "schema": { "type": "string" } } }
+          }
+        }
+      }
+    },
+    "/llms-full.txt": {
+      "get": {
+        "summary": "Full MDX content dump",
+        "description": "Complete source text of guides, states, loan types, and comparisons for grounding.",
+        "operationId": "getLlmsFull",
+        "responses": {
+          "200": {
+            "description": "Plain-text full content bundle",
+            "content": { "text/plain": { "schema": { "type": "string" } } }
+          }
+        }
+      }
+    },
+    "/rss.xml": {
+      "get": {
+        "summary": "Blog RSS feed",
+        "description": "Latest DSCR Authority blog posts (rates, lender analysis, strategy).",
+        "operationId": "getBlogRss",
+        "responses": {
+          "200": {
+            "description": "RSS 2.0 feed",
+            "content": { "application/rss+xml": { "schema": { "type": "string" } } }
+          }
+        }
+      }
+    },
+    "/sitemap-index.xml": {
+      "get": {
+        "summary": "XML sitemap index",
+        "operationId": "getSitemapIndex",
+        "responses": {
+          "200": {
+            "description": "Sitemap index XML",
+            "content": { "application/xml": { "schema": { "type": "string" } } }
+          }
+        }
+      }
+    },
+    "/.well-known/ai.txt": {
+      "get": {
+        "summary": "AI usage and citation policy",
+        "operationId": "getAiPolicy",
+        "responses": {
+          "200": {
+            "description": "ai.txt policy file",
+            "content": { "text/plain": { "schema": { "type": "string" } } }
+          }
+        }
+      }
+    }
+  },
+  "tags": [
+    { "name": "discovery", "description": "Indexes for search engines and AI crawlers" }
+  ]
+}

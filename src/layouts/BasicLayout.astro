@@ -1,0 +1,29 @@
+---
+import DefaultLayout from "./DefaultLayout.astro";
+
+interface Props {
+  title?: string;
+  description?: string;
+  image?: string;
+  noindex?: boolean;
+  canonical?: string;
+  schema?: Record<string, unknown> | Array<Record<string, unknown>>;
+}
+
+const { title, description, image, noindex, canonical, schema } = Astro.props;
+---
+
+<DefaultLayout
+  title={title}
+  description={description}
+  image={image}
+  noindex={noindex}
+  canonical={canonical}
+  schema={schema}
+>
+  <section class="mx-auto max-w-3xl px-4 py-16 md:py-24">
+    <article class="prose-dscr">
+      <slot />
+    </article>
+  </section>
+</DefaultLayout>

@@ -1,0 +1,72 @@
+---
+import { getCollection } from "astro:content";
+
+import { buildCollectionPageSchema,SITE_URL } from "@/consts";
+import DefaultLayout from "@/layouts/DefaultLayout.astro";
+import { filterPublished } from "@/lib/scheduled-publish";
+
+const posts = filterPublished(await getCollection("blog")).sort((a, b) => {
+  const dateA = a.data.published ?? a.data.lastUpdated ?? new Date(0);
+  const dateB = b.data.published ?? b.data.lastUpdated ?? new Date(0);
+  return new Date(dateB).getTime() - new Date(dateA).getTime();
+});
+
+const schema = buildCollectionPageSchema({
+  name: "Multi-Family USA Blog",
+  description: "Weekly multifamily financing updates and execution notes.",
+  url: `${SITE_URL}/blog/`,
+  items: posts.map((post) => ({
+    name: post.data.title,
+    url: `/blog/${post.id.replace(/\.mdx$/, "")}/`,
+    description: post.data.description,
+  })),
+});
+---
+
+<DefaultLayout
+  title="Multifamily Financing Blog | Multi-Family USA"
+  description="Market updates, financing strategy, and underwriting notes for commercial multifamily operators."
+  schema={[schema]}
+>
+  <section class="container py-10 md:py-14">
+    <div class="mx-auto max-w-4xl">
+      <p class="text-xs font-bold uppercase tracking-wider text-accent">Blog</p>
+      <h1 class="mt-2 text-4xl font-bold text-foreground lg:text-5xl">Multifamily financing updates</h1>
+      <p class="mt-4 max-w-2xl text-lg text-muted-foreground">
+        Weekly notes on rates, execution risk, lender behavior, and market shifts for US multifamily.
+      </p>
+    </div>
+  </section>
+
+  <section class="container pb-20">
+    <div class="mx-auto max-w-4xl">
+      {posts.length === 0 ? (
+        <p class="text-muted-foreground">No posts yet.</p>
+      ) : (
+        <ol class="space-y-6">
+          {posts.map((post) => {
+            const slug = post.id.replace(/\.mdx$/, "");
+            const postUrl = `/blog/${slug}/`;
+            const pubDate = post.data.published ?? post.data.lastUpdated;
+            return (
+              <li>
+                <article class="group rounded-xl border border-border bg-card p-6 transition-colors hover:border-accent/50">
+                  {pubDate && (
+                    <time datetime={new Date(pubDate).toISOString()} class="text-xs text-muted-foreground">
+                      {new Intl.DateTimeFormat("en-US", { year: "numeric", month: "long", day: "numeric" }).format(new Date(pubDate))}
+                    </time>
+                  )}
+                  <h2 class="mt-2 text-xl font-bold text-foreground group-hover:text-accent transition-colors">
+                    <a href={postUrl}>{post.data.title}</a>
+                  </h2>
+                  <p class="mt-2 text-sm text-muted-foreground leading-relaxed">{post.data.description}</p>
+                  <a href={postUrl} class="mt-3 inline-block text-sm font-semibold text-primary hover:underline">Read article →</a>
+                </article>
+              </li>
+            );
+          })}
+        </ol>
+      )}
+    </div>
+  </section>
+</DefaultLayout>

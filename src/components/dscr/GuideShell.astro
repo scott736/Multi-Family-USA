@@ -1,0 +1,118 @@
+---
+import Breadcrumbs from "@/components/dscr/Breadcrumbs.astro";
+import CtaCard from "@/components/dscr/CtaCard.astro";
+import FaqAccordion from "@/components/dscr/FaqAccordion.astro";
+import DefaultLayout from "@/layouts/DefaultLayout.astro";
+
+import { SITE_URL } from "../../consts";
+
+interface Faq {
+  q: string;
+  a: string;
+}
+
+interface Crumb {
+  label: string;
+  href: string;
+}
+
+interface Props {
+  title: string;
+  description: string;
+  h1: string;
+  kicker?: string;
+  lastUpdated?: string;
+  publishedDate?: string;
+  author?: string;
+  reviewer?: string;
+  readTime?: number;
+  crumbs: Crumb[];
+  faqs?: Faq[];
+  canonicalSlug?: string;
+  image?: string;
+  keywords?: string[];
+  section?: string;
+  extraSchema?: Record<string, unknown> | Array<Record<string, unknown>>;
+}
+
+const {
+  title,
+  description,
+  h1,
+  kicker,
+  lastUpdated,
+  publishedDate,
+  author = "Multi-Family USA Editorial Team",
+  reviewer,
+  readTime,
+  crumbs,
+  faqs = [],
+  canonicalSlug,
+  image,
+  keywords,
+  section,
+  extraSchema,
+} = Astro.props;
+
+const canonical = canonicalSlug ? `${SITE_URL}${canonicalSlug}` : undefined;
+
+const articleSchema = {
+  "@context": "https://schema.org",
+  "@type": "Article",
+  headline: h1,
+  description,
+  ...(canonical ? { url: canonical, mainEntityOfPage: canonical } : {}),
+  datePublished: publishedDate ?? lastUpdated ?? "2026-05-24",
+  dateModified: lastUpdated ?? publishedDate ?? "2026-05-24",
+  author: {
+    "@type": "Organization",
+    name: author,
+  },
+  ...(keywords?.length ? { keywords: keywords.join(", ") } : {}),
+};
+
+const extrasArray = Array.isArray(extraSchema) ? extraSchema : extraSchema ? [extraSchema] : [];
+const schema = [articleSchema, ...extrasArray];
+---
+
+<DefaultLayout
+  title={title}
+  description={description}
+  schema={schema}
+  image={image}
+  canonical={canonicalSlug}
+  keywords={keywords}
+>
+  <Breadcrumbs crumbs={crumbs} />
+
+  <article class="container grid gap-10 py-8 lg:grid-cols-4">
+    <header class="lg:col-span-4 max-w-4xl">
+      {kicker && <p class="text-xs font-bold uppercase tracking-wider text-accent">{kicker}</p>}
+      <h1 class="mt-2 text-4xl font-bold text-foreground lg:text-5xl">{h1}</h1>
+      <p class="sr-only">{description}</p>
+      <div class="mt-4 flex flex-wrap gap-x-4 gap-y-1 text-sm text-muted-foreground">
+        <span>By <strong>{author}</strong></span>
+        {reviewer && <span>Reviewed by {reviewer}</span>}
+        {lastUpdated && <span>Updated <time datetime={lastUpdated}>{lastUpdated}</time></span>}
+        {readTime && <span>{readTime} min read</span>}
+        {section && <span>{section}</span>}
+      </div>
+    </header>
+
+    <div class="prose-dscr lg:col-span-3">
+      <slot />
+      {faqs.length > 0 && (
+        <>
+          <h2 class="!mt-12" id="faq">Frequently asked questions</h2>
+          <FaqAccordion items={faqs} />
+        </>
+      )}
+    </div>
+
+    <aside class="hidden lg:block lg:col-span-1">
+      <div class="lg:sticky lg:top-24 space-y-6">
+        <CtaCard variant="compact" sourceContext={`guide:${canonicalSlug ?? title}`} />
+      </div>
+    </aside>
+  </article>
+</DefaultLayout>

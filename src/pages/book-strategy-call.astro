@@ -1,0 +1,15 @@
+---
+import BasicLayout from "@/layouts/BasicLayout.astro";
+import { services } from "@/lib/nylas/config";
+
+const service = services.find((s) => s.id === "strategy-call");
+---
+
+<BasicLayout title="Book a Strategy Call | Multi-Family USA" description="Book a multifamily financing strategy call.">
+  <h1>Book a strategy call</h1>
+  <p>{service?.description ?? "Book a 30-minute call with a multifamily financing specialist."}</p>
+  <p>
+    Scheduling integration is configured through Nylas. If slots are unavailable,
+    submit a <a href="/deal-review">deal review</a> and we will coordinate manually.
+  </p>
+</BasicLayout>

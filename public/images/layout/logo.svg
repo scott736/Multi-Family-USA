@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 340 128" role="img" aria-label="DSCR Authority">
+  <rect x="12" y="16" width="96" height="96" rx="18" ry="18" fill="#0F2544"/>
+  <g fill="#ffffff" transform="translate(12 16) scale(0.1875)">
+    <rect x="108" y="100" width="88" height="22" rx="3"/>
+    <rect x="108" y="390" width="88" height="22" rx="3"/>
+    <path fill-rule="evenodd" d="M 140 108 L 282 108 C 360 108 408 176 408 256 C 408 336 360 404 282 404 L 140 404 Z M 202 162 L 272 162 C 322 162 348 204 348 256 C 348 308 322 350 272 350 L 202 350 Z"/>
+  </g>
+  <text x="136" y="64" dominant-baseline="central" font-family="Georgia, 'Times New Roman', serif" font-weight="700" font-size="44" fill="#0F2544" letter-spacing="0.5">DSCR</text>
+  <text x="136" y="100" dominant-baseline="central" font-family="Georgia, 'Times New Roman', serif" font-weight="400" font-size="24" fill="#0F2544" letter-spacing="6">AUTHORITY</text>
+</svg>

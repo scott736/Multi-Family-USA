@@ -1,0 +1,29 @@
+---
+interface Props {
+  type?: "info" | "warn" | "success" | "tip";
+  title?: string;
+}
+const { type = "info", title } = Astro.props;
+
+const styles: Record<string, string> = {
+  info: "border-primary/30 bg-primary/5",
+  warn: "border-destructive/30 bg-destructive/5",
+  success: "border-success/30 bg-success/5",
+  tip: "border-accent/40 bg-accent/5",
+};
+
+const titleColor: Record<string, string> = {
+  info: "text-primary",
+  warn: "text-destructive",
+  success: "text-success",
+  tip: "text-accent",
+};
+---
+
+<aside
+  class={`not-prose my-6 rounded-lg border-l-4 ${styles[type]} p-4`}
+  role="note"
+>
+  {title && <p class={`mb-1 font-bold ${titleColor[type]}`}>{title}</p>}
+  <div class="text-sm leading-relaxed text-foreground"><slot /></div>
+</aside>

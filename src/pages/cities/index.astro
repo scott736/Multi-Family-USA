@@ -1,0 +1,53 @@
+---
+import { getCollection } from "astro:content";
+
+import Breadcrumbs from "@/components/dscr/Breadcrumbs.astro";
+import CtaCard from "@/components/dscr/CtaCard.astro";
+import DefaultLayout from "@/layouts/DefaultLayout.astro";
+
+const entries = await getCollection("cities");
+---
+
+<DefaultLayout
+  title="Tier-1 Multifamily Cities | Multi-Family USA"
+  description="City-level multifamily financing snapshots for tier-1 US markets."
+>
+  <Breadcrumbs crumbs={[
+    { label: "Home", href: "/" },
+    { label: "Cities", href: "/cities" },
+  ]} />
+
+  <section class="container py-8">
+    <p class="text-xs font-bold uppercase tracking-wider text-accent">City Guides</p>
+    <h1 class="mt-2 text-4xl font-bold lg:text-5xl">Tier-1 multifamily city snapshots</h1>
+    <p class="mt-4 max-w-3xl text-lg text-muted-foreground">
+      Market snapshots for top multifamily metros with typical cap-rate and rent-per-unit context.
+    </p>
+  </section>
+
+  <section class="container py-4">
+    <div class="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+      {entries
+        .sort((a, b) => (a.data.cityName ?? "").localeCompare(b.data.cityName ?? ""))
+        .map((entry) => {
+          const slug = entry.id.replace(/\.mdx$/, "");
+          return (
+            <a href={`/cities/${slug}`} class="rounded-lg border border-border bg-card p-5 hover:border-accent">
+              <h2 class="text-lg font-bold">{entry.data.cityName}, {entry.data.stateCode}</h2>
+              <p class="mt-2 text-sm text-muted-foreground">{entry.data.description}</p>
+              <p class="mt-3 text-xs text-muted-foreground">
+                Typical cap rate {entry.data.typicalCapRate.toFixed(1)}% · Median $/unit ${entry.data.medianPricePerUnit.toLocaleString()}
+              </p>
+            </a>
+          );
+        })}
+    </div>
+  </section>
+
+  <section class="container py-12">
+    <CtaCard
+      headline="Want city-level lender fit for your deal?"
+      subheadline="Submit your assumptions and we will map likely execution options by market." 
+    />
+  </section>
+</DefaultLayout>

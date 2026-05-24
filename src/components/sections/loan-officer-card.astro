@@ -1,0 +1,79 @@
+---
+import { ChevronRight } from "lucide-react";
+import { getLangFromUrl } from "@/i18n/utils";
+
+interface Props {
+  name: string;
+  title: string;
+  photo: string;
+  bio: string;
+  specializations: string[];
+  bookingUrl: string;
+}
+
+const { name, title, photo, bio, specializations, bookingUrl } =
+  Astro.props as Props;
+
+const lang = getLangFromUrl(Astro.url);
+const isEs = lang === "es";
+const firstName = name.split(" ")[0];
+const specializesLabel = isEs ? "Se especializa en" : "Specializes in";
+const bookCallLabel = isEs
+  ? `Reserva una llamada con ${firstName}`
+  : `Book A Call With ${firstName}`;
+---
+
+<div
+  class="flex h-full flex-col rounded-xl border border-border bg-card text-card-foreground shadow-sm transition hover:shadow-lg hover:-translate-y-0.5"
+>
+  <div class="flex flex-col space-y-1.5 p-6 pb-3">
+    <div class="flex items-start gap-4">
+      <img
+        src={photo}
+        alt={name}
+        width="64"
+        height="64"
+        loading="lazy"
+        decoding="async"
+        class="h-16 w-16 rounded-full object-cover ring-2 ring-border"
+      />
+      <div class="flex-1">
+        <div class="text-lg font-semibold leading-none tracking-tight">
+          {name}
+        </div>
+        <p class="text-accent text-sm font-medium mt-1.5">{title}</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="flex flex-1 flex-col space-y-3 p-6 pt-0">
+    <p class="text-muted-foreground text-sm line-clamp-3">{bio}</p>
+
+    <div>
+      <p class="text-muted-foreground mb-2 text-xs font-medium uppercase tracking-wide">
+        {specializesLabel}
+      </p>
+      <div class="flex flex-wrap gap-1.5">
+        {
+          specializations.map((s) => (
+            <span class="inline-flex items-center rounded-full bg-secondary px-2.5 py-0.5 text-xs font-medium text-secondary-foreground">
+              {s}
+            </span>
+          ))
+        }
+      </div>
+    </div>
+
+    <div class="mt-auto pt-2">
+      <a
+        href={bookingUrl}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="inline-flex w-full h-10 items-center justify-center gap-1 rounded-md bg-accent px-4 py-2 text-sm font-semibold text-accent-foreground shadow-md transition hover:bg-accent/90 hover:shadow-lg hover:-translate-y-0.5 active:shadow-sm active:translate-y-0"
+      >
+        {bookCallLabel}
+        <ChevronRight className="size-4" />
+      </a>
+    </div>
+  </div>
+</div>

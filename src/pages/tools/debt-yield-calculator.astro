@@ -1,0 +1,16 @@
+---
+import DebtYieldCalculator from "@/components/calculators/DebtYieldCalculator";
+import ToolShell from "@/components/dscr/ToolShell.astro";
+---
+
+<ToolShell
+  title="Debt Yield Calculator | Multi-Family USA"
+  description="Calculate debt yield to evaluate multifamily loan risk and proceeds."
+  h1="Debt Yield Calculator"
+  toolSlug="debt-yield-calculator"
+  tagline="Use NOI and loan amount to pressure-test lender-side return thresholds."
+>
+  <Fragment slot="calculator">
+    <DebtYieldCalculator client:load />
+  </Fragment>
+</ToolShell>

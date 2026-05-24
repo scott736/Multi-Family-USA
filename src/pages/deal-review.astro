@@ -1,0 +1,30 @@
+---
+import LeadForm from "@/components/forms/LeadForm.astro";
+import { buildServiceSchema, SITE_URL } from "@/consts";
+import DefaultLayout from "@/layouts/DefaultLayout.astro";
+
+const schema = buildServiceSchema({
+  name: "Free Multifamily Deal Review",
+  description:
+    "Submit your 5+ unit deal assumptions and receive a lender-fit recommendation, underwriting checkpoints, and execution options.",
+  url: `${SITE_URL}/deal-review/`,
+});
+---
+
+<DefaultLayout
+  title="Free Deal Review | Multi-Family USA"
+  description="Get a free underwriting and lender-fit review for your US 5+ unit multifamily deal."
+  schema={[schema]}
+>
+  <section class="container py-12">
+    <div class="mx-auto max-w-4xl space-y-5">
+      <p class="text-xs font-bold uppercase tracking-wider text-accent">Primary CTA</p>
+      <h1 class="text-4xl font-bold md:text-5xl">Free multifamily deal review</h1>
+      <p class="text-lg text-muted-foreground">
+        We review your assumptions and route your scenario to the best-fit execution path.
+        This includes indicative leverage constraints, DSCR/debt-yield pressure points, and lender-type fit.
+      </p>
+      <LeadForm variant="full" sourceContext="deal-review-page" />
+    </div>
+  </section>
+</DefaultLayout>

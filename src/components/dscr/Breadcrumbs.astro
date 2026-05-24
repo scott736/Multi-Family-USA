@@ -1,0 +1,46 @@
+---
+import { ChevronRight } from "lucide-react";
+
+import { SITE_URL } from "../../consts";
+
+interface Crumb {
+  label: string;
+  href: string;
+}
+interface Props {
+  crumbs: Crumb[];
+}
+const { crumbs } = Astro.props;
+
+const itemList = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  itemListElement: crumbs.map((c, i) => ({
+    "@type": "ListItem",
+    position: i + 1,
+    name: c.label,
+    item: `${SITE_URL}${c.href}`,
+  })),
+};
+---
+
+<nav
+  aria-label="Breadcrumb"
+  class="container flex flex-wrap items-center gap-1 py-4 text-sm text-muted-foreground"
+>
+  {
+    crumbs.map((c, i) => (
+      <>
+        {i > 0 && <ChevronRight className="size-3.5" />}
+        {i === crumbs.length - 1 ? (
+          <span class="text-foreground font-medium">{c.label}</span>
+        ) : (
+          <a href={c.href} class="hover:text-primary">
+            {c.label}
+          </a>
+        )}
+      </>
+    ))
+  }
+</nav>
+<script type="application/ld+json" set:html={JSON.stringify(itemList)} />

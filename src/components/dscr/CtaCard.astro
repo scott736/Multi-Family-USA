@@ -1,0 +1,33 @@
+---
+import LeadForm from "@/components/forms/LeadForm.astro";
+
+interface Props {
+  headline?: string;
+  subheadline?: string;
+  sourceContext?: string;
+  variant?: "full" | "compact";
+}
+
+const {
+  headline = "Get a free multifamily deal review",
+  subheadline = "Share your property details once. We will return a lender-fit and underwriting read within one business hour.",
+  sourceContext,
+  variant = "full",
+} = Astro.props;
+---
+
+<div
+  class:list={[
+    "rounded-xl border border-accent/30 bg-gradient-to-br from-secondary/60 to-background p-1",
+    variant === "compact" ? "my-0" : "my-12",
+  ]}
+>
+  <div class:list={["rounded-lg bg-card", variant === "compact" ? "p-0" : "p-2 md:p-4"]}>
+    <LeadForm
+      variant={variant}
+      headline={headline}
+      subheadline={subheadline}
+      sourceContext={sourceContext}
+    />
+  </div>
+</div>

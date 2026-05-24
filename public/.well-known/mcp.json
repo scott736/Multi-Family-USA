@@ -1,0 +1,61 @@
+{
+  "name": "dscr-authority",
+  "title": "DSCR Authority",
+  "description": "Neutral DSCR loan editorial resource and lender-matching service for US real-estate investors. Provides guides, calculators, rate tables, and 50-state coverage.",
+  "version": "1.0.0",
+  "website": "https://dscrauthority.com",
+  "contact": {
+    "email": "hello@dscrauthority.com",
+    "url": "https://dscrauthority.com/contact"
+  },
+  "capabilities": {
+    "resources": true,
+    "tools": false,
+    "prompts": false
+  },
+  "resources": [
+    {
+      "uri": "https://dscrauthority.com/llms.txt",
+      "name": "llms-index",
+      "description": "LLM-friendly site index with citation policy and key facts",
+      "mimeType": "text/plain"
+    },
+    {
+      "uri": "https://dscrauthority.com/llms-full.txt",
+      "name": "llms-full",
+      "description": "Full MDX content bundle for grounding",
+      "mimeType": "text/plain"
+    },
+    {
+      "uri": "https://dscrauthority.com/rss.xml",
+      "name": "blog-rss",
+      "description": "DSCR Authority blog RSS feed",
+      "mimeType": "application/rss+xml"
+    },
+    {
+      "uri": "https://dscrauthority.com/sitemap-index.xml",
+      "name": "sitemap",
+      "description": "XML sitemap index",
+      "mimeType": "application/xml"
+    },
+    {
+      "uri": "https://dscrauthority.com/.well-known/ai.txt",
+      "name": "ai-policy",
+      "description": "AI crawling, training, and citation permissions",
+      "mimeType": "text/plain"
+    },
+    {
+      "uri": "https://dscrauthority.com/.well-known/openapi.json",
+      "name": "openapi",
+      "description": "OpenAPI spec for public discovery endpoints",
+      "mimeType": "application/json"
+    }
+  ],
+  "keywords": [
+    "DSCR loans",
+    "investment property financing",
+    "rental property mortgage",
+    "real estate investors"
+  ],
+  "license": "https://creativecommons.org/licenses/by/4.0/"
+}

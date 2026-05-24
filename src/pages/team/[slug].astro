@@ -1,0 +1,16 @@
+---
+import { TEAM_MEMBERS } from '@/content/team/members';
+import BasicLayout from '@/layouts/BasicLayout.astro';
+
+export async function getStaticPaths() {
+  return TEAM_MEMBERS.map((member) => ({ params: { slug: member.slug }, props: { member } }));
+}
+
+const { member } = Astro.props;
+---
+
+<BasicLayout title={`${member.name} | Multi-Family USA`} description={member.shortBio}>
+  <h1>{member.name}</h1>
+  <p><strong>{member.jobTitle}</strong></p>
+  <p>{member.fullBio}</p>
+</BasicLayout>

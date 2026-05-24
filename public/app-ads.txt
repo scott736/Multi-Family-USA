@@ -1,0 +1,4 @@
+# DSCR Authority — app-ads.txt
+# https://iabtechlab.com/app-ads-txt/
+# DSCR Authority does not publish mobile or CTV apps.
+contact=hello@dscrauthority.com

@@ -1,0 +1,115 @@
+---
+import SiteSearch from "@/components/search/SiteSearch";
+
+import { SITE_PHONE, SITE_PHONE_HREF, SITE_SHORT_NAME } from "../../consts";
+
+interface NavItem {
+  label: string;
+  href: string;
+}
+
+const NAV_ITEMS: NavItem[] = [
+  { label: "Learn", href: "/learn" },
+  { label: "Tools", href: "/tools" },
+  { label: "Markets", href: "/states" },
+  { label: "Compare", href: "/compare" },
+  { label: "Invest", href: "/invest" },
+];
+
+interface Props {
+  currentPath?: string;
+}
+
+const currentPath = Astro.props.currentPath ?? Astro.url.pathname;
+---
+
+<header class="sticky top-0 z-50 border-b border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/80" data-nav>
+  <div class="container flex h-16 items-center justify-between gap-4">
+    <a href="/" class="flex items-center gap-2 shrink-0">
+      <span class="flex size-8 items-center justify-center rounded-md bg-primary font-serif text-lg font-bold text-primary-foreground">M</span>
+      <span class="text-lg font-bold tracking-tight text-foreground">{SITE_SHORT_NAME}</span>
+    </a>
+
+    <nav class="hidden lg:flex items-center gap-1">
+      {NAV_ITEMS.map((item) => {
+        const isActive = currentPath === item.href || currentPath.startsWith(`${item.href}/`);
+        return (
+          <a
+            href={item.href}
+            class:list={[
+              "rounded-md px-3 py-2 text-sm font-medium transition-colors",
+              isActive ? "text-primary" : "text-foreground hover:text-primary",
+            ]}
+          >
+            {item.label}
+          </a>
+        );
+      })}
+    </nav>
+
+    <div class="flex items-center gap-2">
+      <SiteSearch lang="en" client:idle />
+      <button
+        type="button"
+        data-theme-toggle
+        aria-label="Toggle theme"
+        class="inline-flex size-9 items-center justify-center rounded-full border border-input bg-background text-foreground shadow-xs hover:bg-secondary"
+      >
+        <svg class="size-4 hidden dark:block" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>
+        <svg class="size-4 dark:hidden" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg>
+      </button>
+      <a href={SITE_PHONE_HREF} class="hidden xl:inline text-sm font-semibold text-foreground hover:text-primary">{SITE_PHONE}</a>
+      <a href="/book-strategy-call" class="hidden lg:inline-flex items-center text-sm font-semibold text-foreground hover:text-primary">Book a Call</a>
+      <a href="/deal-review" class="hidden md:inline-flex items-center justify-center whitespace-nowrap rounded-md bg-accent px-3 text-accent-foreground shadow-md hover:bg-accent/90 font-bold text-xs h-9 ring-1 ring-accent/40 transition-colors">Free Deal Review</a>
+      <button
+        type="button"
+        class="lg:hidden rounded-md p-2 text-foreground hover:bg-secondary"
+        data-nav-toggle
+        aria-expanded="false"
+        aria-controls="mobile-nav"
+        aria-label="Open navigation menu"
+      >
+        <svg class="size-5" data-icon-menu xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="4" x2="20" y1="12" y2="12"/><line x1="4" x2="20" y1="6" y2="6"/><line x1="4" x2="20" y1="18" y2="18"/></svg>
+        <svg class="size-5 hidden" data-icon-close xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+      </button>
+    </div>
+  </div>
+
+  <div id="mobile-nav" class="lg:hidden border-t border-border bg-background max-h-[calc(100vh-4rem)] overflow-y-auto hidden" data-nav-panel>
+    <div class="container py-4 space-y-1">
+      {NAV_ITEMS.map((item) => (
+        <a href={item.href} class="block rounded-md p-3 text-base font-semibold hover:bg-secondary">{item.label}</a>
+      ))}
+      <a href="/deal-review" class="block pt-4"><span class="inline-flex h-12 w-full items-center justify-center rounded-md bg-accent px-8 text-base font-bold text-accent-foreground shadow-md ring-1 ring-accent/40 hover:bg-accent/90">Free Deal Review</span></a>
+      <a href="/book-strategy-call" class="block pt-2"><span class="inline-flex h-12 w-full items-center justify-center rounded-md border border-input bg-background px-8 text-base font-semibold text-foreground shadow-xs hover:bg-secondary">Book a Call</span></a>
+      <a href={SITE_PHONE_HREF} class="flex w-full justify-center py-3 text-base font-semibold text-primary">Call {SITE_PHONE}</a>
+    </div>
+  </div>
+</header>
+
+<script is:inline>
+  (() => {
+    const btn = document.querySelector("[data-nav-toggle]");
+    const panel = document.querySelector("[data-nav-panel]");
+    const iconMenu = btn?.querySelector("[data-icon-menu]");
+    const iconClose = btn?.querySelector("[data-icon-close]");
+    if (btn && panel) {
+      btn.addEventListener("click", () => {
+        const open = panel.classList.toggle("hidden") === false;
+        btn.setAttribute("aria-expanded", open ? "true" : "false");
+        iconMenu?.classList.toggle("hidden", open);
+        iconClose?.classList.toggle("hidden", !open);
+        document.body.classList.toggle("overflow-hidden", open);
+      });
+    }
+
+    document.querySelectorAll("[data-theme-toggle]").forEach((t) => {
+      t.addEventListener("click", () => {
+        const root = document.documentElement;
+        const next = root.classList.contains("dark") ? "light" : "dark";
+        root.classList.toggle("dark", next === "dark");
+        try { localStorage.setItem("theme", next); } catch {}
+      });
+    });
+  })();
+</script>

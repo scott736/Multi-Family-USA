@@ -1,0 +1,41 @@
+---
+import { getCollection, render } from "astro:content";
+
+import GuideShell from "@/components/dscr/GuideShell.astro";
+
+export async function getStaticPaths() {
+  const entries = await getCollection("states");
+  return entries.map((entry) => ({
+    params: { slug: entry.id.replace(/\.mdx$/, "") },
+    props: { entry },
+  }));
+}
+
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+const data = entry.data;
+const slug = entry.id.replace(/\.mdx$/, "");
+const canonicalSlug = `/states/${slug}`;
+---
+
+<GuideShell
+  title={data.title}
+  description={data.description}
+  h1={data.h1 ?? data.title}
+  kicker={`State market · ${data.stateCode}`}
+  lastUpdated={data.lastUpdated?.toISOString().slice(0, 10) ?? "2026-05-24"}
+  publishedDate={data.published?.toISOString().slice(0, 10)}
+  author={data.author}
+  reviewer={data.reviewer}
+  readTime={data.readTime}
+  canonicalSlug={canonicalSlug}
+  keywords={data.keywords}
+  crumbs={[
+    { label: "Home", href: "/" },
+    { label: "States", href: "/states" },
+    { label: data.stateName, href: canonicalSlug },
+  ]}
+  faqs={data.faq}
+>
+  <Content />
+</GuideShell>

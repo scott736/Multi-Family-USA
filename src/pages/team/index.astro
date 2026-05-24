@@ -1,0 +1,16 @@
+---
+import { TEAM_MEMBERS } from "@/content/team/members";
+import BasicLayout from "@/layouts/BasicLayout.astro";
+---
+
+<BasicLayout title="Team | Multi-Family USA" description="Meet the editorial and advisory contributors at Multi-Family USA.">
+  <h1>Team</h1>
+  <p>Multi-Family USA combines editorial analysis with practical multifamily lending and underwriting experience.</p>
+  <ul>
+    {TEAM_MEMBERS.map((member) => (
+      <li>
+        <strong>{member.name}</strong> — {member.jobTitle}
+      </li>
+    ))}
+  </ul>
+</BasicLayout>

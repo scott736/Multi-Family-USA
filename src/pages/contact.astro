@@ -1,0 +1,13 @@
+---
+import { SITE_PHONE, SITE_PHONE_HREF } from '@/consts';
+import BasicLayout from '@/layouts/BasicLayout.astro';
+---
+
+<BasicLayout title="Contact | Multi-Family USA" description="Contact Multi-Family USA for financing guidance.">
+  <h1>Contact</h1>
+  <p>Need help with a multifamily financing scenario? Reach out directly.</p>
+  <ul>
+    <li><a href={SITE_PHONE_HREF}>{SITE_PHONE}</a></li>
+    <li><a href="mailto:scott@lendcity.ca">scott@lendcity.ca</a></li>
+  </ul>
+</BasicLayout>

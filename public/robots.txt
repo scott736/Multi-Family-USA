@@ -1,0 +1,18 @@
+# Multi-Family USA robots policy
+User-agent: *
+Allow: /
+Disallow: /api/
+Disallow: /thank-you/
+Disallow: /admin/
+
+# Keep AI crawlers enabled for discoverability
+User-agent: GPTBot
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+Sitemap: https://multifamily-usa.com/sitemap-index.xml

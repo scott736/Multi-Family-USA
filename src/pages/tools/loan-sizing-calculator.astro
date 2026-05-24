@@ -1,0 +1,16 @@
+---
+import MaxLoanCalculator from "@/components/calculators/MaxLoanCalculator";
+import ToolShell from "@/components/dscr/ToolShell.astro";
+---
+
+<ToolShell
+  title="Loan Sizing Calculator | Multi-Family USA"
+  description="Estimate max multifamily loan proceeds and binding constraint pressure."
+  h1="Loan Sizing Calculator"
+  toolSlug="loan-sizing-calculator"
+  tagline="Back into maximum supportable debt from target DSCR and fixed operating assumptions."
+>
+  <Fragment slot="calculator">
+    <MaxLoanCalculator client:load />
+  </Fragment>
+</ToolShell>

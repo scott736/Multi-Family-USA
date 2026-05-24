@@ -1,0 +1,80 @@
+---
+import { getCollection } from "astro:content";
+
+import Breadcrumbs from "@/components/dscr/Breadcrumbs.astro";
+import CtaCard from "@/components/dscr/CtaCard.astro";
+import UsMapExplorer from "@/components/sections/us-map-explorer";
+import DefaultLayout from "@/layouts/DefaultLayout.astro";
+
+const entries = await getCollection("states");
+const byTier: Record<string, typeof entries> = { "1": [], "2": [], "3": [], special: [] };
+for (const e of entries) {
+  byTier[e.data.tier] ||= [];
+  byTier[e.data.tier].push(e);
+}
+for (const k of Object.keys(byTier)) {
+  byTier[k].sort((a, b) => (a.data.stateName ?? "").localeCompare(b.data.stateName ?? ""));
+}
+
+const mapStates = entries.map((e) => ({
+  slug: e.id.replace(/\.mdx$/, ""),
+  stateName: e.data.stateName,
+  stateCode: e.data.stateCode,
+  tier: e.data.tier,
+  avgCapRate: e.data.avgCapRate,
+  hasStateIncomeTax: e.data.hasStateIncomeTax,
+  foreclosureType: e.data.foreclosureType,
+  topMarkets: e.data.topMarkets,
+}));
+---
+
+<DefaultLayout
+  title="US Multifamily Markets by State | Multi-Family USA"
+  description="State-by-state commercial multifamily financing context across all 50 states plus DC."
+>
+  <Breadcrumbs crumbs={[
+    { label: "Home", href: "/" },
+    { label: "Markets", href: "/states" },
+  ]} />
+
+  <section class="container py-8">
+    <p class="text-xs font-bold uppercase tracking-wider text-accent">Markets</p>
+    <h1 class="mt-2 text-4xl font-bold lg:text-5xl">US multifamily financing by state</h1>
+    <p class="mt-4 max-w-3xl text-lg text-muted-foreground">
+      Review lending and market context across all 50 states plus DC, with cap-rate bands,
+      foreclosure posture, and major metro anchors for 5+ unit multifamily execution.
+    </p>
+  </section>
+
+  <UsMapExplorer states={mapStates} client:visible />
+
+  {
+    (["1", "2", "3", "special"] as const).map((tier) =>
+      byTier[tier] && byTier[tier].length > 0 ? (
+        <section class="container py-6">
+          <h2 class="text-2xl font-bold">Tier {tier === "special" ? "Special" : tier} states</h2>
+          <div class="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+            {byTier[tier].map((entry) => {
+              const slug = entry.id.replace(/\.mdx$/, "");
+              return (
+                <a href={`/states/${slug}`} class="rounded-lg border border-border bg-card p-4 hover:border-accent">
+                  <p class="font-semibold">{entry.data.stateName}</p>
+                  <p class="text-xs text-muted-foreground mt-1">
+                    Avg cap rate {entry.data.avgCapRate.toFixed(1)}% · Avg $/unit ${entry.data.avgPricePerUnit.toLocaleString()}
+                  </p>
+                </a>
+              );
+            })}
+          </div>
+        </section>
+      ) : null,
+    )
+  }
+
+  <section class="container py-12">
+    <CtaCard
+      headline="Need lender-fit guidance for a specific state?"
+      subheadline="Share your deal and we will map likely execution paths by market and leverage target."
+    />
+  </section>
+</DefaultLayout>

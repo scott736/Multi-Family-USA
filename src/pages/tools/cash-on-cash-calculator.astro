@@ -1,0 +1,16 @@
+---
+import CashOnCashCalculator from "@/components/calculators/CashOnCashCalculator";
+import ToolShell from "@/components/dscr/ToolShell.astro";
+---
+
+<ToolShell
+  title="Cash-on-Cash Calculator | Multi-Family USA"
+  description="Estimate annual equity return on commercial multifamily investments."
+  h1="Cash-on-Cash Calculator"
+  toolSlug="cash-on-cash-calculator"
+  tagline="Evaluate annual net cash flow against your total equity investment."
+>
+  <Fragment slot="calculator">
+    <CashOnCashCalculator client:load />
+  </Fragment>
+</ToolShell>

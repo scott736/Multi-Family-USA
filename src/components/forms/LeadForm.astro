@@ -1,0 +1,34 @@
+---
+import LeadFormReact from "./LeadForm";
+
+interface Props {
+  variant?: "full" | "compact" | "hero";
+  sourcePage?: string;
+  sourceContext?: string;
+  headline?: string;
+  subheadline?: string;
+  submitLabel?: string;
+  className?: string;
+}
+
+const {
+  variant = "full",
+  sourcePage = Astro.url.pathname,
+  sourceContext,
+  headline,
+  subheadline,
+  submitLabel,
+  className = "",
+} = Astro.props;
+---
+
+<LeadFormReact
+  variant={variant}
+  sourcePage={sourcePage}
+  sourceContext={sourceContext}
+  headline={headline}
+  subheadline={subheadline}
+  submitLabel={submitLabel}
+  className={className}
+  client:load
+/>

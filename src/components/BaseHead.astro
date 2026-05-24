@@ -1,0 +1,59 @@
+---
+import "../styles/global.css";
+import { SITE_METADATA } from "../consts";
+
+interface Props {
+  title?: string;
+  description?: string;
+  image?: string;
+  noindex?: boolean;
+  canonical?: string;
+  keywords?: string[];
+}
+
+const { title, description, image, noindex, canonical, keywords } = Astro.props;
+
+const finalTitle = title || SITE_METADATA.title.default;
+const finalDescription = description || SITE_METADATA.description;
+const finalImage = image || SITE_METADATA.openGraph.images[0].url;
+const canonicalUrl = canonical
+  ? new URL(canonical, Astro.site)
+  : new URL(Astro.url.pathname, Astro.site);
+
+const robotsParts = [
+  noindex ? "noindex" : "index",
+  SITE_METADATA.robots.follow ? "follow" : "nofollow",
+  "max-snippet:-1",
+  "max-image-preview:large",
+  "max-video-preview:-1",
+];
+---
+
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+<meta name="robots" content={robotsParts.join(", ")} />
+<meta name="googlebot" content={robotsParts.join(", ")} />
+<meta name="description" content={finalDescription} />
+<meta name="keywords" content={(keywords ?? SITE_METADATA.keywords).join(", ")} />
+<meta name="author" content={SITE_METADATA.authors[0].name} />
+<meta name="generator" content={Astro.generator} />
+
+<title>{finalTitle}</title>
+<link rel="canonical" href={canonicalUrl} />
+
+<meta property="og:type" content="website" />
+<meta property="og:title" content={finalTitle} />
+<meta property="og:description" content={finalDescription} />
+<meta property="og:image" content={new URL(finalImage, Astro.url)} />
+<meta property="og:url" content={canonicalUrl} />
+<meta property="og:site_name" content={SITE_METADATA.openGraph.siteName} />
+<meta property="og:locale" content={SITE_METADATA.openGraph.locale} />
+
+<meta name="twitter:card" content={SITE_METADATA.twitter.card} />
+<meta name="twitter:title" content={finalTitle} />
+<meta name="twitter:description" content={finalDescription} />
+<meta name="twitter:image" content={new URL(finalImage, Astro.url)} />
+
+<link rel="alternate" type="application/rss+xml" title="Multi-Family USA Blog RSS" href="/rss.xml" />
+<link rel="alternate" type="text/plain" title="LLMs Index" href="/llms.txt" />
+<link rel="alternate" type="text/plain" title="LLMs Full" href="/llms-full.txt" />

@@ -1,0 +1,106 @@
+---
+import Breadcrumbs from "@/components/dscr/Breadcrumbs.astro";
+import CtaCard from "@/components/dscr/CtaCard.astro";
+import FaqAccordion from "@/components/dscr/FaqAccordion.astro";
+import DefaultLayout from "@/layouts/DefaultLayout.astro";
+
+import { SITE_URL } from "../../consts";
+
+interface Faq {
+  q: string;
+  a: string;
+}
+
+interface Props {
+  title: string;
+  description: string;
+  h1: string;
+  toolSlug: string;
+  kicker?: string;
+  tagline?: string;
+  lastUpdated?: string;
+  faqs?: Faq[];
+  extraSchema?: Record<string, unknown> | Array<Record<string, unknown>>;
+  keywords?: string[];
+}
+
+const {
+  title,
+  description,
+  h1,
+  toolSlug,
+  kicker = "Interactive tool",
+  tagline,
+  lastUpdated = "2026-05-24",
+  faqs = [],
+  extraSchema,
+  keywords,
+} = Astro.props;
+
+const toolPath = `/tools/${toolSlug}`;
+const canonicalUrl = `${SITE_URL}${toolPath}`;
+
+const softwareSchema = {
+  "@context": "https://schema.org",
+  "@type": ["WebApplication", "SoftwareApplication"],
+  name: h1,
+  description,
+  url: canonicalUrl,
+  applicationCategory: "FinanceApplication",
+  isAccessibleForFree: true,
+  inLanguage: "en-US",
+  dateModified: lastUpdated,
+};
+
+const extrasArray = Array.isArray(extraSchema) ? extraSchema : extraSchema ? [extraSchema] : [];
+const schema = [softwareSchema, ...extrasArray];
+---
+
+<DefaultLayout
+  title={title}
+  description={description}
+  schema={schema}
+  canonical={toolPath}
+  section="Tools"
+  keywords={keywords}
+>
+  <Breadcrumbs
+    crumbs={[
+      { label: "Home", href: "/" },
+      { label: "Tools", href: "/tools" },
+      { label: h1, href: toolPath },
+    ]}
+  />
+
+  <header class="container pb-4 pt-2">
+    <p class="text-xs font-bold uppercase tracking-wider text-accent">{kicker}</p>
+    <h1 class="mt-2 text-4xl font-bold text-foreground lg:text-5xl">{h1}</h1>
+    {tagline && <p class="mt-3 max-w-3xl text-lg text-muted-foreground">{tagline}</p>}
+    <p class="mt-2 text-xs text-muted-foreground">Last updated: <time datetime={lastUpdated}>{lastUpdated}</time></p>
+  </header>
+
+  <section class="container grid gap-8 py-6 lg:grid-cols-3">
+    <div class="lg:col-span-2 space-y-8">
+      <slot name="calculator" />
+      <slot name="content" />
+    </div>
+    <aside class="lg:col-span-1 space-y-6">
+      <slot name="sidebar" />
+      <CtaCard
+        headline="Need a real-world underwriting read?"
+        subheadline="Submit your deal inputs and get a free lender-fit review."
+        sourceContext={`tool:${toolSlug}`}
+        variant="compact"
+      />
+    </aside>
+  </section>
+
+  {
+    faqs.length > 0 && (
+      <section class="container py-12">
+        <h2 class="mb-6 text-3xl font-bold text-foreground" id="faq">Frequently asked questions</h2>
+        <FaqAccordion items={faqs} />
+      </section>
+    )
+  }
+</DefaultLayout>

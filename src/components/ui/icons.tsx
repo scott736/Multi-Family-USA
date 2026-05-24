@@ -1,0 +1,32 @@
+// Re-export lucide-react icons under the path scheduling components expect.
+export {
+  AlertTriangle,
+  ArrowLeft,
+  ArrowRight,
+  Building2,
+  Calendar,
+  CalendarDays,
+  CheckCircle2,
+  ChevronLeft,
+  ChevronRight,
+  Clock,
+  Download,
+  ExternalLink,
+  Globe,
+  HardHat,
+  Home,
+  Landmark,
+  Loader2,
+  Lock,
+  Mail,
+  Phone,
+  PhoneCall,
+  PieChart,
+  RotateCcw,
+  User,
+  Video,
+  Wheat,
+  XCircle,
+} from 'lucide-react';
+
+export type { LucideIcon, LucideProps } from 'lucide-react';

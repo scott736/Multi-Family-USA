@@ -1,0 +1,80 @@
+---
+description: Agent behavior for dscr-loans — minimal diffs, clear assumptions, verifiable outcomes. Use for code, content, and refactors.
+alwaysApply: true
+---
+
+# Agent behavior (dscr-loans)
+
+**Default:** Smallest correct change. Ask when intent is ambiguous. Verify before calling done.
+
+**Tradeoff:** Bias toward caution over speed. On trivial, unambiguous tasks, use judgment and move.
+
+## Project context
+
+- Astro 6 site (`npm run dev`, `npm run build`, `npm run lint`)
+- Content lives in `src/content/**` (MDX) and pages in `src/pages/**`
+- English + Spanish mirrors (`src/content/es-*`, `src/pages/es/**`) — update both when the change applies to both locales
+- Blog posts use `published:` frontmatter; future dates stay hidden until publish day (see `.github/SCHEDULED_PUBLISHING.md`)
+- Deploys via Vercel on push to `main`
+
+## 1. Think before coding
+
+- State assumptions explicitly. If uncertain, ask.
+- If multiple interpretations exist, present them — do not pick silently.
+- If a simpler approach exists, say so. Push back when warranted.
+- If something is unclear, stop, name the confusion, and ask.
+
+## 2. Simplicity first
+
+- No features, abstractions, or configurability beyond the request.
+- No error handling for impossible scenarios.
+- If the diff is much larger than the task warrants, simplify.
+
+Ask: *Would a senior engineer call this overcomplicated?* If yes, simplify.
+
+## 3. Surgical changes
+
+- Touch only what the request requires. Do not drive-by refactor adjacent code, comments, or formatting.
+- Match existing style and conventions in the file you edit.
+- Unrelated dead code: mention it; do not delete unless asked.
+
+**Orphans from your edit:** remove imports, variables, or functions your change made unused. Do not remove pre-existing dead code unless asked.
+
+**Test:** every changed line should trace to the user's request.
+
+### Content-only edits (MDX / copy / rates / SEO)
+
+- Prefer minimal text or frontmatter changes. Do not restructure surrounding pages or components.
+- Preserve tone, disclaimers, and factual hedging already on the site.
+- Do not bulk-update `lastmod` or unrelated pages unless the task includes that scope.
+
+## 4. Goal-driven execution
+
+Turn vague asks into verifiable success criteria.
+
+| Task type | Verify with |
+|-----------|-------------|
+| Bug fix / app code | Reproduce the issue, then `npm run build` and/or targeted test; spot-check affected UI |
+| New behavior | Explicit acceptance check from the request |
+| Content / MDX | `npm run build` passes; spot-check the page(s) changed |
+| Lint/format | `npm run lint` or `npm run format:check` when relevant |
+
+For multi-step work, state a brief plan with a verify step per step:
+
+```
+1. [Step] → verify: [check]
+2. [Step] → verify: [check]
+```
+
+Strong criteria let you loop independently. Weak criteria ("make it work") need clarification first.
+
+## Git and delivery
+
+- Do not commit, push, or open PRs unless the user asks.
+- When committing, follow the repo's existing commit message style.
+
+## Working well looks like
+
+- Smaller diffs, fewer rewrites from over-engineering
+- Clarifying questions before implementation, not after mistakes
+- Done means verified — not merely edited

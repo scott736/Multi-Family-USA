@@ -1,0 +1,16 @@
+---
+import DscrCalculator from "@/components/calculators/DscrCalculator";
+import ToolShell from "@/components/dscr/ToolShell.astro";
+---
+
+<ToolShell
+  title="Commercial DSCR Calculator | Multi-Family USA"
+  description="Calculate DSCR for 5+ unit multifamily financing scenarios."
+  h1="Commercial DSCR Calculator"
+  toolSlug="commercial-dscr-calculator"
+  tagline="Stress-test coverage ratios and identify lender-fit DSCR ranges."
+>
+  <Fragment slot="calculator">
+    <DscrCalculator client:load />
+  </Fragment>
+</ToolShell>

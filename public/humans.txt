@@ -1,0 +1,29 @@
+/* humans.txt — DSCR Authority */
+
+/* TEAM */
+    Editorial Team: DSCR Authority Editorial Team
+    Site: https://dscrauthority.com
+    Location: United States
+
+/* SITE */
+    Last updated: 2026-05-21
+    Language: English (en-US), Spanish (es-US)
+    Doctype: HTML5
+    Stack: Astro, Tailwind CSS, React, MDX
+    Hosting: Vercel Edge
+    Audience: US real-estate investors seeking DSCR loans
+
+/* STANDARDS */
+    Editorial standards: https://dscrauthority.com/editorial-standards
+    Privacy: https://dscrauthority.com/privacy
+    Terms: https://dscrauthority.com/terms
+
+/* DISCOVERY (SEO / AEO / AIO / GEO) */
+    Sitemap: https://dscrauthority.com/sitemap-index.xml
+    RSS: https://dscrauthority.com/rss.xml
+    LLMs index: https://dscrauthority.com/llms.txt
+    LLMs full: https://dscrauthority.com/llms-full.txt
+    AI policy: https://dscrauthority.com/.well-known/ai.txt
+    AI plugin: https://dscrauthority.com/.well-known/ai-plugin.json
+    OpenAPI: https://dscrauthority.com/.well-known/openapi.json
+    MCP manifest: https://dscrauthority.com/.well-known/mcp.json

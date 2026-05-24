@@ -1,0 +1,84 @@
+name: Scheduled blog publishing
+
+# Runs daily, checks whether any blog post in src/content/blog/ has a
+# `published:` frontmatter date equal to today (UTC), and if so pushes a
+# tiny empty commit to main. Vercel auto-deploys on every push to main,
+# so the next build picks up the newly-eligible post.
+#
+# No deploy hook or secrets needed — the workflow uses the default
+# GITHUB_TOKEN with contents: write.
+
+on:
+  schedule:
+    # 12:05 UTC daily. (The 5-minute offset avoids the top-of-hour rush
+    # when GitHub Actions can run minutes late under load.)
+    - cron: "5 12 * * *"
+  workflow_dispatch:
+    inputs:
+      force_publish:
+        description: "Force rebuild even if no post is scheduled for today"
+        required: false
+        default: "false"
+        type: choice
+        options:
+          - "false"
+          - "true"
+
+permissions:
+  contents: write
+
+jobs:
+  scheduled-publish:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Checkout main
+        uses: actions/checkout@v4
+        with:
+          ref: main
+          # We need a token that can push back to the repo. GITHUB_TOKEN
+          # works because permissions.contents=write is granted above.
+          token: ${{ secrets.GITHUB_TOKEN }}
+          # No deep history needed.
+          fetch-depth: 1
+
+      - name: Detect post scheduled for today
+        id: detect
+        run: |
+          set -euo pipefail
+          today="$(date -u +%Y-%m-%d)"
+          echo "Checking for posts with published: ${today}"
+          # grep returns non-zero when nothing matches; capture without failing
+          matches=$(grep -lE "^published: ${today}\$" src/content/blog/*.mdx || true)
+          if [ -n "${matches}" ]; then
+            echo "Scheduled post(s) for today:"
+            echo "${matches}"
+            echo "should_publish=true" >> "${GITHUB_OUTPUT}"
+            echo "today=${today}" >> "${GITHUB_OUTPUT}"
+            echo "matched_files=$(echo "${matches}" | tr '\n' ' ')" >> "${GITHUB_OUTPUT}"
+          else
+            echo "No post scheduled for ${today}."
+            echo "should_publish=false" >> "${GITHUB_OUTPUT}"
+            echo "today=${today}" >> "${GITHUB_OUTPUT}"
+          fi
+
+      - name: Push empty commit to trigger Vercel rebuild
+        if: steps.detect.outputs.should_publish == 'true' || inputs.force_publish == 'true'
+        env:
+          TODAY: ${{ steps.detect.outputs.today }}
+          MATCHED: ${{ steps.detect.outputs.matched_files }}
+          FORCED: ${{ inputs.force_publish }}
+        run: |
+          set -euo pipefail
+          git config user.name  "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          if [ "${FORCED}" = "true" ] && [ -z "${MATCHED:-}" ]; then
+            msg="chore(blog): manual rebuild trigger (${TODAY})"
+          else
+            msg="chore(blog): scheduled publish for ${TODAY}
+
+          Triggered by .github/workflows/scheduled-publish.yml.
+          Posts going live: ${MATCHED}"
+          fi
+          git commit --allow-empty -m "${msg}"
+          git push origin main

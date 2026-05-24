@@ -1,0 +1,58 @@
+---
+import Breadcrumbs from "@/components/dscr/Breadcrumbs.astro";
+import DefaultLayout from "@/layouts/DefaultLayout.astro";
+
+const tools = [
+  {
+    href: "/tools/cap-rate-noi-calculator",
+    title: "Cap Rate & NOI Calculator",
+    description: "Underwrite income and expenses into stabilized NOI and cap rate.",
+  },
+  {
+    href: "/tools/debt-yield-calculator",
+    title: "Debt Yield Calculator",
+    description: "Model lender-side risk with NOI-to-loan sizing pressure.",
+  },
+  {
+    href: "/tools/commercial-dscr-calculator",
+    title: "Commercial DSCR Calculator",
+    description: "Quickly evaluate DSCR and debt-service coverage sensitivity.",
+  },
+  {
+    href: "/tools/cash-on-cash-calculator",
+    title: "Cash-on-Cash Calculator",
+    description: "Estimate levered annual return on invested equity.",
+  },
+  {
+    href: "/tools/loan-sizing-calculator",
+    title: "Loan Sizing Calculator",
+    description: "Find the binding constraint across DSCR, debt yield, and LTV.",
+  },
+];
+---
+
+<DefaultLayout title="Multifamily Underwriting Tools | Multi-Family USA" description="Free calculators for multifamily underwriting and financing decisions.">
+  <Breadcrumbs crumbs={[
+    { label: "Home", href: "/" },
+    { label: "Tools", href: "/tools" },
+  ]} />
+
+  <section class="container py-8">
+    <p class="text-xs font-bold uppercase tracking-wider text-accent">Tools</p>
+    <h1 class="mt-2 text-4xl font-bold lg:text-5xl">Multifamily underwriting calculators</h1>
+    <p class="mt-4 max-w-3xl text-lg text-muted-foreground">
+      Built for commercial multifamily analysis. Use results as directional underwriting guidance before requesting term sheets.
+    </p>
+  </section>
+
+  <section class="container py-4">
+    <div class="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+      {tools.map((tool) => (
+        <a href={tool.href} class="rounded-lg border border-border bg-card p-5 hover:border-accent">
+          <h2 class="text-lg font-bold">{tool.title}</h2>
+          <p class="mt-2 text-sm text-muted-foreground">{tool.description}</p>
+        </a>
+      ))}
+    </div>
+  </section>
+</DefaultLayout>

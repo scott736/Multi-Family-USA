@@ -1,0 +1,16 @@
+---
+import CapRateNoiCalculator from "@/components/calculators/CapRateNoiCalculator";
+import ToolShell from "@/components/dscr/ToolShell.astro";
+---
+
+<ToolShell
+  title="Cap Rate and NOI Calculator | Multi-Family USA"
+  description="Estimate NOI and cap rate for 5+ unit multifamily opportunities."
+  h1="Cap Rate & NOI Calculator"
+  toolSlug="cap-rate-noi-calculator"
+  tagline="Model stabilized income, operating expenses, and implied market cap rates."
+>
+  <Fragment slot="calculator">
+    <CapRateNoiCalculator client:load />
+  </Fragment>
+</ToolShell>
