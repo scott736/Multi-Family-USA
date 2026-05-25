@@ -1,19 +1,73 @@
 ---
 import CapRateNoiCalculator from "@/components/calculators/CapRateNoiCalculator";
 import ToolShell from "@/components/dscr/ToolShell.astro";
+
+const faqs = [
+  {
+    q: "What is a cap rate calculator used for in multifamily?",
+    a: "A cap rate calculator converts stabilized net operating income (NOI) and property value into an implied cap rate—or backs into value from NOI and a market cap rate. Lenders and sponsors use it to sanity-check pricing on 5+ unit apartment acquisitions and refinances.",
+  },
+  {
+    q: "How do you calculate cap rate?",
+    a: "Cap Rate = NOI ÷ Property Value. For example, $900,000 NOI on a $15,000,000 asset implies a 6.0% cap rate. Reverse the formula to estimate value: Value = NOI ÷ Cap Rate.",
+  },
+  {
+    q: "What NOI should I use for a cap rate calculation?",
+    a: "Use lender-normalized NOI: trailing T12 or T3 annualized, with nonrecurring items removed and realistic vacancy, concessions, and expense assumptions. Sponsors often model both in-place and stabilized NOI.",
+  },
+  {
+    q: "Is cap rate the same as cash-on-cash return?",
+    a: "No. Cap rate is an unlevered yield on property value. Cash-on-cash measures levered return on equity after debt service. Both matter, but lenders size debt from NOI, DSCR, and debt yield—not cap rate alone.",
+  },
+  {
+    q: "What cap rate range is typical for stabilized multifamily?",
+    a: "Ranges vary widely by market, vintage, and asset quality. Many stabilized 5+ unit assets underwrite between roughly 4.5% and 7.5%, but submarket comps and lender adjustments should drive your assumption—not a national average.",
+  },
+  {
+    q: "Can I use this calculator for value-add deals?",
+    a: "Yes. Run in-place NOI for today's pricing context and stabilized NOI for exit or refinance scenarios. Bridge lenders often underwrite both views when sizing proceeds and extension risk.",
+  },
+];
 ---
 
 <ToolShell
-  title="Cap Rate and NOI Calculator | Multi-Family USA"
-  description="Estimate NOI and cap rate for 5+ unit multifamily opportunities."
-  h1="Cap Rate & NOI Calculator"
+  title="Cap Rate Calculator for Multifamily | Multi-Family USA"
+  description="Free cap rate calculator for 5+ unit multifamily. Model NOI, operating expenses, and implied cap rate with a worked apartment building example."
+  h1="Cap Rate Calculator for Multifamily"
   toolSlug="cap-rate-noi-calculator"
-  tagline="Model stabilized income, operating expenses, and implied market cap rates."
-  relatedGuides={["multifamily-noi-normalization", "stabilized-vs-transitional-assets", "multifamily-underwriting-basics"]}
-  relatedComparisons={["bank-vs-debt-fund", "agency-vs-bridge"]}
+  tagline="Model stabilized income, operating expenses, and implied market cap rates for commercial apartment buildings."
+  keywords={["cap rate calculator", "noi calculator", "multifamily cap rate", "apartment valuation", "net operating income"]}
+  relatedGuides={["multifamily-noi-normalization", "multifamily-underwriting-basics", "five-plus-unit-commercial-financing-basics"]}
+  relatedComparisons={["agency-vs-bridge", "acquisition-vs-refinance"]}
   relatedPropertyTypes={["garden-style-multifamily", "value-add-c-class-multifamily"]}
+  faqs={faqs}
 >
   <Fragment slot="calculator">
     <CapRateNoiCalculator client:load />
+  </Fragment>
+
+  <Fragment slot="content">
+    <div class="prose prose-neutral max-w-none dark:prose-invert">
+      <h2>How to calculate cap rate for multifamily</h2>
+      <p>
+        Cap rate expresses how much annual NOI a property produces relative to its price. For commercial multifamily (5+ units), the core formula is:
+      </p>
+      <p><strong>Cap Rate = NOI ÷ Property Value</strong></p>
+      <p>
+        To solve for value instead: <strong>Property Value = NOI ÷ Cap Rate</strong>. Always use normalized NOI—gross income minus vacancy, concessions, and operating expenses—before applying the formula.
+      </p>
+
+      <h2>Worked example: 48-unit garden-style apartment</h2>
+      <p>
+        A sponsor underwrites a 48-unit garden-style property in a Sun Belt market. Effective gross income is $1,152,000 after vacancy and concessions. Operating expenses total $432,000, producing <strong>NOI of $720,000</strong>. The seller asks $12,000,000.
+      </p>
+      <ul>
+        <li>Implied cap rate: $720,000 ÷ $12,000,000 = <strong>6.0%</strong></li>
+        <li>If market comps support a 5.75% cap, implied value = $720,000 ÷ 0.0575 ≈ <strong>$12.5M</strong></li>
+      </ul>
+      <p>
+        Lenders may haircut revenue or stress expenses, which lowers NOI and raises the effective cap rate on their value opinion. Pair this output with the <a href="/tools/debt-yield-calculator">debt yield calculator</a> and <a href="/learn/multifamily-noi-normalization">NOI normalization guide</a>.
+      </p>
+    </div>
   </Fragment>
 </ToolShell>

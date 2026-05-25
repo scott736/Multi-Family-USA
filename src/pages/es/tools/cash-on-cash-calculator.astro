@@ -1,0 +1,58 @@
+---
+import CashOnCashCalculator from "@/components/calculators/CashOnCashCalculator";
+import ToolShell from "@/components/dscr/ToolShell.astro";
+
+const faqs = [
+  {
+    q: "¿Qué es retorno cash-on-cash en multifamiliar?",
+    a: "Mide flujo de caja anual antes de impuestos dividido por el equity total invertido. Muestra rendimiento apalancado después del servicio de la deuda.",
+  },
+  {
+    q: "¿Cómo se calcula?",
+    a: "Cash-on-Cash = Flujo anual después de deuda ÷ Efectivo total invertido. Incluya enganche, costos de cierre, reservas y capex.",
+  },
+  {
+    q: "¿Qué retorno es bueno?",
+    a: "Varía por mercado y apalancamiento. Adquisiciones estabilizadas pueden apuntar a dígitos altos; value-add puede aceptar rendimientos iniciales más bajos.",
+  },
+  {
+    q: "¿Diferencia con cap rate?",
+    a: "Cap rate es sin apalancamiento (NOI ÷ valor). Cash-on-cash es apalancado (flujo ÷ equity).",
+  },
+  {
+    q: "¿Incluyo capex en efectivo invertido?",
+    a: "Sí en value-add. Omitir capex sobrestima retornos.",
+  },
+  {
+    q: "¿Reemplaza un modelo completo?",
+    a: "No. Use verificaciones direccionales; modelos completos incluyen salida, refinanciamiento e impuestos.",
+  },
+];
+---
+
+<ToolShell
+  locale="es"
+  title="Calculadora de Inversión Inmobiliaria Multifamiliar | Multi-Family USA"
+  description="Calculadora gratuita de inversión inmobiliaria para multifamiliar. Estime retorno cash-on-cash en edificios de 5+ unidades."
+  h1="Calculadora Cash-on-Cash Multifamiliar"
+  toolSlug="cash-on-cash-calculator"
+  tagline="Evalúe flujo de caja neto anual frente al equity total invertido—para edificios comerciales, no flips residenciales."
+  keywords={["calculadora inversión inmobiliaria", "cash on cash", "inversión multifamiliar"]}
+  relatedGuides={["capital-stack-design-for-value-add", "multifamily-underwriting-basics", "operator-reporting-for-lenders"]}
+  relatedComparisons={["bank-vs-debt-fund", "recourse-vs-nonrecourse"]}
+  faqs={faqs}
+>
+  <Fragment slot="calculator">
+    <CashOnCashCalculator client:load />
+  </Fragment>
+
+  <Fragment slot="content">
+    <div class="prose prose-neutral max-w-none dark:prose-invert">
+      <h2>Cómo calcular cash-on-cash</h2>
+      <p><strong>Cash-on-Cash = Flujo anual después de deuda ÷ Efectivo total invertido</strong></p>
+
+      <h2>Ejemplo: adquisición de 24 unidades con 35% equity</h2>
+      <p>Precio $3.6M; equity $1.35M; flujo anual $162,000 → <strong>12.0%</strong> cash-on-cash.</p>
+    </div>
+  </Fragment>
+</ToolShell>

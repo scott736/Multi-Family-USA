@@ -1,0 +1,69 @@
+---
+title: Debt Yield vs DSCR vs LTV — Multifamily Comparison
+description: Compare debt yield, DSCR, and LTV for commercial multifamily loan sizing—formulas, binding constraints, and when each metric drives proceeds.
+category: underwriting
+author: Multi-Family USA Editorial Team
+reviewer: Scott Dillingham
+readTime: 9
+lastUpdated: 2026-05-24
+published: 2026-05-24
+keywords:
+- debt yield vs dscr
+- dscr vs ltv multifamily
+- loan sizing metrics
+- multifamily underwriting comparison
+relatedTools:
+- debt-yield-calculator
+- commercial-dscr-calculator
+- loan-sizing-calculator
+relatedGuides:
+- debt-yield-and-ltv-framework
+- commercial-dscr-explained
+- multifamily-underwriting-basics
+relatedComparisons:
+- agency-vs-bridge
+- bank-vs-debt-fund
+faq:
+- q: What is the difference between debt yield, DSCR, and LTV?
+  a: Debt yield equals NOI divided by loan amount. DSCR equals NOI divided by annual debt service. LTV equals loan amount divided by property value. Lenders size to the lowest proceeds result.
+- q: Which metric binds most often on stabilized deals?
+  a: It varies by rate environment and leverage targets. Debt yield often binds when spreads are tight; LTV may bind when values are aggressive; DSCR binds when rates rise relative to NOI.
+- q: Can a deal pass DSCR but fail debt yield?
+  a: Yes. Low rates or IO periods can support DSCR while loan balance stays high relative to NOI, failing debt yield floors.
+- q: How do I calculate max loan from each metric?
+  a: Max loan from debt yield = NOI ÷ min debt yield. Max from LTV = value × max LTV. Max from DSCR requires solving loan from allowed debt service at your rate and amortization.
+- q: Should sponsors optimize for one metric?
+  a: No. Model all three under base and downside cases. The binding constraint determines realistic proceeds.
+- q: Where can I run all three together?
+  a: Use the loan sizing calculator alongside individual debt yield and DSCR tools.
+---
+
+## How debt yield, DSCR, and LTV work together
+
+Multifamily lenders size commercial apartment loans using three core metrics. **Proceeds bind to the most restrictive result**—not the metric the sponsor prefers.
+
+## Quick formula reference
+
+| Metric | Formula | What it tests |
+|--------|---------|----------------|
+| Debt yield | NOI ÷ Loan | Leverage vs NOI (rate-neutral) |
+| DSCR | NOI ÷ Debt service | Cash flow vs P&I |
+| LTV | Loan ÷ Value | Leverage vs appraised value |
+
+## When each metric tends to bind
+
+**Debt yield** often binds on stabilized agency deals when lenders want rate-independent leverage checks. **DSCR** binds when interest rates rise faster than NOI growth. **LTV** binds when purchase prices or value opinions run ahead of income support.
+
+## Worked comparison example
+
+Assume normalized NOI of **$1,000,000**, value **$13,500,000**, min debt yield **9.5%**, min DSCR **1.25x**, max LTV **75%**, and annual debt service of **$780,000** on a $10.2M loan (1.28x DSCR).
+
+- Debt yield max: $1M ÷ 0.095 ≈ **$10.53M**
+- LTV max: $13.5M × 75% = **$10.13M**
+- DSCR supports roughly **$10.2M** in this illustration
+
+LTV binds near **$10.1M**—not debt yield or DSCR alone.
+
+## Sponsor takeaway
+
+Present all three metrics in lender packages with downside stress. Read the [debt yield and LTV framework](/learn/debt-yield-and-ltv-framework/) and run the [loan sizing calculator](/tools/loan-sizing-calculator/).

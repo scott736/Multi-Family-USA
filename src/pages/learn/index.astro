@@ -8,7 +8,7 @@ import DefaultLayout from "@/layouts/DefaultLayout.astro";
 const entries = await getCollection("guides");
 ---
 
-<DefaultLayout title="Multifamily learning center | Multi-Family USA" description="Core guides covering underwriting, capital markets, and execution.">
+<DefaultLayout title="Multifamily Learning Center — Guides & Execution Playbooks" description="Guides on apartment building loans, commercial DSCR, agency vs bridge, FHA HUD, construction financing, and multifamily underwriting.">
   <Breadcrumbs crumbs={[
     { label: "Home", href: "/" },
     { label: "Learn", href: "/learn" },
@@ -33,6 +33,24 @@ const entries = await getCollection("guides");
             </a>
           );
         })}
+    </div>
+  </section>
+
+  <section class="container py-8">
+    <h2 class="text-2xl font-bold">Start with these guides</h2>
+    <div class="mt-4 grid gap-4 md:grid-cols-3">
+      <a href="/learn/apartment-building-loan-guide/" class="rounded-lg border border-border bg-card p-5 hover:border-accent">
+        <h3 class="text-lg font-bold">Apartment building loans</h3>
+        <p class="mt-2 text-sm text-muted-foreground">How commercial apartment complex loans work for 5+ units.</p>
+      </a>
+      <a href="/learn/commercial-dscr-explained/" class="rounded-lg border border-border bg-card p-5 hover:border-accent">
+        <h3 class="text-lg font-bold">Commercial DSCR</h3>
+        <p class="mt-2 text-sm text-muted-foreground">Lender DSCR calculations and improvement strategies.</p>
+      </a>
+      <a href="/learn/multifamily-construction-financing/" class="rounded-lg border border-border bg-card p-5 hover:border-accent">
+        <h3 class="text-lg font-bold">Construction financing</h3>
+        <p class="mt-2 text-sm text-muted-foreground">Ground-up and major rehab multifamily debt.</p>
+      </a>
     </div>
   </section>
 

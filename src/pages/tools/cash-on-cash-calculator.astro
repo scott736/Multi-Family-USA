@@ -1,19 +1,73 @@
 ---
 import CashOnCashCalculator from "@/components/calculators/CashOnCashCalculator";
 import ToolShell from "@/components/dscr/ToolShell.astro";
+
+const faqs = [
+  {
+    q: "What is cash-on-cash return in multifamily?",
+    a: "Cash-on-cash measures annual pre-tax cash flow divided by total equity invested. It shows levered yield to the sponsor after debt service—not unlevered cap rate on property value.",
+  },
+  {
+    q: "How do you calculate cash-on-cash return?",
+    a: "Cash-on-Cash = Annual Cash Flow After Debt Service ÷ Total Cash Invested. Include down payment, closing costs, reserves, and capex equity in the denominator.",
+  },
+  {
+    q: "What is a good cash-on-cash return for apartment buildings?",
+    a: "Targets vary by market, leverage, and business plan. Stabilized acquisitions might target high single digits to low teens; value-add deals may accept lower early yields for appreciation and refinance upside.",
+  },
+  {
+    q: "How is cash-on-cash different from cap rate?",
+    a: "Cap rate is unlevered (NOI ÷ value). Cash-on-cash is levered (cash flow ÷ equity). Higher leverage can raise cash-on-cash while cap rate stays constant—along with risk.",
+  },
+  {
+    q: "Should I include capex in cash invested?",
+    a: "Yes for value-add deals. Sponsors who omit renovation equity overstate returns. Lenders also expect clarity on total equity at risk including reserves.",
+  },
+  {
+    q: "Can this calculator replace a full investment model?",
+    a: "No. Use it for directional checks. Full models should include disposition, refinance, tax assumptions, and downside scenarios across the hold period.",
+  },
+];
 ---
 
 <ToolShell
-  title="Cash-on-Cash Calculator | Multi-Family USA"
-  description="Estimate annual equity return on commercial multifamily investments."
-  h1="Cash-on-Cash Calculator"
+  title="Real Estate Investment Calculator — Multifamily Cash-on-Cash | Multi-Family USA"
+  description="Free real estate investment calculator for multifamily. Estimate cash-on-cash return on 5+ unit apartment deals with formulas, example, and FAQs."
+  h1="Multifamily Cash-on-Cash Calculator"
   toolSlug="cash-on-cash-calculator"
-  tagline="Evaluate annual net cash flow against your total equity investment."
-  relatedGuides={["capital-stack-design-for-value-add", "operator-reporting-for-lenders", "multifamily-underwriting-basics"]}
+  tagline="Evaluate annual net cash flow against total equity invested—built for commercial apartment building analysis, not residential flips."
+  keywords={["real estate investment calculator", "cash on cash return", "multifamily investment", "apartment building returns", "levered yield"]}
+  relatedGuides={["capital-stack-design-for-value-add", "multifamily-underwriting-basics", "operator-reporting-for-lenders"]}
   relatedComparisons={["bank-vs-debt-fund", "recourse-vs-nonrecourse"]}
   relatedInvestorProfiles={["value-add-sponsor", "small-portfolio-operator"]}
+  faqs={faqs}
 >
   <Fragment slot="calculator">
     <CashOnCashCalculator client:load />
+  </Fragment>
+
+  <Fragment slot="content">
+    <div class="prose prose-neutral max-w-none dark:prose-invert">
+      <h2>How to calculate cash-on-cash return</h2>
+      <p>
+        For multifamily equity investors, the core formula is:
+      </p>
+      <p><strong>Cash-on-Cash = Annual Cash Flow After Debt Service ÷ Total Cash Invested</strong></p>
+      <p>
+        Total cash invested includes down payment, closing costs, initial reserves, and value-add capex funded from equity.
+      </p>
+
+      <h2>Worked example: 24-unit acquisition with 35% equity</h2>
+      <p>
+        Purchase price <strong>$3,600,000</strong>. Loan <strong>$2,340,000</strong> (65% LTV). Equity at closing: down payment plus costs = <strong>$1,350,000</strong>. After debt service, annual cash flow is <strong>$162,000</strong>.
+      </p>
+      <ul>
+        <li>Cash-on-cash: $162,000 ÷ $1,350,000 ≈ <strong>12.0%</strong></li>
+        <li>Unlevered cap rate on $3.6M with $270,000 NOI ≈ 7.5%—lower because leverage amplifies equity yield</li>
+      </ul>
+      <p>
+        Pair with the <a href="/tools/cap-rate-noi-calculator">cap rate calculator</a> and <a href="/learn/capital-stack-design-for-value-add">capital stack design guide</a> for full underwriting context.
+      </p>
+    </div>
   </Fragment>
 </ToolShell>

@@ -31,7 +31,7 @@ const tools = [
 ];
 ---
 
-<DefaultLayout title="Multifamily Underwriting Tools | Multi-Family USA" description="Free calculators for multifamily underwriting and financing decisions.">
+<DefaultLayout title="Multifamily Underwriting Calculators | Cap Rate, DSCR, Loan Sizing" description="Free multifamily calculators: cap rate, debt yield, commercial DSCR, cash-on-cash, and loan sizing for 5+ unit apartment underwriting.">
   <Breadcrumbs crumbs={[
     { label: "Home", href: "/" },
     { label: "Tools", href: "/tools" },
@@ -41,7 +41,7 @@ const tools = [
     <p class="text-xs font-bold uppercase tracking-wider text-accent">Tools</p>
     <h1 class="mt-2 text-4xl font-bold lg:text-5xl">Multifamily underwriting calculators</h1>
     <p class="mt-4 max-w-3xl text-lg text-muted-foreground">
-      Built for commercial multifamily analysis. Use results as directional underwriting guidance before requesting term sheets.
+      Cap rate, debt yield, commercial DSCR, cash-on-cash, and loan sizing tools for 5+ unit apartment buildings—not residential 1–4 unit programs.
     </p>
   </section>
 
@@ -53,6 +53,24 @@ const tools = [
           <p class="mt-2 text-sm text-muted-foreground">{tool.description}</p>
         </a>
       ))}
+    </div>
+  </section>
+
+  <section class="container py-8">
+    <h2 class="text-2xl font-bold">Featured financing guides</h2>
+    <div class="mt-4 grid gap-4 md:grid-cols-3">
+      <a href="/learn/apartment-building-loan-guide/" class="rounded-lg border border-border bg-card p-5 hover:border-accent">
+        <h3 class="text-lg font-bold">Apartment building loan guide</h3>
+        <p class="mt-2 text-sm text-muted-foreground">Products and underwriting for 5+ unit apartment complex loans.</p>
+      </a>
+      <a href="/learn/commercial-dscr-explained/" class="rounded-lg border border-border bg-card p-5 hover:border-accent">
+        <h3 class="text-lg font-bold">Commercial DSCR explained</h3>
+        <p class="mt-2 text-sm text-muted-foreground">How lenders calculate DSCR on multifamily term sheets.</p>
+      </a>
+      <a href="/learn/fha-hud-multifamily-financing/" class="rounded-lg border border-border bg-card p-5 hover:border-accent">
+        <h3 class="text-lg font-bold">FHA & HUD multifamily</h3>
+        <p class="mt-2 text-sm text-muted-foreground">Government program context including FHA 221(d)(4).</p>
+      </a>
     </div>
   </section>
 

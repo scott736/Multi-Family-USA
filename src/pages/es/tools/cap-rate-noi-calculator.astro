@@ -1,0 +1,63 @@
+---
+import CapRateNoiCalculator from "@/components/calculators/CapRateNoiCalculator";
+import ToolShell from "@/components/dscr/ToolShell.astro";
+
+const faqs = [
+  {
+    q: "¿Para qué sirve una calculadora de cap rate en multifamiliar?",
+    a: "Convierte el NOI estabilizado y el valor de la propiedad en una tasa de capitalización implícita, o estima valor a partir del NOI y un cap rate de mercado. Prestamistas y patrocinadores la usan para validar precios en adquisiciones y refinanciamientos de 5+ unidades.",
+  },
+  {
+    q: "¿Cómo se calcula el cap rate?",
+    a: "Cap Rate = NOI ÷ Valor de la propiedad. Por ejemplo, NOI de $900,000 sobre un activo de $15,000,000 implica 6.0%. Para valor: Valor = NOI ÷ Cap Rate.",
+  },
+  {
+    q: "¿Qué NOI debo usar?",
+    a: "Use NOI normalizado por el prestamista: T12 o T3 anualizado, sin partidas no recurrentes y con vacancia y gastos realistas. Modele NOI in-place y estabilizado.",
+  },
+  {
+    q: "¿Es lo mismo que retorno cash-on-cash?",
+    a: "No. El cap rate es rendimiento sin apalancamiento. El cash-on-cash mide retorno apalancado sobre el equity después del servicio de la deuda.",
+  },
+  {
+    q: "¿Qué rango de cap rate es típico?",
+    a: "Varía por mercado y calidad del activo. Muchos edificios estabilizados de 5+ unidades se suscriben entre ~4.5% y 7.5%, pero los comps del submercado deben guiar su supuesto.",
+  },
+  {
+    q: "¿Puedo usarla en value-add?",
+    a: "Sí. Calcule NOI in-place para el contexto actual y NOI estabilizado para salida o refinanciamiento. Los prestamistas bridge suelen suscribir ambas vistas.",
+  },
+];
+---
+
+<ToolShell
+  locale="es"
+  title="Calculadora de Cap Rate Multifamiliar | Multi-Family USA"
+  description="Calculadora gratuita de cap rate para edificios de 5+ unidades. Modele NOI, gastos operativos y cap rate con un ejemplo trabajado."
+  h1="Calculadora de Cap Rate Multifamiliar"
+  toolSlug="cap-rate-noi-calculator"
+  tagline="Modele ingresos estabilizados, gastos operativos y cap rates de mercado para edificios de apartamentos comerciales."
+  keywords={["calculadora cap rate", "calculadora NOI", "cap rate multifamiliar", "valoración apartamentos"]}
+  relatedGuides={["multifamily-noi-normalization", "multifamily-underwriting-basics", "five-plus-unit-commercial-financing-basics"]}
+  relatedComparisons={["agency-vs-bridge", "acquisition-vs-refinance"]}
+  faqs={faqs}
+>
+  <Fragment slot="calculator">
+    <CapRateNoiCalculator client:load />
+  </Fragment>
+
+  <Fragment slot="content">
+    <div class="prose prose-neutral max-w-none dark:prose-invert">
+      <h2>Cómo calcular el cap rate multifamiliar</h2>
+      <p><strong>Cap Rate = NOI ÷ Valor de la propiedad</strong></p>
+      <p>Para estimar valor: <strong>Valor = NOI ÷ Cap Rate</strong>. Use NOI normalizado antes de aplicar la fórmula.</p>
+
+      <h2>Ejemplo: edificio garden de 48 unidades</h2>
+      <p>Ingreso efectivo bruto $1,152,000; gastos $432,000; <strong>NOI $720,000</strong>. Precio solicitado $12,000,000.</p>
+      <ul>
+        <li>Cap rate implícito: <strong>6.0%</strong></li>
+        <li>Con cap de mercado 5.75%, valor ≈ <strong>$12.5M</strong></li>
+      </ul>
+    </div>
+  </Fragment>
+</ToolShell>

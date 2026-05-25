@@ -1,19 +1,77 @@
 ---
 import DscrCalculator from "@/components/calculators/DscrCalculator";
 import ToolShell from "@/components/dscr/ToolShell.astro";
+
+const faqs = [
+  {
+    q: "What is commercial DSCR for multifamily?",
+    a: "Commercial DSCR measures whether normalized NOI covers annual debt service (principal and interest). Lenders on 5+ unit properties use DSCR with debt yield and LTV to size proceeds—not residential 1–4 unit DSCR programs.",
+  },
+  {
+    q: "How do you calculate DSCR?",
+    a: "DSCR = NOI ÷ Annual Debt Service. If NOI is $960,000 and annual P&I is $720,000, DSCR is 1.33x. Higher coverage generally supports more proceeds or better pricing.",
+  },
+  {
+    q: "What DSCR do multifamily lenders require?",
+    a: "Requirements vary by product and asset stage. Many stabilized agency deals target roughly 1.20x–1.30x on in-place NOI, while bridge lenders may accept lower in-place coverage if a credible stabilization plan exists.",
+  },
+  {
+    q: "Why does my DSCR differ from the lender's?",
+    a: "Lenders may haircut revenue, stress expenses, include reserves, and use their own rate and amortization assumptions. Sponsor spreadsheet DSCR often runs higher than lender underwriting DSCR.",
+  },
+  {
+    q: "Does interest-only debt affect DSCR?",
+    a: "Yes. IO periods reduce near-term debt service, which can inflate DSCR temporarily. Lenders often also test amortizing DSCR or debt yield to avoid over-leveraging into IO structures.",
+  },
+  {
+    q: "How can I improve DSCR before refinancing?",
+    a: "Focus on durable NOI improvements—occupancy, effective rent, expense control—and realistic loan sizing. Short-term rate bets rarely substitute for stronger operating performance.",
+  },
+  {
+    q: "Is this calculator for residential DSCR loans?",
+    a: "No. Multi-Family USA focuses on commercial multifamily financing for 5+ unit apartment buildings. Residential 1–4 unit DSCR products follow different guidelines.",
+  },
+];
 ---
 
 <ToolShell
-  title="Commercial DSCR Calculator | Multi-Family USA"
-  description="Calculate DSCR for 5+ unit multifamily financing scenarios."
+  title="DSCR Calculator for Commercial Multifamily | Multi-Family USA"
+  description="Free commercial DSCR calculator for 5+ unit multifamily loans. Stress-test debt service coverage with formulas, FAQs, and a worked apartment example."
   h1="Commercial DSCR Calculator"
   toolSlug="commercial-dscr-calculator"
-  tagline="Stress-test coverage ratios and identify lender-fit DSCR ranges."
+  tagline="Stress-test debt service coverage for commercial apartment buildings—not residential 1–4 unit DSCR programs."
+  keywords={["dscr calculator", "commercial dscr", "multifamily dscr", "debt service coverage", "apartment loan qualification"]}
   relatedGuides={["commercial-dscr-explained", "debt-yield-and-ltv-framework", "multifamily-underwriting-basics"]}
   relatedComparisons={["agency-vs-bridge", "fixed-vs-floating-rate"]}
   relatedLoanTypes={["agency-stabilized", "bridge-value-add"]}
+  faqs={faqs}
 >
   <Fragment slot="calculator">
     <DscrCalculator client:load />
+  </Fragment>
+
+  <Fragment slot="content">
+    <div class="prose prose-neutral max-w-none dark:prose-invert">
+      <h2>How to calculate commercial DSCR</h2>
+      <p>
+        For multifamily acquisitions and refinances on 5+ units, commercial DSCR is:
+      </p>
+      <p><strong>DSCR = NOI ÷ Annual Debt Service</strong></p>
+      <p>
+        Annual debt service includes principal and interest (and sometimes lender-required reserves). Use normalized NOI consistent with lender underwriting, not unadjusted sponsor projections.
+      </p>
+
+      <h2>Worked example: 32-unit value-add acquisition</h2>
+      <p>
+        A sponsor acquires a 32-unit value-add property. In-place normalized NOI is <strong>$480,000</strong>. Proposed permanent debt service is <strong>$380,000</strong> per year at full amortization.
+      </p>
+      <ul>
+        <li>In-place DSCR: $480,000 ÷ $380,000 = <strong>1.26x</strong></li>
+        <li>Stabilized NOI target of $620,000 implies <strong>1.63x</strong> coverage on the same debt service</li>
+      </ul>
+      <p>
+        Bridge lenders may size on in-place metrics while agency takeout lenders focus on stabilized coverage. See our <a href="/learn/commercial-dscr-explained">commercial DSCR guide</a> and <a href="/compare/agency-vs-bridge">agency vs bridge comparison</a>.
+      </p>
+    </div>
   </Fragment>
 </ToolShell>

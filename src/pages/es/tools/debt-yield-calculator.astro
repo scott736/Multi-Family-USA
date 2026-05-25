@@ -1,0 +1,63 @@
+---
+import DebtYieldCalculator from "@/components/calculators/DebtYieldCalculator";
+import ToolShell from "@/components/dscr/ToolShell.astro";
+
+const faqs = [
+  {
+    q: "¿Qué es debt yield?",
+    a: "Debt yield = NOI ÷ monto del préstamo, expresado en porcentaje. Mide el retorno del prestamista en un escenario de ejecución sin depender de la tasa de interés.",
+  },
+  {
+    q: "¿Cómo se calcula?",
+    a: "Debt Yield = NOI ÷ Préstamo. Con NOI $850,000 y préstamo $10,000,000, el debt yield es 8.5%. Préstamo máximo = NOI ÷ debt yield objetivo.",
+  },
+  {
+    q: "¿Por qué lo usan los prestamistas multifamiliares?",
+    a: "Es una prueba de apalancamiento estable cuando las tasas se mueven. Un trato puede tener DSCR aceptable pero fallar el piso de debt yield.",
+  },
+  {
+    q: "¿Qué debt yield piden las agencias?",
+    a: "Varía por prestamista y mercado. Muchas ejecuciones agency estabilizadas apuntan a ~9%-11% o más sobre NOI in-place.",
+  },
+  {
+    q: "¿Pueden entrar en conflicto DSCR y debt yield?",
+    a: "Sí. Períodos IO o tasas bajas pueden inflar el DSCR mientras el debt yield sigue delgado. Los prestamistas suelen dimensionar al métrico más restrictivo.",
+  },
+  {
+    q: "¿Cómo mejorarlo antes del cierre?",
+    a: "Aumente NOI durable, reduzca el préstamo con más equity o elija un producto con apalancamiento más conservador.",
+  },
+];
+---
+
+<ToolShell
+  locale="es"
+  title="Calculadora de Debt Yield Multifamiliar | Multi-Family USA"
+  description="Calculadora gratuita de debt yield para préstamos multifamiliares comerciales. Calcule ratios NOI/préstamo y techos de riesgo del prestamista."
+  h1="Calculadora de Debt Yield"
+  toolSlug="debt-yield-calculator"
+  tagline="Use NOI y monto del préstamo para probar umbrales de retorno del prestamista en operaciones de 5+ unidades."
+  keywords={["calculadora debt yield", "debt yield multifamiliar", "proceeds préstamo"]}
+  relatedGuides={["debt-yield-and-ltv-framework", "commercial-dscr-explained", "rate-risk-and-refinance-planning"]}
+  relatedComparisons={["bank-vs-debt-fund", "fixed-vs-floating-rate"]}
+  faqs={faqs}
+>
+  <Fragment slot="calculator">
+    <DebtYieldCalculator client:load />
+  </Fragment>
+
+  <Fragment slot="content">
+    <div class="prose prose-neutral max-w-none dark:prose-invert">
+      <h2>Cómo calcular debt yield</h2>
+      <p><strong>Debt Yield = NOI ÷ Monto del préstamo</strong></p>
+      <p>Préstamo máximo: <strong>Préstamo = NOI ÷ Debt Yield objetivo</strong></p>
+
+      <h2>Ejemplo: refinanciamiento de 64 unidades</h2>
+      <p>NOI normalizado <strong>$1,020,000</strong>. Piso del prestamista 9.5%.</p>
+      <ul>
+        <li>Préstamo máximo ≈ <strong>$10.74M</strong></li>
+        <li>A $11.2M solicitados, debt yield ≈ <strong>9.1%</strong>—probablemente bajo el piso</li>
+      </ul>
+    </div>
+  </Fragment>
+</ToolShell>

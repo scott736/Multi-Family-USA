@@ -1,19 +1,73 @@
 ---
 import DebtYieldCalculator from "@/components/calculators/DebtYieldCalculator";
 import ToolShell from "@/components/dscr/ToolShell.astro";
+
+const faqs = [
+  {
+    q: "What is debt yield?",
+    a: "Debt yield equals NOI divided by loan amount, expressed as a percentage. It measures lender return if they had to take the property through a workout—without relying on interest rate or amortization assumptions.",
+  },
+  {
+    q: "How do you calculate debt yield?",
+    a: "Debt Yield = NOI ÷ Loan Amount. If NOI is $850,000 and the loan is $10,000,000, debt yield is 8.5%. To find max loan at a target yield: Loan Amount = NOI ÷ Target Debt Yield.",
+  },
+  {
+    q: "Why do multifamily lenders use debt yield?",
+    a: "Debt yield is a leverage check that stays stable when rates move. A deal can show acceptable DSCR at today's coupon but fail a lender's debt-yield floor if proceeds are too high relative to NOI.",
+  },
+  {
+    q: "What debt yield do agency lenders typically require?",
+    a: "Floors vary by lender, market, and asset quality. Many stabilized agency executions target roughly 9%–11% or higher on in-place NOI, while bridge and transitional deals often require stronger yields or additional equity.",
+  },
+  {
+    q: "Can debt yield and DSCR conflict?",
+    a: "Yes. Interest-only periods or temporarily low rates can inflate DSCR while debt yield stays thin. Lenders usually size to the most restrictive metric among debt yield, DSCR, and LTV.",
+  },
+  {
+    q: "How can sponsors improve debt yield before closing?",
+    a: "Raise durable NOI through occupancy and expense control, reduce loan amount with more equity, or choose a product with a lower leverage target. Optimistic pro forma growth alone rarely fixes a debt-yield shortfall.",
+  },
+];
 ---
 
 <ToolShell
-  title="Debt Yield Calculator | Multi-Family USA"
-  description="Calculate debt yield to evaluate multifamily loan risk and proceeds."
+  title="Debt Yield Calculator for Multifamily | Multi-Family USA"
+  description="Free debt yield calculator for commercial multifamily loans. Compute NOI-to-loan ratios, max proceeds, and lender risk thresholds with a worked example."
   h1="Debt Yield Calculator"
   toolSlug="debt-yield-calculator"
-  tagline="Use NOI and loan amount to pressure-test lender-side return thresholds."
-  relatedGuides={["debt-yield-and-ltv-framework", "rate-risk-and-refinance-planning", "commercial-dscr-explained"]}
+  tagline="Use NOI and loan amount to pressure-test lender-side return thresholds on 5+ unit apartment deals."
+  keywords={["debt yield calculator", "multifamily debt yield", "loan proceeds", "lender underwriting", "apartment loan sizing"]}
+  relatedGuides={["debt-yield-and-ltv-framework", "commercial-dscr-explained", "rate-risk-and-refinance-planning"]}
   relatedComparisons={["bank-vs-debt-fund", "fixed-vs-floating-rate"]}
-  relatedLoanTypes={["debt-fund-floating-rate", "bridge-value-add"]}
+  relatedLoanTypes={["debt-fund-floating-rate", "bridge-value-add", "agency-stabilized"]}
+  faqs={faqs}
 >
   <Fragment slot="calculator">
     <DebtYieldCalculator client:load />
+  </Fragment>
+
+  <Fragment slot="content">
+    <div class="prose prose-neutral max-w-none dark:prose-invert">
+      <h2>How to calculate debt yield</h2>
+      <p>
+        Debt yield is one of the three core sizing metrics for commercial multifamily loans alongside DSCR and LTV:
+      </p>
+      <p><strong>Debt Yield = NOI ÷ Loan Amount</strong></p>
+      <p>
+        Rearrange to estimate maximum loan proceeds: <strong>Loan Amount = NOI ÷ Target Debt Yield</strong>. Use lender-normalized NOI, not sponsor pro forma alone.
+      </p>
+
+      <h2>Worked example: stabilized 64-unit refinance</h2>
+      <p>
+        A borrower refinances a stabilized 64-unit property. Lender-normalized NOI is <strong>$1,020,000</strong>. The lender requires a minimum 9.5% debt yield on in-place cash flow.
+      </p>
+      <ul>
+        <li>Max loan at 9.5% yield: $1,020,000 ÷ 0.095 ≈ <strong>$10.74M</strong></li>
+        <li>At $11.2M requested proceeds, debt yield = $1,020,000 ÷ $11,200,000 ≈ <strong>9.1%</strong>—likely below floor</li>
+      </ul>
+      <p>
+        Read more in our <a href="/learn/debt-yield-and-ltv-framework">debt yield and LTV framework</a> and <a href="/blog/debt-yield-why-it-drives-term-sheet-velocity">why debt yield drives term sheet velocity</a>.
+      </p>
+    </div>
   </Fragment>
 </ToolShell>

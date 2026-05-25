@@ -1,0 +1,62 @@
+---
+import DscrCalculator from "@/components/calculators/DscrCalculator";
+import ToolShell from "@/components/dscr/ToolShell.astro";
+
+const faqs = [
+  {
+    q: "¿Qué es DSCR comercial multifamiliar?",
+    a: "Mide si el NOI normalizado cubre el servicio anual de la deuda (P&I). En propiedades de 5+ unidades, los prestamistas usan DSCR con debt yield y LTV—no programas DSCR residenciales 1-4 unidades.",
+  },
+  {
+    q: "¿Cómo se calcula?",
+    a: "DSCR = NOI ÷ Servicio anual de la deuda. NOI $960,000 y P&I $720,000 → DSCR 1.33x.",
+  },
+  {
+    q: "¿Qué DSCR exigen los prestamistas?",
+    a: "Varía por producto. Muchos deals agency estabilizados apuntan a ~1.20x-1.30x sobre NOI in-place; bridge puede aceptar cobertura menor con plan creíble.",
+  },
+  {
+    q: "¿Por qué difiere del prestamista?",
+    a: "Pueden recortar ingresos, estresar gastos e incluir reservas. El DSCR del patrocinador suele ser mayor que el del prestamista.",
+  },
+  {
+    q: "¿Afecta el período solo intereses?",
+    a: "Sí. IO reduce el servicio de deuda a corto plazo e infla el DSCR. Los prestamistas también prueban amortización y debt yield.",
+  },
+  {
+    q: "¿Es para DSCR residencial?",
+    a: "No. Multi-Family USA se centra en financiamiento comercial multifamiliar de 5+ unidades.",
+  },
+];
+---
+
+<ToolShell
+  locale="es"
+  title="Calculadora DSCR Comercial Multifamiliar | Multi-Family USA"
+  description="Calculadora DSCR gratuita para préstamos multifamiliares de 5+ unidades. Pruebe cobertura del servicio de la deuda con fórmulas y ejemplo."
+  h1="Calculadora DSCR Comercial"
+  toolSlug="commercial-dscr-calculator"
+  tagline="Pruebe cobertura del servicio de la deuda para edificios comerciales—no programas DSCR residenciales 1-4 unidades."
+  keywords={["calculadora DSCR", "DSCR comercial", "DSCR multifamiliar"]}
+  relatedGuides={["commercial-dscr-explained", "debt-yield-and-ltv-framework", "multifamily-underwriting-basics"]}
+  relatedComparisons={["agency-vs-bridge", "fixed-vs-floating-rate"]}
+  faqs={faqs}
+>
+  <Fragment slot="calculator">
+    <DscrCalculator client:load />
+  </Fragment>
+
+  <Fragment slot="content">
+    <div class="prose prose-neutral max-w-none dark:prose-invert">
+      <h2>Cómo calcular DSCR comercial</h2>
+      <p><strong>DSCR = NOI ÷ Servicio anual de la deuda</strong></p>
+
+      <h2>Ejemplo: adquisición value-add de 32 unidades</h2>
+      <p>NOI in-place <strong>$480,000</strong>. Servicio anual <strong>$380,000</strong>.</p>
+      <ul>
+        <li>DSCR in-place: <strong>1.26x</strong></li>
+        <li>NOI estabilizado $620,000 → <strong>1.63x</strong></li>
+      </ul>
+    </div>
+  </Fragment>
+</ToolShell>

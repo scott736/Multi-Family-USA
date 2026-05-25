@@ -30,6 +30,9 @@ interface Props {
   relatedPropertyTypes?: string[];
   relatedInvestorProfiles?: string[];
   relatedBlog?: string[];
+  locale?: "en" | "es";
+  enPath?: string;
+  esPath?: string;
 }
 
 const {
@@ -37,7 +40,7 @@ const {
   description,
   h1,
   toolSlug,
-  kicker = "Interactive tool",
+  kicker,
   tagline,
   lastUpdated = "2026-05-24",
   faqs = [],
@@ -49,11 +52,27 @@ const {
   relatedPropertyTypes,
   relatedInvestorProfiles,
   relatedBlog,
+  locale = "en",
+  enPath,
+  esPath,
 } = Astro.props;
 
+const isEs = locale === "es";
 const faqList = Array.isArray(faqs) ? faqs : [];
-const toolPath = `/tools/${toolSlug}`;
+const toolPath = isEs ? `/es/tools/${toolSlug}` : `/tools/${toolSlug}`;
 const canonicalUrl = `${SITE_URL}${toolPath}`;
+const resolvedKicker = kicker ?? (isEs ? "Herramienta interactiva" : "Interactive tool");
+const resolvedEnPath = enPath ?? `/tools/${toolSlug}/`;
+const resolvedEsPath = esPath ?? `/es/tools/${toolSlug}/`;
+const faqHeading = isEs ? "Preguntas frecuentes" : "Frequently asked questions";
+const relatedHeading = isEs ? "Recursos relacionados" : "Related Resources";
+const lastUpdatedLabel = isEs ? "Última actualización:" : "Last updated:";
+const ctaHeadline = isEs
+  ? "¿Necesita una lectura de suscripción real?"
+  : "Need a real-world underwriting read?";
+const ctaSubheadline = isEs
+  ? "Envíe los datos de su operación y obtenga una revisión gratuita de encaje con prestamistas."
+  : "Submit your deal inputs and get a free lender-fit review.";
 
 const softwareSchema = {
   "@context": "https://schema.org",
@@ -63,7 +82,7 @@ const softwareSchema = {
   url: canonicalUrl,
   applicationCategory: "FinanceApplication",
   isAccessibleForFree: true,
-  inLanguage: "en-US",
+  inLanguage: isEs ? "es-US" : "en-US",
   dateModified: lastUpdated,
 };
 
@@ -99,35 +118,45 @@ const relatedLinks = await getRelatedLinks({
   schema={schema}
   canonical={toolPath}
   keywords={keywords}
+  enPath={resolvedEnPath}
+  esPath={resolvedEsPath}
 >
   <Breadcrumbs
-    crumbs={[
-      { label: "Home", href: "/" },
-      { label: "Tools", href: "/tools" },
-      { label: h1, href: toolPath },
-    ]}
+    crumbs={
+      isEs
+        ? [
+            { label: "Inicio", href: "/es" },
+            { label: "Herramientas", href: "/es/tools" },
+            { label: h1, href: toolPath },
+          ]
+        : [
+            { label: "Home", href: "/" },
+            { label: "Tools", href: "/tools" },
+            { label: h1, href: toolPath },
+          ]
+    }
   />
 
   <header class="container pb-4 pt-2">
-    <p class="text-xs font-bold uppercase tracking-wider text-accent">{kicker}</p>
+    <p class="text-xs font-bold uppercase tracking-wider text-accent">{resolvedKicker}</p>
     <h1 class="mt-2 text-4xl font-bold text-foreground lg:text-5xl">{h1}</h1>
     {tagline && <p class="mt-3 max-w-3xl text-lg text-muted-foreground">{tagline}</p>}
-    <p class="mt-2 text-xs text-muted-foreground">Last updated: <time datetime={lastUpdated}>{lastUpdated}</time></p>
+    <p class="mt-2 text-xs text-muted-foreground">{lastUpdatedLabel} <time datetime={lastUpdated}>{lastUpdated}</time></p>
   </header>
 
   <section class="container grid gap-8 py-6 lg:grid-cols-3">
     <div class="lg:col-span-2 space-y-8">
       <slot name="calculator" />
       {relatedLinks.length > 0 && (
-        <RelatedReading links={relatedLinks} heading="Related Resources" />
+        <RelatedReading links={relatedLinks} heading={relatedHeading} />
       )}
       <slot name="content" />
     </div>
     <aside class="lg:col-span-1 space-y-6">
       <slot name="sidebar" />
       <CtaCard
-        headline="Need a real-world underwriting read?"
-        subheadline="Submit your deal inputs and get a free lender-fit review."
+        headline={ctaHeadline}
+        subheadline={ctaSubheadline}
         sourceContext={`tool:${toolSlug}`}
         variant="compact"
       />
@@ -137,7 +166,7 @@ const relatedLinks = await getRelatedLinks({
   {
     faqList.length > 0 && (
       <section class="container py-12">
-        <h2 class="mb-6 text-3xl font-bold text-foreground" id="faq">Frequently asked questions</h2>
+        <h2 class="mb-6 text-3xl font-bold text-foreground" id="faq">{faqHeading}</h2>
         <FaqAccordion items={faqList} />
       </section>
     )

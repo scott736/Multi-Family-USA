@@ -1,0 +1,64 @@
+---
+import Breadcrumbs from "@/components/dscr/Breadcrumbs.astro";
+import DefaultLayout from "@/layouts/DefaultLayout.astro";
+
+const tools = [
+  {
+    href: "/es/tools/cap-rate-noi-calculator",
+    title: "Calculadora de Cap Rate y NOI",
+    description: "Suscrima ingresos y gastos en NOI estabilizado y cap rate.",
+  },
+  {
+    href: "/es/tools/debt-yield-calculator",
+    title: "Calculadora de Debt Yield",
+    description: "Modele riesgo del prestamista con presión NOI/préstamo.",
+  },
+  {
+    href: "/es/tools/commercial-dscr-calculator",
+    title: "Calculadora DSCR Comercial",
+    description: "Evalúe cobertura del servicio de la deuda en escenarios multifamiliares.",
+  },
+  {
+    href: "/es/tools/cash-on-cash-calculator",
+    title: "Calculadora Cash-on-Cash",
+    description: "Estime retorno anual apalancado sobre equity invertido.",
+  },
+  {
+    href: "/es/tools/loan-sizing-calculator",
+    title: "Calculadora de Dimensionamiento",
+    description: "Encuentre la restricción vinculante entre DSCR, debt yield y LTV.",
+  },
+];
+---
+
+<DefaultLayout
+  title="Herramientas de suscripción multifamiliar | Multi-Family USA"
+  description="Calculadoras gratuitas para suscripción y decisiones de financiamiento multifamiliar comercial (5+ unidades)."
+  canonical="/es/tools"
+  enPath="/tools/"
+  esPath="/es/tools/"
+>
+  <Breadcrumbs crumbs={[
+    { label: "Inicio", href: "/es" },
+    { label: "Herramientas", href: "/es/tools" },
+  ]} />
+
+  <section class="container py-8">
+    <p class="text-xs font-bold uppercase tracking-wider text-accent">Herramientas</p>
+    <h1 class="mt-2 text-4xl font-bold lg:text-5xl">Calculadoras de suscripción multifamiliar</h1>
+    <p class="mt-4 max-w-3xl text-lg text-muted-foreground">
+      Diseñadas para análisis multifamiliar comercial. Use los resultados como guía direccional antes de solicitar hojas de términos.
+    </p>
+  </section>
+
+  <section class="container py-4">
+    <div class="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+      {tools.map((tool) => (
+        <a href={tool.href} class="rounded-lg border border-border bg-card p-5 hover:border-accent">
+          <h2 class="text-lg font-bold">{tool.title}</h2>
+          <p class="mt-2 text-sm text-muted-foreground">{tool.description}</p>
+        </a>
+      ))}
+    </div>
+  </section>
+</DefaultLayout>
