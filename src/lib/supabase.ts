@@ -4,7 +4,7 @@ const SUPABASE_URL = import.meta.env.PUBLIC_SUPABASE_URL;
 const SUPABASE_ANON_KEY = import.meta.env.PUBLIC_SUPABASE_ANON_KEY;
 const SUPABASE_SERVICE_KEY = import.meta.env.SUPABASE_SERVICE_KEY;
 
-export function getClientSupabase() {
+function getClientSupabase() {
   if (!SUPABASE_URL || !SUPABASE_ANON_KEY) {
     throw new Error('Supabase client configuration missing');
   }

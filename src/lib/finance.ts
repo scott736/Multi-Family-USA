@@ -16,12 +16,12 @@ const usd2 = new Intl.NumberFormat("en-US", {
 });
 
 export const fmtUSD = (v: number) => usd0.format(isFinite(v) ? v : 0);
-export const fmtUSD2 = (v: number) => usd2.format(isFinite(v) ? v : 0);
+const fmtUSD2 = (v: number) => usd2.format(isFinite(v) ? v : 0);
 
-export const fmtPct = (v: number, decimals = 2) =>
+const fmtPct = (v: number, decimals = 2) =>
   `${(isFinite(v) ? v : 0).toFixed(decimals)}%`;
 
-export const fmtDSCR = (v: number) => (isFinite(v) ? v.toFixed(3) : "—");
+const fmtDSCR = (v: number) => (isFinite(v) ? v.toFixed(3) : "—");
 
 export function parseNum(v: string): number {
   const n = parseFloat(String(v).replace(/[^0-9.]/g, ""));
@@ -42,7 +42,7 @@ export function monthlyPI(
 }
 
 /** Remaining loan balance after `monthsElapsed` on a fully-amortizing loan. */
-export function remainingBalance(
+function remainingBalance(
   principal: number,
   annualRatePct: number,
   termMonths: number,

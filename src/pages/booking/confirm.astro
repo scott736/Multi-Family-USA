@@ -1,0 +1,20 @@
+---
+import BasicLayout from "@/layouts/BasicLayout.astro";
+import { ConfirmBooking } from "@/components/scheduling/ConfirmBooking";
+
+const token = Astro.url.searchParams.get("token") ?? "";
+---
+
+<BasicLayout
+  title="Confirm Booking | Multi-Family USA"
+  description="Confirm your Multi-Family USA strategy call booking."
+  crumbs={[
+    { label: "Home", href: "/" },
+    { label: "Book a strategy call", href: "/book-strategy-call" },
+    { label: "Confirm booking", href: "/booking/confirm" },
+  ]}
+>
+  <div class="mx-auto max-w-3xl space-y-6">
+    <ConfirmBooking client:load token={token} />
+  </div>
+</BasicLayout>

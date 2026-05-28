@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useCallback } from 'react';
-import { motion, AnimatePresence } from 'motion/react';
+import { AnimatePresence, LazyMotion, domAnimation, m } from 'motion/react';
 import {
   ArrowRight,
   MapPin,
@@ -151,7 +151,7 @@ const RegionShape = ({
       className="cursor-pointer outline-none focus-visible:outline-2"
     >
       {isSelected && (
-        <motion.path
+        <m.path
           d={path.d}
           fill={color}
           fillOpacity={0.25}
@@ -164,7 +164,7 @@ const RegionShape = ({
       )}
 
       {isHovered && !isSelected && (
-        <motion.path
+        <m.path
           d={path.d}
           fill={color}
           fillOpacity={0.12}
@@ -176,7 +176,7 @@ const RegionShape = ({
         />
       )}
 
-      <motion.path
+      <m.path
         d={path.d}
         fill={color}
         stroke={color}
@@ -193,7 +193,7 @@ const RegionShape = ({
         }}
       />
 
-      <motion.text
+      <m.text
         x={path.labelX}
         y={path.labelY}
         textAnchor="middle"
@@ -211,7 +211,7 @@ const RegionShape = ({
         transition={{ duration: 0.3, delay: index * 0.01 + 0.15 }}
       >
         {stateCode}
-      </motion.text>
+      </m.text>
     </g>
   );
 };
@@ -227,7 +227,7 @@ const MapTooltip = ({
   color: string;
   tierLabel: Record<string, string>;
 }) => (
-  <motion.g
+  <m.g
     initial={{ opacity: 0, y: 6 }}
     animate={{ opacity: 1, y: 0 }}
     exit={{ opacity: 0, y: 6 }}
@@ -260,7 +260,7 @@ const MapTooltip = ({
       textAnchor="middle"
       dominantBaseline="central"
       fill="white"
-      style={{ fontSize: 7.5, fontWeight: 600 }}
+      style={{ fontSize: 12, fontWeight: 600 }}
     >
       {region.stateName}
     </text>
@@ -270,11 +270,11 @@ const MapTooltip = ({
       textAnchor="middle"
       dominantBaseline="central"
       fill={color}
-      style={{ fontSize: 6, fontWeight: 500 }}
+      style={{ fontSize: 12, fontWeight: 500 }}
     >
       {tierLabel[region.tier]}
     </text>
-  </motion.g>
+  </m.g>
 );
 
 const DetailPanel = ({
@@ -347,7 +347,7 @@ const DetailPanel = ({
   ];
 
   return (
-    <motion.div
+    <m.div
       key={region.slug}
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
@@ -395,8 +395,8 @@ const DetailPanel = ({
             {facts.map((fact, idx) => {
               const Icon = fact.icon;
               return (
-                <motion.div
-                  key={idx}
+                <m.div
+                  key={fact.label}
                   initial={{ opacity: 0, x: -10 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: 0.08 + idx * 0.05, duration: 0.25 }}
@@ -413,7 +413,7 @@ const DetailPanel = ({
                     </p>
                     <p className="text-sm font-semibold">{fact.value}</p>
                   </div>
-                </motion.div>
+                </m.div>
               );
             })}
           </div>
@@ -461,7 +461,7 @@ const DetailPanel = ({
           </a>
         </CardFooter>
       </Card>
-    </motion.div>
+    </m.div>
   );
 };
 
@@ -491,14 +491,15 @@ const UsMapExplorer = ({
   }, []);
 
   /* Render order: small/eastern states last so they layer on top */
-  const renderOrder = [...states].sort((a, b) => {
+  const renderOrder = states.toSorted((a, b) => {
     const aSmall = SMALL_STATE_SLUGS.has(a.slug) ? 1 : 0;
     const bSmall = SMALL_STATE_SLUGS.has(b.slug) ? 1 : 0;
     return aSmall - bSmall;
   });
 
   return (
-    <section className={cn('py-12 md:py-16', className)}>
+    <LazyMotion features={domAnimation}>
+      <section className={cn('py-12 md:py-16', className)}>
       <div className="container max-w-screen-xl">
         <div className="mb-8 max-w-2xl space-y-3">
           <p className="text-xs font-bold uppercase tracking-wider text-accent">
@@ -647,13 +648,14 @@ const UsMapExplorer = ({
 
             {/* State pills for mobile fallback */}
             <div className="mt-4 flex flex-wrap gap-1.5">
-              {[...states]
-                .sort((a, b) => a.stateName.localeCompare(b.stateName))
+              {states
+                .toSorted((a, b) => a.stateName.localeCompare(b.stateName))
                 .map((s) => {
                   const pillColor = TIER_COLORS[s.tier] ?? TIER_COLORS['3'];
                   const isActive = selected === s.slug;
                   return (
                     <button
+                      type="button"
                       key={s.slug}
                       onClick={() => handleSelect(s.slug)}
                       className={cn(
@@ -702,6 +704,7 @@ const UsMapExplorer = ({
               {region ? (
                 <div key={region.slug} className="relative">
                   <button
+                    type="button"
                     onClick={() => setSelected(null)}
                     className="absolute -top-1 right-0 z-10 rounded-full p-1 text-muted-foreground transition-colors hover:text-foreground"
                     aria-label={
@@ -717,7 +720,7 @@ const UsMapExplorer = ({
                   />
                 </div>
               ) : (
-                <motion.div
+                <m.div
                   key="empty"
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
@@ -733,13 +736,14 @@ const UsMapExplorer = ({
                       </p>
                     </CardContent>
                   </Card>
-                </motion.div>
+                </m.div>
               )}
             </AnimatePresence>
           </div>
         </div>
       </div>
-    </section>
+      </section>
+    </LazyMotion>
   );
 };
 

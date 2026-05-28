@@ -139,7 +139,9 @@ export function Footer({ currentPath = "/" }: FooterProps) {
         <div className="mt-10 border-t border-border pt-6">
           <p className="text-xs text-muted-foreground">{editorialNote}</p>
           <div className="mt-4 flex flex-wrap items-center gap-4 text-xs text-muted-foreground">
-            <span>© {new Date().getFullYear()} {SITE_SHORT_NAME}. {rightsReserved}</span>
+            <span>
+              © <span suppressHydrationWarning>{new Date().getFullYear()}</span> {SITE_SHORT_NAME}. {rightsReserved}
+            </span>
             {legal.map((link) => (
               <a key={link.href} href={link.href} className="hover:text-primary">
                 {link.name}

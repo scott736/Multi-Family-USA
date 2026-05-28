@@ -1,7 +1,7 @@
 "use client";
 
 import { Search, X } from "lucide-react";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useReducer, useRef } from "react";
 
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
@@ -28,6 +28,49 @@ type SearchResult = {
   excerpt: string;
   pillar: string;
 };
+
+interface SiteSearchState {
+  open: boolean;
+  query: string;
+  results: SearchResult[];
+  loading: boolean;
+  ready: boolean;
+}
+
+type SiteSearchAction =
+  | { type: "set-open"; open: boolean }
+  | { type: "set-query"; query: string }
+  | { type: "set-results"; results: SearchResult[] }
+  | { type: "set-loading"; loading: boolean }
+  | { type: "set-ready"; ready: boolean };
+
+const INITIAL_STATE: SiteSearchState = {
+  open: false,
+  query: "",
+  results: [],
+  loading: false,
+  ready: false,
+};
+
+function siteSearchReducer(
+  state: SiteSearchState,
+  action: SiteSearchAction,
+): SiteSearchState {
+  switch (action.type) {
+    case "set-open":
+      return { ...state, open: action.open };
+    case "set-query":
+      return { ...state, query: action.query };
+    case "set-results":
+      return { ...state, results: action.results };
+    case "set-loading":
+      return { ...state, loading: action.loading };
+    case "set-ready":
+      return { ...state, ready: action.ready };
+    default:
+      return state;
+  }
+}
 
 interface SiteSearchProps {
   lang?: "en" | "es";
@@ -90,11 +133,10 @@ function stripHtml(html: string) {
 
 export default function SiteSearch({ lang = "en" }: SiteSearchProps) {
   const isEs = lang === "es";
-  const [open, setOpen] = useState(false);
-  const [query, setQuery] = useState("");
-  const [results, setResults] = useState<SearchResult[]>([]);
-  const [loading, setLoading] = useState(false);
-  const [ready, setReady] = useState(false);
+  const [{ open, query, results, loading, ready }, dispatch] = useReducer(
+    siteSearchReducer,
+    INITIAL_STATE,
+  );
   const inputRef = useRef<HTMLInputElement>(null);
   const pagefindRef = useRef<PagefindModule | null>(null);
 
@@ -111,35 +153,40 @@ export default function SiteSearch({ lang = "en" }: SiteSearchProps) {
     if (pagefindRef.current) return pagefindRef.current;
     if (typeof window === "undefined") return null;
     try {
-      const url = new URL("/pagefind/pagefind.js", window.location.origin).href;
-      const mod = (await import(/* @vite-ignore */ url)) as { default: PagefindModule };
+      const mod = (await import(/* @vite-ignore */ "/pagefind/pagefind.js")) as {
+        default: PagefindModule;
+      };
       await mod.default.init();
       pagefindRef.current = mod.default;
-      setReady(true);
+      dispatch({ type: "set-ready", ready: true });
       return mod.default;
     } catch {
-      setReady(false);
+      dispatch({ type: "set-ready", ready: false });
       return null;
     }
+  }, []);
+
+  const closeDialog = useCallback(() => {
+    dispatch({ type: "set-open", open: false });
   }, []);
 
   const runSearch = useCallback(
     async (term: string) => {
       const pf = await loadPagefind();
       if (!pf || !term.trim()) {
-        setResults([]);
-        setLoading(false);
+        dispatch({ type: "set-results", results: [] });
+        dispatch({ type: "set-loading", loading: false });
         return;
       }
 
-      setLoading(true);
+      dispatch({ type: "set-loading", loading: true });
       const response = await pf.debouncedSearch(term.trim(), {
         filters: { lang },
       });
 
       if (!response) {
-        setResults([]);
-        setLoading(false);
+        dispatch({ type: "set-results", results: [] });
+        dispatch({ type: "set-loading", loading: false });
         return;
       }
 
@@ -155,8 +202,8 @@ export default function SiteSearch({ lang = "en" }: SiteSearchProps) {
         }),
       );
 
-      setResults(items);
-      setLoading(false);
+      dispatch({ type: "set-results", results: items });
+      dispatch({ type: "set-loading", loading: false });
     },
     [isEs, lang, loadPagefind],
   );
@@ -170,7 +217,7 @@ export default function SiteSearch({ lang = "en" }: SiteSearchProps) {
   useEffect(() => {
     if (!open) return;
     const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") setOpen(false);
+      if (e.key === "Escape") dispatch({ type: "set-open", open: false });
     };
     document.addEventListener("keydown", onKey);
     document.body.classList.add("overflow-hidden");
@@ -184,7 +231,7 @@ export default function SiteSearch({ lang = "en" }: SiteSearchProps) {
     const onShortcut = (e: KeyboardEvent) => {
       if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === "k") {
         e.preventDefault();
-        setOpen(true);
+        dispatch({ type: "set-open", open: true });
       }
     };
     document.addEventListener("keydown", onShortcut);
@@ -199,17 +246,41 @@ export default function SiteSearch({ lang = "en" }: SiteSearchProps) {
     return () => window.clearTimeout(timer);
   }, [open, query, runSearch]);
 
-  const grouped = PILLAR_ORDER.map((pillar) => ({
-    pillar,
-    label: PILLAR_LABELS[pillar][isEs ? "es" : "en"],
-    items: results.filter((r) => r.pillar === pillar),
-  })).filter((g) => g.items.length > 0);
+  const groupedMap = results.reduce<
+    Map<
+      (typeof PILLAR_ORDER)[number],
+      {
+        pillar: (typeof PILLAR_ORDER)[number];
+        rank: number;
+        label: string;
+        items: SearchResult[];
+      }
+    >
+  >((acc, item) => {
+    const existing = acc.get(item.pillar);
+    if (existing) {
+      existing.items.push(item);
+      return acc;
+    }
+
+    acc.set(item.pillar, {
+      pillar: item.pillar,
+      rank: PILLAR_ORDER.indexOf(item.pillar),
+      label: PILLAR_LABELS[item.pillar][isEs ? "es" : "en"],
+      items: [item],
+    });
+    return acc;
+  }, new Map());
+
+  const grouped = Array.from(groupedMap.values())
+    .sort((a, b) => a.rank - b.rank)
+    .map(({ rank: _rank, ...group }) => group);
 
   return (
     <>
       <button
         type="button"
-        onClick={() => setOpen(true)}
+        onClick={() => dispatch({ type: "set-open", open: true })}
         aria-label={labels.open}
         className="inline-flex size-9 items-center justify-center rounded-full border border-input bg-background text-foreground shadow-xs hover:bg-secondary"
       >
@@ -217,93 +288,92 @@ export default function SiteSearch({ lang = "en" }: SiteSearchProps) {
       </button>
 
       {open && (
-        <div
-          className="fixed inset-0 z-[100] flex items-start justify-center bg-background/80 p-4 pt-[10vh] backdrop-blur-sm"
-          role="dialog"
-          aria-modal="true"
-          aria-label={labels.open}
-          onClick={() => setOpen(false)}
-        >
-          <div
-            className="w-full max-w-xl rounded-xl border border-border bg-card shadow-2xl"
-            onClick={(e) => e.stopPropagation()}
-          >
-            <div className="flex items-center gap-2 border-b border-border px-4 py-3">
-              <Search className="size-4 shrink-0 text-muted-foreground" aria-hidden="true" />
-              <Input
-                ref={inputRef}
-                value={query}
-                onChange={(e) => setQuery(e.target.value)}
-                placeholder={labels.placeholder}
-                className="border-0 shadow-none focus-visible:ring-0"
-                autoComplete="off"
-              />
-              <button
-                type="button"
-                onClick={() => setOpen(false)}
-                aria-label={labels.close}
-                className="inline-flex size-8 shrink-0 items-center justify-center rounded-md text-muted-foreground hover:bg-secondary hover:text-foreground"
-              >
-                <X className="size-4" />
-              </button>
-            </div>
+        <dialog open className="fixed inset-0 z-[100] p-0" aria-label={labels.open}>
+          <div className="relative flex min-h-dvh items-start justify-center p-4 pt-[10vh]">
+            <button
+              type="button"
+              aria-label={labels.close}
+              onClick={closeDialog}
+              className="absolute inset-0 bg-background/80 backdrop-blur-sm"
+            />
+            <div className="relative z-10 w-full max-w-xl rounded-xl border border-border bg-card shadow-2xl">
+              <div className="flex items-center gap-2 border-b border-border px-4 py-3">
+                <Search className="size-4 shrink-0 text-muted-foreground" aria-hidden="true" />
+                <Input
+                  ref={inputRef}
+                  value={query}
+                  onChange={(e) => dispatch({ type: "set-query", query: e.target.value })}
+                  placeholder={labels.placeholder}
+                  className="border-0 shadow-none focus-visible:ring-0"
+                  autoComplete="off"
+                />
+                <button
+                  type="button"
+                  onClick={closeDialog}
+                  aria-label={labels.close}
+                  className="inline-flex size-8 shrink-0 items-center justify-center rounded-md text-muted-foreground hover:bg-secondary hover:text-foreground"
+                >
+                  <X className="size-4" />
+                </button>
+              </div>
 
-            <div className="max-h-[50vh] overflow-y-auto p-2">
-              {!ready && query.trim() && (
-                <p className="px-3 py-6 text-center text-sm text-muted-foreground">
-                  {isEs
-                    ? "La búsqueda estará disponible después del build del sitio."
-                    : "Search is available after the site build."}
-                </p>
-              )}
-
-              {!query.trim() && (
-                <p className="px-3 py-6 text-center text-sm text-muted-foreground">
-                  {labels.empty}
-                  <span className="mt-2 block text-xs opacity-70">{labels.shortcut}</span>
-                </p>
-              )}
-
-              {query.trim() && ready && !loading && results.length === 0 && (
-                <p className="px-3 py-6 text-center text-sm text-muted-foreground">
-                  {labels.none}
-                </p>
-              )}
-
-              {grouped.map((group) => (
-                <div key={group.pillar} className="mb-3">
-                  <p className="px-3 py-1 text-[10px] font-bold uppercase tracking-wider text-accent">
-                    {group.label}
+              <div className="max-h-[50vh] overflow-y-auto p-2">
+                {!ready && query.trim() && (
+                  <p className="px-3 py-6 text-center text-sm text-muted-foreground">
+                    {isEs
+                      ? "La búsqueda estará disponible después del build del sitio."
+                      : "Search is available after the site build."}
                   </p>
-                  <ul>
-                    {group.items.map((item) => (
-                      <li key={item.url}>
-                        <a
-                          href={item.url}
-                          className="block rounded-md px-3 py-2 hover:bg-secondary"
-                          onClick={() => setOpen(false)}
-                        >
-                          <span className="text-sm font-semibold text-foreground">
-                            {item.title}
-                          </span>
-                          {item.excerpt && (
-                            <span
-                              className={cn(
-                                "mt-0.5 block text-xs text-muted-foreground line-clamp-2",
-                              )}
-                            >
-                              {item.excerpt}
+                )}
+
+                {!query.trim() && (
+                  <p className="px-3 py-6 text-center text-sm text-muted-foreground">
+                    {labels.empty}
+                    <span className="mt-2 block text-xs opacity-70">{labels.shortcut}</span>
+                  </p>
+                )}
+
+                {query.trim() && ready && !loading && results.length === 0 && (
+                  <p className="px-3 py-6 text-center text-sm text-muted-foreground">
+                    {labels.none}
+                  </p>
+                )}
+
+                {grouped.map((group) => (
+                  <div key={group.pillar} className="mb-3">
+                    <p className="px-3 py-1 text-[10px] font-bold uppercase tracking-wider text-accent">
+                      {group.label}
+                    </p>
+                    <ul>
+                      {group.items.map((item) => (
+                        <li key={item.url}>
+                          <a
+                            href={item.url}
+                            className="block rounded-md px-3 py-2 hover:bg-secondary"
+                            onClick={closeDialog}
+                          >
+                            <span className="text-sm font-semibold text-foreground">
+                              {item.title}
                             </span>
-                          )}
-                        </a>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              ))}
+                            {item.excerpt && (
+                              <span
+                                className={cn(
+                                  "mt-0.5 block text-xs text-muted-foreground line-clamp-2",
+                                )}
+                              >
+                                {item.excerpt}
+                              </span>
+                            )}
+                          </a>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
-        </div>
+        </dialog>
       )}
     </>
   );

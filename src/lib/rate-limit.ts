@@ -91,8 +91,10 @@ async function getUpstashLimiter(): Promise<UpstashLimiterFn | null> {
 
   if (!url || !token) return null;
 
-  const { Ratelimit } = await import('@upstash/ratelimit');
-  const { Redis } = await import('@upstash/redis');
+  const [{ Ratelimit }, { Redis }] = await Promise.all([
+    import('@upstash/ratelimit'),
+    import('@upstash/redis'),
+  ]);
 
   const redis = new Redis({ url, token });
 

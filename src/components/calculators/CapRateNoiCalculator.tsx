@@ -1,7 +1,7 @@
 "use client";
 
 import { ArrowRight, Copy, Info, RotateCcw, TrendingUp } from "lucide-react";
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -52,6 +52,17 @@ const DEFAULTS: Fields = {
   utilities: "0",
 };
 
+function getInitialFields(): Fields {
+  if (typeof window === "undefined") return DEFAULTS;
+  const p = new URLSearchParams(window.location.search);
+  const next = { ...DEFAULTS };
+  (Object.keys(DEFAULTS) as (keyof Fields)[]).forEach((k) => {
+    const v = p.get(k);
+    if (v != null) (next[k] as string) = v;
+  });
+  return next;
+}
+
 interface CapRateNoiCalculatorProps {
   lang?: "en" | "es";
 }
@@ -62,20 +73,8 @@ interface CapRateNoiCalculatorProps {
 
 export default function CapRateNoiCalculator({ lang = "en" }: CapRateNoiCalculatorProps = {}) {
   const isEs = lang === "es";
-  const [f, setF] = useState<Fields>(DEFAULTS);
+  const [f, setF] = useState<Fields>(() => getInitialFields());
   const [copied, setCopied] = useState(false);
-
-  useEffect(() => {
-    if (typeof window === "undefined") return;
-    const p = new URLSearchParams(window.location.search);
-    const next = { ...DEFAULTS };
-    let touched = false;
-    (Object.keys(DEFAULTS) as (keyof Fields)[]).forEach((k) => {
-      const v = p.get(k);
-      if (v != null) { touched = true; (next[k] as string) = v; }
-    });
-    if (touched) setF(next);
-  }, []);
 
   const v = useMemo(() => {
     const price = parseNum(f.price);

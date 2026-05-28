@@ -255,62 +255,61 @@ export const POST: APIRoute = async ({ request }) => {
     const internal = buildInternalEmail(lead, assignedTo, scoring);
     const reply = buildAutoReply(lead);
 
-    await persistFormLead(
-      {
-        name: lead.name,
-        email: lead.email,
-        phone: lead.phone,
-        propertyValue: lead.purchasePrice,
-        loanAmount: lead.loanAmount,
-        monthlyRent: lead.annualNoi / 12,
-        fico: lead.creditScore,
-        state: lead.state,
-        purpose: lead.purpose,
-        propertyType: lead.propertyType,
-        timeline: lead.timeline,
-        sourcePage: lead.sourcePage,
-        sourceContext: lead.sourceContext,
-        score: scoring.score,
-        scoreTier: scoring.tier,
-        metadata: {
-          units: lead.units,
-          annualNoi: lead.annualNoi,
-          occupancy: lead.occupancy,
-          ltv: scoring.ltv,
-          dscr: scoring.dscr,
-          debtYield: scoring.debtYield,
+    await Promise.all([
+      persistFormLead(
+        {
+          name: lead.name,
+          email: lead.email,
+          phone: lead.phone,
+          propertyValue: lead.purchasePrice,
+          loanAmount: lead.loanAmount,
+          monthlyRent: lead.annualNoi / 12,
+          fico: lead.creditScore,
+          state: lead.state,
+          purpose: lead.purpose,
+          propertyType: lead.propertyType,
+          timeline: lead.timeline,
+          sourcePage: lead.sourcePage,
+          sourceContext: lead.sourceContext,
+          score: scoring.score,
+          scoreTier: scoring.tier,
+          metadata: {
+            units: lead.units,
+            annualNoi: lead.annualNoi,
+            occupancy: lead.occupancy,
+            ltv: scoring.ltv,
+            dscr: scoring.dscr,
+            debtYield: scoring.debtYield,
+          },
         },
-      },
-      assignedTo,
-    );
-
-    await sendElasticEmail({
-      to: assignedTo.email,
-      cc: leadOversightCc(assignedTo.email),
-      from: LEAD_FROM_EMAIL,
-      replyTo: lead.email,
-      subject: internal.subject,
-      html: internal.html,
-      text: internal.text,
-    });
-
-    await sendElasticEmail({
-      to: lead.email,
-      from: LEAD_FROM_EMAIL,
-      replyTo: assignedTo.email,
-      subject: reply.subject,
-      html: reply.html,
-      text: reply.text,
-    });
-
-    await fireCrmWebhook({
-      event: 'multifamily_lead_captured',
-      lead,
-      assignedTo,
-      scoring,
-      nurtureSequence,
-      capturedAt: new Date().toISOString(),
-    });
+        assignedTo,
+      ),
+      sendElasticEmail({
+        to: assignedTo.email,
+        cc: leadOversightCc(assignedTo.email),
+        from: LEAD_FROM_EMAIL,
+        replyTo: lead.email,
+        subject: internal.subject,
+        html: internal.html,
+        text: internal.text,
+      }),
+      sendElasticEmail({
+        to: lead.email,
+        from: LEAD_FROM_EMAIL,
+        replyTo: assignedTo.email,
+        subject: reply.subject,
+        html: reply.html,
+        text: reply.text,
+      }),
+      fireCrmWebhook({
+        event: 'multifamily_lead_captured',
+        lead,
+        assignedTo,
+        scoring,
+        nurtureSequence,
+        capturedAt: new Date().toISOString(),
+      }),
+    ]);
 
     return new Response(JSON.stringify({ success: true, assignedTo, scoring, nurtureSequence }), {
       status: 200,

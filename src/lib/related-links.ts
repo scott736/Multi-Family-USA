@@ -1,4 +1,4 @@
-import { getCollection, type CollectionEntry } from "astro:content";
+import { type CollectionEntry, getCollection } from "astro:content";
 
 import type { Lang } from "@/i18n/utils";
 import { filterPublished } from "@/lib/scheduled-publish";
@@ -134,6 +134,7 @@ const TOOL_CATALOG: ToolDefinition[] = [
     keywords: ["cash on cash", "equity return", "yield", "cash flow"],
   },
 ];
+const TOOL_BY_SLUG = new Map(TOOL_CATALOG.map((tool) => [tool.slug, tool]));
 
 const TYPE_AFFINITY: Record<ContentKind, Partial<Record<RelatedLinkType, number>>> = {
   guide: {
@@ -605,17 +606,20 @@ export async function getRelatedLinks(input: RelatedLinkInput): Promise<RelatedL
   for (const [field, type] of RELATED_FIELD_TO_TYPE) {
     const values = input[field];
     if (!Array.isArray(values)) continue;
-    const normalized = values
-      .map((value) => normalizeExplicitTarget(value, type))
-      .filter((value): value is string => Boolean(value));
-    if (!normalized.length) continue;
-    explicitByType.set(type, new Set(normalized));
+    const normalized = new Set<string>();
+    for (const value of values) {
+      const target = normalizeExplicitTarget(value, type);
+      if (target) normalized.add(target);
+    }
+    if (!normalized.size) continue;
+    explicitByType.set(type, normalized);
   }
 
   const preferredTypes = TYPE_AFFINITY[input.kind];
   const scored = candidates
-    .filter((candidate) => candidate.href !== selfHref)
-    .map((candidate) => {
+    .reduce<Candidate[]>((acc, candidate) => {
+      if (candidate.href === selfHref) return acc;
+
       let score = 0;
       const overlap = overlapScore(targetTokens, candidate.tokens);
       score += overlap * 4;
@@ -647,10 +651,24 @@ export async function getRelatedLinks(input: RelatedLinkInput): Promise<RelatedL
         score += 1;
       }
 
-      return { ...candidate, score };
-    })
-    .filter((candidate) => candidate.score > 0)
+      if (score > 0) acc.push({ ...candidate, score });
+      return acc;
+    }, [])
     .sort((a, b) => b.score - a.score || a.title.localeCompare(b.title));
+
+  const scoredByType = new Map<RelatedLinkType, Map<string, Candidate>>();
+  const rankedScoredByType = new Map<RelatedLinkType, Candidate[]>();
+  for (const candidate of scored) {
+    const bySlug = scoredByType.get(candidate.type);
+    if (bySlug) {
+      bySlug.set(candidate.slug, candidate);
+    } else {
+      scoredByType.set(candidate.type, new Map([[candidate.slug, candidate]]));
+    }
+    const ranked = rankedScoredByType.get(candidate.type);
+    if (ranked) ranked.push(candidate);
+    else rankedScoredByType.set(candidate.type, [candidate]);
+  }
 
   const chosen: Candidate[] = [];
   const chosenHrefs = new Set<string>();
@@ -659,7 +677,7 @@ export async function getRelatedLinks(input: RelatedLinkInput): Promise<RelatedL
     const explicitSlugs = explicitByType.get(type);
     if (!explicitSlugs?.size) continue;
     for (const slug of explicitSlugs) {
-      const candidate = scored.find((item) => item.type === type && item.slug === slug);
+      const candidate = scoredByType.get(type)?.get(slug);
       if (!candidate || chosenHrefs.has(candidate.href)) continue;
       chosen.push(candidate);
       chosenHrefs.add(candidate.href);
@@ -673,7 +691,14 @@ export async function getRelatedLinks(input: RelatedLinkInput): Promise<RelatedL
       .sort((a, b) => (b[1] ?? 0) - (a[1] ?? 0))
       .map(([type]) => type as RelatedLinkType);
     for (const type of preferredOrder) {
-      const candidate = scored.find((item) => item.type === type && !chosenHrefs.has(item.href));
+      const ranked = rankedScoredByType.get(type);
+      if (!ranked) continue;
+      let candidate: Candidate | undefined;
+      for (const item of ranked) {
+        if (chosenHrefs.has(item.href)) continue;
+        candidate = item;
+        break;
+      }
       if (!candidate) continue;
       chosen.push(candidate);
       chosenHrefs.add(candidate.href);
@@ -833,33 +858,31 @@ export async function buildBlogRelatedGroups(
     }
   }
 
-  const toolLinks: RelatedGroupLink[] = (input.relatedTools ?? [])
-    .map((slug) => slug.replace(/^\/tools\//, "").replace(/\/$/, ""))
-    .map((slug) => {
-      const tool = TOOL_CATALOG.find((t) => t.slug === slug);
-      if (!tool) return null;
-      return {
-        href: withTrailingSlash(`${p}/tools/${tool.slug}`),
-        title: tool.title,
-        description: tool.description,
-        kicker: L.kickers.tool,
-      };
-    })
-    .filter((l): l is RelatedGroupLink => Boolean(l));
+  const toolLinks: RelatedGroupLink[] = [];
+  for (const rawSlug of input.relatedTools ?? []) {
+    const slug = rawSlug.replace(/^\/tools\//, "").replace(/\/$/, "");
+    const tool = TOOL_BY_SLUG.get(slug);
+    if (!tool) continue;
+    toolLinks.push({
+      href: withTrailingSlash(`${p}/tools/${tool.slug}`),
+      title: tool.title,
+      description: tool.description,
+      kicker: L.kickers.tool,
+    });
+  }
 
-  const guideLinks: RelatedGroupLink[] = (input.relatedGuides ?? [])
-    .map((slug) => slug.replace(/^\/learn\//, "").replace(/\/$/, ""))
-    .map((slug) => {
-      const entry = guideBySlug.get(slug);
-      if (!entry) return null;
-      return {
-        href: withTrailingSlash(`${p}/learn/${slug}`),
-        title: entry.data.title,
-        description: entry.data.description,
-        kicker: L.kickers.guide,
-      };
-    })
-    .filter((l): l is RelatedGroupLink => Boolean(l));
+  const guideLinks: RelatedGroupLink[] = [];
+  for (const rawSlug of input.relatedGuides ?? []) {
+    const slug = rawSlug.replace(/^\/learn\//, "").replace(/\/$/, "");
+    const entry = guideBySlug.get(slug);
+    if (!entry) continue;
+    guideLinks.push({
+      href: withTrailingSlash(`${p}/learn/${slug}`),
+      title: entry.data.title,
+      description: entry.data.description,
+      kicker: L.kickers.guide,
+    });
+  }
 
   const marketLinks: RelatedGroupLink[] = [
     ...(input.relatedStates ?? []).map((slug) => {
@@ -910,33 +933,31 @@ export async function buildBlogRelatedGroups(
     })
     .filter((l): l is RelatedGroupLink => Boolean(l));
 
-  const comparisonLinks: RelatedGroupLink[] = (input.relatedComparisons ?? [])
-    .map((slug) => slug.replace(/^\/compare\//, "").replace(/\/$/, ""))
-    .map((slug) => {
-      const entry = comparisonBySlug.get(slug);
-      if (!entry) return null;
-      return {
-        href: withTrailingSlash(`${p}/compare/${slug}`),
-        title: entry.data.title,
-        description: entry.data.description,
-        kicker: L.kickers.comparison,
-      };
-    })
-    .filter((l): l is RelatedGroupLink => Boolean(l));
+  const comparisonLinks: RelatedGroupLink[] = [];
+  for (const rawSlug of input.relatedComparisons ?? []) {
+    const slug = rawSlug.replace(/^\/compare\//, "").replace(/\/$/, "");
+    const entry = comparisonBySlug.get(slug);
+    if (!entry) continue;
+    comparisonLinks.push({
+      href: withTrailingSlash(`${p}/compare/${slug}`),
+      title: entry.data.title,
+      description: entry.data.description,
+      kicker: L.kickers.comparison,
+    });
+  }
 
-  const profileLinks: RelatedGroupLink[] = (input.relatedInvestorProfiles ?? [])
-    .map((slug) => slug.replace(/^\/invest\//, "").replace(/\/$/, ""))
-    .map((slug) => {
-      const entry = profileBySlug.get(slug);
-      if (!entry) return null;
-      return {
-        href: withTrailingSlash(`${p}/invest/${slug}`),
-        title: entry.data.title,
-        description: entry.data.description,
-        kicker: L.kickers["investor-profile"],
-      };
-    })
-    .filter((l): l is RelatedGroupLink => Boolean(l));
+  const profileLinks: RelatedGroupLink[] = [];
+  for (const rawSlug of input.relatedInvestorProfiles ?? []) {
+    const slug = rawSlug.replace(/^\/invest\//, "").replace(/\/$/, "");
+    const entry = profileBySlug.get(slug);
+    if (!entry) continue;
+    profileLinks.push({
+      href: withTrailingSlash(`${p}/invest/${slug}`),
+      title: entry.data.title,
+      description: entry.data.description,
+      kicker: L.kickers["investor-profile"],
+    });
+  }
 
   const blogLinks: RelatedGroupLink[] = (input.relatedBlog ?? [])
     .map((value) => {

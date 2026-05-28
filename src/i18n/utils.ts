@@ -8,7 +8,7 @@ export function useTranslations(_lang: Lang = 'en') {
   return (key: string) => key;
 }
 
-export function useTranslatedPath(lang: Lang = 'en') {
+function useTranslatedPath(lang: Lang = 'en') {
   return (path: string) => {
     if (lang === 'es') {
       if (path === '/') return '/es';

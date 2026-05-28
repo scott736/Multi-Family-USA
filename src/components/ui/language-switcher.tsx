@@ -65,12 +65,11 @@ export default function LanguageSwitcher({
 
   // Default: pill variant — shows both languages, highlights current
   return (
-    <div
+    <nav
       className={cn(
         "inline-flex items-center gap-0.5 rounded-full border border-border bg-muted/50 p-0.5",
         className,
       )}
-      role="group"
       aria-label="Language selector"
     >
       {(["en", "es"] as const).map((lang) => {
@@ -96,6 +95,6 @@ export default function LanguageSwitcher({
           </a>
         );
       })}
-    </div>
+    </nav>
   );
 }

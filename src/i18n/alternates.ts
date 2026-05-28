@@ -11,13 +11,13 @@ export function ensureTrailingSlash(path: string): string {
   return path.endsWith("/") ? path : `${path}/`;
 }
 
-export function stripEsPrefix(path: string): string {
+function stripEsPrefix(path: string): string {
   if (path === "/es" || path === "/es/") return "/";
   if (path.startsWith("/es/")) return path.slice(3) || "/";
   return path;
 }
 
-export function addEsPrefix(path: string): string {
+function addEsPrefix(path: string): string {
   if (path === "/") return "/es/";
   if (path.startsWith("/es/") || path === "/es") return ensureTrailingSlash(path);
   return ensureTrailingSlash(`/es${path.startsWith("/") ? "" : "/"}${path}`);

@@ -3,22 +3,20 @@
 import {
   ArrowLeft,
   ArrowRight,
-  BarChart3,
   Building2,
-  Check,
   CheckCircle2,
   DollarSign,
   Loader2,
   Mail,
-  Percent,
   Phone,
   ShieldCheck,
-  TrendingUp,
   User,
 } from 'lucide-react';
 import * as React from 'react';
-import { useMemo, useState } from 'react';
+import { useMemo, useReducer, useState } from 'react';
 
+import { LeadFormMetricsPanel } from '@/components/forms/LeadFormMetricsPanel';
+import { LeadFormStepIndicator } from '@/components/forms/LeadFormStepIndicator';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { trackConversion } from '@/lib/analytics';
@@ -70,11 +68,61 @@ interface LeadFormProps {
   className?: string;
 }
 
-function metricTone(value: number, good: number, ok: number): string {
-  if (value <= 0) return 'text-muted-foreground';
-  if (value >= good) return 'text-success';
-  if (value >= ok) return 'text-accent';
-  return 'text-destructive';
+const INITIAL_FORM_DATA = {
+  purpose: '',
+  propertyType: '',
+  units: '',
+  state: '',
+  purchasePrice: '',
+  loanAmount: '',
+  annualNoi: '',
+  occupancy: '',
+  creditScore: '',
+  timeline: '',
+  name: '',
+  email: '',
+  phone: '',
+  website: '',
+};
+
+type LeadFormData = typeof INITIAL_FORM_DATA;
+
+interface LeadFormUiState {
+  step: number;
+  loading: boolean;
+  errorMsg: string;
+  success: boolean;
+}
+
+type LeadFormUiAction =
+  | { type: 'next' }
+  | { type: 'back' }
+  | { type: 'submit-start' }
+  | { type: 'submit-failure'; message: string }
+  | { type: 'submit-success' };
+
+const INITIAL_UI_STATE: LeadFormUiState = {
+  step: 1,
+  loading: false,
+  errorMsg: '',
+  success: false,
+};
+
+function leadFormUiReducer(state: LeadFormUiState, action: LeadFormUiAction): LeadFormUiState {
+  switch (action.type) {
+    case 'next':
+      return { ...state, step: Math.min(4, state.step + 1) };
+    case 'back':
+      return { ...state, step: Math.max(1, state.step - 1) };
+    case 'submit-start':
+      return { ...state, loading: true, errorMsg: '' };
+    case 'submit-failure':
+      return { ...state, loading: false, errorMsg: action.message };
+    case 'submit-success':
+      return { ...state, loading: false, success: true };
+    default:
+      return state;
+  }
 }
 
 export default function LeadForm({
@@ -95,27 +143,9 @@ export default function LeadForm({
     'flex h-10 w-full rounded-xl border border-border/70 bg-background/80 px-3 py-2 text-sm shadow-xs backdrop-blur-sm transition-shadow duration-200 focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-accent/35';
   const heroStepPanelClass = 'min-h-[340px]';
 
-  const [step, setStep] = useState(1);
-  const [loading, setLoading] = useState(false);
-  const [errorMsg, setErrorMsg] = useState('');
-  const [success, setSuccess] = useState(false);
+  const [{ step, loading, errorMsg, success }, dispatchUi] = useReducer(leadFormUiReducer, INITIAL_UI_STATE);
 
-  const [formData, setFormData] = useState({
-    purpose: '',
-    propertyType: '',
-    units: '',
-    state: '',
-    purchasePrice: '',
-    loanAmount: '',
-    annualNoi: '',
-    occupancy: '',
-    creditScore: '',
-    timeline: '',
-    name: '',
-    email: '',
-    phone: '',
-    website: '',
-  });
+  const [formData, setFormData] = useState<LeadFormData>(INITIAL_FORM_DATA);
 
   const parsed = useMemo(() => {
     const purchasePrice = parseFloat(formData.purchasePrice) || 0;
@@ -150,24 +180,23 @@ export default function LeadForm({
     }
   };
 
-  const update = (key: keyof typeof formData, value: string) => {
+  const update = (key: keyof LeadFormData, value: string) => {
     setFormData((prev) => ({ ...prev, [key]: value }));
   };
 
   const next = () => {
-    if (isStepValid()) setStep((prev) => Math.min(4, prev + 1));
+    if (isStepValid()) dispatchUi({ type: 'next' });
   };
 
   const back = () => {
-    setStep((prev) => Math.max(1, prev - 1));
+    dispatchUi({ type: 'back' });
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!isStepValid()) return;
 
-    setLoading(true);
-    setErrorMsg('');
+    dispatchUi({ type: 'submit-start' });
 
     try {
       const res = await fetch('/api/lead', {
@@ -182,13 +211,11 @@ export default function LeadForm({
 
       const data = await res.json();
       if (!res.ok) {
-        setErrorMsg(data.error || 'Submission failed. Please try again.');
-        setLoading(false);
+        dispatchUi({ type: 'submit-failure', message: data.error || 'Submission failed. Please try again.' });
         return;
       }
 
-      setSuccess(true);
-      setLoading(false);
+      dispatchUi({ type: 'submit-success' });
 
       trackConversion('deal_review_submit', {
         source_page: sourcePage,
@@ -205,235 +232,15 @@ export default function LeadForm({
       });
       window.location.href = `/thank-you?${params.toString()}`;
     } catch {
-      setErrorMsg('Submission failed. Please try again or call us directly.');
-      setLoading(false);
+      dispatchUi({ type: 'submit-failure', message: 'Submission failed. Please try again or call us directly.' });
     }
   };
-
-  const choiceButtonClass = (selected: boolean) =>
-    cn(
-      'flex w-full items-center border text-left font-semibold transition-all duration-200',
-      isPremium
-        ? cn(
-            'rounded-xl p-3.5 text-sm hover:-translate-y-0.5 hover:shadow-md',
-            selected
-              ? 'border-accent bg-accent/10 shadow-md shadow-accent/10 ring-2 ring-accent/40'
-              : 'border-border/80 bg-background/80 hover:border-primary/30 hover:bg-secondary/60',
-          )
-        : isHero
-          ? cn(
-              'rounded-xl px-3 py-2.5 text-xs transition-all duration-200',
-              selected
-                ? 'border-accent bg-accent/12 shadow-sm shadow-accent/15 ring-2 ring-accent/35'
-                : 'border-border/70 bg-background/70 hover:-translate-y-px hover:border-primary/25 hover:bg-secondary/50 hover:shadow-sm',
-            )
-          : cn(
-              'rounded-xl text-xs hover:bg-secondary/50',
-              selected ? 'border-primary bg-primary/5 ring-1 ring-primary' : 'border-border bg-card',
-            ),
-    );
 
   const inputClass = cn(
     'tabular-nums transition-shadow duration-200',
     isPremium && 'h-12 rounded-xl border-border/80 bg-background/90 focus-visible:ring-2 focus-visible:ring-accent/30',
     isHero && 'h-10 rounded-xl border-border/70 bg-background/80 backdrop-blur-sm focus-visible:ring-2 focus-visible:ring-accent/35',
   );
-
-  const renderStepIndicator = () => {
-    if (isHero) {
-      const progress = (step / STEPS.length) * 100;
-      return (
-        <div className="mb-5">
-          <div className="mb-2.5 flex items-center justify-between gap-3">
-            <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-accent">Your investor journey</p>
-            <span className="text-[11px] font-semibold tabular-nums text-muted-foreground">
-              Step {step}/{STEPS.length} · {Math.round(progress)}%
-            </span>
-          </div>
-          <div className="relative h-1.5 overflow-hidden rounded-full bg-secondary/90">
-            <div
-              className="absolute inset-y-0 left-0 rounded-full bg-gradient-to-r from-primary via-accent to-[hsl(38_90%_48%)] transition-all duration-500 ease-out"
-              style={{ width: `${Math.max(progress, 8)}%` }}
-            />
-          </div>
-          <div className="mt-3.5 grid grid-cols-4 gap-1">
-            {STEPS.map(({ label, short, icon: Icon }, i) => {
-              const stepNum = i + 1;
-              const done = step > stepNum;
-              const active = step === stepNum;
-              return (
-                <div key={label} className="flex flex-col items-center gap-1">
-                  <div
-                    className={cn(
-                      'flex size-7 items-center justify-center rounded-full border transition-all duration-300',
-                      done && 'border-success bg-success text-success-foreground shadow-sm shadow-success/20',
-                      active &&
-                        !done &&
-                        'scale-110 border-accent bg-accent/15 text-accent shadow-md shadow-accent/20',
-                      !done && !active && 'border-border/80 bg-background/80 text-muted-foreground',
-                    )}
-                  >
-                    {done ? <Check className="size-3" strokeWidth={3} /> : <Icon className="size-3.5" />}
-                  </div>
-                  <span
-                    className={cn(
-                      'text-[9px] font-bold uppercase tracking-wider',
-                      active ? 'text-foreground' : 'text-muted-foreground',
-                    )}
-                  >
-                    {short}
-                  </span>
-                </div>
-              );
-            })}
-          </div>
-        </div>
-      );
-    }
-
-    if (isPolished) {
-      const progress = ((step - 1) / (STEPS.length - 1)) * 100;
-      return (
-        <div className="mb-7">
-          <div className="mb-3 flex items-center justify-between text-xs font-medium text-muted-foreground">
-            <span>
-              Step {step} of {STEPS.length}
-            </span>
-            <span className="text-accent">{Math.round((step / STEPS.length) * 100)}% complete</span>
-          </div>
-          <div className="relative h-1.5 overflow-hidden rounded-full bg-secondary">
-            <div
-              className="absolute inset-y-0 left-0 rounded-full bg-gradient-to-r from-primary via-accent to-accent transition-all duration-500 ease-out"
-              style={{ width: `${progress === 0 ? 8 : progress}%` }}
-            />
-          </div>
-          <div className="mt-5 grid grid-cols-4 gap-1">
-            {STEPS.map(({ label, icon: Icon }, i) => {
-              const stepNum = i + 1;
-              const done = step > stepNum;
-              const active = step === stepNum;
-              return (
-                <div key={label} className="flex flex-col items-center gap-1.5">
-                  <div
-                    className={cn(
-                      'flex size-9 items-center justify-center rounded-full border-2 transition-all duration-300',
-                      done && 'border-success bg-success text-success-foreground shadow-sm shadow-success/25',
-                      active && !done && 'border-accent bg-accent/15 text-accent shadow-md shadow-accent/20 scale-110',
-                      !done && !active && 'border-border bg-background text-muted-foreground',
-                    )}
-                  >
-                    {done ? <Check className="size-4" strokeWidth={3} /> : <Icon className="size-4" />}
-                  </div>
-                  <span
-                    className={cn(
-                      'hidden text-[10px] font-bold uppercase tracking-wider @sm:block',
-                      active ? 'text-foreground' : 'text-muted-foreground',
-                    )}
-                  >
-                    {label}
-                  </span>
-                </div>
-              );
-            })}
-          </div>
-        </div>
-      );
-    }
-
-    return (
-      <div className={cn('mb-5 grid grid-cols-4 gap-2 text-[10px] font-semibold uppercase tracking-wider text-muted-foreground')}>
-        {STEPS.map(({ label }, i) => (
-          <span
-            key={label}
-            className={cn('border-b-2 pb-1 text-center', step >= i + 1 ? 'border-primary text-primary' : 'border-transparent')}
-          >
-            {i + 1}. {label}
-          </span>
-        ))}
-      </div>
-    );
-  };
-
-  const renderMetricsPanel = () => {
-    const metrics = [
-      {
-        label: 'LTV',
-        value: parsed.ltv ? `${parsed.ltv.toFixed(1)}%` : '—',
-        icon: Percent,
-        tone: metricTone(parsed.ltv, 0, 75),
-        hint: parsed.ltv > 75 ? 'Above typical' : parsed.ltv > 0 ? 'In range' : '',
-      },
-      {
-        label: 'Est. DSCR',
-        value: parsed.dscr ? `${parsed.dscr.toFixed(2)}x` : '—',
-        icon: TrendingUp,
-        tone: metricTone(parsed.dscr, 1.25, 1.0),
-        hint: parsed.dscr >= 1.25 ? 'Strong' : parsed.dscr >= 1.0 ? 'Borderline' : parsed.dscr > 0 ? 'Tight' : '',
-      },
-      {
-        label: 'Debt Yield',
-        value: parsed.debtYield ? `${parsed.debtYield.toFixed(1)}%` : '—',
-        icon: BarChart3,
-        tone: metricTone(parsed.debtYield, 9, 8),
-        hint: parsed.debtYield >= 9 ? 'Strong' : parsed.debtYield >= 8 ? 'Acceptable' : parsed.debtYield > 0 ? 'Thin' : '',
-      },
-    ];
-
-    if (isHero) {
-      return (
-        <div className="overflow-hidden rounded-xl border border-primary/12 bg-gradient-to-br from-primary/[0.05] via-background/90 to-accent/[0.06] shadow-inner shadow-primary/[0.04]">
-          <div className="border-b border-primary/8 px-3 py-2">
-            <p className="text-[10px] font-bold uppercase tracking-[0.14em] text-primary">Live directional read</p>
-          </div>
-          <div className="grid grid-cols-3 divide-x divide-border/50">
-            {metrics.map(({ label, value, icon: Icon, tone, hint }) => (
-              <div key={label} className="px-2 py-2.5 text-center">
-                <Icon className="mx-auto mb-1 size-3.5 text-muted-foreground/70" />
-                <p className="text-[9px] font-semibold uppercase tracking-wider text-muted-foreground">{label}</p>
-                <p className={cn('mt-0.5 text-sm font-bold tabular-nums', tone)}>{value}</p>
-                {hint && <p className="mt-0.5 text-[9px] text-muted-foreground">{hint}</p>}
-              </div>
-            ))}
-          </div>
-        </div>
-      );
-    }
-
-    if (isPolished) {
-      return (
-        <div className="overflow-hidden rounded-2xl border border-primary/15 bg-gradient-to-br from-primary/[0.04] via-background to-accent/[0.06]">
-          <div className="border-b border-primary/10 px-4 py-3">
-            <p className="text-xs font-bold uppercase tracking-[0.15em] text-primary">Live directional read</p>
-            <p className="mt-0.5 text-[11px] text-muted-foreground">Updates as you enter deal numbers</p>
-          </div>
-          <div className="grid grid-cols-3 divide-x divide-border/60">
-            {metrics.map(({ label, value, icon: Icon, tone, hint }) => (
-              <div key={label} className="px-3 py-4 text-center">
-                <Icon className="mx-auto mb-2 size-4 text-muted-foreground/70" />
-                <p className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">{label}</p>
-                <p className={cn('mt-1 text-xl font-bold tabular-nums', tone)}>{value}</p>
-                {hint && <p className="mt-0.5 text-[10px] text-muted-foreground">{hint}</p>}
-              </div>
-            ))}
-          </div>
-        </div>
-      );
-    }
-
-    return (
-      <div className="rounded-xl border border-primary/20 bg-primary/5 p-4 text-xs">
-        <p className="font-bold uppercase tracking-wider text-primary">Instant directional read</p>
-        <div className="mt-2 grid grid-cols-3 gap-2 text-muted-foreground">
-          {metrics.map(({ label, value }) => (
-            <div key={label}>
-              <span className="block">{label}</span>
-              <strong className="text-foreground">{value}</strong>
-            </div>
-          ))}
-        </div>
-      </div>
-    );
-  };
 
   if (success) {
     return (
@@ -450,6 +257,84 @@ export default function LeadForm({
     );
   }
 
+  return renderLeadFormCard({
+    className,
+    errorMsg,
+    formData,
+    handleSubmit,
+    headline,
+    heroSelectClass,
+    heroStepPanelClass,
+    inputClass,
+    isCompact,
+    isHero,
+    isPolished,
+    isPremium,
+    isStepValid,
+    loading,
+    parsed,
+    step,
+    subheadline,
+    submitLabel,
+    update,
+    onBack: back,
+    onNext: next,
+  });
+}
+
+interface LeadFormParsedMetrics {
+  ltv: number;
+  dscr: number;
+  debtYield: number;
+}
+
+interface RenderLeadFormCardProps {
+  className: string;
+  errorMsg: string;
+  formData: LeadFormData;
+  handleSubmit: (e: React.FormEvent) => void;
+  headline?: string;
+  heroSelectClass: string;
+  heroStepPanelClass: string;
+  inputClass: string;
+  isCompact: boolean;
+  isHero: boolean;
+  isPolished: boolean;
+  isPremium: boolean;
+  isStepValid: () => boolean;
+  loading: boolean;
+  parsed: LeadFormParsedMetrics;
+  step: number;
+  subheadline?: string;
+  submitLabel?: string;
+  update: (key: keyof LeadFormData, value: string) => void;
+  onBack: () => void;
+  onNext: () => void;
+}
+
+function renderLeadFormCard({
+  className,
+  errorMsg,
+  formData,
+  handleSubmit,
+  headline,
+  heroSelectClass,
+  heroStepPanelClass,
+  inputClass,
+  isCompact,
+  isHero,
+  isPolished,
+  isPremium,
+  isStepValid,
+  loading,
+  parsed,
+  step,
+  subheadline,
+  submitLabel,
+  update,
+  onBack,
+  onNext,
+}: RenderLeadFormCardProps) {
   const formCard = (
     <div
       className={cn(
@@ -493,7 +378,7 @@ export default function LeadForm({
         </p>
       </div>
 
-      {renderStepIndicator()}
+      <LeadFormStepIndicator step={step} steps={STEPS} isHero={isHero} isPolished={isPolished} />
 
       <form onSubmit={handleSubmit} noValidate className={cn(isPremium ? 'space-y-6' : isHero ? 'space-y-4' : 'space-y-5')}>
         <input
@@ -524,7 +409,7 @@ export default function LeadForm({
                       key={p.value}
                       type="button"
                       onClick={() => update('purpose', p.value)}
-                      className={cn(choiceButtonClass(formData.purpose === p.value), 'justify-center text-center')}
+                      className={cn(choiceButtonClass(formData.purpose === p.value, isPremium, isHero), 'justify-center text-center')}
                     >
                       {p.label}
                     </button>
@@ -588,7 +473,7 @@ export default function LeadForm({
                           key={p.value}
                           type="button"
                           onClick={() => update('propertyType', p.value)}
-                          className={cn(choiceButtonClass(formData.propertyType === p.value), 'gap-2.5')}
+                          className={cn(choiceButtonClass(formData.propertyType === p.value, isPremium, isHero), 'gap-2.5')}
                         >
                           <Building2
                             className={cn(
@@ -660,8 +545,8 @@ export default function LeadForm({
                         inputMode="decimal"
                         placeholder={placeholder}
                         className={cn(inputClass, key !== 'occupancy' ? 'pl-10' : '')}
-                        value={formData[key as keyof typeof formData]}
-                        onChange={(e) => update(key as keyof typeof formData, e.target.value.replace(/[^0-9.]/g, ''))}
+                        value={formData[key as keyof LeadFormData]}
+                        onChange={(e) => update(key as keyof LeadFormData, e.target.value.replace(/[^0-9.]/g, ''))}
                         required
                       />
                     </div>
@@ -669,7 +554,13 @@ export default function LeadForm({
                 ))}
               </div>
 
-              {renderMetricsPanel()}
+              <LeadFormMetricsPanel
+                ltv={parsed.ltv}
+                dscr={parsed.dscr}
+                debtYield={parsed.debtYield}
+                isHero={isHero}
+                isPolished={isPolished}
+              />
             </div>
           )}
 
@@ -760,7 +651,7 @@ export default function LeadForm({
                         key={o.value}
                         type="button"
                         onClick={() => update('timeline', o.value)}
-                        className={cn(choiceButtonClass(formData.timeline === o.value), 'justify-center text-center')}
+                        className={cn(choiceButtonClass(formData.timeline === o.value, isPremium, isHero), 'justify-center text-center')}
                       >
                         {o.label}
                       </button>
@@ -849,7 +740,7 @@ export default function LeadForm({
           {step > 1 && (
             <button
               type="button"
-              onClick={back}
+              onClick={onBack}
               disabled={loading}
               className={cn(
                 'inline-flex items-center justify-center gap-1.5 border border-border bg-card px-5 text-sm font-bold text-foreground transition hover:bg-secondary/80 disabled:opacity-50',
@@ -864,7 +755,7 @@ export default function LeadForm({
           {step < 4 ? (
             <button
               type="button"
-              onClick={next}
+              onClick={onNext}
               disabled={!isStepValid()}
               className={cn(
                 'inline-flex flex-1 items-center justify-center gap-1.5 text-sm font-bold transition disabled:opacity-50',
@@ -942,4 +833,28 @@ export default function LeadForm({
   }
 
   return formCard;
+}
+
+function choiceButtonClass(selected: boolean, isPremium: boolean, isHero: boolean) {
+  return cn(
+    'flex w-full items-center border text-left font-semibold transition-all duration-200',
+    isPremium
+      ? cn(
+          'rounded-xl p-3.5 text-sm hover:-translate-y-0.5 hover:shadow-md',
+          selected
+            ? 'border-accent bg-accent/10 shadow-md shadow-accent/10 ring-2 ring-accent/40'
+            : 'border-border/80 bg-background/80 hover:border-primary/30 hover:bg-secondary/60',
+        )
+      : isHero
+        ? cn(
+            'rounded-xl px-3 py-2.5 text-xs transition-all duration-200',
+            selected
+              ? 'border-accent bg-accent/12 shadow-sm shadow-accent/15 ring-2 ring-accent/35'
+              : 'border-border/70 bg-background/70 hover:-translate-y-px hover:border-primary/25 hover:bg-secondary/50 hover:shadow-sm',
+          )
+        : cn(
+            'rounded-xl text-xs hover:bg-secondary/50',
+            selected ? 'border-primary bg-primary/5 ring-1 ring-primary' : 'border-border bg-card',
+          ),
+  );
 }

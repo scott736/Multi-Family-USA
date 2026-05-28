@@ -14,7 +14,7 @@ interface MaybePublishedEntry {
 
 const PUBLISH_OVERRIDE = process.env.PUBLISH_PREVIEW_FUTURE === "1";
 
-export function isPublished(entry: MaybePublishedEntry, now: Date = new Date()): boolean {
+function isPublished(entry: MaybePublishedEntry, now: Date = new Date()): boolean {
   if (PUBLISH_OVERRIDE) return true;
   const published = entry.data.published;
   if (!published) return true;

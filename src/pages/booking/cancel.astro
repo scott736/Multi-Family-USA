@@ -1,0 +1,20 @@
+---
+import BasicLayout from "@/layouts/BasicLayout.astro";
+import { CancelBooking } from "@/components/scheduling/CancelBooking";
+
+const token = Astro.url.searchParams.get("token") ?? "";
+---
+
+<BasicLayout
+  title="Cancel Booking | Multi-Family USA"
+  description="Cancel your Multi-Family USA strategy call booking."
+  crumbs={[
+    { label: "Home", href: "/" },
+    { label: "Book a strategy call", href: "/book-strategy-call" },
+    { label: "Cancel booking", href: "/booking/cancel" },
+  ]}
+>
+  <div class="mx-auto max-w-3xl space-y-6">
+    <CancelBooking client:load token={token} />
+  </div>
+</BasicLayout>

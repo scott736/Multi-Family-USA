@@ -58,7 +58,7 @@ export const PILLARS = [
 const ORG_ID = `${SITE_URL}/#organization`;
 const WEBSITE_ID = `${SITE_URL}/#website`;
 
-export const SCHEMA_IDS = {
+const SCHEMA_IDS = {
   organization: ORG_ID,
   website: WEBSITE_ID,
   publisher: ORG_ID,
@@ -175,7 +175,7 @@ export function buildFaqSchema(items: { q: string; a: string }[]) {
   };
 }
 
-export function buildBreadcrumbSchema(items: { name: string; url: string }[]) {
+function buildBreadcrumbSchema(items: { name: string; url: string }[]) {
   return {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",

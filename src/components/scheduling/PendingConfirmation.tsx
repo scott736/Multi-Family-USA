@@ -176,6 +176,7 @@ export function PendingConfirmation({
                   <>
                     {' '}{t('scheduling.or')}{' '}
                     <button
+                      type="button"
                       onClick={onBookAnother}
                       className="text-brand hover:underline font-medium"
                     >

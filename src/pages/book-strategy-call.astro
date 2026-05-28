@@ -1,6 +1,7 @@
 ---
 import BasicLayout from "@/layouts/BasicLayout.astro";
-import { services } from "@/lib/nylas/config";
+import { SchedulingWidgetWithBoundary } from "@/components/scheduling/scheduling-with-boundary";
+import { services, teamMembers } from "@/lib/nylas/config";
 
 const service = services.find((s) => s.id === "strategy-call");
 ---
@@ -13,10 +14,20 @@ const service = services.find((s) => s.id === "strategy-call");
     { label: "Book a strategy call", href: "/book-strategy-call" },
   ]}
 >
-  <h1>Book a strategy call</h1>
-  <p>{service?.description ?? "Book a 30-minute call with a multifamily financing specialist."}</p>
-  <p>
-    Scheduling integration is configured through Nylas. If slots are unavailable,
-    submit a <a href="/deal-review">deal review</a> and we will coordinate manually.
-  </p>
+  <div class="mx-auto max-w-3xl space-y-6">
+    <div>
+      <h1>Book a strategy call</h1>
+      <p class="text-muted-foreground">
+        {service?.description ??
+          "Book a 30-minute call with a multifamily financing specialist."}
+      </p>
+    </div>
+
+    <SchedulingWidgetWithBoundary
+      client:load
+      services={services}
+      teamMembers={teamMembers}
+      initialServiceId="strategy-call"
+    />
+  </div>
 </BasicLayout>

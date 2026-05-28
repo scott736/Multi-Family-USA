@@ -20,11 +20,16 @@ async function loadEsSlugCache(): Promise<Map<LocalizedContentKind, Set<string>>
 
   esSlugCache = (async () => {
     const map = new Map<LocalizedContentKind, Set<string>>();
-    for (const [kind, collectionName] of Object.entries(ES_COLLECTION_BY_KIND)) {
-      // @ts-expect-error dynamic collection lookup
-      const entries = await getCollection(collectionName);
+    const collections = await Promise.all(
+      Object.entries(ES_COLLECTION_BY_KIND).map(async ([kind, collectionName]) => {
+        // @ts-expect-error dynamic collection lookup
+        const entries = await getCollection(collectionName);
+        return [kind as LocalizedContentKind, entries] as const;
+      }),
+    );
+    for (const [kind, entries] of collections) {
       const slugs = new Set(entries.map((e) => e.id.replace(/\.mdx$/, "")));
-      map.set(kind as LocalizedContentKind, slugs);
+      map.set(kind, slugs);
     }
     return map;
   })();

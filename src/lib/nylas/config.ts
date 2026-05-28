@@ -3,7 +3,7 @@
  * US-focused commercial multifamily advisory calls.
  */
 
-import type { AvailabilityRule,Service, TeamMember } from "./types";
+import type { AvailabilityRule, Service, TeamMember } from "./types";
 
 const DEFAULT_AVAILABILITY: AvailabilityRule[] = [
   { dayOfWeek: 1, startTime: "09:00", endTime: "17:00" },
@@ -61,58 +61,69 @@ export const services: Service[] = [
   },
 ];
 
-for (const service of services) {
-  service.teamMembers = teamMembers
-    .filter((m) => m.services.includes(service.id) && !m.personalOnly)
-    .map((m) => m.id);
+const teamMemberIdsByService = new Map<string, string[]>();
+for (const member of teamMembers) {
+  if (member.personalOnly) continue;
+  for (const serviceId of member.services) {
+    const ids = teamMemberIdsByService.get(serviceId);
+    if (ids) {
+      ids.push(member.id);
+    } else {
+      teamMemberIdsByService.set(serviceId, [member.id]);
+    }
+  }
 }
 
-export function getTeamMemberById(id: string): TeamMember | undefined {
+for (const service of services) {
+  service.teamMembers = teamMemberIdsByService.get(service.id) ?? [];
+}
+
+function getTeamMemberById(id: string): TeamMember | undefined {
   return teamMembers.find((member) => member.id === id);
 }
 
-export function getTeamMemberBySlug(slug: string): TeamMember | undefined {
+function getTeamMemberBySlug(slug: string): TeamMember | undefined {
   return teamMembers.find((member) => member.slug === slug);
 }
 
-export function getTeamMemberByEmail(email: string): TeamMember | undefined {
+function getTeamMemberByEmail(email: string): TeamMember | undefined {
   const normalizedEmail = email.toLowerCase();
   return teamMembers.find((member) => member.email.toLowerCase() === normalizedEmail);
 }
 
-export function getServiceById(id: string): Service | undefined {
+function getServiceById(id: string): Service | undefined {
   return services.find((service) => service.id === id);
 }
 
-export function getServicesByTeamMember(teamMemberId: string): Service[] {
+function getServicesByTeamMember(teamMemberId: string): Service[] {
   return services.filter((service) => service.teamMembers.includes(teamMemberId));
 }
 
-export function getTeamMembersByService(serviceId: string): TeamMember[] {
+function getTeamMembersByService(serviceId: string): TeamMember[] {
   const service = getServiceById(serviceId);
   if (!service) return [];
   return teamMembers.filter((member) => service.teamMembers.includes(member.id));
 }
 
-export function getServicesByCategory(
+function getServicesByCategory(
   category: "residential" | "commercial" | "investment" | "development",
 ): Service[] {
   return services.filter((service) => service.category === category);
 }
 
-export function getActiveTeamMembers(): TeamMember[] {
+function getActiveTeamMembers(): TeamMember[] {
   return teamMembers.filter(
     (member) => member.nylasGrantId || (member.nylasGrants && member.nylasGrants.length > 0),
   );
 }
 
-export function canTeamMemberOfferService(teamMemberId: string, serviceId: string): boolean {
+function canTeamMemberOfferService(teamMemberId: string, serviceId: string): boolean {
   const service = getServiceById(serviceId);
   if (!service) return false;
   return service.teamMembers.includes(teamMemberId);
 }
 
-export const schedulingConfig = {
+const schedulingConfig = {
   minimumNotice: 3,
   maxAdvanceBooking: 60,
   defaultTimezone: "America/New_York",
