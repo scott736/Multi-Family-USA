@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect } from 'react';
+
 import { trackConversion } from '@/lib/analytics';
 
 function inferLinkLocation(anchor: HTMLAnchorElement): string {

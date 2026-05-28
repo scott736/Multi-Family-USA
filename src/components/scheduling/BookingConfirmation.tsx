@@ -1,12 +1,13 @@
 'use client';
 
 import { useEffect } from 'react';
-import { CheckCircle2, Calendar, Clock, Video, Download, ExternalLink } from '@/components/ui/icons';
+
 import { Button } from '@/components/ui/button';
-import { cn } from '@/lib/utils';
+import { Calendar, CheckCircle2, Clock, Download, ExternalLink,Video } from '@/components/ui/icons';
 import { useTranslations } from '@/i18n/utils';
 import { trackConversion } from '@/lib/analytics';
 import type { BookingConfirmation as BookingConfirmationType } from '@/lib/nylas/types';
+import { cn } from '@/lib/utils';
 
 interface BookingConfirmationProps {
   booking: BookingConfirmationType;

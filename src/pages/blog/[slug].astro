@@ -2,8 +2,8 @@
 import { getCollection, render } from "astro:content";
 
 import GuideShell from "@/components/dscr/GuideShell.astro";
-import { buildBlogRelatedGroups } from "@/lib/related-links";
 import { localizedBlogPaths } from "@/i18n/content-locale";
+import { buildBlogRelatedGroups } from "@/lib/related-links";
 import { filterPublished } from "@/lib/scheduled-publish";
 
 export async function getStaticPaths() {

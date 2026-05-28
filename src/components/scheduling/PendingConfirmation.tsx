@@ -1,10 +1,10 @@
 'use client';
 
-import { Mail, Clock, Calendar, User, CheckCircle2 } from '@/components/ui/icons';
 import { Button } from '@/components/ui/button';
-import { cn } from '@/lib/utils';
+import { Calendar, CheckCircle2,Clock, Mail, User } from '@/components/ui/icons';
 import { useTranslations } from '@/i18n/utils';
 import type { TeamMember } from '@/lib/nylas/types';
+import { cn } from '@/lib/utils';
 
 interface PendingConfirmationProps {
   email: string;

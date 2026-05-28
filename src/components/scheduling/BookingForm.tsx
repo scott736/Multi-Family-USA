@@ -1,25 +1,27 @@
 'use client';
 
+import { zodResolver } from '@hookform/resolvers/zod';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
-import { ArrowLeft, Calendar, Clock, Loader2, Phone, User, Video } from '@/components/ui/icons';
+
 import { Button } from '@/components/ui/button';
+import { ArrowLeft, Calendar, Clock, Loader2, Phone, User, Video } from '@/components/ui/icons';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
-import { cn } from '@/lib/utils';
-import type { GuestInfo, Service, TeamMember, TimeSlot, MeetingType } from '@/lib/nylas/types';
-
 import { useTranslations } from '@/i18n/utils';
+import type { GuestInfo, MeetingType,Service, TeamMember, TimeSlot } from '@/lib/nylas/types';
+import { cn } from '@/lib/utils';
 
-const MEETING_TYPE_OPTIONS = (t: any): { type: MeetingType; label: string; description: string }[] => [
+type TranslateFn = ReturnType<typeof useTranslations>;
+
+const MEETING_TYPE_OPTIONS = (t: TranslateFn): { type: MeetingType; label: string; description: string }[] => [
   { type: 'phone', label: t('sched.phoneCall'), description: t('sched.phoneCallDesc') },
   { type: 'teams', label: t('sched.teams'), description: t('sched.teamsDesc') },
 ];
 
-const formSchema = (t: any) => z.object({
+const formSchema = (t: TranslateFn) => z.object({
   name: z.string().min(2, t('calc.lead.error.name')).max(100),
   email: z.string().email(t('calc.lead.error.email')),
   phone: z.string().min(7, t('sched.phoneError') || 'Please enter a valid phone number'),
@@ -216,7 +218,7 @@ export function BookingForm({
             {/* Honeypot field - hidden from users */}
             <input
               type="text"
-              {...register('website' as any)}
+              {...register('website')}
               className="absolute left-[-9999px]"
               tabIndex={-1}
               autoComplete="off"

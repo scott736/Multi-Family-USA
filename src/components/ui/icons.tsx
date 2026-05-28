@@ -1,4 +1,5 @@
 // Re-export lucide-react icons under the path scheduling components expect.
+export type { LucideIcon, LucideProps } from 'lucide-react';
 export {
   AlertTriangle,
   ArrowLeft,
@@ -28,5 +29,3 @@ export {
   Wheat,
   XCircle,
 } from 'lucide-react';
-
-export type { LucideIcon, LucideProps } from 'lucide-react';

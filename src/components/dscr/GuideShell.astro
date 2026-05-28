@@ -3,14 +3,14 @@ import Breadcrumbs from "@/components/dscr/Breadcrumbs.astro";
 import CtaCard from "@/components/dscr/CtaCard.astro";
 import FaqAccordion from "@/components/dscr/FaqAccordion.astro";
 import RelatedReading from "@/components/dscr/RelatedReading.astro";
+import { getLangFromUrl } from "@/i18n/utils";
 import DefaultLayout from "@/layouts/DefaultLayout.astro";
 import {
   buildBlogRelatedGroups,
-  getRelatedLinks,
   type ContentKind,
+  getRelatedLinks,
   type RelatedGroup,
 } from "@/lib/related-links";
-import { getLangFromUrl } from "@/i18n/utils";
 
 import {
   buildArticleSchema,

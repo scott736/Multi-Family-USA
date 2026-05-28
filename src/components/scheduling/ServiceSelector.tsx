@@ -1,9 +1,9 @@
 'use client';
 
-import { Clock, Globe, CheckCircle2, Lock } from '@/components/ui/icons';
-import { cn } from '@/lib/utils';
+import { CheckCircle2, Clock, Globe, Lock } from '@/components/ui/icons';
 import { useTranslations } from '@/i18n/utils';
 import type { Service, TeamMember } from '@/lib/nylas/types';
+import { cn } from '@/lib/utils';
 
 interface ServiceSelectorProps {
   services: Service[];

@@ -1,8 +1,9 @@
 import * as React from 'react';
+
 import { ErrorBoundary } from '@/components/ErrorBoundary';
 import { SchedulingWidget } from '@/components/scheduling/SchedulingWidget';
-import type { Service, TeamMember } from '@/lib/nylas/types';
 import { useTranslations } from '@/i18n/utils';
+import type { Service, TeamMember } from '@/lib/nylas/types';
 
 interface SchedulingWidgetWithBoundaryProps {
   services: Service[];

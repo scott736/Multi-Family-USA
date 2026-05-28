@@ -1,19 +1,19 @@
 'use client';
 
-import { useState, useCallback } from 'react';
-import { AnimatePresence, LazyMotion, domAnimation, m } from 'motion/react';
 import {
   ArrowRight,
-  MapPin,
-  Building2,
-  Gavel,
-  Clock,
-  ShieldAlert,
   Ban,
-  Percent,
+  Building2,
+  Clock,
+  Gavel,
   Landmark,
+  MapPin,
+  Percent,
+  ShieldAlert,
   X,
 } from 'lucide-react';
+import { AnimatePresence, domAnimation, LazyMotion, m } from 'motion/react';
+import { useCallback,useState } from 'react';
 
 import { Badge } from '@/components/ui/badge';
 import {
@@ -25,6 +25,7 @@ import {
   CardTitle,
 } from '@/components/ui/card';
 import { cn } from '@/lib/utils';
+
 import { REGION_PATHS } from './us-state-svg-paths';
 
 /* ─────────────────────── Types ─────────────────────── */
