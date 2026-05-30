@@ -11,7 +11,7 @@ import {
   User,
   XCircle,
 } from '@/components/ui/icons';
-import { useTranslations } from '@/i18n/utils';
+import { type TranslateFn, useTranslations } from '@/i18n/utils';
 
 interface BookingData {
   status: 'pending' | 'confirmed' | 'expired' | 'cancelled';
@@ -278,7 +278,7 @@ function LoadedView({
   onReasonChange: (value: string) => void;
   onHideConfirm: () => void;
   onConfirmCancel: () => void;
-  t: ReturnType<typeof useTranslations>;
+  t: TranslateFn;
   homeHref: string;
 }) {
   const { date, time } = formatDateTime(bookingData.startTime, bookingData.timezone, locale);

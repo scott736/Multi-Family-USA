@@ -10,11 +10,9 @@ import { ArrowLeft, Calendar, Clock, Loader2, Phone, User, Video } from '@/compo
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
-import { useTranslations } from '@/i18n/utils';
-import type { GuestInfo, MeetingType,Service, TeamMember, TimeSlot } from '@/lib/nylas/types';
+import { type TranslateFn, useTranslations } from '@/i18n/utils';
+import type { GuestInfo, MeetingType, Service, TeamMember, TimeSlot } from '@/lib/nylas/types';
 import { cn } from '@/lib/utils';
-
-type TranslateFn = ReturnType<typeof useTranslations>;
 
 const MEETING_TYPE_OPTIONS = (t: TranslateFn): { type: MeetingType; label: string; description: string }[] => [
   { type: 'phone', label: t('sched.phoneCall'), description: t('sched.phoneCallDesc') },

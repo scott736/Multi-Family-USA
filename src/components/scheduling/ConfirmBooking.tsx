@@ -3,7 +3,7 @@ import { useCallback, useReducer, useRef } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Calendar, CheckCircle2, Clock, Loader2, User, XCircle } from '@/components/ui/icons';
-import { useTranslations } from '@/i18n/utils';
+import { type TranslateFn, useTranslations } from '@/i18n/utils';
 import { trackConversion } from '@/lib/analytics';
 
 interface PendingBookingData {
@@ -234,7 +234,7 @@ function ConfirmedView({
   timezone: string;
   locale: string;
   token: string;
-  t: ReturnType<typeof useTranslations>;
+  t: TranslateFn;
   homeHref: string;
 }) {
   const { date, time } = formatDateTime(confirmedData.startTime, timezone, locale);
@@ -373,7 +373,7 @@ function PendingView({
   locale: string;
   token: string;
   bookCallHref: string;
-  t: ReturnType<typeof useTranslations>;
+  t: TranslateFn;
   onConfirm: () => void;
 }) {
   const { date, time } = formatDateTime(pendingData.startTime, pendingData.timezone, locale);

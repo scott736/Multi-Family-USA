@@ -2,6 +2,7 @@ import astroPlugin from "eslint-plugin-astro";
 import astroParser from "astro-eslint-parser";
 import tsPlugin from "@typescript-eslint/eslint-plugin";
 import tsParser from "@typescript-eslint/parser";
+import eslintConfigPrettier from "eslint-config-prettier";
 import simpleImportSort from "eslint-plugin-simple-import-sort";
 
 export default [
@@ -55,4 +56,6 @@ export default [
   {
     ignores: ["node_modules/**", "dist/**", ".astro/**", ".vercel/**"],
   },
+
+  eslintConfigPrettier,
 ];

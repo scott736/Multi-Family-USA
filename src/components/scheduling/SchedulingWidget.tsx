@@ -4,7 +4,7 @@ import { useCallback, useMemo, useReducer } from 'react';
 
 import { Button } from '@/components/ui/button';
 import { ArrowLeft, ArrowRight } from '@/components/ui/icons';
-import { useTranslations } from '@/i18n/utils';
+import { type TranslateFn, useTranslations } from '@/i18n/utils';
 import { trackConversion } from '@/lib/analytics';
 import type {
   BookingConfirmation as BookingConfirmationType,
@@ -74,7 +74,6 @@ type SchedulingWidgetAction =
   | { type: 'resetFlow' };
 
 const STEPS: SchedulingStep[] = ['service', 'datetime', 'details', 'confirmation'];
-type Translate = ReturnType<typeof useTranslations>;
 
 function getBrowserTimezone() {
   try {
@@ -204,7 +203,7 @@ function getStepIndex(step: SchedulingStep): number {
   return STEPS.indexOf(step);
 }
 
-function SchedulingProgress({ currentStep, t }: { currentStep: SchedulingStep; t: Translate }) {
+function SchedulingProgress({ currentStep, t }: { currentStep: SchedulingStep; t: TranslateFn }) {
   if (currentStep === 'confirmation') return null;
 
   const progressSteps = [

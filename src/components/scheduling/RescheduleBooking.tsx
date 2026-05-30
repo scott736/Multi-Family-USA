@@ -11,7 +11,7 @@ import {
   User,
   XCircle,
 } from '@/components/ui/icons';
-import { useTranslations } from '@/i18n/utils';
+import { type TranslateFn, useTranslations } from '@/i18n/utils';
 import type { TimeSlot } from '@/lib/nylas/types';
 
 import { AvailabilityPicker } from './AvailabilityPicker';
@@ -217,7 +217,7 @@ function RescheduledView({
   bookingData: BookingData | null;
   timezone: string;
   locale: string;
-  t: ReturnType<typeof useTranslations>;
+  t: TranslateFn;
   homeHref: string;
 }) {
   const { date, time } = formatDateTime(rescheduledData.startTime, timezone, locale);
@@ -327,7 +327,7 @@ function SelectTimeView({
   timezone: string;
   lang: 'en' | 'es';
   locale: string;
-  t: ReturnType<typeof useTranslations>;
+  t: TranslateFn;
   onSlotSelect: (slot: TimeSlot) => void;
   onConfirm: () => void;
   homeHref: string;

@@ -2,5 +2,6 @@
   "plugins": ["prettier-plugin-tailwindcss", "prettier-plugin-astro"],
   "printWidth": 80,
   "tabWidth": 2,
-  "tailwindStylesheet": "./src/app/globals.css"
+  "singleQuote": true,
+  "tailwindStylesheet": "./src/styles/global.css"
 }

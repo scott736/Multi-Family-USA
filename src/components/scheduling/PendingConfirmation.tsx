@@ -1,7 +1,7 @@
 'use client';
 
 import { Button } from '@/components/ui/button';
-import { Calendar, CheckCircle2,Clock, Mail, User } from '@/components/ui/icons';
+import { Calendar, CheckCircle2, Clock, Mail, User } from '@/components/ui/icons';
 import { useTranslations } from '@/i18n/utils';
 import type { TeamMember } from '@/lib/nylas/types';
 import { cn } from '@/lib/utils';

@@ -3,7 +3,7 @@
 import { useEffect } from 'react';
 
 import { Button } from '@/components/ui/button';
-import { Calendar, CheckCircle2, Clock, Download, ExternalLink,Video } from '@/components/ui/icons';
+import { Calendar, CheckCircle2, Clock, Download, ExternalLink, Video } from '@/components/ui/icons';
 import { useTranslations } from '@/i18n/utils';
 import { trackConversion } from '@/lib/analytics';
 import type { BookingConfirmation as BookingConfirmationType } from '@/lib/nylas/types';

@@ -8,6 +8,8 @@ export function useTranslations(_lang: Lang = 'en') {
   return (key: string) => key;
 }
 
+export type TranslateFn = ReturnType<typeof useTranslations>;
+
 function useTranslatedPath(lang: Lang = 'en') {
   return (path: string) => {
     if (lang === 'es') {
