@@ -6,6 +6,7 @@ import { useMemo, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { buildDealReviewUrl } from "@/lib/deal-review-url";
 import { fmtUSD, parseNum } from "@/lib/finance";
 import { cn } from "@/lib/utils";
 
@@ -95,6 +96,20 @@ export default function DebtYieldCalculator({
   }
 
   const v = verdictStyle(debtYield);
+
+  const dealReviewUrl = useMemo(
+    () =>
+      buildDealReviewUrl(
+        {
+          source: "debt-yield-calculator",
+          annualNoi: noi > 0 ? Math.round(noi) : undefined,
+          loanAmount: loan > 0 ? Math.round(loan) : undefined,
+          purpose: "acquisition",
+        },
+        isEs,
+      ),
+    [isEs, loan, noi],
+  );
 
   return (
     <div className="space-y-6">
@@ -212,19 +227,17 @@ export default function DebtYieldCalculator({
         <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
           <div>
             <h3 className="text-xl md:text-2xl font-bold">
-              {isEs
-                ? "Encuentra prestamistas DSCR multifamiliares"
-                : "Get matched with multifamily multifamily lenders"}
+              {isEs ? "¿Quiere una lectura de encaje real?" : "Want a real lender-fit read?"}
             </h3>
             <p className="mt-1 text-sm opacity-80">
               {isEs
-                ? "Comparamos 1,000+ prestamistas DSCR y puente. Las 3 mejores ofertas en una hora. Sin verificación de crédito."
-                : "We shop 1,000+ DSCR and bridge lenders. Top 3 offers in one hour. No credit pull."}
+                ? "Envíe NOI y monto de préstamo para una revisión gratuita — usualmente en una hora hábil. Sin consulta de crédito."
+                : "Submit NOI and loan amount for a free underwriting review — usually within one business hour. No credit pull."}
             </p>
           </div>
           <Button asChild variant="cta" size="lg" className="shrink-0">
-            <a href={isEs ? "/deal-review?source=debt-yield-calculator" : "/deal-review?source=debt-yield-calculator"}>
-              {isEs ? "Ver mis ofertas" : "Get my matches"} <ArrowRight className="size-4" />
+            <a href={dealReviewUrl}>
+              {isEs ? "Solicitar revisión gratuita" : "Get free deal review"} <ArrowRight className="size-4" />
             </a>
           </Button>
         </div>

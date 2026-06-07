@@ -11,6 +11,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { buildDealReviewUrl } from "@/lib/deal-review-url";
 import { monthlyPI, parseNum, solveLoanFromPayment } from "@/lib/finance";
 import { cn } from "@/lib/utils";
 
@@ -122,6 +123,22 @@ export default function MaxLoanCalculator({ lang = "en" }: MaxLoanCalculatorProp
         return { dscr: dscrTarget, maxPI, maxLoan };
       }),
     [fixedCosts, rate, rent, term],
+  );
+
+  const dealReviewUrl = useMemo(
+    () =>
+      buildDealReviewUrl(
+        {
+          source: "max-loan-calculator",
+          loanAmount: results?.maxLoan,
+          purchasePrice: results?.pp75,
+          monthlyRent: rent > 0 ? rent : undefined,
+          purpose: "acquisition",
+          occupancy: 93,
+        },
+        isEs,
+      ),
+    [isEs, rent, results?.maxLoan, results?.pp75],
   );
 
   function update<K extends keyof Fields>(k: K, v: Fields[K]) {
@@ -295,16 +312,16 @@ export default function MaxLoanCalculator({ lang = "en" }: MaxLoanCalculatorProp
       <div className="rounded-xl bg-gradient-to-br from-primary to-primary/85 p-6 md:p-8 text-primary-foreground">
         <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
           <div>
-            <h3 className="text-xl md:text-2xl font-bold">{isEs ? "¿Listo para encontrar tu préstamo?" : "Ready to find your loan?"}</h3>
+            <h3 className="text-xl md:text-2xl font-bold">{isEs ? "¿Quiere una lectura real de encaje?" : "Want a real lender-fit read?"}</h3>
             <p className="mt-1 text-sm opacity-80">
               {isEs
-                ? "Cotizamos con más de 1,000 prestamistas DSCR y te entregamos tus 3 mejores ofertas — usualmente dentro de una hora hábil. Sin consulta de crédito."
-                : "We shop 1,000+ multifamily lenders and return your top 3 offers — usually within one business hour. No credit pull."}
+                ? "Envíe sus números para una revisión gratuita de suscripción y encaje con prestamistas — usualmente en una hora hábil. Sin consulta de crédito."
+                : "Submit your numbers for a free underwriting and lender-fit review — usually within one business hour. No credit pull."}
             </p>
           </div>
           <Button asChild variant="cta" size="lg" className="shrink-0">
-            <a href={isEs ? "/deal-review?source=max-loan-calculator" : "/deal-review?source=max-loan-calculator"}>
-              {isEs ? "Ver mis ofertas" : "Get my matches"}
+            <a href={dealReviewUrl}>
+              {isEs ? "Solicitar revisión gratuita" : "Get free deal review"}
               <ArrowRight className="size-4" />
             </a>
           </Button>

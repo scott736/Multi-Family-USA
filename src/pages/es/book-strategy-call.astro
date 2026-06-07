@@ -14,28 +14,28 @@ const initialTeamMember = advisorSlug
 
 const faqs = [
   {
-    q: "Is this a sales call?",
-    a: "No. It is a working session to review your 5+ unit scenario, underwriting constraints, and realistic capital-stack paths. There is no credit pull and no obligation to proceed with any lender.",
+    q: "¿Es una llamada de ventas?",
+    a: "No. Es una sesión de trabajo para revisar su escenario de 5+ unidades, restricciones de suscripción y rutas realistas de capital. Sin consulta de crédito ni obligación de avanzar con ningún prestamista.",
   },
   {
-    q: "What should I prepare?",
-    a: "Bring your best rent roll or T-12, target loan amount, purchase price or value, occupancy, and timeline. Even rough numbers are enough to make the call useful.",
+    q: "¿Qué debo preparar?",
+    a: "Traiga su rent roll o T-12, monto de préstamo objetivo, precio o valor, ocupación y cronograma. Incluso números aproximados son suficientes.",
   },
   {
-    q: "How is this different from a deal review?",
-    a: "A deal review is async — you submit numbers and receive a written lender-fit read. A strategy call is live conversation for complex structures, timing questions, or when you want to talk through options before committing assumptions in writing.",
+    q: "¿En qué se diferencia de una revisión de deal?",
+    a: "La revisión es asíncrona — envía números y recibe una lectura escrita. La llamada es conversación en vivo para estructuras complejas, timing o cuando quiere hablar opciones antes de formalizar supuestos.",
   },
   {
-    q: "Who will I meet with?",
-    a: "Calls are routed to Scott or Aya on our multifamily advisory team. You can choose phone or Microsoft Teams when booking.",
+    q: "¿Con quién hablaré?",
+    a: "Las llamadas se enrutan a Scott o Aya del equipo de asesoría multifamiliar. Puede elegir teléfono o Microsoft Teams al reservar.",
   },
 ];
 ---
 
 <DefaultLayout
-  title="Book a Strategy Call | Multi-Family USA"
-  description="Book a free 30-minute US multifamily financing strategy call—underwriting review, capital-stack options, and execution planning for 5+ unit deals."
-  canonical="/book-strategy-call"
+  title="Reservar llamada de estrategia | Multi-Family USA"
+  description="Reserve una llamada gratuita de 30 minutos sobre financiamiento multifamiliar comercial en EE. UU. — suscripción, opciones de capital y planificación de ejecución."
+  canonical="/es/book-strategy-call"
   enPath="/book-strategy-call/"
   esPath="/es/book-strategy-call/"
 >
@@ -50,29 +50,29 @@ const faqs = [
           <p
             class="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/10 px-4 py-1.5 text-[11px] font-bold uppercase tracking-[0.2em] text-accent backdrop-blur-md"
           >
-            Free · 30 minutes · No credit pull
+            Gratis · 30 min · Sin consulta de crédito
           </p>
           <h1 class="text-4xl font-bold leading-tight tracking-tight md:text-5xl">
-            Book a multifamily <span class="text-accent">strategy call</span>
+            Reserve una <span class="text-accent">llamada de estrategia</span> multifamiliar
           </h1>
           <p class="max-w-xl text-lg leading-relaxed text-white/72">
             {service?.description ??
-              "Talk through your 5+ unit scenario with a multifamily financing specialist — underwriting constraints, lender-fit paths, and execution timing."}
+              "Hable de su escenario de 5+ unidades con un especialista — restricciones de suscripción, encaje con prestamistas y timing de ejecución."}
           </p>
           <ul class="space-y-2 text-sm text-white/70">
-            <li>✓ US commercial multifamily (5+ units) only</li>
-            <li>✓ Agency, bridge, bank, and debt-fund execution paths</li>
-            <li>✓ Phone or Microsoft Teams — your choice</li>
+            <li>✓ Solo multifamiliar comercial en EE. UU. (5+ unidades)</li>
+            <li>✓ Rutas agency, puente, banco y debt fund</li>
+            <li>✓ Teléfono o Microsoft Teams — usted elige</li>
           </ul>
           <p class="text-sm text-white/55">
-            Prefer a written read first?
-            <a href="/deal-review" class="font-semibold text-accent hover:underline" data-analytics-location="book-page">
-              Start a free deal review →
+            ¿Prefiere una lectura escrita primero?
+            <a href="/es/deal-review" class="font-semibold text-accent hover:underline" data-analytics-location="book-page">
+              Iniciar revisión gratuita →
             </a>
           </p>
         </div>
         <div class="hidden lg:block">
-          <BookCallSidebar />
+          <BookCallSidebar locale="es" />
         </div>
       </div>
     </div>
@@ -87,19 +87,20 @@ const faqs = [
           teamMembers={teamMembers}
           initialServiceId="strategy-call"
           initialTeamMemberId={initialTeamMember?.id}
+          lang="es"
         />
       </div>
       <aside class="space-y-6 lg:sticky lg:top-24">
         <div class="lg:hidden">
-          <BookCallSidebar />
+          <BookCallSidebar locale="es" />
         </div>
-        <ConversionPathHelper />
+        <ConversionPathHelper locale="es" />
       </aside>
     </div>
   </section>
 
   <section class="container pb-14">
-    <h2 class="mb-6 text-2xl font-bold">Frequently asked questions</h2>
+    <h2 class="mb-6 text-2xl font-bold">Preguntas frecuentes</h2>
     <FaqAccordion items={faqs} />
   </section>
 </DefaultLayout>

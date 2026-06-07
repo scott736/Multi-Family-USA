@@ -59,8 +59,14 @@ const currentPath = Astro.props.currentPath ?? Astro.url.pathname;
         <svg class="size-4 dark:hidden" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg>
       </button>
       <a href={SITE_PHONE_HREF} class="hidden xl:inline text-sm font-semibold text-foreground hover:text-primary">{SITE_PHONE}</a>
-      <a href="/book-strategy-call" class="hidden lg:inline-flex items-center text-sm font-semibold text-foreground hover:text-primary">Book a Call</a>
-      <a href="/deal-review" class="hidden md:inline-flex items-center justify-center whitespace-nowrap rounded-md bg-accent px-3 text-accent-foreground shadow-md hover:bg-accent/90 font-bold text-xs h-9 ring-1 ring-accent/40 transition-colors">Free Deal Review</a>
+      <a
+        href="/book-strategy-call"
+        class="hidden md:inline-flex items-center justify-center whitespace-nowrap rounded-md border border-accent/40 bg-accent/10 px-3 text-sm font-bold text-accent shadow-xs hover:bg-accent/20 h-9 transition-colors"
+        data-analytics-location="navbar"
+      >
+        Book a Call
+      </a>
+      <a href="/deal-review" class="hidden md:inline-flex items-center justify-center whitespace-nowrap rounded-md bg-accent px-3 text-accent-foreground shadow-md hover:bg-accent/90 font-bold text-xs h-9 ring-1 ring-accent/40 transition-colors" data-analytics-location="navbar">Free Deal Review</a>
       <button
         type="button"
         class="lg:hidden rounded-md p-2 text-foreground hover:bg-secondary"
@@ -81,7 +87,7 @@ const currentPath = Astro.props.currentPath ?? Astro.url.pathname;
         <a href={item.href} class="block rounded-md p-3 text-base font-semibold hover:bg-secondary">{item.label}</a>
       ))}
       <a href="/deal-review" class="block pt-4"><span class="inline-flex h-12 w-full items-center justify-center rounded-md bg-accent px-8 text-base font-bold text-accent-foreground shadow-md ring-1 ring-accent/40 hover:bg-accent/90">Free Deal Review</span></a>
-      <a href="/book-strategy-call" class="block pt-2"><span class="inline-flex h-12 w-full items-center justify-center rounded-md border border-input bg-background px-8 text-base font-semibold text-foreground shadow-xs hover:bg-secondary">Book a Call</span></a>
+      <a href="/book-strategy-call" class="block pt-2"><span class="inline-flex h-12 w-full items-center justify-center rounded-md border border-accent/40 bg-accent/10 px-8 text-base font-bold text-accent shadow-xs hover:bg-accent/20">Book a Call</span></a>
       <a href={SITE_PHONE_HREF} class="flex w-full justify-center py-3 text-base font-semibold text-primary">Call {SITE_PHONE}</a>
     </div>
   </div>

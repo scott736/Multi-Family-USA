@@ -1,23 +1,60 @@
 ---
 import { TEAM_MEMBERS } from "@/content/team/members";
-import BasicLayout from "@/layouts/BasicLayout.astro";
+import DefaultLayout from "@/layouts/DefaultLayout.astro";
 ---
 
-<BasicLayout
+<DefaultLayout
   title="Team | Multi-Family USA"
   description="Meet the editorial and advisory contributors behind Multi-Family USA's multifamily financing guides and deal review support."
-  crumbs={[
-    { label: "Home", href: "/" },
-    { label: "Team", href: "/team" },
-  ]}
+  canonical="/team"
+  enPath="/team/"
+  esPath="/es/about/"
 >
-  <h1>Team</h1>
-  <p>Multi-Family USA combines editorial analysis with practical multifamily lending and underwriting experience.</p>
-  <ul>
-    {TEAM_MEMBERS.map((member) => (
-      <li>
-        <strong>{member.name}</strong> — {member.jobTitle}
-      </li>
-    ))}
-  </ul>
-</BasicLayout>
+  <section class="container py-12 md:py-16">
+    <h1 class="text-4xl font-bold">Team</h1>
+    <p class="mt-3 max-w-2xl text-muted-foreground">
+      Multi-Family USA combines editorial analysis with practical multifamily lending and underwriting experience.
+    </p>
+
+    <ul class="mt-10 grid gap-6 md:grid-cols-2">
+      {
+        TEAM_MEMBERS.map((member) => (
+          <li class="rounded-xl border border-border bg-card p-6">
+            <div class="flex gap-4">
+              <span class="flex size-14 shrink-0 items-center justify-center rounded-full bg-primary/10 text-lg font-bold text-primary">
+                {member.name
+                  .split(" ")
+                  .map((part) => part[0])
+                  .join("")}
+              </span>
+              <div>
+                <h2 class="text-xl font-bold">
+                  <a href={`/team/${member.slug}`} class="hover:text-accent">
+                    {member.name}
+                  </a>
+                </h2>
+                <p class="text-sm font-semibold text-accent">{member.jobTitle}</p>
+                <p class="mt-2 text-sm text-muted-foreground">{member.shortBio}</p>
+              </div>
+            </div>
+            <div class="mt-4 flex flex-wrap gap-2">
+              <a
+                href={`/team/${member.slug}`}
+                class="rounded-md border border-border px-3 py-1.5 text-xs font-semibold hover:bg-secondary"
+              >
+                View profile
+              </a>
+              <a
+                href={`/book-strategy-call?advisor=${member.slug}`}
+                class="rounded-md bg-accent px-3 py-1.5 text-xs font-bold text-accent-foreground hover:bg-accent/90"
+                data-analytics-location="team-index"
+              >
+                Book a call
+              </a>
+            </div>
+          </li>
+        ))
+      }
+    </ul>
+  </section>
+</DefaultLayout>

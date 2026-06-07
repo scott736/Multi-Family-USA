@@ -6,6 +6,7 @@ import { useMemo, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { buildDealReviewUrl } from "@/lib/deal-review-url";
 import { fmtUSD, parseNum } from "@/lib/finance";
 import { cn } from "@/lib/utils";
 
@@ -115,6 +116,22 @@ export default function CashOnCashCalculator({ lang = "en" }: CashOnCashCalculat
   }, [f]);
 
   const t = cocTier(v.coc, isEs);
+
+  const dealReviewUrl = useMemo(() => {
+    const price = parseNum(f.price);
+    const loanAmount = price > 0 ? Math.round(price * (1 - parseNum(f.downPct) / 100)) : undefined;
+    return buildDealReviewUrl(
+      {
+        source: "cash-on-cash-calculator",
+        purchasePrice: price > 0 ? Math.round(price) : undefined,
+        loanAmount,
+        annualNoi: v.noi > 0 ? Math.round(v.noi) : undefined,
+        purpose: "acquisition",
+        occupancy: 100 - parseNum(f.vacancy),
+      },
+      isEs,
+    );
+  }, [f.downPct, f.price, f.vacancy, isEs, v.noi]);
 
   function update(k: keyof Fields, val: string) {
     setF((prev) => ({ ...prev, [k]: val }));
@@ -258,11 +275,11 @@ export default function CashOnCashCalculator({ lang = "en" }: CashOnCashCalculat
       <div className="rounded-xl bg-gradient-to-br from-primary to-primary/85 p-6 md:p-8 text-primary-foreground">
         <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
           <div>
-            <h3 className="text-xl md:text-2xl font-bold">{isEs ? "Encuentra financiamiento para tu trato" : "Find financing for your deal"}</h3>
-            <p className="mt-1 text-sm opacity-80">{isEs ? "Comparamos más de 1,000 prestamistas DSCR — las 3 mejores ofertas en una hora. Sin consulta de crédito." : "We shop 1,000+ multifamily lenders — top 3 offers in one hour. No credit pull."}</p>
+            <h3 className="text-xl md:text-2xl font-bold">{isEs ? "¿Quiere una lectura de encaje?" : "Want a lender-fit read?"}</h3>
+            <p className="mt-1 text-sm opacity-80">{isEs ? "Revisión gratuita de suscripción — respuesta usual en una hora hábil. Sin consulta de crédito." : "Free underwriting review — usually within one business hour. No credit pull."}</p>
           </div>
           <Button asChild variant="cta" size="lg" className="shrink-0">
-            <a href={isEs ? "/deal-review?source=cash-on-cash-calculator" : "/deal-review?source=cash-on-cash-calculator"}>{isEs ? "Ver mis ofertas" : "Get my matches"} <ArrowRight className="size-4" /></a>
+            <a href={dealReviewUrl}>{isEs ? "Solicitar revisión gratuita" : "Get free deal review"} <ArrowRight className="size-4" /></a>
           </Button>
         </div>
       </div>

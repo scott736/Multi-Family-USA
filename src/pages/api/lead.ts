@@ -182,7 +182,8 @@ function buildAutoReply(lead: Lead) {
   </ul>
   <p style="font-size:15px;line-height:1.6;">
     If anything needs correction, reply to this email. For immediate support call
-    <a href="tel:${SITE_PHONE.replace(/\D/g, '')}">${SITE_PHONE}</a>.
+    <a href="tel:${SITE_PHONE.replace(/\D/g, '')}">${SITE_PHONE}</a>
+    or <a href="${SITE_URL}/book-strategy-call/">book a 30-minute strategy call</a>.
   </p>
   <p style="margin-top:32px;font-size:13px;color:#6b7280;">
     - The ${SITE_SHORT_NAME} team<br/>
@@ -199,7 +200,7 @@ State: ${lead.state}
 Asset: ${lead.propertyType} (${lead.units} units)
 Request: ${lead.purpose} for ${formatMoney(lead.loanAmount)}
 
-Reply to this email for updates or call ${SITE_PHONE}.`;
+Reply to this email for updates, call ${SITE_PHONE}, or book a strategy call at ${SITE_URL}/book-strategy-call/.`;
 
   return { subject: `We received your deal review request - ${SITE_SHORT_NAME}`, html, text };
 }

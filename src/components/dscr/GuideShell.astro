@@ -259,6 +259,12 @@ const schema = [
 
     <div class="prose-dscr lg:col-span-3">
       <slot />
+      <div class="my-10 lg:hidden">
+        <CtaCard
+          variant="compact"
+          sourceContext={`guide-mobile:${canonicalSlug ?? title}`}
+        />
+      </div>
       {(relatedGroups.length > 0 || effectiveRelatedLinks.length > 0) && (
         <div class="my-10 lg:hidden">
           <RelatedReading

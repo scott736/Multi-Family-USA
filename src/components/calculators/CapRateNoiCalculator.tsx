@@ -6,6 +6,7 @@ import { useMemo, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { buildDealReviewUrl } from "@/lib/deal-review-url";
 import { fmtUSD, parseNum } from "@/lib/finance";
 import { cn } from "@/lib/utils";
 
@@ -126,6 +127,21 @@ export default function CapRateNoiCalculator({ lang = "en" }: CapRateNoiCalculat
   }
 
   const t = capRateTier(v.capRate, isEs);
+
+  const dealReviewUrl = useMemo(
+    () =>
+      buildDealReviewUrl(
+        {
+          source: "cap-rate-noi-calculator",
+          purchasePrice: v.price > 0 ? Math.round(v.price) : undefined,
+          annualNoi: v.noi > 0 ? Math.round(v.noi) : undefined,
+          purpose: "acquisition",
+          occupancy: 100 - parseNum(f.vacancy),
+        },
+        isEs,
+      ),
+    [f.vacancy, isEs, v.noi, v.price],
+  );
 
   return (
     <div className="space-y-6">
@@ -272,16 +288,16 @@ export default function CapRateNoiCalculator({ lang = "en" }: CapRateNoiCalculat
       <div className="rounded-xl bg-gradient-to-br from-primary to-primary/85 p-6 md:p-8 text-primary-foreground">
         <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
           <div>
-            <h3 className="text-xl md:text-2xl font-bold">{isEs ? "Encuentra financiamiento para tu propiedad" : "Find financing for your property"}</h3>
+            <h3 className="text-xl md:text-2xl font-bold">{isEs ? "¿Quiere una lectura de encaje real?" : "Want a real lender-fit read?"}</h3>
             <p className="mt-1 text-sm opacity-80">
               {isEs
-                ? "Conecta con prestamistas DSCR — sin consulta de crédito, las 3 mejores ofertas en una hora."
-                : "Get matched with multifamily lenders — no credit pull, top 3 offers in one hour."}
+                ? "Envíe sus números para una revisión gratuita de suscripción — usualmente en una hora hábil. Sin consulta de crédito."
+                : "Submit your numbers for a free underwriting review — usually within one business hour. No credit pull."}
             </p>
           </div>
           <Button asChild variant="cta" size="lg" className="shrink-0">
-            <a href={isEs ? "/deal-review?source=cap-rate-noi-calculator" : "/deal-review?source=cap-rate-noi-calculator"}>
-              {isEs ? "Ver mis ofertas" : "Get my matches"} <ArrowRight className="size-4" />
+            <a href={dealReviewUrl}>
+              {isEs ? "Solicitar revisión gratuita" : "Get free deal review"} <ArrowRight className="size-4" />
             </a>
           </Button>
         </div>

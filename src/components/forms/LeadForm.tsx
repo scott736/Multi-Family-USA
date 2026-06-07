@@ -13,13 +13,14 @@ import {
   User,
 } from 'lucide-react';
 import * as React from 'react';
-import { useMemo, useReducer, useState } from 'react';
+import { useEffect, useMemo, useReducer, useState } from 'react';
 
 import { LeadFormMetricsPanel } from '@/components/forms/LeadFormMetricsPanel';
 import { LeadFormStepIndicator } from '@/components/forms/LeadFormStepIndicator';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { trackConversion } from '@/lib/analytics';
+import { parseLeadFormPrefill } from '@/lib/deal-review-url';
 import { cn } from '@/lib/utils';
 
 const STATES = [
@@ -66,6 +67,7 @@ interface LeadFormProps {
   subheadline?: string;
   submitLabel?: string;
   className?: string;
+  lang?: 'en' | 'es';
 }
 
 const INITIAL_FORM_DATA = {
@@ -133,7 +135,10 @@ export default function LeadForm({
   subheadline,
   submitLabel,
   className = '',
+  lang = 'en',
 }: LeadFormProps) {
+  const isEs = lang === 'es';
+  const bookCallHref = isEs ? '/es/book-strategy-call' : '/book-strategy-call';
   const isHero = variant === 'hero';
   const isPremium = variant === 'premium';
   const isPolished = isPremium;
@@ -146,6 +151,34 @@ export default function LeadForm({
   const [{ step, loading, errorMsg, success }, dispatchUi] = useReducer(leadFormUiReducer, INITIAL_UI_STATE);
 
   const [formData, setFormData] = useState<LeadFormData>(INITIAL_FORM_DATA);
+
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    const prefill = parseLeadFormPrefill(window.location.search);
+    if (Object.keys(prefill).length === 0) return;
+    setFormData((prev) => ({
+      ...prev,
+      ...(prefill.purpose ? { purpose: prefill.purpose } : {}),
+      ...(prefill.purchasePrice ? { purchasePrice: prefill.purchasePrice } : {}),
+      ...(prefill.loanAmount ? { loanAmount: prefill.loanAmount } : {}),
+      ...(prefill.annualNoi ? { annualNoi: prefill.annualNoi } : {}),
+      ...(prefill.occupancy ? { occupancy: prefill.occupancy } : {}),
+      ...(prefill.state ? { state: prefill.state } : {}),
+      ...(prefill.units ? { units: prefill.units } : {}),
+    }));
+    if (prefill.sourceContext && !sourceContext) {
+      trackConversion('lead_form_prefill', { source: prefill.sourceContext });
+    }
+  }, [sourceContext]);
+
+  useEffect(() => {
+    trackConversion('lead_form_step', {
+      step,
+      variant,
+      source_page: sourcePage,
+      source_context: sourceContext,
+    });
+  }, [step, variant, sourcePage, sourceContext]);
 
   const parsed = useMemo(() => {
     const purchasePrice = parseFloat(formData.purchasePrice) || 0;
@@ -279,6 +312,8 @@ export default function LeadForm({
     update,
     onBack: back,
     onNext: next,
+    bookCallHref,
+    isEs,
   });
 }
 
@@ -310,6 +345,8 @@ interface RenderLeadFormCardProps {
   update: (key: keyof LeadFormData, value: string) => void;
   onBack: () => void;
   onNext: () => void;
+  bookCallHref: string;
+  isEs: boolean;
 }
 
 function renderLeadFormCard({
@@ -334,6 +371,8 @@ function renderLeadFormCard({
   update,
   onBack,
   onNext,
+  bookCallHref,
+  isEs,
 }: RenderLeadFormCardProps) {
   const formCard = (
     <div
@@ -729,6 +768,19 @@ function renderLeadFormCard({
             </div>
           )}
         </div>
+
+        {step >= 2 && step < 4 && (
+          <p className="text-center text-xs text-muted-foreground">
+            {isEs ? '¿Prefiere hablar en vivo?' : 'Prefer to talk live?'}{' '}
+            <a
+              href={bookCallHref}
+              className="font-semibold text-accent hover:underline"
+              data-analytics-location="lead-form-escape"
+            >
+              {isEs ? 'Reserve una llamada de 30 min →' : 'Book a 30-min strategy call →'}
+            </a>
+          </p>
+        )}
 
         {errorMsg && (
           <div className="animate-in fade-in rounded-xl border border-destructive/20 bg-destructive/5 p-3 text-xs text-destructive">

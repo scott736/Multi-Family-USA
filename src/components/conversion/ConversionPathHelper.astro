@@ -1,0 +1,52 @@
+---
+interface Props {
+  locale?: "en" | "es";
+  className?: string;
+}
+
+const { locale = "en", className = "" } = Astro.props;
+const isEs = locale === "es";
+const dealReviewHref = isEs ? "/es/deal-review" : "/deal-review";
+const bookHref = isEs ? "/es/book-strategy-call" : "/book-strategy-call";
+---
+
+<div
+  class:list={[
+    "rounded-xl border border-border bg-card p-5 md:p-6",
+    className,
+  ]}
+>
+  <p class="text-xs font-bold uppercase tracking-wider text-accent">
+    {isEs ? "¿Qué camino le conviene?" : "Which path fits you?"}
+  </p>
+  <div class="mt-4 grid gap-4 md:grid-cols-2">
+    <a
+      href={dealReviewHref}
+      class="group rounded-lg border border-border p-4 transition hover:border-accent hover:bg-secondary/40"
+      data-analytics-location="conversion-path-helper"
+    >
+      <p class="font-bold text-foreground group-hover:text-accent">
+        {isEs ? "Revisión gratuita del deal" : "Free deal review"}
+      </p>
+      <p class="mt-1 text-sm text-muted-foreground">
+        {isEs
+          ? "Tiene números y quiere una lectura escrita de encaje con prestamistas (~1 h)."
+          : "You have numbers and want a written lender-fit read — usually within one business hour."}
+      </p>
+    </a>
+    <a
+      href={bookHref}
+      class="group rounded-lg border border-border p-4 transition hover:border-accent hover:bg-secondary/40"
+      data-analytics-location="conversion-path-helper"
+    >
+      <p class="font-bold text-foreground group-hover:text-accent">
+        {isEs ? "Llamada de estrategia" : "Strategy call"}
+      </p>
+      <p class="mt-1 text-sm text-muted-foreground">
+        {isEs
+          ? "Quiere hablar en vivo sobre estructura, timing o un escenario complejo (30 min)."
+          : "You want to talk through structure, timing, or a complex scenario live — 30 minutes."}
+      </p>
+    </a>
+  </div>
+</div>

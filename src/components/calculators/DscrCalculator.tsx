@@ -14,6 +14,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { buildDealReviewUrl } from "@/lib/deal-review-url";
 import { parseNum } from "@/lib/finance";
 import { cn } from "@/lib/utils";
 
@@ -161,14 +162,17 @@ export default function DscrCalculator({ lang = "en" }: DscrCalculatorProps = {}
     }
     const estimatedValue = estimatedLoan / assumedLtv;
 
-    const params = new URLSearchParams({
-      source: "dscr-calculator",
-      monthlyRent: rent > 0 ? String(rent) : "",
-      loanAmount: estimatedLoan > 0 ? String(Math.round(estimatedLoan)) : "",
-      propertyValue: estimatedValue > 0 ? String(Math.round(estimatedValue)) : "",
-      purpose: "purchase",
-    });
-    return (isEs ? "/deal-review?" : "/deal-review?") + params.toString();
+    return buildDealReviewUrl(
+      {
+        source: "dscr-calculator",
+        monthlyRent: rent > 0 ? rent : undefined,
+        loanAmount: estimatedLoan > 0 ? Math.round(estimatedLoan) : undefined,
+        purchasePrice: estimatedValue > 0 ? Math.round(estimatedValue) : undefined,
+        purpose: "acquisition",
+        occupancy: 93,
+      },
+      isEs,
+    );
   }, [rent, pi, f.interestOnly, isEs]);
 
   // Suggestions
@@ -348,12 +352,12 @@ export default function DscrCalculator({ lang = "en" }: DscrCalculatorProps = {}
         <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
           <div>
             <h3 className="text-xl md:text-2xl font-bold">
-              {isEs ? "Conecta con prestamistas según tu DSCR" : "Get matched with lenders at your DSCR"}
+              {isEs ? "Obtenga una lectura de encaje según su DSCR" : "Get a lender-fit read at your DSCR"}
             </h3>
             <p className="mt-1 text-sm opacity-80">
               {isEs
-                ? "Comparamos 1,000+ prestamistas DSCR y te enviamos las 3 mejores ofertas — usualmente dentro de una hora hábil. Sin consulta de crédito."
-                : "We shop 1,000+ multifamily lenders and send you the top 3 offers — usually within one business hour. No credit pull."}
+                ? "Envíe sus supuestos para una revisión gratuita de suscripción y rutas de capital — usualmente en una hora hábil. Sin consulta de crédito."
+                : "Submit your assumptions for a free underwriting review and capital-path options — usually within one business hour. No credit pull."}
             </p>
           </div>
           <Button
@@ -363,7 +367,7 @@ export default function DscrCalculator({ lang = "en" }: DscrCalculatorProps = {}
             className="shrink-0"
           >
             <a href={getMatchedUrl}>
-              {isEs ? "Ver mis ofertas" : "Get my matches"}
+              {isEs ? "Solicitar revisión gratuita" : "Get free deal review"}
               <ArrowRight className="size-4" />
             </a>
           </Button>

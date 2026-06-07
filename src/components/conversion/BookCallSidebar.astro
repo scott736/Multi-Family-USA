@@ -1,0 +1,88 @@
+---
+import { teamMembers } from "@/lib/nylas/config";
+
+interface Props {
+  locale?: "en" | "es";
+}
+
+const { locale = "en" } = Astro.props;
+const isEs = locale === "es";
+const advisors = teamMembers.filter((m) => m.services.includes("strategy-call"));
+---
+
+<div class="space-y-6">
+  <div class="rounded-xl border border-border bg-card p-5">
+    <p class="text-xs font-bold uppercase tracking-wider text-accent">
+      {isEs ? "Con quién hablará" : "Who you'll speak with"}
+    </p>
+    <ul class="mt-4 space-y-4">
+      {
+        advisors.map((member) => (
+          <li class="flex gap-3">
+            <span class="flex size-12 shrink-0 items-center justify-center rounded-full bg-primary/10 text-sm font-bold text-primary">
+              {member.name
+                .split(" ")
+                .map((part) => part[0])
+                .join("")}
+            </span>
+            <div>
+              <p class="font-semibold text-foreground">{member.name}</p>
+              <p class="text-sm text-muted-foreground">{member.title}</p>
+              <p class="mt-1 text-xs leading-relaxed text-muted-foreground">{member.bio}</p>
+            </div>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+
+  <div class="rounded-xl border border-border bg-secondary/30 p-5">
+    <p class="text-xs font-bold uppercase tracking-wider text-muted-foreground">
+      {isEs ? "En la llamada" : "On the call"}
+    </p>
+    <ul class="mt-3 space-y-2 text-sm text-muted-foreground">
+      {
+        (isEs
+          ? [
+              "Repaso de supuestos de NOI, ocupación y apalancamiento",
+              "Rutas agency, banco, puente y debt fund según su escenario",
+              "Próximos pasos concretos antes de pedir term sheets",
+            ]
+          : [
+              "NOI, occupancy, and leverage assumption review",
+              "Agency, bank, bridge, and debt-fund paths for your scenario",
+              "Concrete next steps before requesting term sheets",
+            ]
+        ).map((item) => (
+          <li class="flex gap-2">
+            <span class="text-accent" aria-hidden="true">
+              ✓
+            </span>
+            {item}
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+
+  <div class="grid grid-cols-3 gap-2 text-center">
+    <div class="rounded-lg border border-border bg-card px-2 py-3">
+      <p class="text-lg font-bold text-accent">30</p>
+      <p class="text-[10px] font-semibold uppercase tracking-wide text-muted-foreground">
+        {isEs ? "Minutos" : "Minutes"}
+      </p>
+    </div>
+    <div class="rounded-lg border border-border bg-card px-2 py-3">
+      <p class="text-lg font-bold text-accent">$0</p>
+      <p class="text-[10px] font-semibold uppercase tracking-wide text-muted-foreground">
+        {isEs ? "Sin costo" : "No fee"}
+      </p>
+    </div>
+    <div class="rounded-lg border border-border bg-card px-2 py-3">
+      <p class="text-lg font-bold text-accent">5+</p>
+      <p class="text-[10px] font-semibold uppercase tracking-wide text-muted-foreground">
+        {isEs ? "Unidades" : "Units only"}
+      </p>
+    </div>
+  </div>
+</div>

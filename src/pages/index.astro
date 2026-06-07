@@ -1,4 +1,5 @@
 ---
+import ConversionPathHelper from "@/components/conversion/ConversionPathHelper.astro";
 import HomeHero from "@/components/sections/home-hero.astro";
 import DefaultLayout from "@/layouts/DefaultLayout.astro";
 
@@ -17,10 +18,14 @@ import { PILLARS, SITE_DESCRIPTION, SITE_TITLE } from "../consts";
     title="Underwrite smarter multifamily deals and compare financing paths with confidence."
     description="Multi-Family USA is a neutral resource for 5+ unit properties. Use the calculator suite, explore state and city coverage, and request a free deal review for agency, bridge, bank, and debt-fund executions."
     ctaPrimary={{ href: "/deal-review", label: "Free Deal Review" }}
-    ctaSecondary={{ href: "/tools", label: "Explore Tools" }}
+    ctaSecondary={{ href: "/book-strategy-call", label: "Book a Strategy Call" }}
     pills={["5+ units only", "No credit pull", "~1 hr response"]}
     formSourceContext="homepage-hero"
   />
+
+  <section class="container py-10">
+    <ConversionPathHelper />
+  </section>
 
   <section class="container py-8">
     <div class="grid gap-4 md:grid-cols-2 lg:grid-cols-5">

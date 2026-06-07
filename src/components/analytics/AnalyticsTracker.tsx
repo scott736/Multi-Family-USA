@@ -33,6 +33,32 @@ function handleDocumentClick(event: MouseEvent): void {
     return;
   }
 
+  if (href.includes('/deal-review')) {
+    let source: string | undefined;
+    try {
+      source =
+        new URL(href, window.location.origin).searchParams.get('source') ??
+        undefined;
+    } catch {
+      source = undefined;
+    }
+
+    trackConversion('deal_review_click', {
+      link_location: location,
+      link_href: href,
+      ...(source ? { source } : {}),
+    });
+    return;
+  }
+
+  if (href.includes('/book-strategy-call')) {
+    trackConversion('book_call_click', {
+      link_location: location,
+      link_href: href,
+    });
+    return;
+  }
+
   if (href.includes('/get-matched')) {
     let source: string | undefined;
     try {
@@ -51,7 +77,7 @@ function handleDocumentClick(event: MouseEvent): void {
   }
 }
 
-/** Delegated click tracking for tel: and get-matched links site-wide. */
+/** Delegated click tracking for conversion links site-wide. */
 export function AnalyticsTracker() {
   useEffect(() => {
     document.addEventListener('click', handleDocumentClick);

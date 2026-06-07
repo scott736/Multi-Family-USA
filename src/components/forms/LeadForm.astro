@@ -9,6 +9,7 @@ interface Props {
   subheadline?: string;
   submitLabel?: string;
   className?: string;
+  lang?: "en" | "es";
 }
 
 const {
@@ -19,6 +20,7 @@ const {
   subheadline,
   submitLabel,
   className = "",
+  lang = Astro.url.pathname.startsWith("/es") ? "es" : "en",
 } = Astro.props;
 ---
 
@@ -30,5 +32,6 @@ const {
   subheadline={subheadline}
   submitLabel={submitLabel}
   className={className}
+  lang={lang}
   client:load
 />

@@ -1,4 +1,5 @@
 ---
+import ConversionPathHelper from "@/components/conversion/ConversionPathHelper.astro";
 import HomeHero from "@/components/sections/home-hero.astro";
 import LanguageSwitcher from "@/components/ui/language-switcher";
 import DefaultLayout from "@/layouts/DefaultLayout.astro";
@@ -30,8 +31,8 @@ const esDescription =
     eyebrow="Multifamiliar comercial en EE. UU."
     title="Suscríbe operaciones multifamiliares con más claridad y compara rutas de financiamiento."
     description="Multi-Family USA es un recurso neutral para propiedades de 5+ unidades. Usa las calculadoras, explora cobertura por estado y ciudad, y solicita una revisión gratuita de tu operación."
-    ctaPrimary={{ href: "/deal-review", label: "Revisión gratuita" }}
-    ctaSecondary={{ href: "/es/learn", label: "Explorar guías" }}
+    ctaPrimary={{ href: "/es/deal-review", label: "Revisión gratuita" }}
+    ctaSecondary={{ href: "/es/book-strategy-call", label: "Reservar llamada" }}
     pills={["Solo 5+ unidades", "Sin consulta de crédito", "Respuesta ~1 h"]}
     formSourceContext="es-homepage-hero"
     stats={[
@@ -40,6 +41,10 @@ const esDescription =
       { label: "Respuesta", value: "~1 h", sub: "revisión de operación", accent: true },
     ]}
   />
+
+  <section class="container py-10">
+    <ConversionPathHelper locale="es" />
+  </section>
 
   <section class="container py-8">
     <div class="grid gap-4 md:grid-cols-2 lg:grid-cols-5">

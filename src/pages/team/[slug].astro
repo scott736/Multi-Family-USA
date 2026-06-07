@@ -1,24 +1,68 @@
 ---
 import { TEAM_MEMBERS } from '@/content/team/members';
-import BasicLayout from '@/layouts/BasicLayout.astro';
+import DefaultLayout from '@/layouts/DefaultLayout.astro';
 
 export async function getStaticPaths() {
   return TEAM_MEMBERS.map((member) => ({ params: { slug: member.slug }, props: { member } }));
 }
 
 const { member } = Astro.props;
+const initials = member.name
+  .split(' ')
+  .map((part) => part[0])
+  .join('');
 ---
 
-<BasicLayout
+<DefaultLayout
   title={`${member.name} | Multi-Family USA`}
   description={member.shortBio}
-  crumbs={[
-    { label: "Home", href: "/" },
-    { label: "Team", href: "/team" },
-    { label: member.name, href: `/team/${member.slug}` },
-  ]}
+  canonical={`/team/${member.slug}`}
 >
-  <h1>{member.name}</h1>
-  <p><strong>{member.jobTitle}</strong></p>
-  <p>{member.fullBio}</p>
-</BasicLayout>
+  <section class="container py-12 md:py-16">
+    <div class="mx-auto max-w-3xl">
+      <div class="flex flex-col gap-6 sm:flex-row sm:items-start">
+        <span class="flex size-20 shrink-0 items-center justify-center rounded-full bg-primary/10 text-2xl font-bold text-primary">
+          {initials}
+        </span>
+        <div>
+          <h1 class="text-4xl font-bold">{member.name}</h1>
+          <p class="mt-1 text-lg font-semibold text-accent">{member.jobTitle}</p>
+          <p class="mt-4 text-muted-foreground leading-relaxed">{member.fullBio}</p>
+          {
+            member.credentials && member.credentials.length > 0 && (
+              <p class="mt-3 text-sm text-muted-foreground">
+                {member.credentials.join(" · ")}
+              </p>
+            )
+          }
+        </div>
+      </div>
+
+      {
+        member.knowsAbout.length > 0 && (
+          <div class="mt-8">
+            <h2 class="text-sm font-bold uppercase tracking-wider text-muted-foreground">Focus areas</h2>
+            <ul class="mt-3 flex flex-wrap gap-2">
+              {member.knowsAbout.map((topic) => (
+                <li class="rounded-full border border-border bg-secondary/40 px-3 py-1 text-sm">{topic}</li>
+              ))}
+            </ul>
+          </div>
+        )
+      }
+
+      <div class="mt-10 flex flex-wrap gap-3">
+        <a
+          href={`/book-strategy-call?advisor=${member.slug}`}
+          class="inline-flex items-center rounded-md bg-accent px-5 py-2.5 text-sm font-bold text-accent-foreground hover:bg-accent/90"
+          data-analytics-location="team-profile"
+        >
+          Book a strategy call with {member.name.split(" ")[0]}
+        </a>
+        <a href="/deal-review" class="inline-flex items-center rounded-md border border-border px-5 py-2.5 text-sm font-semibold hover:bg-secondary">
+          Free deal review
+        </a>
+      </div>
+    </div>
+  </section>
+</DefaultLayout>

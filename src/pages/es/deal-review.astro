@@ -8,41 +8,43 @@ import { buildServiceSchema, SITE_URL } from "@/consts";
 import DefaultLayout from "@/layouts/DefaultLayout.astro";
 
 const schema = buildServiceSchema({
-  name: "Free Multifamily Deal Review",
+  name: "Revisión gratuita de deal multifamiliar",
   description:
-    "Submit your 5+ unit deal assumptions and receive a lender-fit recommendation, underwriting checkpoints, and execution options.",
-  url: `${SITE_URL}/deal-review/`,
+    "Envíe supuestos de su operación de 5+ unidades y reciba recomendación de encaje con prestamistas, puntos de suscripción y opciones de ejecución.",
+  url: `${SITE_URL}/es/deal-review/`,
 });
 
 const benefits = [
   {
     icon: Landmark,
-    title: "Lender-type fit",
-    detail: "Agency, bank, bridge, and debt-fund paths mapped to your scenario.",
+    title: "Encaje por tipo de prestamista",
+    detail: "Rutas agency, banco, puente y debt fund según su escenario.",
   },
   {
     icon: BarChart3,
-    title: "Underwriting snapshot",
-    detail: "LTV, DSCR, and debt-yield pressure points with leverage constraints.",
+    title: "Instantánea de suscripción",
+    detail: "LTV, DSCR y debt yield con restricciones de apalancamiento.",
   },
   {
     icon: TrendingUp,
-    title: "Execution clarity",
-    detail: "Timeline-aware routing so you know what is realistic before term sheets.",
+    title: "Claridad de ejecución",
+    detail: "Enrutamiento según cronograma antes de pedir term sheets.",
   },
 ];
 ---
 
 <DefaultLayout
-  title="Free Deal Review | Multi-Family USA"
-  description="Get a free underwriting and lender-fit review for your US 5+ unit multifamily deal. We assess DSCR, debt yield, leverage, and capital-stack fit."
+  title="Revisión gratuita de deal | Multi-Family USA"
+  description="Obtenga una revisión gratuita de suscripción y encaje con prestamistas para su operación multifamiliar de 5+ unidades en EE. UU."
   schema={[schema]}
-  canonical="/deal-review"
+  canonical="/es/deal-review"
+  enPath="/deal-review/"
+  esPath="/es/deal-review/"
 >
   <Breadcrumbs
     crumbs={[
-      { label: "Home", href: "/" },
-      { label: "Free deal review", href: "/deal-review" },
+      { label: "Inicio", href: "/es" },
+      { label: "Revisión gratuita", href: "/es/deal-review" },
     ]}
   />
 
@@ -51,20 +53,6 @@ const benefits = [
       class="pointer-events-none absolute inset-0 bg-gradient-to-br from-primary via-[hsl(215_55%_12%)] to-[hsl(215_50%_8%)]"
       aria-hidden="true"
     />
-    <div
-      class="pointer-events-none absolute inset-0 opacity-[0.35]"
-      style="background-image: radial-gradient(circle at 1px 1px, hsl(0 0% 100% / 0.06) 1px, transparent 0); background-size: 28px 28px;"
-      aria-hidden="true"
-    />
-    <div
-      class="pointer-events-none absolute -right-24 top-0 size-[min(520px,80vw)] rounded-full bg-accent/15 blur-3xl"
-      aria-hidden="true"
-    />
-    <div
-      class="pointer-events-none absolute -bottom-32 -left-16 size-96 rounded-full bg-accent/8 blur-3xl"
-      aria-hidden="true"
-    />
-
     <div class="container relative py-10 md:py-16 lg:py-20">
       <div class="grid items-start gap-12 lg:grid-cols-[1fr_minmax(0,520px)] lg:gap-14 xl:grid-cols-[1fr_540px] xl:gap-20">
         <div class="space-y-8 text-primary-foreground">
@@ -73,21 +61,21 @@ const benefits = [
               class="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/10 px-4 py-1.5 text-[11px] font-bold uppercase tracking-[0.2em] text-accent backdrop-blur-md"
             >
               <Sparkles class="size-3.5" />
-              Free · No credit pull
+              Gratis · Sin consulta de crédito
             </p>
             <h1 class="mt-6 text-4xl font-bold leading-[1.08] tracking-tight md:text-5xl lg:text-[3.35rem]">
-              Your multifamily deal, underwritten with <span class="text-accent">lender-fit clarity</span>
+              Su operación multifamiliar, con <span class="text-accent">claridad de encaje</span>
             </h1>
             <p class="mt-5 max-w-xl text-lg leading-relaxed text-white/72">
-              Share assumptions once. We return leverage constraints, DSCR and debt-yield pressure points,
-              and the capital-stack paths worth pursuing—usually within one business hour.
+              Comparta supuestos una vez. Devolvemos restricciones de apalancamiento, puntos de presión DSCR y debt yield,
+              y rutas de capital que valen la pena — usualmente en una hora hábil.
             </p>
           </div>
 
           <ul class="space-y-4">
             {
               benefits.map(({ icon: Icon, title, detail }) => (
-                <li class="flex gap-4 rounded-2xl border border-white/10 bg-white/[0.06] p-4 backdrop-blur-sm transition-colors hover:bg-white/[0.09]">
+                <li class="flex gap-4 rounded-2xl border border-white/10 bg-white/[0.06] p-4 backdrop-blur-sm">
                   <span class="flex size-11 shrink-0 items-center justify-center rounded-xl bg-accent/20 text-accent">
                     <Icon class="size-5" />
                   </span>
@@ -103,31 +91,27 @@ const benefits = [
           <div class="grid grid-cols-3 gap-3 sm:gap-4">
             <div class="rounded-2xl border border-white/10 bg-white/[0.06] px-3 py-4 text-center backdrop-blur-sm">
               <p class="text-2xl font-bold text-accent">5+</p>
-              <p class="mt-1 text-[10px] font-semibold uppercase tracking-wider text-white/55">Units only</p>
+              <p class="mt-1 text-[10px] font-semibold uppercase tracking-wider text-white/55">Solo unidades</p>
             </div>
             <div class="rounded-2xl border border-white/10 bg-white/[0.06] px-3 py-4 text-center backdrop-blur-sm">
               <p class="text-2xl font-bold text-accent">$0</p>
-              <p class="mt-1 text-[10px] font-semibold uppercase tracking-wider text-white/55">No credit pull</p>
+              <p class="mt-1 text-[10px] font-semibold uppercase tracking-wider text-white/55">Sin crédito</p>
             </div>
             <div class="rounded-2xl border border-white/10 bg-white/[0.06] px-3 py-4 text-center backdrop-blur-sm">
               <Clock class="mx-auto size-6 text-accent" />
-              <p class="mt-1 text-[10px] font-semibold uppercase tracking-wider text-white/55">~1 hr response</p>
+              <p class="mt-1 text-[10px] font-semibold uppercase tracking-wider text-white/55">~1 h respuesta</p>
             </div>
           </div>
-
-          <p class="flex items-center gap-2 text-xs text-white/50">
-            <ShieldCheck class="size-4 shrink-0 text-success" />
-            US multifamily only. Info used solely for deal-review follow-up.
-          </p>
         </div>
 
         <div class="lg:sticky lg:top-8">
           <LeadForm
             variant="premium"
-            sourceContext="deal-review-page"
-            headline="Start your free review"
-            subheadline="Four quick steps. Live LTV, DSCR, and debt-yield read as you enter numbers."
-            submitLabel="Submit for deal review"
+            sourceContext="es-deal-review-page"
+            headline="Inicie su revisión gratuita"
+            subheadline="Cuatro pasos rápidos. Lectura en vivo de LTV, DSCR y debt yield."
+            submitLabel="Enviar para revisión"
+            lang="es"
           />
         </div>
       </div>
@@ -135,6 +119,6 @@ const benefits = [
   </section>
 
   <section class="container py-10">
-    <ConversionPathHelper />
+    <ConversionPathHelper locale="es" />
   </section>
 </DefaultLayout>

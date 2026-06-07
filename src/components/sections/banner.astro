@@ -8,7 +8,15 @@ import { SITE_PHONE, SITE_PHONE_HREF } from "../../consts";
       <span class="hidden text-accent md:inline">◆</span>
       US-only multifamily financing insights for 5+ unit properties.
     </p>
-    <a href={SITE_PHONE_HREF} class="flex items-center gap-1.5 font-semibold text-accent hover:underline">
+    <div class="flex flex-wrap items-center justify-center gap-4 md:justify-end">
+      <a
+        href="/book-strategy-call"
+        class="font-semibold text-accent hover:underline"
+        data-analytics-location="banner"
+      >
+        Book a free strategy call
+      </a>
+      <a href={SITE_PHONE_HREF} class="flex items-center gap-1.5 font-semibold text-primary-foreground hover:text-accent">
       <svg
         class="size-3.5"
         xmlns="http://www.w3.org/2000/svg"
@@ -24,5 +32,6 @@ import { SITE_PHONE, SITE_PHONE_HREF } from "../../consts";
       </svg>
       {SITE_PHONE}
     </a>
+    </div>
   </div>
 </div>

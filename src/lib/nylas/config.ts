@@ -124,7 +124,7 @@ function canTeamMemberOfferService(teamMemberId: string, serviceId: string): boo
 }
 
 const schedulingConfig = {
-  minimumNotice: 3,
+  minimumNotice: 1,
   maxAdvanceBooking: 60,
   defaultTimezone: "America/New_York",
   slotInterval: 15,

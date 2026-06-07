@@ -37,6 +37,7 @@ const navigationEn = [
       { name: "Editorial Standards", href: "/editorial-standards" },
       { name: "Team", href: "/team" },
       { name: "Book Strategy Call", href: "/book-strategy-call" },
+      { name: "Free Deal Review", href: "/deal-review" },
     ],
   },
 ];
@@ -71,6 +72,8 @@ const navigationEs = [
     title: "Empresa",
     links: [
       { name: "Acerca de", href: "/es/about" },
+      { name: "Reservar llamada", href: "/es/book-strategy-call" },
+      { name: "Revisión gratuita", href: "/es/deal-review" },
       { name: "Contacto", href: "/es/contact" },
     ],
   },
