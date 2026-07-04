@@ -5,6 +5,7 @@ import { createHash } from 'node:crypto';
 import type { APIRoute } from 'astro';
 import { z } from 'zod';
 
+import { fireCrmWebhook } from '@/lib/crm-webhook';
 import { SITE_PHONE, SITE_SHORT_NAME, SITE_URL } from '@/consts';
 import { sendElasticEmail } from '@/lib/elastic-email';
 import { leadOversightCc } from '@/lib/lead-inbox';
@@ -96,21 +97,6 @@ function buildNurturePlan(lead: Lead, tier: string) {
       focus: `Provide tier ${tier} execution options with bridge/agency/bank fit guidance.`,
     },
   ];
-}
-
-async function fireCrmWebhook(payload: Record<string, unknown>) {
-  const crmWebhookUrl = import.meta.env.CRM_WEBHOOK_URL as string | undefined;
-  if (!crmWebhookUrl) return;
-
-  try {
-    await fetch(crmWebhookUrl, {
-      method: 'POST',
-      headers: { 'content-type': 'application/json' },
-      body: JSON.stringify(payload),
-    });
-  } catch (err) {
-    logger.error('CRM webhook send failed', err);
-  }
 }
 
 const formatMoney = (n: number) =>
@@ -300,11 +286,11 @@ export const POST: APIRoute = async ({ request }) => {
       }),
       fireCrmWebhook({
         event: 'multifamily_lead_captured',
-        lead,
-        assignedTo,
-        scoring,
-        nurtureSequence,
-        capturedAt: new Date().toISOString(),
+        name: lead.name,
+        email: lead.email,
+        phone: lead.phone,
+        source: lead.sourcePage,
+        toolName: lead.sourceContext || lead.purpose,
       }),
     ]);
 

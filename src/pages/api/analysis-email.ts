@@ -3,6 +3,7 @@ export const prerender = false;
 import type { APIRoute } from 'astro';
 import { z } from 'zod';
 
+import { fireCrmWebhook } from '@/lib/crm-webhook';
 import { LEAD_INBOX, SITE_SHORT_NAME, SITE_URL } from '@/consts';
 import { sendElasticEmail } from '@/lib/elastic-email';
 import { persistAnalysisEmail } from '@/lib/leads/persist-analysis-email';
@@ -191,6 +192,13 @@ export const POST: APIRoute = async ({ request }) => {
         text: internal.text,
       }),
     ]);
+
+    void fireCrmWebhook({
+      event: 'calculator_lead',
+      email: data.email,
+      source: data.sourcePage,
+      toolName: data.analysisType,
+    });
 
     return new Response(JSON.stringify({ success: true }), {
       status: 200,

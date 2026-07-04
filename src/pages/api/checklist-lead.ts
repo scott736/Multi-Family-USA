@@ -3,6 +3,7 @@ export const prerender = false;
 import type { APIRoute } from 'astro';
 import { z } from 'zod';
 
+import { fireCrmWebhook } from '@/lib/crm-webhook';
 import { LEAD_INBOX } from '@/consts';
 import { VALID_CHECKLIST_IDS } from '@/lib/checklists/checklist-data';
 import { sendElasticEmail } from '@/lib/elastic-email';
@@ -112,6 +113,13 @@ export const POST: APIRoute = async ({ request }) => {
         text: internal.text,
       }),
     ]);
+
+    void fireCrmWebhook({
+      event: 'checklist_signup',
+      email: data.email,
+      source: data.sourcePage,
+      toolName: data.checklistTitle ?? data.checklistId,
+    });
 
     return new Response(JSON.stringify({ success: true }), {
       status: 200,
