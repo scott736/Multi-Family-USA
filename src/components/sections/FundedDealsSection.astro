@@ -1,0 +1,61 @@
+---
+interface FundedDeal {
+  units: number;
+  state: string;
+  loanType: string;
+  rateRange: string;
+  year: number;
+}
+
+interface Props {
+  lang?: "en" | "es";
+}
+
+const { lang = "en" } = Astro.props;
+const isEs = lang === "es";
+
+const deals: FundedDeal[] = [
+  { units: 48, state: "TX", loanType: "Agency (Fannie)", rateRange: "5.85–6.10%", year: 2025 },
+  { units: 72, state: "FL", loanType: "Bridge-to-agency", rateRange: "SOFR + 275–300", year: 2025 },
+  { units: 24, state: "NC", loanType: "Bank portfolio", rateRange: "6.25–6.50%", year: 2024 },
+  { units: 96, state: "AZ", loanType: "Debt fund", rateRange: "7.50–7.85%", year: 2024 },
+  { units: 36, state: "TN", loanType: "Agency (Freddie)", rateRange: "5.95–6.20%", year: 2025 },
+];
+---
+
+<section class="border-y border-border bg-secondary/30">
+  <div class="container py-10 md:py-12">
+    <div class="mx-auto max-w-2xl text-center">
+      <p class="text-xs font-bold uppercase tracking-[0.2em] text-accent">
+        {isEs ? "Operaciones financiadas" : "Recently funded deals"}
+      </p>
+      <h2 class="mt-2 text-2xl font-bold tracking-tight md:text-3xl">
+        {isEs
+          ? "Ejemplos anonimizados de operaciones cerradas"
+          : "Anonymized examples of closed multifamily executions"}
+      </h2>
+      <p class="mt-3 text-sm text-muted-foreground">
+        {isEs
+          ? "Detalles de identidad omitidos. Rangos ilustrativos según mercado al cierre."
+          : "Borrower and property identity omitted. Rate ranges are illustrative of market at close."}
+      </p>
+    </div>
+
+    <div class="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
+      {
+        deals.map((deal) => (
+          <div class="rounded-xl border border-border bg-card p-4 text-center shadow-sm">
+            <p class="text-2xl font-bold tabular-nums text-foreground">{deal.units}</p>
+            <p class="mt-0.5 text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">
+              {isEs ? "unidades" : "units"}
+            </p>
+            <p class="mt-3 text-sm font-semibold text-foreground">{deal.state}</p>
+            <p class="mt-1 text-xs text-muted-foreground">{deal.loanType}</p>
+            <p class="mt-2 text-xs font-medium text-accent">{deal.rateRange}</p>
+            <p class="mt-2 text-[10px] text-muted-foreground">{deal.year}</p>
+          </div>
+        ))
+      }
+    </div>
+  </div>
+</section>

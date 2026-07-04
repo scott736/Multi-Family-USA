@@ -1,29 +1,58 @@
 ---
+import { buildPersonSchema } from '@/consts';
 import { TEAM_MEMBERS } from '@/content/team/members';
 import DefaultLayout from '@/layouts/DefaultLayout.astro';
+import { getAuthorBySlug } from '@/lib/authors';
 
 export async function getStaticPaths() {
   return TEAM_MEMBERS.map((member) => ({ params: { slug: member.slug }, props: { member } }));
 }
 
 const { member } = Astro.props;
+const author = getAuthorBySlug(member.slug);
 const initials = member.name
   .split(' ')
   .map((part) => part[0])
   .join('');
+
+const personSchema = author
+  ? buildPersonSchema({
+      slug: author.slug,
+      name: author.name,
+      title: author.title,
+      bio: author.bio,
+      photo: author.photo,
+      credentials: author.credentials,
+      sameAs: author.sameAs,
+    })
+  : null;
 ---
 
 <DefaultLayout
   title={`${member.name} | Multi-Family USA`}
   description={member.shortBio}
   canonical={`/team/${member.slug}`}
+  schema={personSchema ? [personSchema] : undefined}
 >
   <section class="container py-12 md:py-16">
     <div class="mx-auto max-w-3xl">
       <div class="flex flex-col gap-6 sm:flex-row sm:items-start">
-        <span class="flex size-20 shrink-0 items-center justify-center rounded-full bg-primary/10 text-2xl font-bold text-primary">
-          {initials}
-        </span>
+        {
+          author ? (
+            <img
+              src={author.photo}
+              alt={member.name}
+              width={80}
+              height={80}
+              class="size-20 shrink-0 rounded-full object-cover"
+              loading="lazy"
+            />
+          ) : (
+            <span class="flex size-20 shrink-0 items-center justify-center rounded-full bg-primary/10 text-2xl font-bold text-primary">
+              {initials}
+            </span>
+          )
+        }
         <div>
           <h1 class="text-4xl font-bold">{member.name}</h1>
           <p class="mt-1 text-lg font-semibold text-accent">{member.jobTitle}</p>

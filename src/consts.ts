@@ -154,6 +154,14 @@ export function getBaseSchemas() {
       description: SITE_DESCRIPTION,
       inLanguage: "en-US",
       publisher: { "@id": ORG_ID },
+      potentialAction: {
+        "@type": "SearchAction",
+        target: {
+          "@type": "EntryPoint",
+          urlTemplate: `${SITE_URL}/?q={search_term_string}`,
+        },
+        "query-input": "required name=search_term_string",
+      },
     },
   ];
 }
@@ -218,6 +226,47 @@ export function buildCollectionPageSchema(opts: {
   };
 }
 
+export function buildPersonSchema(opts: {
+  slug: string;
+  name: string;
+  title: string;
+  bio: string;
+  photo?: string;
+  credentials?: string[];
+  sameAs?: string[];
+}) {
+  const personUrl = `${SITE_URL}/team/${opts.slug}/`;
+  return {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "@id": `${personUrl}#person`,
+    name: opts.name,
+    jobTitle: opts.title,
+    description: opts.bio,
+    url: personUrl,
+    ...(opts.photo ? { image: opts.photo.startsWith("http") ? opts.photo : `${SITE_URL}${opts.photo}` } : {}),
+    ...(opts.credentials?.length
+      ? {
+          hasCredential: opts.credentials.map((name) => ({
+            "@type": "EducationalOccupationalCredential",
+            name,
+          })),
+        }
+      : {}),
+    ...(opts.sameAs?.length ? { sameAs: opts.sameAs } : {}),
+    worksFor: { "@id": ORG_ID },
+  };
+}
+
+function buildSchemaAuthorRef(authorName?: string, authorId?: string) {
+  if (authorId) return { "@id": authorId };
+  return {
+    "@type": "Organization",
+    name: authorName ?? "Multi-Family USA Editorial Team",
+    url: `${SITE_URL}/about/`,
+  };
+}
+
 export function buildArticleSchema(opts: {
   headline: string;
   description: string;
@@ -225,6 +274,9 @@ export function buildArticleSchema(opts: {
   datePublished: string;
   dateModified?: string;
   authorName?: string;
+  authorId?: string;
+  reviewerName?: string;
+  reviewerId?: string;
   keywords?: string[];
 }) {
   return {
@@ -235,11 +287,12 @@ export function buildArticleSchema(opts: {
     mainEntityOfPage: opts.url,
     datePublished: opts.datePublished,
     dateModified: opts.dateModified ?? opts.datePublished,
-    author: {
-      "@type": "Organization",
-      name: opts.authorName ?? "Multi-Family USA Editorial Team",
-      url: `${SITE_URL}/about/`,
-    },
+    author: buildSchemaAuthorRef(opts.authorName, opts.authorId),
+    ...(opts.reviewerId || opts.reviewerName
+      ? {
+          reviewedBy: buildSchemaAuthorRef(opts.reviewerName, opts.reviewerId),
+        }
+      : {}),
     publisher: { "@id": ORG_ID },
     ...(opts.keywords?.length ? { keywords: opts.keywords.join(", ") } : {}),
   };

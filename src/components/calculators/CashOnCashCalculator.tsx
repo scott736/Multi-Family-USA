@@ -3,6 +3,7 @@
 import { ArrowRight, Copy, Info, RotateCcw } from "lucide-react";
 import { useMemo, useState } from "react";
 
+import EmailAnalysisCapture from "@/components/forms/EmailAnalysisCapture";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -132,6 +133,20 @@ export default function CashOnCashCalculator({ lang = "en" }: CashOnCashCalculat
       isEs,
     );
   }, [f.downPct, f.price, f.vacancy, isEs, v.noi]);
+
+  const analysisSummary = useMemo(() => {
+    if (v.totalCashIn <= 0) return undefined;
+    return {
+      "Cash-on-cash": `${v.coc.toFixed(2)}%`,
+      Rating: t.label,
+      "Total cash in": fmtUSD(v.totalCashIn),
+      "Net annual cash flow": fmtUSD(v.annualCashFlow),
+      "Purchase price": fmtUSD(parseNum(f.price)),
+      "Down payment": `${f.downPct}%`,
+    };
+  }, [f.downPct, f.price, t.label, v.annualCashFlow, v.coc, v.totalCashIn]);
+
+  const sourcePage = isEs ? "/es/tools/cash-on-cash-calculator" : "/tools/cash-on-cash-calculator";
 
   function update(k: keyof Fields, val: string) {
     setF((prev) => ({ ...prev, [k]: val }));
@@ -270,6 +285,15 @@ export default function CashOnCashCalculator({ lang = "en" }: CashOnCashCalculat
           </table>
         </div>
       </div>
+
+      {analysisSummary && (
+        <EmailAnalysisCapture
+          analysisType="Cash-on-cash"
+          analysisSummary={analysisSummary}
+          lang={isEs ? "es" : "en"}
+          sourcePage={sourcePage}
+        />
+      )}
 
       {/* CTA */}
       <div className="rounded-xl bg-gradient-to-br from-primary to-primary/85 p-6 md:p-8 text-primary-foreground">

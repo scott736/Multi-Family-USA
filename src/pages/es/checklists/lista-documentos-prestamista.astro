@@ -1,4 +1,5 @@
 ---
+import ChecklistDownloadGate from "@/components/forms/ChecklistDownloadGate";
 import LegalDisclaimer from "@/components/LegalDisclaimer.astro";
 import BasicLayout from "@/layouts/BasicLayout.astro";
 ---
@@ -102,6 +103,13 @@ import BasicLayout from "@/layouts/BasicLayout.astro";
     Para secuencia al cierre, use la
     <a href="/es/learn/multifamily-close-checklist">lista de cierre multifamiliar</a>.
   </p>
+
+  <ChecklistDownloadGate
+    client:load
+    checklistId="lender-document-checklist"
+    checklistTitle="Lista de documentos para prestamistas multifamiliares"
+    lang="es"
+  />
 
   <p>
     Envíe su paquete mediante la <a href="/es/deal-review">revisión gratuita del deal</a> para

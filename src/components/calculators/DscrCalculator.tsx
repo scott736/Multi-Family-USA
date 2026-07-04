@@ -15,7 +15,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { buildDealReviewUrl } from "@/lib/deal-review-url";
-import { parseNum } from "@/lib/finance";
+import { fmtUSD, parseNum } from "@/lib/finance";
 import { cn } from "@/lib/utils";
 
 /* -------------------------------------------------------------------------- */
@@ -185,6 +185,19 @@ export default function DscrCalculator({ lang = "en" }: DscrCalculatorProps = {}
   const maxPiFor100 = rent - (tax + ins + hoa + flood);
   const piCutFor100 = Math.max(0, pi - maxPiFor100);
 
+  const analysisSummary = useMemo(
+    () => ({
+      DSCR: dscr > 0 ? dscr.toFixed(2) : "—",
+      Tier: t.label,
+      "Monthly gross rent": rent > 0 ? fmtUSD(rent) : "—",
+      "Monthly PITIA": pitia > 0 ? fmtUSD(pitia) : "—",
+      "Monthly cash flow": rent > 0 || pitia > 0 ? fmtUSD(rent - pitia) : "—",
+    }),
+    [dscr, pitia, rent, t.label],
+  );
+
+  const sourcePage = isEs ? "/es/tools/commercial-dscr-calculator" : "/tools/commercial-dscr-calculator";
+
   function update<K extends keyof Fields>(k: K, v: Fields[K]) {
     setF((prev) => ({ ...prev, [k]: v }));
   }
@@ -343,6 +356,8 @@ export default function DscrCalculator({ lang = "en" }: DscrCalculatorProps = {}
             rentDeltaTo125={rentDeltaTo125}
             maxPiFor100={maxPiFor100}
             piCutFor100={piCutFor100}
+            analysisSummary={analysisSummary}
+            sourcePage={sourcePage}
           />
         </div>
       </div>

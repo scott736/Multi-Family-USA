@@ -5,6 +5,7 @@ import FaqAccordion from "@/components/dscr/FaqAccordion.astro";
 import RelatedReading from "@/components/dscr/RelatedReading.astro";
 import { getLangFromUrl } from "@/i18n/utils";
 import DefaultLayout from "@/layouts/DefaultLayout.astro";
+import { getOgImageForKind } from "@/lib/og-image";
 import {
   buildBlogRelatedGroups,
   type ContentKind,
@@ -19,6 +20,7 @@ import {
   buildWebPageSchema,
   SITE_URL,
 } from "../../consts";
+import { getAuthorByName, getPersonId } from "../../lib/authors";
 
 interface Faq {
   q: string;
@@ -184,6 +186,11 @@ const pageLanguage = lang === "es" ? "es-US" : "en-US";
 const modifiedDate = lastUpdated ?? publishedDate ?? "2026-05-24";
 const published = publishedDate ?? lastUpdated ?? "2026-05-24";
 
+const authorPerson = getAuthorByName(author);
+const reviewerPerson = reviewer ? getAuthorByName(reviewer) : undefined;
+const authorProfilePath = authorPerson ? `/team/${authorPerson.slug}` : undefined;
+const reviewerProfilePath = reviewerPerson ? `/team/${reviewerPerson.slug}` : undefined;
+
 const webPageSchema =
   canonical && canonicalSlug
     ? buildWebPageSchema({
@@ -205,6 +212,9 @@ const articleSchema =
         datePublished: published,
         dateModified: modifiedDate,
         authorName: author,
+        authorId: authorPerson ? getPersonId(authorPerson.slug) : undefined,
+        reviewerName: reviewer,
+        reviewerId: reviewerPerson ? getPersonId(reviewerPerson.slug) : undefined,
         keywords,
       })
     : null;
@@ -219,6 +229,7 @@ const financialProductSchema =
     : null;
 
 const faqSchema = faqList.length > 0 ? buildFaqSchema(faqList) : null;
+const ogImage = getOgImageForKind(relatedKind, image);
 const extrasArray = Array.isArray(extraSchema) ? extraSchema : extraSchema ? [extraSchema] : [];
 const schema = [
   ...(webPageSchema ? [webPageSchema] : []),
@@ -233,7 +244,7 @@ const schema = [
   title={title}
   description={description}
   schema={schema}
-  image={image}
+  image={ogImage}
   canonical={canonicalSlug}
   keywords={keywords}
   noindex={noindex}
@@ -249,8 +260,28 @@ const schema = [
       <h1 class="mt-2 text-4xl font-bold text-foreground lg:text-5xl">{h1}</h1>
       <p class="sr-only">{description}</p>
       <div class="mt-4 flex flex-wrap gap-x-4 gap-y-1 text-sm text-muted-foreground">
-        <span>By <strong>{author}</strong></span>
-        {reviewer && <span>Reviewed by {reviewer}</span>}
+        <span>
+          By{" "}
+          {authorProfilePath ? (
+            <a href={authorProfilePath} class="font-semibold text-foreground hover:text-accent">
+              {author}
+            </a>
+          ) : (
+            <strong>{author}</strong>
+          )}
+        </span>
+        {reviewer && (
+          <span>
+            Reviewed by{" "}
+            {reviewerProfilePath ? (
+              <a href={reviewerProfilePath} class="font-semibold text-foreground hover:text-accent">
+                {reviewer}
+              </a>
+            ) : (
+              reviewer
+            )}
+          </span>
+        )}
         {lastUpdated && <span>Updated <time datetime={lastUpdated}>{lastUpdated}</time></span>}
         {readTime && <span>{readTime} min read</span>}
         {section && <span>{section}</span>}

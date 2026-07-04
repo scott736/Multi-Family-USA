@@ -197,17 +197,19 @@ export default function LeadForm({
       case 1:
         return !!formData.purpose && !!formData.propertyType && (parseInt(formData.units, 10) || 0) >= 5;
       case 2:
-        return parsed.purchasePrice > 0 && parsed.loanAmount > 0 && parsed.annualNoi > 0 && parsed.occupancy > 0;
+        return (
+          parsed.purchasePrice > 0 &&
+          parsed.loanAmount > 0 &&
+          parsed.annualNoi > 0 &&
+          parsed.occupancy > 0 &&
+          /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)
+        );
       case 3: {
         const credit = parseInt(formData.creditScore, 10) || 0;
         return credit >= 500 && credit <= 850 && !!formData.state && !!formData.timeline;
       }
       case 4:
-        return (
-          formData.name.trim().length >= 2 &&
-          /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email) &&
-          formData.phone.trim().length >= 7
-        );
+        return formData.name.trim().length >= 2 && formData.phone.trim().length >= 7;
       default:
         return false;
     }
@@ -217,8 +219,25 @@ export default function LeadForm({
     setFormData((prev) => ({ ...prev, [key]: value }));
   };
 
+  const savePartialLead = () => {
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) return;
+
+    void fetch('/api/lead-partial', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        ...formData,
+        sourcePage,
+        sourceContext,
+        lang,
+      }),
+    }).catch(() => {});
+  };
+
   const next = () => {
-    if (isStepValid()) dispatchUi({ type: 'next' });
+    if (!isStepValid()) return;
+    if (step === 2) savePartialLead();
+    dispatchUi({ type: 'next' });
   };
 
   const back = () => {
@@ -600,6 +619,32 @@ function renderLeadFormCard({
                 isHero={isHero}
                 isPolished={isPolished}
               />
+
+              <div className="grid gap-1.5">
+                <Label
+                  htmlFor="lf-email"
+                  className={cn('font-medium text-foreground', isHero ? 'text-[11px]' : 'text-xs')}
+                >
+                  Email
+                </Label>
+                <div className="relative">
+                  <Mail className="absolute left-3.5 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
+                  <Input
+                    id="lf-email"
+                    type="email"
+                    placeholder="jane@email.com"
+                    className={cn(inputClass, 'pl-10')}
+                    value={formData.email}
+                    onChange={(e) => update('email', e.target.value)}
+                    required
+                  />
+                </div>
+                <p className="text-[11px] text-muted-foreground">
+                  {isEs
+                    ? 'Guardamos su progreso para poder enviarle la revisión.'
+                    : 'We save your progress so we can send your deal review.'}
+                </p>
+              </div>
             </div>
           )}
 
@@ -724,28 +769,7 @@ function renderLeadFormCard({
                 </div>
               </div>
 
-              <div className="grid gap-1.5">
-                <Label
-                  htmlFor="lf-email"
-                  className={cn('font-medium text-foreground', isHero ? 'text-[11px]' : 'text-xs')}
-                >
-                  Email
-                </Label>
-                <div className="relative">
-                  <Mail className="absolute left-3.5 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
-                  <Input
-                    id="lf-email"
-                    type="email"
-                    placeholder="jane@email.com"
-                    className={cn(inputClass, 'pl-10')}
-                    value={formData.email}
-                    onChange={(e) => update('email', e.target.value)}
-                    required
-                  />
-                </div>
-              </div>
-
-              <div className="grid gap-1.5">
+              <div className={cn('grid gap-1.5', isHero && '@sm:col-span-2')}>
                 <Label
                   htmlFor="lf-phone"
                   className={cn('font-medium text-foreground', isHero ? 'text-[11px]' : 'text-xs')}

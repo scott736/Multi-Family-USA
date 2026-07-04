@@ -1,4 +1,5 @@
 ---
+import LeadForm from "@/components/forms/LeadForm.astro";
 import { SITE_PHONE, SITE_PHONE_HREF } from "@/consts";
 import BasicLayout from "@/layouts/BasicLayout.astro";
 ---
@@ -20,4 +21,14 @@ import BasicLayout from "@/layouts/BasicLayout.astro";
     <li><a href={SITE_PHONE_HREF}>{SITE_PHONE}</a></li>
     <li><a href="mailto:scott@lendcity.ca">scott@lendcity.ca</a></li>
   </ul>
+
+  <div class="not-prose mt-10">
+    <LeadForm
+      variant="compact"
+      sourceContext="es-contact-page"
+      headline="Solicitar revisión de operación"
+      subheadline="Comparta los detalles de su propiedad y le responderemos en una hora hábil."
+      lang="es"
+    />
+  </div>
 </BasicLayout>

@@ -18,6 +18,8 @@ CREATE TABLE IF NOT EXISTS pending_bookings (
   expires_at TIMESTAMPTZ NOT NULL,
   created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
   confirmed_at TIMESTAMPTZ,
+  nylas_event_id TEXT,
+  meeting_link TEXT,
 
   -- Index for fast token lookups
   CONSTRAINT pending_bookings_token_idx UNIQUE (token)
@@ -82,3 +84,51 @@ CREATE POLICY "Service role has full access on form_leads" ON form_leads
   WITH CHECK (true);
 
 COMMENT ON TABLE form_leads IS 'Lead-form submissions from /api/lead for CRM follow-up';
+
+-- Checklist download leads from /api/checklist-lead
+CREATE TABLE IF NOT EXISTS checklist_leads (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  email TEXT NOT NULL,
+  checklist_id TEXT NOT NULL,
+  checklist_title TEXT,
+  lang TEXT NOT NULL DEFAULT 'en',
+  source_page TEXT,
+  created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
+
+CREATE INDEX IF NOT EXISTS checklist_leads_email_idx ON checklist_leads (email);
+CREATE INDEX IF NOT EXISTS checklist_leads_checklist_id_idx ON checklist_leads (checklist_id);
+CREATE INDEX IF NOT EXISTS checklist_leads_created_at_idx ON checklist_leads (created_at DESC);
+
+ALTER TABLE checklist_leads ENABLE ROW LEVEL SECURITY;
+
+CREATE POLICY "Service role has full access on checklist_leads" ON checklist_leads
+  FOR ALL
+  USING (true)
+  WITH CHECK (true);
+
+COMMENT ON TABLE checklist_leads IS 'Email captures from checklist PDF download gates';
+
+-- Calculator analysis emails from /api/analysis-email
+CREATE TABLE IF NOT EXISTS analysis_emails (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  email TEXT NOT NULL,
+  analysis_type TEXT NOT NULL,
+  analysis_summary JSONB NOT NULL,
+  lang TEXT NOT NULL DEFAULT 'en',
+  source_page TEXT,
+  created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
+
+CREATE INDEX IF NOT EXISTS analysis_emails_email_idx ON analysis_emails (email);
+CREATE INDEX IF NOT EXISTS analysis_emails_type_idx ON analysis_emails (analysis_type);
+CREATE INDEX IF NOT EXISTS analysis_emails_created_at_idx ON analysis_emails (created_at DESC);
+
+ALTER TABLE analysis_emails ENABLE ROW LEVEL SECURITY;
+
+CREATE POLICY "Service role has full access on analysis_emails" ON analysis_emails
+  FOR ALL
+  USING (true)
+  WITH CHECK (true);
+
+COMMENT ON TABLE analysis_emails IS 'Calculator analysis emails from /api/analysis-email';

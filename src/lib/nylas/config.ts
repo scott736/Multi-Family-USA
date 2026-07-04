@@ -23,8 +23,9 @@ export const teamMembers: TeamMember[] = [
     email: "scott@lendcity.ca",
     slug: "scott-dillingham",
     title: "Multifamily Advisor",
-    photo: "/images/team/chris-micucci.webp",
+    photo: "/images/team/scott-dillingham.webp",
     bio: "Commercial multifamily advisor focused on execution planning and lender fit.",
+    nylasGrantId: "df7ba1f7-5c51-4781-96dd-dab387d63261",
     services: ["strategy-call"],
     calendars: DEFAULT_CALENDAR,
     availability: DEFAULT_TZ,
@@ -35,7 +36,8 @@ export const teamMembers: TeamMember[] = [
     email: "aya@lendcity.ca",
     slug: "aya-dillingham",
     title: "Client Success",
-    photo: "/images/team/david-cardozo.webp",
+    photo: "/images/team/aya-dillingham.webp",
+    nylasGrantId: "d1adb692-bc1c-4c93-8243-04d37846154d",
     bio: "Intake and borrower support for multifamily financing workflows.",
     services: ["strategy-call"],
     calendars: DEFAULT_CALENDAR,
@@ -123,7 +125,7 @@ function canTeamMemberOfferService(teamMemberId: string, serviceId: string): boo
   return service.teamMembers.includes(teamMemberId);
 }
 
-const schedulingConfig = {
+export const schedulingConfig = {
   minimumNotice: 1,
   maxAdvanceBooking: 60,
   defaultTimezone: "America/New_York",

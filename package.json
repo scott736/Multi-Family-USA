@@ -16,7 +16,7 @@
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "check": "npm run lint && npm run build",
-    "brand:assets": "node scripts/generate-brand-assets.mjs"
+    "brand:assets": "node scripts/generate-brand-assets.mjs && node scripts/generate-og-images.mjs"
   },
   "dependencies": {
     "@astrojs/mdx": "^5.0.6",

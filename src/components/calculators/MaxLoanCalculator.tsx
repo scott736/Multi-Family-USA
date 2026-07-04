@@ -12,7 +12,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { buildDealReviewUrl } from "@/lib/deal-review-url";
-import { monthlyPI, parseNum, solveLoanFromPayment } from "@/lib/finance";
+import { fmtUSD, monthlyPI, parseNum, solveLoanFromPayment } from "@/lib/finance";
 import { cn } from "@/lib/utils";
 
 /* -------------------------------------------------------------------------- */
@@ -140,6 +140,21 @@ export default function MaxLoanCalculator({ lang = "en" }: MaxLoanCalculatorProp
       ),
     [isEs, rent, results?.maxLoan, results?.pp75],
   );
+
+  const analysisSummary = useMemo(() => {
+    if (!results || results.maxLoan <= 0) return undefined;
+    return {
+      "Max loan": fmtUSD(results.maxLoan),
+      "Target DSCR": `${f.targetDscr}x`,
+      "Monthly rent": fmtUSD(rent),
+      "Max monthly P&I": fmtUSD(results.maxPI),
+      "Max purchase @ 75% LTV": fmtUSD(results.pp75),
+      Rate: `${f.rate}%`,
+      Term: `${f.term} yr`,
+    };
+  }, [f.rate, f.targetDscr, f.term, rent, results]);
+
+  const sourcePage = isEs ? "/es/tools/loan-sizing-calculator" : "/tools/loan-sizing-calculator";
 
   function update<K extends keyof Fields>(k: K, v: Fields[K]) {
     setF((prev) => ({ ...prev, [k]: v }));
@@ -306,6 +321,8 @@ export default function MaxLoanCalculator({ lang = "en" }: MaxLoanCalculatorProp
         selectedTargetDscr={f.targetDscr}
         showComparison={Boolean(results && results.maxLoan > 0)}
         rows={comparisonRows}
+        analysisSummary={analysisSummary}
+        sourcePage={sourcePage}
       />
 
       {/* CTA */}

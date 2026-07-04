@@ -14,8 +14,6 @@ import { teamMembers } from '@/lib/nylas/config';
 import type { TeamMember } from '@/lib/nylas/types';
 import { rateLimit, rateLimitResponse } from '@/lib/rate-limit';
 
-const LEAD_FROM_EMAIL = 'bookings@multifamily-usa.com';
-
 const leadSchema = z.object({
   name: z.string().min(2).max(120),
   email: z.string().email().max(200),
@@ -288,7 +286,6 @@ export const POST: APIRoute = async ({ request }) => {
       sendElasticEmail({
         to: assignedTo.email,
         cc: leadOversightCc(assignedTo.email),
-        from: LEAD_FROM_EMAIL,
         replyTo: lead.email,
         subject: internal.subject,
         html: internal.html,
@@ -296,7 +293,6 @@ export const POST: APIRoute = async ({ request }) => {
       }),
       sendElasticEmail({
         to: lead.email,
-        from: LEAD_FROM_EMAIL,
         replyTo: assignedTo.email,
         subject: reply.subject,
         html: reply.html,

@@ -3,6 +3,7 @@
 import { ArrowRight, Copy, Info, RotateCcw, TrendingUp } from "lucide-react";
 import { useMemo, useState } from "react";
 
+import EmailAnalysisCapture from "@/components/forms/EmailAnalysisCapture";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -142,6 +143,20 @@ export default function CapRateNoiCalculator({ lang = "en" }: CapRateNoiCalculat
       ),
     [f.vacancy, isEs, v.noi, v.price],
   );
+
+  const analysisSummary = useMemo(() => {
+    if (v.capRate <= 0) return undefined;
+    return {
+      "Cap rate": `${v.capRate.toFixed(2)}%`,
+      NOI: fmtUSD(v.noi),
+      "Purchase price": fmtUSD(v.price),
+      "Effective gross income": fmtUSD(v.egi),
+      "Operating expenses": fmtUSD(v.opex),
+      "Vacancy rate": `${f.vacancy}%`,
+    };
+  }, [f.vacancy, v.capRate, v.egi, v.noi, v.opex, v.price]);
+
+  const sourcePage = isEs ? "/es/tools/cap-rate-noi-calculator" : "/tools/cap-rate-noi-calculator";
 
   return (
     <div className="space-y-6">
@@ -283,6 +298,15 @@ export default function CapRateNoiCalculator({ lang = "en" }: CapRateNoiCalculat
           </table>
         </div>
       </div>
+
+      {analysisSummary && (
+        <EmailAnalysisCapture
+          analysisType={isEs ? "Cap rate / NOI" : "Cap rate / NOI"}
+          analysisSummary={analysisSummary}
+          lang={isEs ? "es" : "en"}
+          sourcePage={sourcePage}
+        />
+      )}
 
       {/* CTA */}
       <div className="rounded-xl bg-gradient-to-br from-primary to-primary/85 p-6 md:p-8 text-primary-foreground">

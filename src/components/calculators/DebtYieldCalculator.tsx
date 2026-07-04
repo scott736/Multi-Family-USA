@@ -1,8 +1,9 @@
 "use client";
 
-import { ArrowRight, Info, RotateCcw, TrendingUp } from "lucide-react";
+import { ArrowRight, Info, RotateCcw } from "lucide-react";
 import { useMemo, useState } from "react";
 
+import EmailAnalysisCapture from "@/components/forms/EmailAnalysisCapture";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -110,6 +111,18 @@ export default function DebtYieldCalculator({
       ),
     [isEs, loan, noi],
   );
+
+  const analysisSummary = useMemo(() => {
+    if (debtYield <= 0) return undefined;
+    return {
+      "Debt yield": `${debtYield.toFixed(2)}%`,
+      Verdict: v.label,
+      NOI: fmtUSD(noi),
+      "Loan amount": fmtUSD(loan),
+    };
+  }, [debtYield, loan, noi, v.label]);
+
+  const sourcePage = isEs ? "/es/tools/debt-yield-calculator" : "/tools/debt-yield-calculator";
 
   return (
     <div className="space-y-6">
@@ -222,6 +235,15 @@ export default function DebtYieldCalculator({
           </div>
         </div>
       </div>
+
+      {analysisSummary && (
+        <EmailAnalysisCapture
+          analysisType={isEs ? "Rendimiento de deuda" : "Debt yield"}
+          analysisSummary={analysisSummary}
+          lang={isEs ? "es" : "en"}
+          sourcePage={sourcePage}
+        />
+      )}
 
       <div className="rounded-xl bg-gradient-to-br from-primary to-primary/85 p-6 md:p-8 text-primary-foreground">
         <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">

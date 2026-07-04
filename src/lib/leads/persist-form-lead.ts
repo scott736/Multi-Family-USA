@@ -21,9 +21,15 @@ export interface FormLeadRecord {
   metadata?: Record<string, unknown>;
 }
 
+export interface PersistFormLeadOptions {
+  isPartial?: boolean;
+  lang?: 'en' | 'es';
+}
+
 export async function persistFormLead(
   lead: FormLeadRecord,
   assignedTo: TeamMember,
+  options?: PersistFormLeadOptions,
 ): Promise<void> {
   if (!isSupabaseConfigured()) {
     return;
@@ -49,12 +55,17 @@ export async function persistFormLead(
       assigned_officer_id: assignedTo.id,
       assigned_officer_name: assignedTo.name,
       assigned_officer_email: assignedTo.email,
-      lang: 'en',
+      lang: options?.lang ?? 'en',
     };
 
     if (lead.score !== undefined) payload.lead_score = lead.score;
     if (lead.scoreTier) payload.lead_score_tier = lead.scoreTier;
-    if (lead.metadata) payload.metadata = lead.metadata;
+
+    const metadata = {
+      ...(lead.metadata ?? {}),
+      ...(options?.isPartial ? { isPartial: true } : {}),
+    };
+    if (Object.keys(metadata).length > 0) payload.metadata = metadata;
 
     const { error } = await supabase.from('form_leads').insert(payload);
 

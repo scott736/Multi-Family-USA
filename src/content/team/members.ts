@@ -1,4 +1,5 @@
 import { SITE_URL } from "../../consts";
+import { AUTHORS, getAuthorByName, getAuthorBySlug, getAuthorProfilePath } from "../../lib/authors";
 
 export interface TeamMember {
   slug: string;
@@ -12,45 +13,24 @@ export interface TeamMember {
   sameAs?: string[];
 }
 
-export const TEAM_MEMBERS: TeamMember[] = [
-  {
-    slug: "scott-dillingham",
-    name: "Scott Dillingham",
-    jobTitle: "Principal Advisor",
-    image: `${SITE_URL}/images/team/chris-micucci.webp`,
-    shortBio: "Principal advisor focused on US multifamily debt execution and lender fit.",
-    fullBio:
-      "Scott advises sponsors and operators on multifamily debt strategy, lender-fit positioning, and execution sequencing across bridge, agency, and bank structures.",
-    knowsAbout: ["Debt structuring", "Lender matching", "Refinance strategy", "Deal triage"],
-    credentials: ["Real Estate Finance Advisor"],
-  },
-  {
-    slug: "aya-dillingham",
-    name: "Aya Dillingham",
-    jobTitle: "Operations and Client Success",
-    image: `${SITE_URL}/images/team/david-cardozo.webp`,
-    shortBio: "Coordinates intake, borrower communication, and follow-through on lender routing.",
-    fullBio:
-      "Aya leads intake operations and borrower support workflows to ensure submitted scenarios move quickly from inquiry to qualified lender conversations.",
-    knowsAbout: ["Deal intake", "Borrower onboarding", "Pipeline operations"],
-    credentials: ["Client Success Lead"],
-  },
-];
+export const TEAM_MEMBERS: TeamMember[] = AUTHORS.map((author) => ({
+  slug: author.slug,
+  name: author.name,
+  jobTitle: author.title,
+  image: `${SITE_URL}${author.photo}`,
+  shortBio: author.shortBio,
+  fullBio: author.bio,
+  knowsAbout: author.knowsAbout,
+  credentials: author.credentials,
+  sameAs: author.sameAs,
+}));
 
 export function getMemberBySlug(slug: string): TeamMember | undefined {
   return TEAM_MEMBERS.find((m) => m.slug === slug);
 }
 
 export function getMemberSlugByName(name: string): string | undefined {
-  if (!name) return undefined;
-  const exact = TEAM_MEMBERS.find((m) => m.name === name);
-  if (exact) return exact.slug;
-  const byPrefix = TEAM_MEMBERS.find((m) => name.startsWith(m.name));
-  return byPrefix?.slug;
+  return getAuthorByName(name)?.slug;
 }
 
-export function getAuthorProfilePath(name: string): string {
-  const slug = getMemberSlugByName(name);
-  if (slug) return `/team/${slug}`;
-  return "/about";
-}
+export { getAuthorBySlug,getAuthorProfilePath };

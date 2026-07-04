@@ -4,6 +4,7 @@ import CtaCard from "@/components/dscr/CtaCard.astro";
 import FaqAccordion from "@/components/dscr/FaqAccordion.astro";
 import RelatedReading from "@/components/dscr/RelatedReading.astro";
 import DefaultLayout from "@/layouts/DefaultLayout.astro";
+import { getOgImageForKind } from "@/lib/og-image";
 import { getRelatedLinks } from "@/lib/related-links";
 
 import { buildFaqSchema, buildWebPageSchema, SITE_URL } from "../../consts";
@@ -116,6 +117,7 @@ const relatedLinks = await getRelatedLinks({
   title={title}
   description={description}
   schema={schema}
+  image={getOgImageForKind("tool")}
   canonical={toolPath}
   keywords={keywords}
   enPath={resolvedEnPath}

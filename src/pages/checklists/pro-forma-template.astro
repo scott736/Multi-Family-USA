@@ -1,4 +1,5 @@
 ---
+import ChecklistDownloadGate from "@/components/forms/ChecklistDownloadGate";
 import BasicLayout from "@/layouts/BasicLayout.astro";
 ---
 
@@ -50,6 +51,13 @@ import BasicLayout from "@/layouts/BasicLayout.astro";
     <li>Build downside scenarios and identify breakpoints before quote requests.</li>
     <li>Package outputs for lender discussions with clear assumption commentary.</li>
   </ol>
+
+  <ChecklistDownloadGate
+    client:load
+    checklistId="pro-forma-template"
+    checklistTitle="Multifamily Pro Forma Template"
+    lang="en"
+  />
 
   <p>
     For practical feedback on your current model and debt strategy, request a

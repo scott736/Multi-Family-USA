@@ -1,5 +1,6 @@
 ---
 import ConversionPathHelper from "@/components/conversion/ConversionPathHelper.astro";
+import FundedDealsSection from "@/components/sections/FundedDealsSection.astro";
 import HomeHero from "@/components/sections/home-hero.astro";
 import DefaultLayout from "@/layouts/DefaultLayout.astro";
 
@@ -38,6 +39,8 @@ import { PILLARS, SITE_DESCRIPTION, SITE_TITLE } from "../consts";
       ))}
     </div>
   </section>
+
+  <FundedDealsSection />
 
   <section class="container py-10">
     <div class="rounded-xl border border-border bg-card p-6 md:p-8">

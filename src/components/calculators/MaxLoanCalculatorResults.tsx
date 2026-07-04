@@ -2,6 +2,7 @@
 
 import { Info, TrendingUp } from "lucide-react";
 
+import EmailAnalysisCapture from "@/components/forms/EmailAnalysisCapture";
 import { fmtUSD } from "@/lib/finance";
 import { cn } from "@/lib/utils";
 
@@ -33,6 +34,8 @@ interface MaxLoanCalculatorComparisonProps {
   selectedTargetDscr: "0.75" | "1.0" | "1.25";
   showComparison: boolean;
   rows: DscrComparisonRow[];
+  analysisSummary?: Record<string, string | number>;
+  sourcePage?: string;
 }
 
 export function MaxLoanCalculatorResultsPanel({
@@ -146,11 +149,14 @@ export function MaxLoanCalculatorComparison({
   selectedTargetDscr,
   showComparison,
   rows,
+  analysisSummary,
+  sourcePage,
 }: MaxLoanCalculatorComparisonProps) {
   if (!showComparison) return null;
 
   return (
-    <div className="rounded-xl border border-accent/30 bg-gradient-to-br from-accent/5 to-transparent p-5 md:p-7">
+    <div className="space-y-4">
+      <div className="rounded-xl border border-accent/30 bg-gradient-to-br from-accent/5 to-transparent p-5 md:p-7">
       <div className="flex items-center gap-2 mb-4">
         <TrendingUp className="size-4 text-accent" />
         <h3 className="text-lg font-bold text-foreground">
@@ -179,6 +185,16 @@ export function MaxLoanCalculatorComparison({
           </tbody>
         </table>
       </div>
+      </div>
+
+      {analysisSummary && (
+        <EmailAnalysisCapture
+          analysisType={isEs ? "Préstamo máximo" : "Max loan"}
+          analysisSummary={analysisSummary}
+          lang={isEs ? "es" : "en"}
+          sourcePage={sourcePage}
+        />
+      )}
     </div>
   );
 }

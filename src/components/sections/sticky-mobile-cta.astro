@@ -8,26 +8,26 @@ const dealHref = isEs ? "/es/deal-review" : "/deal-review";
 
 <div
   data-sticky-cta
-  class="fixed inset-x-0 bottom-0 z-40 border-t border-border bg-background/95 backdrop-blur transition-transform duration-300 md:hidden translate-y-full"
+  class="fixed inset-x-0 bottom-0 z-40 border-t border-border bg-background/95 backdrop-blur transition-transform duration-300 translate-y-full md:py-0"
 >
-  <div class="flex">
+  <div class="flex md:container md:mx-auto md:max-w-3xl md:rounded-t-lg md:border-x md:shadow-lg">
     <a
       href={bookHref}
-      class="flex flex-[1.4] items-center justify-center gap-2 bg-accent py-3.5 text-sm font-bold text-accent-foreground"
+      class="flex flex-[1.4] items-center justify-center gap-2 bg-accent py-3.5 text-sm font-bold text-accent-foreground md:rounded-tl-lg md:py-2.5 md:text-xs"
       data-analytics-location="sticky-mobile"
     >
       {isEs ? "Reservar llamada" : "Book Free Call"}
     </a>
     <a
       href={dealHref}
-      class="flex flex-1 items-center justify-center gap-2 border-l border-border py-3.5 text-xs font-semibold text-foreground"
+      class="flex flex-1 items-center justify-center gap-2 border-l border-border py-3.5 text-xs font-semibold text-foreground md:py-2.5"
       data-analytics-location="sticky-mobile"
     >
       {isEs ? "Revisión" : "Deal Review"}
     </a>
     <a
       href={SITE_PHONE_HREF}
-      class="flex flex-1 items-center justify-center gap-2 border-l border-border py-3.5 text-xs font-semibold text-foreground"
+      class="flex flex-1 items-center justify-center gap-2 border-l border-border py-3.5 text-xs font-semibold text-foreground md:rounded-tr-lg md:py-2.5"
       data-analytics-location="sticky-mobile"
     >
       {isEs ? "Llamar" : "Call"}
@@ -44,11 +44,13 @@ const dealHref = isEs ? "/es/deal-review" : "/deal-review";
       path.includes("/deal-review") ||
       path.includes("/book-strategy-call") ||
       path.includes("/thank-you");
+    const scrollThreshold = window.matchMedia("(min-width: 768px)").matches ? 300 : 500;
     const update = () => {
-      const scrolled = window.scrollY > 500;
+      const scrolled = window.scrollY > scrollThreshold;
       el.classList.toggle("translate-y-full", !scrolled || hideOnFormPages);
     };
     update();
     window.addEventListener("scroll", update, { passive: true });
+    window.matchMedia("(min-width: 768px)").addEventListener("change", update);
   })();
 </script>

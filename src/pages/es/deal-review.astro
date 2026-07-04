@@ -4,6 +4,7 @@ import { BarChart3, Clock, Landmark, ShieldCheck, Sparkles, TrendingUp } from "l
 import ConversionPathHelper from "@/components/conversion/ConversionPathHelper.astro";
 import Breadcrumbs from "@/components/dscr/Breadcrumbs.astro";
 import LeadForm from "@/components/forms/LeadForm.astro";
+import FundedDealsSection from "@/components/sections/FundedDealsSection.astro";
 import { buildServiceSchema, SITE_URL } from "@/consts";
 import DefaultLayout from "@/layouts/DefaultLayout.astro";
 
@@ -47,6 +48,8 @@ const benefits = [
       { label: "Revisión gratuita", href: "/es/deal-review" },
     ]}
   />
+
+  <FundedDealsSection lang="es" />
 
   <section class="relative overflow-hidden border-b border-border">
     <div

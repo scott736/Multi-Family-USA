@@ -6,6 +6,10 @@ import vercel from "@astrojs/vercel";
 import react from "@astrojs/react";
 import tailwindcss from "@tailwindcss/vite";
 
+import { buildSitemapLastmodMap, lookupLastmod } from "./scripts/sitemap-lastmod.mjs";
+
+const lastmodMap = await buildSitemapLastmodMap();
+
 export default defineConfig({
   site: "https://multifamily-usa.com",
   integrations: [
@@ -16,17 +20,28 @@ export default defineConfig({
         !page.includes("/404") &&
         !page.includes("/thank-you") &&
         !page.includes("/admin/"),
+      i18n: {
+        defaultLocale: "en",
+        locales: {
+          en: "en-US",
+          es: "es-US",
+        },
+      },
       changefreq: "weekly",
       priority: 0.7,
       serialize(item) {
         const path = new URL(item.url).pathname;
+        item.lastmod = lookupLastmod(lastmodMap, path);
+
         if (path === "/") {
           item.priority = 1;
           item.changefreq = "daily";
         } else if (path.startsWith("/tools/") || path === "/deal-review/") {
           item.priority = 0.9;
         } else if (
-          ["/learn/", "/states/", "/cities/", "/compare/", "/invest/", "/loan-types/", "/property-types/"].includes(path)
+          ["/learn/", "/states/", "/cities/", "/compare/", "/invest/", "/loan-types/", "/property-types/"].some(
+            (prefix) => path.startsWith(prefix),
+          )
         ) {
           item.priority = 0.8;
         }

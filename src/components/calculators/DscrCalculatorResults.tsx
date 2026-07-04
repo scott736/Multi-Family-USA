@@ -10,6 +10,7 @@ import {
 } from "lucide-react";
 import type { ReactNode } from "react";
 
+import EmailAnalysisCapture from "@/components/forms/EmailAnalysisCapture";
 import { fmtUSD } from "@/lib/finance";
 import { cn } from "@/lib/utils";
 
@@ -40,6 +41,8 @@ interface DscrCalculatorResultsProps {
   rentDeltaTo125: number;
   maxPiFor100: number;
   piCutFor100: number;
+  analysisSummary?: Record<string, string | number>;
+  sourcePage?: string;
 }
 
 export function DscrCalculatorResultsPanel({
@@ -109,6 +112,8 @@ export function DscrCalculatorResults({
   rentDeltaTo125,
   maxPiFor100,
   piCutFor100,
+  analysisSummary,
+  sourcePage,
 }: DscrCalculatorResultsProps) {
   return (
     <>
@@ -228,6 +233,16 @@ export function DscrCalculatorResults({
             )}
           </div>
         </div>
+      )}
+
+      {analysisSummary && dscr > 0 && (
+        <EmailAnalysisCapture
+          analysisType="DSCR"
+          analysisSummary={analysisSummary}
+          lang={isEs ? "es" : "en"}
+          sourcePage={sourcePage}
+          className="mt-0"
+        />
       )}
     </>
   );
