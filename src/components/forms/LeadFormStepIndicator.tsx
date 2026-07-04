@@ -124,18 +124,24 @@ export function LeadFormStepIndicator({
   }
 
   return (
-    <div className="mb-5 grid grid-cols-4 gap-2 text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">
-      {steps.map(({ label }, i) => (
-        <span
-          key={label}
-          className={cn(
-            'border-b-2 pb-1 text-center',
-            step >= i + 1 ? 'border-primary text-primary' : 'border-transparent',
-          )}
-        >
-          {i + 1}. {label}
+    <div className="mb-5">
+      <div className="flex items-center gap-1.5">
+        {steps.map(({ label }, i) => (
+          <div
+            key={label}
+            className={cn(
+              'h-1 flex-1 rounded-full transition-colors duration-300',
+              step >= i + 1 ? 'bg-accent' : 'bg-secondary',
+            )}
+          />
+        ))}
+      </div>
+      <div className="mt-2 flex items-center justify-between text-[11px] font-semibold">
+        <span className="uppercase tracking-wider text-foreground">{steps[step - 1]?.label}</span>
+        <span className="tabular-nums text-muted-foreground">
+          Step {step} of {steps.length}
         </span>
-      ))}
+      </div>
     </div>
   );
 }

@@ -18,16 +18,15 @@ const {
 
 <div
   class:list={[
-    "rounded-xl border border-accent/30 bg-gradient-to-br from-secondary/60 to-background p-1",
+    "rounded-2xl bg-gradient-to-br from-accent/40 via-border to-primary/25 p-[1px] shadow-xl shadow-primary/[0.08]",
     variant === "compact" ? "my-0" : "my-12",
   ]}
 >
-  <div class:list={["rounded-lg bg-card", variant === "compact" ? "p-0" : "p-2 md:p-4"]}>
-    <LeadForm
-      variant={variant}
-      headline={headline}
-      subheadline={subheadline}
-      sourceContext={sourceContext}
-    />
-  </div>
+  <LeadForm
+    variant={variant}
+    headline={headline}
+    subheadline={subheadline}
+    sourceContext={sourceContext}
+    className="border-transparent shadow-none"
+  />
 </div>

@@ -52,11 +52,17 @@ const esDescription =
       {PILLARS.map((pillar) => (
         <a
           href={pillar.slug === "markets" ? "/es/states" : `/es/${pillar.slug}`}
-          class="rounded-xl border border-border bg-card p-5 hover:border-accent"
+          class="group flex flex-col rounded-xl border border-border bg-card p-5 transition duration-300 hover:-translate-y-0.5 hover:border-accent/60 hover:shadow-lg hover:shadow-primary/[0.06]"
         >
           <p class="text-xs font-bold uppercase tracking-wide text-accent">{pillar.tagline}</p>
           <h2 class="mt-2 text-lg font-bold">{pillar.title}</h2>
           <p class="mt-2 text-sm text-muted-foreground">{pillar.description}</p>
+          <span class="mt-auto inline-flex items-center gap-1 pt-4 text-xs font-semibold text-muted-foreground transition-colors group-hover:text-accent">
+            Explorar
+            <svg class="size-3.5 transition-transform duration-300 group-hover:translate-x-0.5" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+              <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+          </span>
         </a>
       ))}
     </div>

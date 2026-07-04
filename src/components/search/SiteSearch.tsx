@@ -153,7 +153,10 @@ export default function SiteSearch({ lang = "en" }: SiteSearchProps) {
     if (pagefindRef.current) return pagefindRef.current;
     if (typeof window === "undefined") return null;
     try {
-      const mod = (await import(/* @vite-ignore */ "/pagefind/pagefind.js")) as {
+      // Path kept in a variable so Vite doesn't try to resolve the build-time
+      // pagefind bundle during dev (it only exists after `pagefind` runs post-build).
+      const pagefindPath = "/pagefind/pagefind.js";
+      const mod = (await import(/* @vite-ignore */ pagefindPath)) as {
         default: PagefindModule;
       };
       await mod.default.init();

@@ -146,7 +146,6 @@ export default function LeadForm({
 
   const heroSelectClass =
     'flex h-10 w-full rounded-xl border border-border/70 bg-background/80 px-3 py-2 text-sm shadow-xs backdrop-blur-sm transition-shadow duration-200 focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-accent/35';
-  const heroStepPanelClass = 'min-h-[340px]';
 
   const [{ step, loading, errorMsg, success }, dispatchUi] = useReducer(leadFormUiReducer, INITIAL_UI_STATE);
 
@@ -316,7 +315,6 @@ export default function LeadForm({
     handleSubmit,
     headline,
     heroSelectClass,
-    heroStepPanelClass,
     inputClass,
     isCompact,
     isHero,
@@ -349,7 +347,6 @@ interface RenderLeadFormCardProps {
   handleSubmit: (e: React.FormEvent) => void;
   headline?: string;
   heroSelectClass: string;
-  heroStepPanelClass: string;
   inputClass: string;
   isCompact: boolean;
   isHero: boolean;
@@ -375,7 +372,6 @@ function renderLeadFormCard({
   handleSubmit,
   headline,
   heroSelectClass,
-  heroStepPanelClass,
   inputClass,
   isCompact,
   isHero,
@@ -452,10 +448,7 @@ function renderLeadFormCard({
 
         <div
           key={step}
-          className={cn(
-            'animate-in fade-in slide-in-from-right-3 duration-300 fill-mode-both',
-            isHero && heroStepPanelClass,
-          )}
+          className="animate-in fade-in slide-in-from-right-3 duration-300 fill-mode-both"
         >
           {step === 1 && (
             <div className={cn(isPremium ? 'space-y-6' : isHero ? 'space-y-3.5' : 'space-y-5')}>
@@ -682,7 +675,7 @@ function renderLeadFormCard({
                   <select
                     id="lf-state"
                     className={cn(
-                      'flex w-full rounded-md border border-input bg-background px-3 py-2 text-sm shadow-xs focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring',
+                      'flex h-11 w-full rounded border border-input bg-background px-3 text-sm shadow-xs transition-colors focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring',
                       isPremium && 'h-12 rounded-xl border-border/80 bg-background/90 focus-visible:ring-accent/30',
                       isHero && heroSelectClass,
                     )}
@@ -834,7 +827,7 @@ function renderLeadFormCard({
               onClick={onNext}
               disabled={!isStepValid()}
               className={cn(
-                'inline-flex flex-1 items-center justify-center gap-1.5 text-sm font-bold transition disabled:opacity-50',
+                'inline-flex flex-1 items-center justify-center gap-1.5 text-sm font-bold transition disabled:cursor-not-allowed disabled:opacity-45 disabled:shadow-none disabled:saturate-[0.65]',
                 isPremium ? 'h-12 rounded-xl' : isHero ? 'h-11 rounded-xl' : 'h-11 rounded-lg',
                 isHero || isPremium
                   ? 'bg-gradient-to-r from-accent via-accent to-[hsl(38_90%_48%)] text-accent-foreground shadow-md shadow-accent/25 hover:shadow-lg hover:shadow-accent/35 hover:brightness-105'
@@ -849,7 +842,7 @@ function renderLeadFormCard({
               type="submit"
               disabled={!isStepValid() || loading}
               className={cn(
-                'inline-flex flex-1 items-center justify-center gap-2 text-sm font-bold transition disabled:opacity-50',
+                'inline-flex flex-1 items-center justify-center gap-2 text-sm font-bold transition disabled:cursor-not-allowed disabled:opacity-45 disabled:shadow-none disabled:saturate-[0.65]',
                 isPremium || isHero
                   ? 'h-10 rounded-lg bg-gradient-to-r from-accent via-accent to-[hsl(38_90%_48%)] text-accent-foreground shadow-md shadow-accent/25 hover:shadow-lg hover:shadow-accent/35 hover:brightness-105'
                   : 'h-11 rounded-lg bg-accent text-accent-foreground shadow-md hover:bg-accent/90',
@@ -929,7 +922,7 @@ function choiceButtonClass(selected: boolean, isPremium: boolean, isHero: boolea
               : 'border-border/70 bg-background/70 hover:-translate-y-px hover:border-primary/25 hover:bg-secondary/50 hover:shadow-sm',
           )
         : cn(
-            'rounded-xl text-xs hover:bg-secondary/50',
+            'rounded-xl px-3 py-2.5 text-xs hover:bg-secondary/50',
             selected ? 'border-primary bg-primary/5 ring-1 ring-primary' : 'border-border bg-card',
           ),
   );
