@@ -1,6 +1,6 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
-import { syncLeadToBigin, isBiginConfigured } from '@/lib/bigin-sync';
+import { isBiginConfigured,syncLeadToBigin } from '@/lib/bigin-sync';
 
 const ENV_KEYS = [
   'ZOHO_BIGIN_CLIENT_ID',

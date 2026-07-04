@@ -3,9 +3,9 @@ export const prerender = false;
 import type { APIRoute } from 'astro';
 import { z } from 'zod';
 
-import { fireCrmWebhook } from '@/lib/crm-webhook';
 import { LEAD_INBOX } from '@/consts';
 import { VALID_CHECKLIST_IDS } from '@/lib/checklists/checklist-data';
+import { fireCrmWebhook } from '@/lib/crm-webhook';
 import { sendElasticEmail } from '@/lib/elastic-email';
 import { persistChecklistLead } from '@/lib/leads/persist-checklist-lead';
 import { logger } from '@/lib/logger';
