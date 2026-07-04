@@ -5,6 +5,7 @@ import { createHash } from 'node:crypto';
 import type { APIRoute } from 'astro';
 import { z } from 'zod';
 
+import { compactCrmMetadata, fireCrmWebhook } from '@/lib/crm-webhook';
 import { sendElasticEmail } from '@/lib/elastic-email';
 import { leadOversightCc } from '@/lib/lead-inbox';
 import { persistFormLead } from '@/lib/leads/persist-form-lead';
@@ -185,6 +186,30 @@ export const POST: APIRoute = async ({ request }) => {
     } catch (emailErr) {
       logger.error('Partial lead notification email failed', emailErr);
     }
+
+    void fireCrmWebhook({
+      event: 'multifamily_lead_partial',
+      name: lead.name,
+      email: lead.email,
+      phone: lead.phone,
+      source: lead.sourcePage,
+      toolName: lead.sourceContext || lead.purpose || 'deal review form',
+      metadata: compactCrmMetadata({
+        Status: 'Partial — step 2 completed',
+        'Assigned to': assignedTo.name,
+        State: lead.state,
+        Purpose: lead.purpose,
+        'Property type': lead.propertyType,
+        Timeline: lead.timeline,
+        Units: lead.units,
+        'Purchase price': lead.purchasePrice,
+        'Loan amount': lead.loanAmount,
+        'Annual NOI': lead.annualNoi,
+        Occupancy: lead.occupancy ? `${lead.occupancy.toFixed(1)}%` : undefined,
+        'Credit score': lead.creditScore,
+        Language: lead.lang,
+      }),
+    });
 
     return new Response(JSON.stringify({ success: true }), {
       status: 200,

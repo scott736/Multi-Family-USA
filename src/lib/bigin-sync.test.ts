@@ -113,6 +113,10 @@ describe('syncLeadToBigin', () => {
       name: 'Jordan Lee',
       toolName: 'Mortgage calculator',
       source: 'https://firsthomeguide.ca/tools/mortgage-calculator/',
+      metadata: {
+        DSCR: '1.25',
+        State: 'TX',
+      },
     });
 
     expect(fetchMock).toHaveBeenCalledTimes(3);
@@ -134,6 +138,8 @@ describe('syncLeadToBigin', () => {
       Referral_Source: 'TestSite.ca',
       Contact_Name: { id: 'contact-1' },
     });
+    expect(dealBody.data[0].Description).toContain('DSCR: 1.25');
+    expect(dealBody.data[0].Description).toContain('State: TX');
   });
 
   it('logs but does not throw when Bigin sync fails', async () => {

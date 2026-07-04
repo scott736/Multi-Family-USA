@@ -11,8 +11,11 @@ export type CrmWebhookEvent =
   | 'lead_captured'
   | 'lead_magnet'
   | 'multifamily_lead_captured'
+  | 'multifamily_lead_partial'
   | 'quiz_lead'
   | (string & {});
+
+export type CrmMetadataValue = string | number | boolean | null | undefined;
 
 export interface CrmWebhookPayload {
   event: CrmWebhookEvent;
@@ -24,6 +27,19 @@ export interface CrmWebhookPayload {
   phone?: string;
   serviceName?: string;
   startTime?: string;
+  metadata?: Record<string, CrmMetadataValue>;
+}
+
+export function compactCrmMetadata(
+  metadata: Record<string, CrmMetadataValue>,
+): Record<string, string | number | boolean> {
+  const out: Record<string, string | number | boolean> = {};
+  for (const [key, value] of Object.entries(metadata)) {
+    if (value !== undefined && value !== null && value !== '') {
+      out[key] = value;
+    }
+  }
+  return out;
 }
 
 function readEnv(name: string): string | undefined {

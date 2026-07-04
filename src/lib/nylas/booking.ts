@@ -1,6 +1,7 @@
 import { randomBytes } from 'node:crypto';
 
 import { SITE_SHORT_NAME, SITE_URL } from '@/consts';
+import { fireCrmWebhook } from '@/lib/crm-webhook';
 import { sendElasticEmail } from '@/lib/elastic-email';
 import { leadOversightCc } from '@/lib/lead-inbox';
 import { logger } from '@/lib/logger';
@@ -590,6 +591,25 @@ export async function confirmPendingBooking(token: string): Promise<BookingConfi
       text: `Your appointment with ${teamMember.name} is confirmed for ${startTime.toLocaleString('en-US', { timeZone: record.timezone })}.`,
     }),
   ]);
+
+  void fireCrmWebhook({
+    event: 'booking_confirmed',
+    name: record.guestName,
+    email: record.guestEmail,
+    phone: record.guestPhone,
+    source: '/booking',
+    serviceName: service.name,
+    startTime: startTime.toLocaleString('en-US', { timeZone: record.timezone }),
+    toolName: teamMember.name,
+    metadata: {
+      'Team member': teamMember.name,
+      Duration: `${durationMinutes} minutes`,
+      Timezone: record.timezone,
+      ...(record.meetingType ? { 'Meeting type': record.meetingType } : {}),
+      ...(meetingLink ? { 'Meeting link': meetingLink } : {}),
+      ...(record.notes ? { Notes: record.notes } : {}),
+    },
+  });
 
   return {
     id: record.id,

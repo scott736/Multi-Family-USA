@@ -101,6 +101,8 @@ function buildDealName(payload: CrmWebhookPayload): string {
       return `Shared article — ${payload.toolName || 'Guide article'}`;
     case 'multifamily_lead_captured':
       return `Multifamily lead — ${label}`;
+    case 'multifamily_lead_partial':
+      return `Partial multifamily lead — ${label}`;
     case 'lead_magnet':
       return `${payload.toolName || 'Lead magnet'} — ${label}`;
     case 'quiz_lead':
@@ -124,6 +126,14 @@ function buildDescription(payload: CrmWebhookPayload): string {
     payload.email ? `Email: ${payload.email}` : null,
     `Site: ${siteDomain()}`,
   ].filter(Boolean);
+
+  if (payload.metadata) {
+    for (const [key, value] of Object.entries(payload.metadata)) {
+      if (value !== undefined && value !== null && value !== '') {
+        lines.push(`${key}: ${value}`);
+      }
+    }
+  }
 
   return lines.join('\n');
 }

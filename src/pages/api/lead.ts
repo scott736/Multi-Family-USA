@@ -6,7 +6,7 @@ import type { APIRoute } from 'astro';
 import { z } from 'zod';
 
 import { SITE_PHONE, SITE_SHORT_NAME, SITE_URL } from '@/consts';
-import { fireCrmWebhook } from '@/lib/crm-webhook';
+import { compactCrmMetadata, fireCrmWebhook } from '@/lib/crm-webhook';
 import { sendElasticEmail } from '@/lib/elastic-email';
 import { leadOversightCc } from '@/lib/lead-inbox';
 import { persistFormLead } from '@/lib/leads/persist-form-lead';
@@ -291,6 +291,24 @@ export const POST: APIRoute = async ({ request }) => {
         phone: lead.phone,
         source: lead.sourcePage,
         toolName: lead.sourceContext || lead.purpose,
+        metadata: compactCrmMetadata({
+          'Assigned to': assignedTo.name,
+          'Lead score': scoring.score,
+          Tier: scoring.tier,
+          State: lead.state,
+          Purpose: lead.purpose,
+          'Property type': lead.propertyType,
+          Timeline: lead.timeline,
+          Units: lead.units,
+          'Purchase price': lead.purchasePrice,
+          'Loan amount': lead.loanAmount,
+          LTV: `${scoring.ltv.toFixed(1)}%`,
+          'Annual NOI': lead.annualNoi,
+          Occupancy: `${lead.occupancy.toFixed(1)}%`,
+          'Credit score': lead.creditScore,
+          DSCR: scoring.dscr.toFixed(2),
+          'Debt yield': `${scoring.debtYield.toFixed(1)}%`,
+        }),
       }),
     ]);
 
