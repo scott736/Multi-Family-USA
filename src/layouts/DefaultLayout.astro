@@ -1,7 +1,6 @@
 ---
 import Analytics from "@vercel/analytics/astro";
 
-import { AnalyticsTracker } from "@/components/analytics/AnalyticsTracker";
 import BaseHead from "@/components/BaseHead.astro";
 import TopBanner from "@/components/sections/banner.astro";
 import { Footer } from "@/components/sections/footer";
@@ -85,9 +84,13 @@ const allSchemas = [...getBaseSchemas(), ...schemaArray];
     <TopBanner />
     <Navbar currentPath={Astro.url.pathname} />
     <main data-pagefind-body><slot /></main>
-    <Footer currentPath={Astro.url.pathname} />
+    <div class="cv-auto">
+      <Footer currentPath={Astro.url.pathname} />
+    </div>
     <StickyMobileCta currentPath={Astro.url.pathname} />
-    <AnalyticsTracker client:load />
     <Analytics />
+    <script>
+      import "@/scripts/analytics-tracker";
+    </script>
   </body>
 </html>

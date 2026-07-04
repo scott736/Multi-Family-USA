@@ -10,6 +10,8 @@ interface Props {
   submitLabel?: string;
   className?: string;
   lang?: "en" | "es";
+  /** Override Astro island hydration timing (defaults from variant). */
+  hydrate?: "load" | "idle" | "visible";
 }
 
 const {
@@ -21,17 +23,35 @@ const {
   submitLabel,
   className = "",
   lang = Astro.url.pathname.startsWith("/es") ? "es" : "en",
+  hydrate,
 } = Astro.props;
+
+const hydration =
+  hydrate ??
+  (variant === "premium" || variant === "full"
+    ? "load"
+    : variant === "hero"
+      ? "idle"
+      : "visible");
+
+const sharedProps = {
+  variant,
+  sourcePage,
+  sourceContext,
+  headline,
+  subheadline,
+  submitLabel,
+  className,
+  lang,
+};
 ---
 
-<LeadFormReact
-  variant={variant}
-  sourcePage={sourcePage}
-  sourceContext={sourceContext}
-  headline={headline}
-  subheadline={subheadline}
-  submitLabel={submitLabel}
-  className={className}
-  lang={lang}
-  client:load
-/>
+{
+  hydration === "load" ? (
+    <LeadFormReact {...sharedProps} client:load />
+  ) : hydration === "idle" ? (
+    <LeadFormReact {...sharedProps} client:idle />
+  ) : (
+    <LeadFormReact {...sharedProps} client:visible />
+  )
+}

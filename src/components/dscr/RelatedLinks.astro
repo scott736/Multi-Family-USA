@@ -1,6 +1,4 @@
 ---
-import { ArrowUpRight } from "lucide-react";
-
 import { getLangFromUrl } from "@/i18n/utils";
 import type { RelatedGroup, RelatedLink } from "@/lib/related-links";
 
@@ -105,7 +103,19 @@ const hasContent = useGroups || displayLinks.length > 0;
                         <span class="inline-flex rounded-full bg-accent/10 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-accent">
                           {link.kicker}
                         </span>
-                        <ArrowUpRight className="size-4 shrink-0 text-muted-foreground group-hover:text-primary" />
+                        <svg
+                          class="size-4 shrink-0 text-muted-foreground group-hover:text-primary"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          stroke-width="2"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          aria-hidden="true"
+                        >
+                          <path d="M7 7h10v10"></path>
+                          <path d="M7 17 17 7"></path>
+                        </svg>
                       </div>
                       <h4 class="text-base font-bold leading-snug text-foreground group-hover:text-primary">
                         {link.title}

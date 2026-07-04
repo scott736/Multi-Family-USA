@@ -1,8 +1,36 @@
-'use client';
+/**
+ * Vanilla conversion click tracking — avoids hydrating React on every page.
+ */
+function trackConversion(
+  event: string,
+  payload: Record<string, unknown> = {},
+): void {
+  const w = window as Window & { dataLayer?: Array<Record<string, unknown>> };
+  if (Array.isArray(w.dataLayer)) {
+    w.dataLayer.push({ event, ...payload });
+  }
 
-import { useEffect } from 'react';
-
-import { trackConversion } from '@/lib/analytics';
+  import('@vercel/analytics')
+    .then(({ track }) => {
+      const props: Record<string, string | number | boolean | null> = {};
+      for (const [key, value] of Object.entries(payload)) {
+        if (
+          typeof value === 'string' ||
+          typeof value === 'number' ||
+          typeof value === 'boolean' ||
+          value === null
+        ) {
+          props[key] = value;
+        } else if (value !== undefined) {
+          props[key] = String(value);
+        }
+      }
+      track(event, props);
+    })
+    .catch(() => {
+      /* analytics optional in dev / when blocked */
+    });
+}
 
 function inferLinkLocation(anchor: HTMLAnchorElement): string {
   if (anchor.dataset.analyticsLocation) {
@@ -77,12 +105,4 @@ function handleDocumentClick(event: MouseEvent): void {
   }
 }
 
-/** Delegated click tracking for conversion links site-wide. */
-export function AnalyticsTracker() {
-  useEffect(() => {
-    document.addEventListener('click', handleDocumentClick);
-    return () => document.removeEventListener('click', handleDocumentClick);
-  }, []);
-
-  return null;
-}
+document.addEventListener('click', handleDocumentClick);

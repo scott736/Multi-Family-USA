@@ -1,7 +1,6 @@
 ---
-import { BarChart3, Clock, Landmark, ShieldCheck, Sparkles, TrendingUp } from "lucide-react";
-
 import ConversionPathHelper from "@/components/conversion/ConversionPathHelper.astro";
+import DealReviewIcon from "@/components/deal-review/DealReviewIcon.astro";
 import Breadcrumbs from "@/components/dscr/Breadcrumbs.astro";
 import LeadForm from "@/components/forms/LeadForm.astro";
 import FundedDealsSection from "@/components/sections/FundedDealsSection.astro";
@@ -17,17 +16,17 @@ const schema = buildServiceSchema({
 
 const benefits = [
   {
-    icon: Landmark,
+    icon: "landmark" as const,
     title: "Encaje por tipo de prestamista",
     detail: "Rutas agency, banco, puente y debt fund según su escenario.",
   },
   {
-    icon: BarChart3,
+    icon: "chart" as const,
     title: "Instantánea de suscripción",
     detail: "LTV, DSCR y debt yield con restricciones de apalancamiento.",
   },
   {
-    icon: TrendingUp,
+    icon: "trending" as const,
     title: "Claridad de ejecución",
     detail: "Enrutamiento según cronograma antes de pedir term sheets.",
   },
@@ -61,7 +60,7 @@ const benefits = [
             <p
               class="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/10 px-4 py-1.5 text-[11px] font-bold uppercase tracking-[0.2em] text-accent backdrop-blur-md"
             >
-              <Sparkles class="size-3.5" />
+              <DealReviewIcon name="sparkles" class="size-3.5" />
               Gratis · Sin consulta de crédito
             </p>
             <h1 class="mt-6 text-4xl font-bold leading-[1.08] tracking-tight md:text-5xl lg:text-[3.35rem]">
@@ -75,10 +74,10 @@ const benefits = [
 
           <ul class="space-y-4">
             {
-              benefits.map(({ icon: Icon, title, detail }) => (
+              benefits.map(({ icon, title, detail }) => (
                 <li class="flex gap-4 rounded-2xl border border-white/10 bg-white/[0.06] p-4 backdrop-blur-sm">
                   <span class="flex size-11 shrink-0 items-center justify-center rounded-xl bg-accent/20 text-accent">
-                    <Icon class="size-5" />
+                    <DealReviewIcon name={icon} />
                   </span>
                   <div>
                     <p class="font-semibold text-white">{title}</p>
@@ -99,7 +98,7 @@ const benefits = [
               <p class="mt-1 text-[10px] font-semibold uppercase tracking-wider text-white/55">Sin crédito</p>
             </div>
             <div class="rounded-2xl border border-white/10 bg-white/[0.06] px-3 py-4 text-center backdrop-blur-sm">
-              <Clock class="mx-auto size-6 text-accent" />
+              <DealReviewIcon name="clock" class="mx-auto size-6 text-accent" />
               <p class="mt-1 text-[10px] font-semibold uppercase tracking-wider text-white/55">~1 h respuesta</p>
             </div>
           </div>
@@ -121,7 +120,7 @@ const benefits = [
 
   <FundedDealsSection lang="es" />
 
-  <section class="container py-10">
+  <section class="container py-10 cv-auto">
     <ConversionPathHelper locale="es" />
   </section>
 </DefaultLayout>

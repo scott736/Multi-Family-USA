@@ -12,6 +12,10 @@ const lastmodMap = await buildSitemapLastmodMap();
 
 export default defineConfig({
   site: "https://multifamily-usa.com",
+  compressHTML: true,
+  prefetch: {
+    defaultStrategy: "hover",
+  },
   integrations: [
     mdx(),
     sitemap({
@@ -57,6 +61,12 @@ export default defineConfig({
   build: {
     // Vercel build machines expose 4 cores; parallelize static page generation.
     concurrency: 4,
+    inlineStylesheets: "auto",
+  },
+  image: {
+    service: {
+      entrypoint: "astro/assets/services/sharp",
+    },
   },
   vite: {
     plugins: [tailwindcss()],
@@ -64,6 +74,19 @@ export default defineConfig({
       sourcemap: false,
       rollupOptions: {
         external: ["/pagefind/pagefind.js"],
+        output: {
+          manualChunks(id) {
+            if (id.includes("node_modules/react-dom") || id.includes("node_modules/react/")) {
+              return "react-vendor";
+            }
+            if (id.includes("node_modules/lucide-react")) {
+              return "icons";
+            }
+            if (id.includes("node_modules/motion")) {
+              return "motion";
+            }
+          },
+        },
       },
     },
   },
