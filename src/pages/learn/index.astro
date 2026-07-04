@@ -1,14 +1,58 @@
 ---
 import { getCollection } from "astro:content";
 
+import AnswerCapsule from "@/components/dscr/AnswerCapsule.astro";
 import Breadcrumbs from "@/components/dscr/Breadcrumbs.astro";
 import CtaCard from "@/components/dscr/CtaCard.astro";
+import FaqAccordion from "@/components/dscr/FaqAccordion.astro";
+import NetworkCrossLinks from "@/components/dscr/NetworkCrossLinks.astro";
 import DefaultLayout from "@/layouts/DefaultLayout.astro";
+import { buildCollectionPageSchema, buildFaqSchema, buildWebPageSchema, SITE_URL } from "@/consts";
 
 const entries = await getCollection("guides");
+
+const hubFaqs = [
+  {
+    q: "Where should I start learning multifamily financing?",
+    a: "Begin with the apartment building loan guide and commercial DSCR explainer, then pair guides with the calculator suite to test assumptions before requesting lender quotes.",
+  },
+  {
+    q: "Do these guides cover FHA and HUD multifamily programs?",
+    a: 'Yes. We publish execution-focused guides on FHA/HUD paths alongside agency, bridge, bank, and CMBS-oriented frameworks. See the <a href="/learn/fha-hud-multifamily-financing/">FHA & HUD guide</a> for program context.',
+  },
+  {
+    q: "Are these guides for 1–4 unit rental properties?",
+    a: 'No. This hub covers 5+ unit commercial multifamily. For 1–4 unit US DSCR loans, use <a href="https://dscrauthority.com/" target="_blank" rel="noopener noreferrer">DSCR Authority</a>.',
+  },
+];
+
+const pageUrl = `${SITE_URL}/learn/`;
+const webPageSchema = buildWebPageSchema({
+  name: "Multifamily Learning Center",
+  description:
+    "Guides on apartment building loans, commercial DSCR, agency vs bridge, FHA HUD, construction financing, and multifamily underwriting.",
+  url: pageUrl,
+});
+const collectionSchema = buildCollectionPageSchema({
+  name: "Multifamily Learning Center",
+  description:
+    "Guides on apartment building loans, commercial DSCR, agency vs bridge, FHA HUD, construction financing, and multifamily underwriting.",
+  url: pageUrl,
+  items: entries.map((entry) => ({
+    name: entry.data.title ?? entry.id,
+    url: `/learn/${entry.id.replace(/\.mdx$/, "")}/`,
+    description: entry.data.description,
+  })),
+});
+const faqSchema = buildFaqSchema(hubFaqs);
 ---
 
-<DefaultLayout title="Multifamily Learning Center — Guides & Execution Playbooks" description="Guides on apartment building loans, commercial DSCR, agency vs bridge, FHA HUD, construction financing, and multifamily underwriting.">
+<DefaultLayout
+  title="Multifamily Learning Center — Guides & Execution Playbooks"
+  description="Guides on apartment building loans, commercial DSCR, agency vs bridge, FHA HUD, construction financing, and multifamily underwriting."
+  canonical="/learn"
+  schema={[webPageSchema, collectionSchema, ...(faqSchema ? [faqSchema] : [])]}
+>
   <Breadcrumbs crumbs={[
     { label: "Home", href: "/" },
     { label: "Learn", href: "/learn" },
@@ -18,6 +62,18 @@ const entries = await getCollection("guides");
     <p class="text-xs font-bold uppercase tracking-wider text-accent">Learn</p>
     <h1 class="mt-2 text-4xl font-bold lg:text-5xl">Multifamily learning center</h1>
     <p class="mt-4 max-w-3xl text-lg text-muted-foreground">Core guides covering underwriting, capital markets, and execution.</p>
+  </section>
+
+  <section class="container pb-8">
+    <AnswerCapsule
+      question="What is the Multi-Family USA learning center?"
+      answer="Our learning center is a library of execution-focused guides for US commercial multifamily financing — apartment building loans, commercial DSCR, agency and bridge comparisons, FHA/HUD programs, and construction debt for 5+ unit properties."
+      bullets={[
+        "Plain-English guides for sponsors and operators",
+        "Pairs with free underwriting calculators",
+        "Updated for agency, bridge, bank, and debt-fund execution",
+      ]}
+    />
   </section>
 
   <section class="container py-4">
@@ -69,6 +125,17 @@ const entries = await getCollection("guides");
         <h3 class="text-lg font-bold">Explore market guides</h3>
         <p class="mt-2 text-sm text-muted-foreground">See how state and city market context affects underwriting assumptions.</p>
       </a>
+    </div>
+  </section>
+
+  <section class="container py-8">
+    <NetworkCrossLinks heading="Cross-border and DSCR resources" />
+  </section>
+
+  <section class="container py-8">
+    <h2 class="text-2xl font-bold">Frequently asked questions</h2>
+    <div class="mt-6">
+      <FaqAccordion items={hubFaqs} />
     </div>
   </section>
 

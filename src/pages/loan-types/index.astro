@@ -1,14 +1,56 @@
 ---
 import { getCollection } from "astro:content";
 
+import AnswerCapsule from "@/components/dscr/AnswerCapsule.astro";
 import Breadcrumbs from "@/components/dscr/Breadcrumbs.astro";
 import CtaCard from "@/components/dscr/CtaCard.astro";
+import FaqAccordion from "@/components/dscr/FaqAccordion.astro";
+import NetworkCrossLinks from "@/components/dscr/NetworkCrossLinks.astro";
 import DefaultLayout from "@/layouts/DefaultLayout.astro";
+import { buildCollectionPageSchema, buildFaqSchema, buildWebPageSchema, SITE_URL } from "@/consts";
 
 const entries = await getCollection("loanTypes");
+
+const hubFaqs = [
+  {
+    q: "What multifamily loan types does this hub cover?",
+    a: "We cover agency (Fannie/Freddie-style execution), bridge, bank, FHA/HUD, CMBS, and debt-fund frameworks used for 5+ unit commercial multifamily — with links to detailed guides and comparisons.",
+  },
+  {
+    q: "How do I pick between agency and bridge?",
+    a: 'Agency fits stabilized cash flow and longer holds; bridge fits transitional value-add with a clear refinance path. See the <a href="/compare/agency-vs-bridge/">agency vs bridge comparison</a> for a structured decision framework.',
+  },
+  {
+    q: "Where do CMHC MLI programs fit?",
+    a: 'CMHC MLI is a Canadian insured multifamily program — not a US product. For CMHC MLI Select and Canadian multifamily execution, see <a href="https://lendcity.ca/multifamily-mortgage-financing/" target="_blank" rel="noopener noreferrer">LendCity multifamily financing</a>.',
+  },
+];
+
+const pageUrl = `${SITE_URL}/loan-types/`;
+const webPageSchema = buildWebPageSchema({
+  name: "Multifamily Loan Types",
+  description: "Execution frameworks across agency, bridge, bank, and debt-fund products.",
+  url: pageUrl,
+});
+const collectionSchema = buildCollectionPageSchema({
+  name: "Multifamily Loan Types",
+  description: "Execution frameworks across agency, bridge, bank, and debt-fund products.",
+  url: pageUrl,
+  items: entries.map((entry) => ({
+    name: entry.data.title ?? entry.id,
+    url: `/loan-types/${entry.id.replace(/\.mdx$/, "")}/`,
+    description: entry.data.description,
+  })),
+});
+const faqSchema = buildFaqSchema(hubFaqs);
 ---
 
-<DefaultLayout title="Multifamily loan types | Multi-Family USA" description="Execution frameworks across agency, bridge, bank, and debt-fund products.">
+<DefaultLayout
+  title="Multifamily loan types | Multi-Family USA"
+  description="Execution frameworks across agency, bridge, bank, and debt-fund products."
+  canonical="/loan-types"
+  schema={[webPageSchema, collectionSchema, ...(faqSchema ? [faqSchema] : [])]}
+>
   <Breadcrumbs crumbs={[
     { label: "Home", href: "/" },
     { label: "Loan Types", href: "/loan-types" },
@@ -18,6 +60,18 @@ const entries = await getCollection("loanTypes");
     <p class="text-xs font-bold uppercase tracking-wider text-accent">Loan Types</p>
     <h1 class="mt-2 text-4xl font-bold lg:text-5xl">Multifamily loan types</h1>
     <p class="mt-4 max-w-3xl text-lg text-muted-foreground">Execution frameworks across agency, bridge, bank, and debt-fund products.</p>
+  </section>
+
+  <section class="container pb-8">
+    <AnswerCapsule
+      question="What loan types are used for US multifamily (5+ units)?"
+      answer="Commercial multifamily sponsors typically choose among agency execution, bridge debt, regional bank balance-sheet loans, FHA/HUD programs, CMBS, and debt funds — each with different proceeds, pricing, prepay, recourse, and timeline trade-offs."
+      bullets={[
+        "Covers stabilized and transitional business plans",
+        "Links to comparisons, guides, and calculators",
+        "US scope only — see LendCity for CMHC MLI in Canada",
+      ]}
+    />
   </section>
 
   <section class="container py-4">
@@ -33,6 +87,20 @@ const entries = await getCollection("loanTypes");
             </a>
           );
         })}
+    </div>
+  </section>
+
+  <section class="container py-8">
+    <NetworkCrossLinks
+      heading="Canadian multifamily & cross-border"
+      intro="CMHC MLI and insured Canadian multifamily programs live on LendCity. Use the links below when your portfolio spans US agency/bridge execution and Canadian multifamily or cross-border capital planning."
+    />
+  </section>
+
+  <section class="container py-8">
+    <h2 class="text-2xl font-bold">Frequently asked questions</h2>
+    <div class="mt-6">
+      <FaqAccordion items={hubFaqs} />
     </div>
   </section>
 

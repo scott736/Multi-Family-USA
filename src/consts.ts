@@ -3,7 +3,13 @@ export const SITE_SHORT_NAME = "Multi-Family USA";
 export const SITE_DESCRIPTION =
   "Independent US commercial multifamily financing resource for 5+ unit properties. Learn underwriting, run calculators, compare capital options, and request a free deal review.";
 export const SITE_URL = "https://multifamily-usa.com";
-export const SITE_LAST_REVIEWED = "2026-05-24";
+export const SITE_LAST_REVIEWED = "2026-07-04";
+export const SITE_FOUNDING_DATE = "2026-01-15";
+
+export const NETWORK_SITES = {
+  lendcity: "https://lendcity.ca",
+  dscrAuthority: "https://dscrauthority.com",
+} as const;
 
 export const LEAD_INBOX = ["scott@lendcity.ca", "aya@lendcity.ca"] as const;
 
@@ -131,8 +137,31 @@ export function getBaseSchemas() {
       "@type": ["Organization", "FinancialService"],
       "@id": ORG_ID,
       name: SITE_SHORT_NAME,
+      alternateName: ["Multi-Family USA", "Multifamily USA"],
       url: SITE_URL,
       description: SITE_DESCRIPTION,
+      foundingDate: SITE_FOUNDING_DATE,
+      dateModified: SITE_LAST_REVIEWED,
+      founders: [
+        {
+          "@type": "Person",
+          name: "Scott Dillingham",
+          url: `${SITE_URL}/team/scott-dillingham/`,
+          sameAs: [
+            "https://lendcity.ca/team/scott-dillingham/",
+            "https://www.linkedin.com/in/scottdillingham/",
+          ],
+        },
+      ],
+      parentOrganization: {
+        "@type": "Organization",
+        name: "LendCity Mortgages",
+        url: NETWORK_SITES.lendcity,
+        sameAs: [
+          NETWORK_SITES.lendcity,
+          "https://www.linkedin.com/company/lendcity",
+        ],
+      },
       areaServed: { "@type": "Country", name: "United States" },
       telephone: SITE_PHONE,
       contactPoint: [
@@ -141,9 +170,24 @@ export function getBaseSchemas() {
           telephone: SITE_PHONE,
           contactType: "customer support",
           areaServed: "US",
+          availableLanguage: ["English", "Spanish"],
         },
       ],
-      sameAs: ["https://www.linkedin.com/company/lendcity"],
+      knowsAbout: [
+        "Commercial multifamily financing",
+        "Agency multifamily loans",
+        "Bridge multifamily debt",
+        "Commercial DSCR underwriting",
+        "FHA HUD multifamily programs",
+        "Multifamily debt yield",
+        "US apartment building loans",
+      ],
+      publishingPrinciples: `${SITE_URL}/editorial-standards/`,
+      sameAs: [
+        NETWORK_SITES.lendcity,
+        NETWORK_SITES.dscrAuthority,
+        "https://www.linkedin.com/company/lendcity",
+      ],
     },
     {
       "@context": "https://schema.org",

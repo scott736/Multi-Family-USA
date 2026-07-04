@@ -1,14 +1,56 @@
 ---
 import { getCollection } from "astro:content";
 
+import AnswerCapsule from "@/components/dscr/AnswerCapsule.astro";
 import Breadcrumbs from "@/components/dscr/Breadcrumbs.astro";
 import CtaCard from "@/components/dscr/CtaCard.astro";
+import FaqAccordion from "@/components/dscr/FaqAccordion.astro";
+import NetworkCrossLinks from "@/components/dscr/NetworkCrossLinks.astro";
 import DefaultLayout from "@/layouts/DefaultLayout.astro";
+import { buildCollectionPageSchema, buildFaqSchema, buildWebPageSchema, SITE_URL } from "@/consts";
 
 const entries = await getCollection("comparisons");
+
+const hubFaqs = [
+  {
+    q: "Why compare loan types before requesting quotes?",
+    a: "Different capital sources optimize for different business plans. Comparing agency, bridge, bank, and debt-fund paths upfront reduces wasted quote cycles and helps you align leverage with execution risk.",
+  },
+  {
+    q: "When does agency debt beat bridge for multifamily?",
+    a: "Agency execution usually fits stabilized assets with predictable NOI and longer hold periods. Bridge fits transitional value-add plans where speed and flexibility matter more than long-term rate certainty.",
+  },
+  {
+    q: "Where can I compare US DSCR options for smaller rentals?",
+    a: 'For 1–4 unit DSCR comparisons, use <a href="https://dscrauthority.com/compare/" target="_blank" rel="noopener noreferrer">DSCR Authority\'s comparison library</a>. This hub focuses on 5+ unit commercial multifamily.',
+  },
+];
+
+const pageUrl = `${SITE_URL}/compare/`;
+const webPageSchema = buildWebPageSchema({
+  name: "Financing Comparison Library",
+  description: "Side-by-side frameworks for selecting the right capital source for US commercial multifamily.",
+  url: pageUrl,
+});
+const collectionSchema = buildCollectionPageSchema({
+  name: "Financing Comparison Library",
+  description: "Side-by-side frameworks for selecting the right capital source for US commercial multifamily.",
+  url: pageUrl,
+  items: entries.map((entry) => ({
+    name: entry.data.title ?? entry.id,
+    url: `/compare/${entry.id.replace(/\.mdx$/, "")}/`,
+    description: entry.data.description,
+  })),
+});
+const faqSchema = buildFaqSchema(hubFaqs);
 ---
 
-<DefaultLayout title="Financing comparison library | Multi-Family USA" description="Side-by-side frameworks for selecting the right capital source.">
+<DefaultLayout
+  title="Financing comparison library | Multi-Family USA"
+  description="Side-by-side frameworks for selecting the right capital source."
+  canonical="/compare"
+  schema={[webPageSchema, collectionSchema, ...(faqSchema ? [faqSchema] : [])]}
+>
   <Breadcrumbs crumbs={[
     { label: "Home", href: "/" },
     { label: "Compare", href: "/compare" },
@@ -18,6 +60,18 @@ const entries = await getCollection("comparisons");
     <p class="text-xs font-bold uppercase tracking-wider text-accent">Compare</p>
     <h1 class="mt-2 text-4xl font-bold lg:text-5xl">Financing comparison library</h1>
     <p class="mt-4 max-w-3xl text-lg text-muted-foreground">Side-by-side frameworks for selecting the right capital source.</p>
+  </section>
+
+  <section class="container pb-8">
+    <AnswerCapsule
+      question="How do I choose the right multifamily capital source?"
+      answer="Compare loan types by proceeds, rate structure, prepay flexibility, recourse, timeline, and fit with your business plan. Our comparison library maps agency vs bridge, bank vs debt fund, fixed vs floating, and other execution trade-offs for 5+ unit properties."
+      bullets={[
+        "Decision frameworks — not lender sales pages",
+        "Covers agency, bridge, bank, FHA/HUD, and CMBS contexts",
+        "Pair comparisons with calculators and a free deal review",
+      ]}
+    />
   </section>
 
   <section class="container py-4">
@@ -33,6 +87,17 @@ const entries = await getCollection("comparisons");
             </a>
           );
         })}
+    </div>
+  </section>
+
+  <section class="container py-8">
+    <NetworkCrossLinks />
+  </section>
+
+  <section class="container py-8">
+    <h2 class="text-2xl font-bold">Frequently asked questions</h2>
+    <div class="mt-6">
+      <FaqAccordion items={hubFaqs} />
     </div>
   </section>
 

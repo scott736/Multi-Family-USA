@@ -1,10 +1,39 @@
 ---
 import ConversionPathHelper from "@/components/conversion/ConversionPathHelper.astro";
+import AnswerCapsule from "@/components/dscr/AnswerCapsule.astro";
+import FaqAccordion from "@/components/dscr/FaqAccordion.astro";
+import NetworkCrossLinks from "@/components/dscr/NetworkCrossLinks.astro";
 import FundedDealsSection from "@/components/sections/FundedDealsSection.astro";
 import HomeHero from "@/components/sections/home-hero.astro";
 import DefaultLayout from "@/layouts/DefaultLayout.astro";
 
-import { PILLARS, SITE_DESCRIPTION, SITE_TITLE } from "../consts";
+import { buildFaqSchema, buildWebPageSchema, PILLARS, SITE_DESCRIPTION, SITE_TITLE, SITE_URL } from "../consts";
+
+const homeFaqs = [
+  {
+    q: "What does Multi-Family USA cover?",
+    a: "We publish educational content for US commercial multifamily financing on properties with five or more units — underwriting, calculators, state and city market context, loan comparisons, and free deal reviews.",
+  },
+  {
+    q: "Does Multi-Family USA cover single-family or 1–4 unit DSCR loans?",
+    a: 'No. For 1–4 unit US rental DSCR loans, use our sister site <a href="https://dscrauthority.com/" target="_blank" rel="noopener noreferrer">DSCR Authority</a>. Multi-Family USA focuses on 5+ unit commercial execution.',
+  },
+  {
+    q: "How do I get help with a live multifamily deal?",
+    a: 'Submit a <a href="/deal-review/">free deal review</a> with your rent roll or T-12, or <a href="/book-strategy-call/">book a strategy call</a> for a live walkthrough. No credit pull is required for either option.',
+  },
+  {
+    q: "What metrics should I model before requesting quotes?",
+    a: "Most lenders size on DSCR, debt yield, and LTV together. Use our calculator suite to stress NOI, cap rate, debt service, and proceeds before sending assumptions to lenders.",
+  },
+];
+
+const faqSchema = buildFaqSchema(homeFaqs);
+const webPageSchema = buildWebPageSchema({
+  name: SITE_TITLE,
+  description: SITE_DESCRIPTION,
+  url: `${SITE_URL}/`,
+});
 ---
 
 <DefaultLayout
@@ -13,6 +42,7 @@ import { PILLARS, SITE_DESCRIPTION, SITE_TITLE } from "../consts";
   canonical="/"
   enPath="/"
   esPath="/es/"
+  schema={[webPageSchema, ...(faqSchema ? [faqSchema] : [])]}
 >
   <HomeHero
     eyebrow="US Commercial Multifamily"
@@ -23,6 +53,19 @@ import { PILLARS, SITE_DESCRIPTION, SITE_TITLE } from "../consts";
     pills={["5+ units only", "No credit pull", "~1 hr response"]}
     formSourceContext="homepage-hero"
   />
+
+  <section class="container py-8 cv-auto">
+    <AnswerCapsule
+      question="What is Multi-Family USA?"
+      answer="Multi-Family USA is an independent US commercial multifamily financing resource for apartment properties with five or more units. We help operators underwrite deals, compare agency vs bridge vs bank capital, and request free lender-fit guidance — without originating loans ourselves."
+      bullets={[
+        "5+ unit commercial scope — not 1–4 unit residential DSCR",
+        "Free calculators for cap rate, DSCR, debt yield, and loan sizing",
+        "51-state market coverage plus city-level snapshots",
+        "Part of the LendCity / Scott Dillingham editorial network",
+      ]}
+    />
+  </section>
 
   <section class="container py-10 cv-auto">
     <ConversionPathHelper />
@@ -71,6 +114,17 @@ import { PILLARS, SITE_DESCRIPTION, SITE_TITLE } from "../consts";
           </li>
         ))}
       </ul>
+    </div>
+  </section>
+
+  <section class="container py-10 cv-auto">
+    <NetworkCrossLinks />
+  </section>
+
+  <section class="container py-10 cv-auto">
+    <h2 class="text-2xl font-bold">Frequently asked questions</h2>
+    <div class="mt-6">
+      <FaqAccordion items={homeFaqs} />
     </div>
   </section>
 </DefaultLayout>

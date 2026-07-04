@@ -1,15 +1,26 @@
 # Multi-Family USA robots policy
+# AI discovery: /llms.txt (index) · /llms-full.txt (full content map) · /.well-known/ai.txt
+
 User-agent: *
 Allow: /
 Disallow: /api/
 Disallow: /thank-you/
 Disallow: /admin/
 
-# Keep AI crawlers enabled for discoverability
+# LLMs index for AI crawlers and answer engines
+# See: https://multifamily-usa.com/llms.txt
+
+# AI crawlers — allowed for GEO/AEO discoverability
 User-agent: GPTBot
 Allow: /
 
+User-agent: ChatGPT-User
+Allow: /
+
 User-agent: ClaudeBot
+Allow: /
+
+User-agent: Claude-Web
 Allow: /
 
 User-agent: PerplexityBot
@@ -21,7 +32,37 @@ Allow: /
 User-agent: anthropic-ai
 Allow: /
 
+User-agent: Anthropic-ai
+Allow: /
+
 User-agent: Bytespider
+Allow: /
+
+User-agent: CCBot
+Allow: /
+
+User-agent: Amazonbot
+Allow: /
+
+User-agent: Applebot
+Allow: /
+
+User-agent: FacebookBot
+Allow: /
+
+User-agent: YouBot
+Allow: /
+
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: DuckAssistBot
+Allow: /
+
+User-agent: cohere-ai
+Allow: /
+
+User-agent: Meta-ExternalAgent
 Allow: /
 
 Sitemap: https://multifamily-usa.com/sitemap-index.xml

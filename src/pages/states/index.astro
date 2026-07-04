@@ -1,10 +1,14 @@
 ---
 import { getCollection } from "astro:content";
 
+import AnswerCapsule from "@/components/dscr/AnswerCapsule.astro";
 import Breadcrumbs from "@/components/dscr/Breadcrumbs.astro";
 import CtaCard from "@/components/dscr/CtaCard.astro";
+import FaqAccordion from "@/components/dscr/FaqAccordion.astro";
+import NetworkCrossLinks from "@/components/dscr/NetworkCrossLinks.astro";
 import UsMapExplorer from "@/components/sections/us-map-explorer";
 import DefaultLayout from "@/layouts/DefaultLayout.astro";
+import { buildCollectionPageSchema, buildFaqSchema, buildWebPageSchema, SITE_URL } from "@/consts";
 
 const entries = await getCollection("states");
 const byTier: Record<string, typeof entries> = { "1": [], "2": [], "3": [], special: [] };
@@ -29,11 +33,48 @@ const mapStates = entries.map((e) => ({
   prohibitsPpp1to4Unit: e.data.prohibitsPpp1to4Unit,
   topMarkets: e.data.topMarkets,
 }));
+
+const hubFaqs = [
+  {
+    q: "Does every state page include multifamily financing context?",
+    a: "Yes. Each state guide summarizes cap-rate bands, foreclosure posture, property tax context, rent-control notes, and major metro anchors relevant to 5+ unit underwriting.",
+  },
+  {
+    q: "Can Canadians use these guides for US multifamily investing?",
+    a: 'Yes for US market context. For cross-border entity, lender, and CMHC-adjacent planning from Canada, also review <a href="https://lendcity.ca/cross-border-mortgage-financing/" target="_blank" rel="noopener noreferrer">LendCity cross-border financing</a>.',
+  },
+  {
+    q: "How should I use state data in underwriting?",
+    a: "Treat state pages as assumption inputs — not lender quotes. Pair market context with calculators and a deal review before locking leverage targets.",
+  },
+];
+
+const pageUrl = `${SITE_URL}/states/`;
+const webPageSchema = buildWebPageSchema({
+  name: "US Multifamily Markets by State",
+  description:
+    "State-by-state commercial multifamily financing context across all 50 states plus DC.",
+  url: pageUrl,
+});
+const collectionSchema = buildCollectionPageSchema({
+  name: "US Multifamily Markets by State",
+  description:
+    "State-by-state commercial multifamily financing context across all 50 states plus DC.",
+  url: pageUrl,
+  items: entries.map((entry) => ({
+    name: entry.data.stateName ?? entry.id,
+    url: `/states/${entry.id.replace(/\.mdx$/, "")}/`,
+    description: entry.data.description,
+  })),
+});
+const faqSchema = buildFaqSchema(hubFaqs);
 ---
 
 <DefaultLayout
   title="US Multifamily Markets by State | Multi-Family USA"
   description="State-by-state commercial multifamily financing context across all 50 states plus DC."
+  canonical="/states"
+  schema={[webPageSchema, collectionSchema, ...(faqSchema ? [faqSchema] : [])]}
 >
   <Breadcrumbs crumbs={[
     { label: "Home", href: "/" },
@@ -47,6 +88,18 @@ const mapStates = entries.map((e) => ({
       Review lending and market context across all 50 states plus DC, with cap-rate bands,
       foreclosure posture, and major metro anchors for 5+ unit multifamily execution.
     </p>
+  </section>
+
+  <section class="container pb-8">
+    <AnswerCapsule
+      question="What market data does Multi-Family USA publish by state?"
+      answer="We cover all 50 US states plus DC with multifamily financing context: average cap rates, price-per-unit bands, property tax and income-tax notes, foreclosure type, eviction timelines, rent-control posture, and top metro markets for 5+ unit execution."
+      bullets={[
+        "51 jurisdictions — full US coverage",
+        "Interactive map plus tier-grouped state lists",
+        "Pairs with city guides, loan types, and calculators",
+      ]}
+    />
   </section>
 
   <UsMapExplorer states={mapStates} client:visible />
@@ -89,6 +142,20 @@ const mapStates = entries.map((e) => ({
         <h3 class="text-lg font-bold">Build execution playbooks</h3>
         <p class="mt-2 text-sm text-muted-foreground">Translate market snapshots into lender-ready assumptions and due-diligence plans.</p>
       </a>
+    </div>
+  </section>
+
+  <section class="container py-8">
+    <NetworkCrossLinks
+      heading="Cross-border investors"
+      intro="State guides cover US execution context. If you are a Canadian operator buying US multifamily — or comparing CMHC MLI at home with US agency or bridge abroad — start with LendCity cross-border and multifamily resources below."
+    />
+  </section>
+
+  <section class="container py-8">
+    <h2 class="text-2xl font-bold">Frequently asked questions</h2>
+    <div class="mt-6">
+      <FaqAccordion items={hubFaqs} />
     </div>
   </section>
 

@@ -6,7 +6,7 @@
     Location: United States
 
 /* SITE */
-    Last updated: 2026-05-24
+    Last updated: 2026-07-04
     Language: English (en-US)
     Doctype: HTML5
     Stack: Astro, Tailwind CSS, React, MDX

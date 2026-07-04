@@ -1,6 +1,10 @@
 ---
+import AnswerCapsule from "@/components/dscr/AnswerCapsule.astro";
 import Breadcrumbs from "@/components/dscr/Breadcrumbs.astro";
+import FaqAccordion from "@/components/dscr/FaqAccordion.astro";
+import NetworkCrossLinks from "@/components/dscr/NetworkCrossLinks.astro";
 import DefaultLayout from "@/layouts/DefaultLayout.astro";
+import { buildCollectionPageSchema, buildFaqSchema, buildWebPageSchema, SITE_URL } from "@/consts";
 
 const tools = [
   {
@@ -29,9 +33,49 @@ const tools = [
     description: "Find the binding constraint across DSCR, debt yield, and LTV.",
   },
 ];
+
+const hubFaqs = [
+  {
+    q: "Are these calculators for 1–4 unit residential loans?",
+    a: "No. These tools model commercial multifamily underwriting for 5+ unit apartment properties. For 1–4 unit DSCR, use the calculators at DSCR Authority.",
+  },
+  {
+    q: "Which calculator should I run first?",
+    a: "Start with cap rate and NOI to build stabilized income, then run commercial DSCR and debt yield before using loan sizing to find the binding leverage constraint.",
+  },
+  {
+    q: "Do I need an account to use the calculators?",
+    a: "No. All calculators are free with no email wall. Pair outputs with a free deal review if you want lender-fit feedback on your assumptions.",
+  },
+];
+
+const pageUrl = `${SITE_URL}/tools/`;
+const webPageSchema = buildWebPageSchema({
+  name: "Multifamily Underwriting Calculators",
+  description:
+    "Free multifamily calculators: cap rate, debt yield, commercial DSCR, cash-on-cash, and loan sizing for 5+ unit apartment underwriting.",
+  url: pageUrl,
+});
+const collectionSchema = buildCollectionPageSchema({
+  name: "Multifamily Underwriting Calculators",
+  description:
+    "Free multifamily calculators: cap rate, debt yield, commercial DSCR, cash-on-cash, and loan sizing for 5+ unit apartment underwriting.",
+  url: pageUrl,
+  items: tools.map((tool) => ({
+    name: tool.title,
+    url: `${tool.href}/`,
+    description: tool.description,
+  })),
+});
+const faqSchema = buildFaqSchema(hubFaqs);
 ---
 
-<DefaultLayout title="Multifamily Underwriting Calculators | Cap Rate, DSCR, Loan Sizing" description="Free multifamily calculators: cap rate, debt yield, commercial DSCR, cash-on-cash, and loan sizing for 5+ unit apartment underwriting.">
+<DefaultLayout
+  title="Multifamily Underwriting Calculators | Cap Rate, DSCR, Loan Sizing"
+  description="Free multifamily calculators: cap rate, debt yield, commercial DSCR, cash-on-cash, and loan sizing for 5+ unit apartment underwriting."
+  canonical="/tools"
+  schema={[webPageSchema, collectionSchema, ...(faqSchema ? [faqSchema] : [])]}
+>
   <Breadcrumbs crumbs={[
     { label: "Home", href: "/" },
     { label: "Tools", href: "/tools" },
@@ -43,6 +87,18 @@ const tools = [
     <p class="mt-4 max-w-3xl text-lg text-muted-foreground">
       Cap rate, debt yield, commercial DSCR, cash-on-cash, and loan sizing tools for 5+ unit apartment buildings—not residential 1–4 unit programs.
     </p>
+  </section>
+
+  <section class="container pb-8">
+    <AnswerCapsule
+      question="What multifamily metrics can I calculate here?"
+      answer="Our free calculator suite models the core commercial multifamily underwriting stack: stabilized NOI and cap rate, lender DSCR, debt yield, levered cash-on-cash return, and proceeds limited by DSCR, debt yield, or LTV."
+      bullets={[
+        "Built for 5+ unit commercial properties",
+        "No login or email required",
+        "Pair with guides and a free deal review for lender-fit context",
+      ]}
+    />
   </section>
 
   <section class="container py-4">
@@ -89,6 +145,20 @@ const tools = [
         <h3 class="text-lg font-bold">Match metrics to operator profile</h3>
         <p class="mt-2 text-sm text-muted-foreground">See how leverage, risk tolerance, and reporting capacity vary by investor type.</p>
       </a>
+    </div>
+  </section>
+
+  <section class="container py-8">
+    <NetworkCrossLinks
+      heading="Need 1–4 unit DSCR calculators?"
+      intro="These tools cover 5+ unit commercial multifamily. For single-family and small-rental DSCR calculators, visit DSCR Authority. For Canadian multifamily or cross-border scenarios, see LendCity in the links below."
+    />
+  </section>
+
+  <section class="container py-8">
+    <h2 class="text-2xl font-bold">Frequently asked questions</h2>
+    <div class="mt-6">
+      <FaqAccordion items={hubFaqs} />
     </div>
   </section>
 </DefaultLayout>
