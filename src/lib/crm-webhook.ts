@@ -27,6 +27,7 @@ export interface CrmWebhookPayload {
   phone?: string;
   serviceName?: string;
   startTime?: string;
+  teamMemberName?: string;
   metadata?: Record<string, CrmMetadataValue>;
 }
 
@@ -106,6 +107,10 @@ export function normalizeCrmPayload(
       typeof input.serviceName === 'string' ? input.serviceName : undefined,
     startTime:
       typeof input.startTime === 'string' ? input.startTime : undefined,
+    teamMemberName:
+      typeof input.teamMemberName === 'string'
+        ? input.teamMemberName
+        : undefined,
   };
 }
 

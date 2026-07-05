@@ -599,10 +599,9 @@ export async function confirmPendingBooking(token: string): Promise<BookingConfi
     phone: record.guestPhone,
     source: '/booking',
     serviceName: service.name,
+    teamMemberName: teamMember.name,
     startTime: startTime.toLocaleString('en-US', { timeZone: record.timezone }),
-    toolName: teamMember.name,
     metadata: {
-      'Team member': teamMember.name,
       Duration: `${durationMinutes} minutes`,
       Timezone: record.timezone,
       ...(record.meetingType ? { 'Meeting type': record.meetingType } : {}),

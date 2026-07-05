@@ -96,7 +96,13 @@ function buildDealName(payload: CrmWebhookPayload): string {
       return `Contact — ${payload.topic || 'general'} — ${label}`;
     case 'booking_pending':
     case 'booking_confirmed':
-      return `${payload.serviceName || 'Book a call'} — ${label}`;
+    case 'strategy_call_booked': {
+      const service = payload.serviceName || 'Strategy call';
+      const bookedWith = payload.teamMemberName
+        ? `${service} with ${payload.teamMemberName}`
+        : service;
+      return `${bookedWith} — ${label}`;
+    }
     case 'content_share':
       return `Shared article — ${payload.toolName || 'Guide article'}`;
     case 'multifamily_lead_captured':
@@ -121,6 +127,7 @@ function buildDescription(payload: CrmWebhookPayload): string {
     payload.toolName ? `Tool: ${payload.toolName}` : null,
     payload.topic ? `Topic: ${payload.topic}` : null,
     payload.serviceName ? `Service: ${payload.serviceName}` : null,
+    payload.teamMemberName ? `Booked with: ${payload.teamMemberName}` : null,
     payload.startTime ? `Start time: ${payload.startTime}` : null,
     payload.phone ? `Phone: ${payload.phone}` : null,
     payload.email ? `Email: ${payload.email}` : null,
