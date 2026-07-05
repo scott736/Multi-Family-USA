@@ -3,7 +3,7 @@ export const SITE_SHORT_NAME = "Multi-Family USA";
 export const SITE_DESCRIPTION =
   "Independent US commercial multifamily financing resource for 5+ unit properties. Learn underwriting, run calculators, compare capital options, and request a free deal review.";
 export const SITE_URL = "https://multifamily-usa.com";
-export const SITE_LAST_REVIEWED = "2026-07-04";
+export const SITE_LAST_REVIEWED = "2026-07-05";
 export const SITE_FOUNDING_DATE = "2026-01-15";
 
 export const NETWORK_SITES = {
