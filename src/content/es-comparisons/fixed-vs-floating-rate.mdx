@@ -41,6 +41,18 @@ Comparar Deuda a tasa fija y Deuda a tasa flotante no es solo un ejercicio de pr
 
 Use esta guía para evaluar trade-offs de ejecución antes de seleccionar una vía de prestamista. Una comparación disciplinada a menudo previene riesgo de pivote tardío y protege la certeza de cierre.
 
+## Comparación lado a lado
+
+| Factor | Deuda a tasa fija | Deuda a tasa flotante |
+|--------|-------------------|----------------------|
+| Exposición a tasa | Cupón bloqueado por el plazo inicial | Se mueve con el índice (a menudo SOFR) + spread |
+| Predictibilidad de flujo de caja | Mayor — el servicio de la deuda es estable | Menor — los pagos suben si el índice sube |
+| Pricing inicial | A menudo cupón inicial más alto | A menudo spread inicial más bajo |
+| Requisito de cobertura | Por lo general ninguno en fija verdadera | A menudo requiere cap o collar de tasa |
+| Perfil de hold ideal | Hold estabilizado a largo plazo | Hold más corto o refinanciamiento claro |
+| Riesgo de refinanciamiento | Prepago (YM, defeasance) en salida | Índice + spread al refinanciar impulsan el costo |
+| Mejor encaje | Core estabilizado, sponsors sensibles a tasa | Puente, value-add, refinanciamiento planificado en 3–5 años |
+
 ## Evalúe costo total, no solo cupón
 
 Los prestatarios a menudo anclan en tasa headline, pero el costo efectivo incluye comisiones, reservas, costos de cap, términos de extensión, economía de prepago e implicaciones potenciales de recourse. Construya un modelo lado a lado que incluya estos elementos durante el periodo de hold esperado.

@@ -1,4 +1,5 @@
 ---
+import AnswerCapsule from "@/components/dscr/AnswerCapsule.astro";
 import Breadcrumbs from "@/components/dscr/Breadcrumbs.astro";
 import CtaCard from "@/components/dscr/CtaCard.astro";
 import FaqAccordion from "@/components/dscr/FaqAccordion.astro";
@@ -303,6 +304,11 @@ const schema = [
     </header>
 
     <div class="prose-dscr lg:col-span-3">
+      <AnswerCapsule
+        question={h1}
+        answer={description}
+        label={lang === "es" ? "Respuesta rápida" : "Quick answer"}
+      />
       <slot />
       <div class="my-10 lg:hidden">
         <CtaCard

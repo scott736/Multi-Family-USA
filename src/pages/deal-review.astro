@@ -1,6 +1,7 @@
 ---
 import ConversionPathHelper from "@/components/conversion/ConversionPathHelper.astro";
 import DealReviewIcon from "@/components/deal-review/DealReviewIcon.astro";
+import AnswerCapsule from "@/components/dscr/AnswerCapsule.astro";
 import Breadcrumbs from "@/components/dscr/Breadcrumbs.astro";
 import LeadForm from "@/components/forms/LeadForm.astro";
 import FundedDealsSection from "@/components/sections/FundedDealsSection.astro";
@@ -45,6 +46,18 @@ const benefits = [
       { label: "Free deal review", href: "/deal-review" },
     ]}
   />
+
+  <section class="container py-8">
+    <AnswerCapsule
+      question="What is a free multifamily deal review?"
+      answer="A free deal review is a lender-fit underwriting read for US commercial multifamily properties with five or more units. Submit your NOI, leverage, and business-plan assumptions and receive DSCR, debt-yield, and capital-stack guidance — with no credit pull and no loan origination."
+      bullets={[
+        "Covers agency, bank, bridge, and debt-fund execution paths",
+        "Educational guidance only — we do not originate loans",
+        "Typical turnaround within one business hour",
+      ]}
+    />
+  </section>
 
   <section class="relative overflow-hidden border-b border-border">
     <div

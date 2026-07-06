@@ -1,6 +1,7 @@
 ---
 import ConversionPathHelper from "@/components/conversion/ConversionPathHelper.astro";
 import DealReviewIcon from "@/components/deal-review/DealReviewIcon.astro";
+import AnswerCapsule from "@/components/dscr/AnswerCapsule.astro";
 import Breadcrumbs from "@/components/dscr/Breadcrumbs.astro";
 import LeadForm from "@/components/forms/LeadForm.astro";
 import FundedDealsSection from "@/components/sections/FundedDealsSection.astro";
@@ -47,6 +48,19 @@ const benefits = [
       { label: "Revisión gratuita", href: "/es/deal-review" },
     ]}
   />
+
+  <section class="container py-8">
+    <AnswerCapsule
+      question="¿Qué es una revisión gratuita de deal multifamiliar?"
+      answer="Una revisión gratuita de deal es una lectura de suscripción y encaje con prestamistas para propiedades multifamiliares comerciales en EE. UU. con cinco o más unidades. Envíe supuestos de NOI, apalancamiento y plan de negocio y reciba orientación sobre DSCR, debt yield y capital stack — sin consulta de crédito y sin originación de préstamos."
+      bullets={[
+        "Cubre rutas agency, banco, puente y debt fund",
+        "Solo orientación educativa — no originamos préstamos",
+        "Respuesta típica en un día hábil",
+      ]}
+      label="Respuesta rápida"
+    />
+  </section>
 
   <section class="relative overflow-hidden border-b border-border">
     <div

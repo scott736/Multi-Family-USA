@@ -31,3 +31,7 @@ jobs:
 
       - name: Build
         run: npm run build
+
+      - name: IndexNow ping
+        if: github.ref == 'refs/heads/main'
+        run: INDEXNOW_PING=1 node scripts/indexnow-ping.mjs

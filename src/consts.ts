@@ -5,6 +5,7 @@ export const SITE_DESCRIPTION =
 export const SITE_URL = "https://multifamily-usa.com";
 export const SITE_LAST_REVIEWED = "2026-07-05";
 export const SITE_FOUNDING_DATE = "2026-01-15";
+export const INDEXNOW_KEY = "multifamilyusa7f3a9c2e8b4d6f1a5c9e2b7d4f8a1c3";
 export const SITE_LOGO = `${SITE_URL}/favicon/apple-touch-icon.png`;
 export const SITE_DEFAULT_OG_IMAGE = `${SITE_URL}/og-image.png`;
 

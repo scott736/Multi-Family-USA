@@ -1,4 +1,5 @@
 ---
+import AnswerCapsule from "@/components/dscr/AnswerCapsule.astro";
 import Breadcrumbs from "@/components/dscr/Breadcrumbs.astro";
 import CtaCard from "@/components/dscr/CtaCard.astro";
 import FaqAccordion from "@/components/dscr/FaqAccordion.astro";
@@ -149,6 +150,11 @@ const relatedLinks = await getRelatedLinks({
 
   <section class="container grid gap-8 py-6 lg:grid-cols-3">
     <div class="lg:col-span-2 space-y-8">
+      <AnswerCapsule
+        question={h1}
+        answer={tagline ?? description}
+        label={isEs ? "Respuesta rápida" : "Quick answer"}
+      />
       <slot name="calculator" />
       {relatedLinks.length > 0 && (
         <RelatedReading links={relatedLinks} heading={relatedHeading} />
