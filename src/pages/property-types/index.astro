@@ -3,12 +3,34 @@ import { getCollection } from "astro:content";
 
 import Breadcrumbs from "@/components/dscr/Breadcrumbs.astro";
 import CtaCard from "@/components/dscr/CtaCard.astro";
+import { buildCollectionPageSchema, buildWebPageSchema, SITE_URL } from "@/consts";
 import DefaultLayout from "@/layouts/DefaultLayout.astro";
 
 const entries = await getCollection("propertyTypes");
+const pageUrl = `${SITE_URL}/property-types/`;
+const webPageSchema = buildWebPageSchema({
+  name: "Property-type underwriting guides",
+  description: "Coverage by multifamily asset class and unit count.",
+  url: pageUrl,
+});
+const collectionSchema = buildCollectionPageSchema({
+  name: "Property-type underwriting guides",
+  description: "Coverage by multifamily asset class and unit count.",
+  url: pageUrl,
+  items: entries.map((entry) => ({
+    name: entry.data.title ?? entry.id,
+    url: `/property-types/${entry.id.replace(/\.mdx$/, "")}/`,
+    description: entry.data.description,
+  })),
+});
 ---
 
-<DefaultLayout title="Property-type underwriting guides | Multi-Family USA" description="Coverage by multifamily asset class and unit count.">
+<DefaultLayout
+  title="Property-type underwriting guides | Multi-Family USA"
+  description="Coverage by multifamily asset class and unit count."
+  canonical="/property-types"
+  schema={[webPageSchema, collectionSchema]}
+>
   <Breadcrumbs crumbs={[
     { label: "Home", href: "/" },
     { label: "Property Types", href: "/property-types" },

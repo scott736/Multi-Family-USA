@@ -5,6 +5,8 @@ export const SITE_DESCRIPTION =
 export const SITE_URL = "https://multifamily-usa.com";
 export const SITE_LAST_REVIEWED = "2026-07-05";
 export const SITE_FOUNDING_DATE = "2026-01-15";
+export const SITE_LOGO = `${SITE_URL}/favicon/apple-touch-icon.png`;
+export const SITE_DEFAULT_OG_IMAGE = `${SITE_URL}/og-image.png`;
 
 export const NETWORK_SITES = {
   lendcity: "https://lendcity.ca",
@@ -137,8 +139,16 @@ export function getBaseSchemas() {
       "@type": ["Organization", "FinancialService"],
       "@id": ORG_ID,
       name: SITE_SHORT_NAME,
-      alternateName: ["Multi-Family USA", "Multifamily USA"],
+      alternateName: ["Multi-Family USA", "Multifamily USA", "multifamily-usa.com"],
+      disambiguatingDescription:
+        "Independent editorial resource at multifamily-usa.com for US commercial multifamily financing on 5+ unit properties. Not a loan originator or commercial brokerage.",
       url: SITE_URL,
+      logo: {
+        "@type": "ImageObject",
+        url: SITE_LOGO,
+        width: 180,
+        height: 180,
+      },
       description: SITE_DESCRIPTION,
       foundingDate: SITE_FOUNDING_DATE,
       dateModified: SITE_LAST_REVIEWED,
@@ -198,14 +208,6 @@ export function getBaseSchemas() {
       description: SITE_DESCRIPTION,
       inLanguage: "en-US",
       publisher: { "@id": ORG_ID },
-      potentialAction: {
-        "@type": "SearchAction",
-        target: {
-          "@type": "EntryPoint",
-          urlTemplate: `${SITE_URL}/?q={search_term_string}`,
-        },
-        "query-input": "required name=search_term_string",
-      },
     },
   ];
 }
@@ -277,6 +279,7 @@ export function buildPersonSchema(opts: {
   bio: string;
   photo?: string;
   credentials?: string[];
+  knowsAbout?: string[];
   sameAs?: string[];
 }) {
   const personUrl = `${SITE_URL}/team/${opts.slug}/`;
@@ -297,6 +300,7 @@ export function buildPersonSchema(opts: {
           })),
         }
       : {}),
+    ...(opts.knowsAbout?.length ? { knowsAbout: opts.knowsAbout } : {}),
     ...(opts.sameAs?.length ? { sameAs: opts.sameAs } : {}),
     worksFor: { "@id": ORG_ID },
   };
@@ -322,13 +326,25 @@ export function buildArticleSchema(opts: {
   reviewerName?: string;
   reviewerId?: string;
   keywords?: string[];
+  image?: string;
+  inLanguage?: string;
+  articleSection?: string;
+  articleType?: "Article" | "BlogPosting";
+  speakable?: boolean;
 }) {
+  const pageUrl = opts.url.startsWith("http") ? opts.url : `${SITE_URL}${opts.url}`;
+  const imageUrl = opts.image
+    ? opts.image.startsWith("http")
+      ? opts.image
+      : `${SITE_URL}${opts.image}`
+    : undefined;
+
   return {
     "@context": "https://schema.org",
-    "@type": "Article",
+    "@type": opts.articleType ?? "Article",
     headline: opts.headline,
     description: opts.description,
-    mainEntityOfPage: opts.url,
+    mainEntityOfPage: { "@type": "WebPage", "@id": pageUrl },
     datePublished: opts.datePublished,
     dateModified: opts.dateModified ?? opts.datePublished,
     author: buildSchemaAuthorRef(opts.authorName, opts.authorId),
@@ -338,7 +354,18 @@ export function buildArticleSchema(opts: {
         }
       : {}),
     publisher: { "@id": ORG_ID },
+    ...(imageUrl ? { image: [imageUrl] } : {}),
+    ...(opts.inLanguage ? { inLanguage: opts.inLanguage } : {}),
+    ...(opts.articleSection ? { articleSection: opts.articleSection } : {}),
     ...(opts.keywords?.length ? { keywords: opts.keywords.join(", ") } : {}),
+    ...(opts.speakable !== false
+      ? {
+          speakable: {
+            "@type": "SpeakableSpecification",
+            cssSelector: ["[data-speakable]", "article h1"],
+          },
+        }
+      : {}),
   };
 }
 

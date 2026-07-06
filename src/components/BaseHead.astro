@@ -91,6 +91,7 @@ const robotsParts = [
 <meta name="robots" content={robotsParts.join(", ")} />
 <meta name="googlebot" content={robotsParts.join(", ")} />
 <meta name="description" content={finalDescription} />
+{keywords?.length ? <meta name="keywords" content={keywords.join(", ")} /> : null}
 <meta name="author" content={SITE_METADATA.authors[0].name} />
 <meta name="generator" content={Astro.generator} />
 

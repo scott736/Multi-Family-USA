@@ -85,6 +85,7 @@ const softwareSchema = {
   isAccessibleForFree: true,
   inLanguage: isEs ? "es-US" : "en-US",
   dateModified: lastUpdated,
+  provider: { "@id": `${SITE_URL}/#organization` },
 };
 
 const webPageSchema = buildWebPageSchema({

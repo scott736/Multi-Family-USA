@@ -1,4 +1,5 @@
 ---
+import AnswerCapsule from "@/components/dscr/AnswerCapsule.astro";
 import { buildFaqSchema, buildWebPageSchema, SITE_URL } from "@/consts";
 import BasicLayout from "@/layouts/BasicLayout.astro";
 
@@ -62,7 +63,17 @@ const faqSchema = buildFaqSchema(faqItems);
   ]}
 >
   <h1>Preguntas frecuentes</h1>
-  <p>
+  <AnswerCapsule
+    question="¿Qué es el financiamiento multifamiliar comercial en EE. UU.?"
+    answer="El financiamiento multifamiliar comercial en EE. UU. es deuda para propiedades de apartamentos con cinco o más unidades que generan ingresos. Los prestamistas dimensionan préstamos con NOI de la propiedad usando DSCR, debt yield y LTV—no reglas residenciales de deuda/ingreso. Los productos comunes incluyen agency (Fannie/Freddie), bridge, balance sheet bancario, CMBS y programas FHA/HUD."
+    bullets={[
+      "Solo 5+ unidades — no DSCR residencial de 1–4 unidades",
+      "Los desembolsos se limitan por la métrica más restrictiva",
+      "Préstamo en entidad y diligencia de garante son estándar",
+    ]}
+  />
+
+  <p class="mt-6">
     Respuestas a preguntas comunes sobre financiamiento multifamiliar comercial en EE. UU. para
     propiedades de 5+ unidades. Esta página es educativa y no sustituye asesoramiento legal,
     fiscal o crediticio específico de la transacción.

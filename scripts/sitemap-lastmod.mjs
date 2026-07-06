@@ -7,7 +7,7 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 const ROOT = join(__dirname, "..");
 
 /** Keep in sync with SITE_LAST_REVIEWED in src/consts.ts */
-export const SITE_LAST_REVIEWED = "2026-05-24";
+export const SITE_LAST_REVIEWED = "2026-07-05";
 
 /** @type {Record<string, (slug: string) => string>} */
 const COLLECTION_ROUTES = {

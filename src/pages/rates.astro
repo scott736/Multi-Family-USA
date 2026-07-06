@@ -1,4 +1,5 @@
 ---
+import AnswerCapsule from "@/components/dscr/AnswerCapsule.astro";
 import BasicLayout from "@/layouts/BasicLayout.astro";
 ---
 
@@ -13,7 +14,18 @@ import BasicLayout from "@/layouts/BasicLayout.astro";
   esPath="/es/rates/"
 >
   <h1>Multifamily lending rates</h1>
-  <p>
+  <AnswerCapsule
+    question="What are current multifamily lending rates?"
+    answer="Multifamily lending rates are not a single number—they combine a benchmark index plus lender spread, adjusted for asset quality, DSCR, debt yield, and product type. Directionally in mid-2026 quote cycles, stabilized agency spreads on core assets often land around benchmark plus 150–220 bps, while floating bridge debt often prices at SOFR plus roughly 275–500 bps before cap cost. Exact rates change daily and require live quotes."
+    bullets={[
+      "Agency stabilized: typically benchmark + 150–220 bps on core assets (directional)",
+      "Bridge / transitional: often SOFR + 275–500 bps before caps (directional)",
+      "All-in cost includes fees, reserves, hedging, and prepay terms—not coupon alone",
+    ]}
+    label="Rate context"
+  />
+
+  <p class="mt-6">
     Directional context for US commercial multifamily borrowing costs on 5+ unit assets.
     This page is educational—rates change daily and vary by lender, asset, and structure.
     Use live quotes for transaction decisions.

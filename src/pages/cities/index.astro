@@ -3,14 +3,33 @@ import { getCollection } from "astro:content";
 
 import Breadcrumbs from "@/components/dscr/Breadcrumbs.astro";
 import CtaCard from "@/components/dscr/CtaCard.astro";
+import { buildCollectionPageSchema, buildWebPageSchema, SITE_URL } from "@/consts";
 import DefaultLayout from "@/layouts/DefaultLayout.astro";
 
 const entries = await getCollection("cities");
+const pageUrl = `${SITE_URL}/cities/`;
+const webPageSchema = buildWebPageSchema({
+  name: "Tier-1 Multifamily Cities",
+  description: "City-level multifamily financing snapshots for tier-1 US markets.",
+  url: pageUrl,
+});
+const collectionSchema = buildCollectionPageSchema({
+  name: "Tier-1 Multifamily Cities",
+  description: "City-level multifamily financing snapshots for tier-1 US markets.",
+  url: pageUrl,
+  items: entries.map((entry) => ({
+    name: entry.data.cityName ?? entry.id,
+    url: `/cities/${entry.id.replace(/\.mdx$/, "")}/`,
+    description: entry.data.description,
+  })),
+});
 ---
 
 <DefaultLayout
   title="Tier-1 Multifamily Cities | Multi-Family USA"
   description="City-level multifamily financing snapshots for tier-1 US markets."
+  canonical="/cities"
+  schema={[webPageSchema, collectionSchema]}
 >
   <Breadcrumbs crumbs={[
     { label: "Home", href: "/" },

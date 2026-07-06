@@ -1,4 +1,5 @@
 ---
+import AnswerCapsule from "@/components/dscr/AnswerCapsule.astro";
 import { buildFaqSchema, buildWebPageSchema, SITE_URL } from "@/consts";
 import BasicLayout from "@/layouts/BasicLayout.astro";
 
@@ -61,7 +62,17 @@ const faqSchema = buildFaqSchema(faqItems);
   ]}
 >
   <h1>FAQ</h1>
-  <p>
+  <AnswerCapsule
+    question="What is US commercial multifamily financing?"
+    answer="US commercial multifamily financing is debt for income-producing apartment properties with five or more units. Lenders size loans on property NOI using DSCR, debt yield, and LTV—not residential debt-to-income rules. Common products include agency (Fannie/Freddie), bridge, bank balance sheet, CMBS, and FHA/HUD programs."
+    bullets={[
+      "5+ units only — not 1–4 unit residential DSCR",
+      "Proceeds bind to the tightest of DSCR, debt yield, and LTV",
+      "Entity borrowing and guarantor diligence are standard",
+    ]}
+  />
+
+  <p class="mt-6">
     Answers to common questions on US commercial multifamily financing for 5+ unit
     properties. This page is educational and does not replace transaction-specific legal,
     tax, or lending advice.

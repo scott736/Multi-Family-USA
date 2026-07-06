@@ -47,6 +47,9 @@ Allow: /
 User-agent: Applebot
 Allow: /
 
+User-agent: Applebot-Extended
+Allow: /
+
 User-agent: FacebookBot
 Allow: /
 
@@ -65,4 +68,11 @@ Allow: /
 User-agent: Meta-ExternalAgent
 Allow: /
 
+User-agent: GoogleOther
+Allow: /
+
 Sitemap: https://multifamily-usa.com/sitemap-index.xml
+
+# LLMs discovery (https://llmstxt.org/)
+# Index: https://multifamily-usa.com/llms.txt
+# Full:  https://multifamily-usa.com/llms-full.txt

@@ -190,6 +190,7 @@ const authorPerson = getAuthorByName(author);
 const reviewerPerson = reviewer ? getAuthorByName(reviewer) : undefined;
 const authorProfilePath = authorPerson ? `/team/${authorPerson.slug}` : undefined;
 const reviewerProfilePath = reviewerPerson ? `/team/${reviewerPerson.slug}` : undefined;
+const ogImage = getOgImageForKind(relatedKind, image);
 
 const webPageSchema =
   canonical && canonicalSlug
@@ -216,6 +217,10 @@ const articleSchema =
         reviewerName: reviewer,
         reviewerId: reviewerPerson ? getPersonId(reviewerPerson.slug) : undefined,
         keywords,
+        image: ogImage,
+        inLanguage: pageLanguage,
+        articleSection: section ?? kicker,
+        articleType: relatedKind === "blog" ? "BlogPosting" : "Article",
       })
     : null;
 
@@ -229,7 +234,6 @@ const financialProductSchema =
     : null;
 
 const faqSchema = faqList.length > 0 ? buildFaqSchema(faqList) : null;
-const ogImage = getOgImageForKind(relatedKind, image);
 const extrasArray = Array.isArray(extraSchema) ? extraSchema : extraSchema ? [extraSchema] : [];
 const schema = [
   ...(webPageSchema ? [webPageSchema] : []),
@@ -263,7 +267,7 @@ const schema = [
         <span>
           By{" "}
           {authorProfilePath ? (
-            <a href={authorProfilePath} class="font-semibold text-foreground hover:text-accent">
+            <a href={authorProfilePath} rel="author" class="font-semibold text-foreground hover:text-accent">
               {author}
             </a>
           ) : (
@@ -274,7 +278,7 @@ const schema = [
           <span>
             Reviewed by{" "}
             {reviewerProfilePath ? (
-              <a href={reviewerProfilePath} class="font-semibold text-foreground hover:text-accent">
+              <a href={reviewerProfilePath} rel="author" class="font-semibold text-foreground hover:text-accent">
                 {reviewer}
               </a>
             ) : (
@@ -282,7 +286,17 @@ const schema = [
             )}
           </span>
         )}
-        {lastUpdated && <span>Updated <time datetime={lastUpdated}>{lastUpdated}</time></span>}
+        {publishedDate && (
+          <span>
+            Published <time datetime={publishedDate}>{publishedDate}</time>
+          </span>
+        )}
+        {lastUpdated && publishedDate !== lastUpdated && (
+          <span>Updated <time datetime={lastUpdated}>{lastUpdated}</time></span>
+        )}
+        {lastUpdated && !publishedDate && (
+          <span>Updated <time datetime={lastUpdated}>{lastUpdated}</time></span>
+        )}
         {readTime && <span>{readTime} min read</span>}
         {section && <span>{section}</span>}
       </div>

@@ -1,4 +1,5 @@
 ---
+import AnswerCapsule from "@/components/dscr/AnswerCapsule.astro";
 import BasicLayout from "@/layouts/BasicLayout.astro";
 ---
 
@@ -14,7 +15,18 @@ import BasicLayout from "@/layouts/BasicLayout.astro";
   ]}
 >
   <h1>Tasas de préstamos multifamiliares</h1>
-  <p>
+  <AnswerCapsule
+    question="¿Cuáles son las tasas actuales de préstamos multifamiliares?"
+    answer="Las tasas multifamiliares no son un número único—combinan un índice de referencia más el spread del prestamista, ajustado por calidad del activo, DSCR, debt yield y tipo de producto. Direccionalmente en ciclos de cotización de mediados de 2026, spreads agency estabilizados en activos core suelen ubicarse alrededor de benchmark + 150–220 pb, mientras deuda bridge flotante a menudo cotiza a SOFR + aproximadamente 275–500 pb antes del costo de cap. Las tasas exactas cambian diariamente y requieren cotizaciones en vivo."
+    bullets={[
+      "Agency estabilizado: típicamente benchmark + 150–220 pb en activos core (direccional)",
+      "Bridge / transicional: a menudo SOFR + 275–500 pb antes de caps (direccional)",
+      "El costo total incluye comisiones, reservas, cobertura y prepago—no solo el cupón",
+    ]}
+    label="Contexto de tasas"
+  />
+
+  <p class="mt-6">
     Contexto direccional para costos de endeudamiento multifamiliar comercial en activos de 5+ unidades.
     Esta página es educativa—las tasas cambian diariamente y varían por prestamista, activo y estructura.
   </p>
