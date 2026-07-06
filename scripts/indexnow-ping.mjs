@@ -45,6 +45,12 @@ const response = await fetch(INDEXNOW_ENDPOINT, {
 
 if (!response.ok) {
   const text = await response.text();
+  if (response.status === 403 && text.includes("SiteVerificationNotCompleted")) {
+    console.warn(
+      `IndexNow verification pending for ${KEY_LOCATION} — will succeed after production deploy propagates.`,
+    );
+    process.exit(0);
+  }
   console.error(`IndexNow ping failed (${response.status}): ${text}`);
   process.exit(1);
 }
