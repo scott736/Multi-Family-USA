@@ -1,20 +1,53 @@
 ---
 import AnswerCapsule from "@/components/dscr/AnswerCapsule.astro";
+import FaqAccordion from "@/components/dscr/FaqAccordion.astro";
+import { buildFaqSchema, buildWebPageSchema, SITE_LAST_REVIEWED, SITE_URL } from "@/consts";
 import BasicLayout from "@/layouts/BasicLayout.astro";
+
+const pageUrl = `${SITE_URL}/es/rates/`;
+const description =
+  "Contexto direccional de tasas de préstamos multifamiliares en EE.UU.: tasas de apartamentos, spreads agency Fannie Mae y Freddie Mac Optigo, y costo total para propiedades de 5+ unidades.";
+
+const rateFaqs = [
+  {
+    q: "¿Cuáles son las tasas actuales de préstamos multifamiliares en 2026?",
+    a: "No hay una sola tasa multifamiliar. Las cotizaciones agency estabilizadas suelen ubicarse alrededor de benchmark + 150–220 pb en activos core, mientras el bridge flotante a menudo cotiza a SOFR + aproximadamente 275–500 pb antes del costo de cap. Las tasas exactas requieren cotizaciones en vivo.",
+  },
+  {
+    q: "¿Cómo se fijan las tasas Fannie Mae multifamiliar?",
+    a: "Las tasas Fannie Mae multifamiliar combinan un benchmark con spreads de grilla agency ligados a tamaño del préstamo, tier de mercado, calidad del activo, DSCR y debt yield. Un debt yield más fuerte y paquetes listos para prestamistas suelen recibir indicaciones más ajustadas.",
+  },
+  {
+    q: "¿Debo comparar el cupón o el costo total?",
+    a: "Compare el costo total a lo largo del hold—incluyendo comisiones, reservas, caps de tasa e interés y términos de prepago—no solo el cupón. Dos estructuras con cupones similares pueden divergir mucho en la economía de salida.",
+  },
+];
+
+const webPageSchema = buildWebPageSchema({
+  name: "Tasas de préstamos multifamiliares",
+  description,
+  url: pageUrl,
+  inLanguage: "es-US",
+  dateModified: SITE_LAST_REVIEWED,
+  about: "Tasas de préstamos multifamiliares comerciales en EE. UU.",
+});
+const faqSchema = buildFaqSchema(rateFaqs);
 ---
 
 <BasicLayout
   title="Tasas de préstamos multifamiliares | Multi-Family USA"
-  description="Contexto direccional de tasas de préstamos multifamiliares en EE.UU.: tasas de apartamentos, spreads agency Fannie Mae y costo total para propiedades de 5+ unidades."
+  description={description}
   canonical="/es/rates"
   enPath="/rates/"
   esPath="/es/rates/"
+  schema={[webPageSchema, ...(faqSchema ? [faqSchema] : [])]}
   crumbs={[
     { label: "Inicio", href: "/es" },
     { label: "Tasas", href: "/es/rates" },
   ]}
 >
   <h1>Tasas de préstamos multifamiliares</h1>
+  <p class="text-sm text-muted-foreground">Última revisión: {SITE_LAST_REVIEWED} · Contexto direccional de mediados de 2026</p>
   <AnswerCapsule
     question="¿Cuáles son las tasas actuales de préstamos multifamiliares?"
     answer="Las tasas multifamiliares no son un número único—combinan un índice de referencia más el spread del prestamista, ajustado por calidad del activo, DSCR, debt yield y tipo de producto. Direccionalmente en ciclos de cotización de mediados de 2026, spreads agency estabilizados en activos core suelen ubicarse alrededor de benchmark + 150–220 pb, mientras deuda bridge flotante a menudo cotiza a SOFR + aproximadamente 275–500 pb antes del costo de cap. Las tasas exactas cambian diariamente y requieren cotizaciones en vivo."
@@ -31,6 +64,47 @@ import BasicLayout from "@/layouts/BasicLayout.astro";
     Esta página es educativa—las tasas cambian diariamente y varían por prestamista, activo y estructura.
   </p>
 
+  <h2>Instantánea direccional de tasas a mediados de 2026</h2>
+  <p>
+    Los rangos siguientes son un marco educativo para conversaciones de cotización—no promesas ni rate sheets en vivo.
+  </p>
+  <table>
+    <thead>
+      <tr>
+        <th>Producto</th>
+        <th>Marco de precio direccional</th>
+        <th>Uso típico</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Agency estabilizado (Fannie / Freddie Optigo)</td>
+        <td>Benchmark + ~150–220 pb en activos core</td>
+        <td>Flujo de caja estabilizado de 5+ unidades, holds más largos</td>
+      </tr>
+      <tr>
+        <td>Bridge / transicional</td>
+        <td>SOFR + ~275–500 pb antes del costo de cap</td>
+        <td>Value-add, lease-up, refinanciamiento programado</td>
+      </tr>
+      <tr>
+        <td>Balance sheet bancario</td>
+        <td>Impulsado por relación/crédito; a menudo compite con agency</td>
+        <td>Estabilizado o ligero transicional con relación bancaria</td>
+      </tr>
+      <tr>
+        <td>CMBS estabilizado</td>
+        <td>Spread + estructura; prepago/defeasance crítico</td>
+        <td>Activos estabilizados donde CMBS supera a agency</td>
+      </tr>
+      <tr>
+        <td>FHA / HUD (programas elegibles)</td>
+        <td>MIP del programa + amortización larga; el plazo suele pesar más que el cupón</td>
+        <td>Construcción, rehab o rutas 223(f) elegibles</td>
+      </tr>
+    </tbody>
+  </table>
+
   <h2>Cómo pensar las tasas multifamiliares</h2>
   <p>
     Las tasas combinan un índice de referencia, spread del prestamista y términos del producto.
@@ -40,13 +114,24 @@ import BasicLayout from "@/layouts/BasicLayout.astro";
   <h2>Tasas de préstamos para apartamentos por producto</h2>
   <p>
     <strong>Agency estabilizado:</strong> spreads sobre benchmark con ajustes por ocupación, DSCR y debt yield.
+    Vea <a href="/es/loan-types/agency-stabilized">agency estabilizado Fannie Mae</a> y
+    <a href="/es/loan-types/freddie-mac-optigo">Freddie Mac Optigo</a>.
+  </p>
+  <p>
     <strong>Bridge transicional:</strong> costo total suele ser mayor por riesgo de ejecución y plazos cortos.
+    Vea <a href="/es/loan-types/bridge-value-add">bridge value-add</a>.
+  </p>
+  <p>
     <strong>Banco y CMBS:</strong> compiten con agency según perfil y relación.
   </p>
-
-  <h2>Contexto de tasas Fannie Mae multifamiliar</h2>
   <p>
-    Las tasas Fannie Mae multifamiliar fluyen por canales agency con spreads ligados a tamaño, mercado y métricas de cobertura.
+    <strong>FHA/HUD:</strong> el precio es impulsado por el programa; compare MIP, reservas y plazos.
+    Vea <a href="/es/loan-types/fha-hud-multifamily">FHA HUD multifamiliar</a>.
+  </p>
+
+  <h2>Contexto de tasas Fannie Mae y Freddie Mac</h2>
+  <p>
+    Las tasas Fannie Mae y Freddie Mac Optigo fluyen por canales agency con spreads ligados a tamaño, mercado y métricas de cobertura.
     Vea nuestro <a href="/es/blog/fannie-mae-multifamily-loan-requirements">resumen de requisitos Fannie Mae</a>.
   </p>
 
@@ -58,6 +143,9 @@ import BasicLayout from "@/layouts/BasicLayout.astro";
     <li><strong>Coberturas:</strong> costo de caps en deuda flotante.</li>
     <li><strong>Prepago:</strong> restricciones de salida que afectan el costo del hold.</li>
   </ul>
+
+  <h2>Preguntas frecuentes</h2>
+  <FaqAccordion items={rateFaqs} />
 
   <p>
     Combine con <a href="/es/learn">Aprender</a>, <a href="/es/tools">herramientas</a> y

@@ -1,0 +1,67 @@
+---
+import { getCollection } from "astro:content";
+
+import Breadcrumbs from "@/components/dscr/Breadcrumbs.astro";
+import CtaCard from "@/components/dscr/CtaCard.astro";
+import { buildCollectionPageSchema, buildWebPageSchema, SITE_URL } from "@/consts";
+import DefaultLayout from "@/layouts/DefaultLayout.astro";
+
+const entries = await getCollection("esPropertyTypes");
+const pageUrl = `${SITE_URL}/es/property-types/`;
+const webPageSchema = buildWebPageSchema({
+  name: "Guías de suscripción por tipo de propiedad",
+  description: "Cobertura por clase de activo multifamiliar y número de unidades.",
+  url: pageUrl,
+  inLanguage: "es-US",
+});
+const collectionSchema = buildCollectionPageSchema({
+  name: "Guías de suscripción por tipo de propiedad",
+  description: "Cobertura por clase de activo multifamiliar y número de unidades.",
+  url: pageUrl,
+  items: entries.map((entry) => ({
+    name: entry.data.title ?? entry.id,
+    url: `/es/property-types/${entry.id.replace(/\.mdx$/, "")}/`,
+    description: entry.data.description,
+  })),
+});
+---
+
+<DefaultLayout
+  title="Guías de suscripción por tipo de propiedad | Multi-Family USA"
+  description="Cobertura por clase de activo multifamiliar y número de unidades."
+  canonical="/es/property-types"
+  enPath="/property-types/"
+  esPath="/es/property-types/"
+  schema={[webPageSchema, collectionSchema]}
+>
+  <Breadcrumbs crumbs={[
+    { label: "Inicio", href: "/es" },
+    { label: "Tipos de propiedad", href: "/es/property-types" },
+  ]} />
+
+  <section class="container py-8">
+    <p class="text-xs font-bold uppercase tracking-wider text-accent">Tipos de propiedad</p>
+    <h1 class="mt-2 text-4xl font-bold lg:text-5xl">Guías de suscripción por tipo de propiedad</h1>
+    <p class="mt-4 max-w-3xl text-lg text-muted-foreground">Cobertura por clase de activo multifamiliar y número de unidades.</p>
+  </section>
+
+  <section class="container py-4">
+    <div class="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+      {entries
+        .sort((a, b) => (a.data.title ?? "").localeCompare(b.data.title ?? ""))
+        .map((entry) => {
+          const slug = entry.id.replace(/\.mdx$/, "");
+          return (
+            <a href={`/es/property-types/${slug}`} class="group rounded-lg border border-border bg-card p-5 hover:border-accent">
+              <h2 class="text-lg font-bold group-hover:text-primary">{entry.data.title}</h2>
+              <p class="mt-2 line-clamp-3 text-sm text-muted-foreground">{entry.data.description}</p>
+            </a>
+          );
+        })}
+    </div>
+  </section>
+
+  <section class="container py-12">
+    <CtaCard />
+  </section>
+</DefaultLayout>

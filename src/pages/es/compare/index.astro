@@ -1,0 +1,110 @@
+---
+import { getCollection } from "astro:content";
+
+import AnswerCapsule from "@/components/dscr/AnswerCapsule.astro";
+import Breadcrumbs from "@/components/dscr/Breadcrumbs.astro";
+import CtaCard from "@/components/dscr/CtaCard.astro";
+import FaqAccordion from "@/components/dscr/FaqAccordion.astro";
+import NetworkCrossLinks from "@/components/dscr/NetworkCrossLinks.astro";
+import { buildCollectionPageSchema, buildFaqSchema, buildWebPageSchema, SITE_URL } from "@/consts";
+import DefaultLayout from "@/layouts/DefaultLayout.astro";
+
+const entries = await getCollection("esComparisons");
+
+const hubFaqs = [
+  {
+    q: "¿Por qué comparar tipos de préstamo antes de pedir cotizaciones?",
+    a: "Distintas fuentes de capital optimizan distintos planes de negocio. Comparar agency, bridge, banco y debt fund de antemano reduce ciclos de cotización inútiles y alinea el apalancamiento con el riesgo de ejecución.",
+  },
+  {
+    q: "¿Cuándo la deuda agency supera al bridge en multifamiliar?",
+    a: "La ejecución agency suele encajar en activos estabilizados con NOI predecible y holds más largos. El bridge encaja en planes value-add transicionales donde la velocidad y la flexibilidad importan más que la certeza de tasa a largo plazo.",
+  },
+  {
+    q: "¿Dónde comparar opciones DSCR de EE. UU. para rentas más pequeñas?",
+    a: 'Para comparaciones DSCR de 1–4 unidades, use la <a href="https://dscrauthority.com/compare/" target="_blank" rel="noopener noreferrer">biblioteca de comparaciones de DSCR Authority</a>. Este hub se centra en multifamiliar comercial de 5+ unidades.',
+  },
+];
+
+const pageUrl = `${SITE_URL}/es/compare/`;
+const webPageSchema = buildWebPageSchema({
+  name: "Biblioteca de comparaciones de financiamiento",
+  description: "Marcos lado a lado para elegir la fuente de capital adecuada para multifamiliar comercial en EE. UU.",
+  url: pageUrl,
+  inLanguage: "es-US",
+});
+const collectionSchema = buildCollectionPageSchema({
+  name: "Biblioteca de comparaciones de financiamiento",
+  description: "Marcos lado a lado para elegir la fuente de capital adecuada para multifamiliar comercial en EE. UU.",
+  url: pageUrl,
+  items: entries.map((entry) => ({
+    name: entry.data.title ?? entry.id,
+    url: `/es/compare/${entry.id.replace(/\.mdx$/, "")}/`,
+    description: entry.data.description,
+  })),
+});
+const faqSchema = buildFaqSchema(hubFaqs);
+---
+
+<DefaultLayout
+  title="Biblioteca de comparaciones de financiamiento | Multi-Family USA"
+  description="Marcos lado a lado para elegir la fuente de capital adecuada."
+  canonical="/es/compare"
+  enPath="/compare/"
+  esPath="/es/compare/"
+  schema={[webPageSchema, collectionSchema, ...(faqSchema ? [faqSchema] : [])]}
+>
+  <Breadcrumbs crumbs={[
+    { label: "Inicio", href: "/es" },
+    { label: "Comparar", href: "/es/compare" },
+  ]} />
+
+  <section class="container py-8">
+    <p class="text-xs font-bold uppercase tracking-wider text-accent">Comparar</p>
+    <h1 class="mt-2 text-4xl font-bold lg:text-5xl">Biblioteca de comparaciones de financiamiento</h1>
+    <p class="mt-4 max-w-3xl text-lg text-muted-foreground">Marcos lado a lado para elegir la fuente de capital adecuada.</p>
+  </section>
+
+  <section class="container pb-8">
+    <AnswerCapsule
+      question="¿Cómo elijo la fuente de capital multifamiliar correcta?"
+      answer="Compare tipos de préstamo por proceeds, estructura de tasa, flexibilidad de prepago, recurso, plazos y encaje con su plan de negocio. Nuestra biblioteca mapea agency vs bridge, banco vs debt fund, fijo vs flotante y otros trade-offs de ejecución para propiedades de 5+ unidades."
+      bullets={[
+        "Marcos de decisión — no páginas de venta de prestamistas",
+        "Cubre agency, bridge, banco, FHA/HUD y contextos CMBS",
+        "Combine comparaciones con calculadoras y una revisión de deal gratuita",
+      ]}
+    />
+  </section>
+
+  <section class="container py-4">
+    <div class="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+      {entries
+        .sort((a, b) => (a.data.title ?? "").localeCompare(b.data.title ?? ""))
+        .map((entry) => {
+          const slug = entry.id.replace(/\.mdx$/, "");
+          return (
+            <a href={`/es/compare/${slug}`} class="group rounded-lg border border-border bg-card p-5 hover:border-accent">
+              <h2 class="text-lg font-bold group-hover:text-primary">{entry.data.title}</h2>
+              <p class="mt-2 line-clamp-3 text-sm text-muted-foreground">{entry.data.description}</p>
+            </a>
+          );
+        })}
+    </div>
+  </section>
+
+  <section class="container py-8">
+    <NetworkCrossLinks />
+  </section>
+
+  <section class="container py-8">
+    <h2 class="text-2xl font-bold">Preguntas frecuentes</h2>
+    <div class="mt-6">
+      <FaqAccordion items={hubFaqs} />
+    </div>
+  </section>
+
+  <section class="container py-12">
+    <CtaCard />
+  </section>
+</DefaultLayout>

@@ -1,0 +1,60 @@
+---
+import {
+  buildDefinedTermSetSchema,
+  buildWebPageSchema,
+  SITE_URL,
+} from "@/consts";
+import BasicLayout from "@/layouts/BasicLayout.astro";
+import { GLOSSARY_LETTER_GROUPS, GLOSSARY_TERMS_ES } from "@/lib/glossary-terms";
+
+const pageUrl = `${SITE_URL}/es/glossary/`;
+const description =
+  "Definiciones de DSCR, debt yield, NOI, cap rate y términos de mercados de capital usados en el financiamiento multifamiliar comercial en EE. UU. (5+ unidades).";
+const webPageSchema = buildWebPageSchema({
+  name: "Glosario de financiamiento multifamiliar",
+  description,
+  url: pageUrl,
+  inLanguage: "es-US",
+});
+const definedTermSchema = buildDefinedTermSetSchema({
+  name: "Glosario de financiamiento multifamiliar",
+  description,
+  url: pageUrl,
+  terms: GLOSSARY_TERMS_ES.map((t) => ({ term: t.term, definition: t.definition })),
+});
+---
+
+<BasicLayout
+  title="Glosario de financiamiento multifamiliar | Multi-Family USA"
+  description={description}
+  canonical="/es/glossary"
+  enPath="/glossary/"
+  esPath="/es/glossary/"
+  schema={[webPageSchema, definedTermSchema]}
+  crumbs={[
+    { label: "Inicio", href: "/es" },
+    { label: "Glosario", href: "/es/glossary" },
+  ]}
+>
+  <h1>Glosario</h1>
+  <p>
+    Términos centrales de financiamiento multifamiliar comercial en EE. UU. usados en nuestras guías,
+    herramientas y páginas de mercado para propiedades de 5+ unidades.
+  </p>
+
+  {
+    GLOSSARY_LETTER_GROUPS.map((group) => {
+      const terms = GLOSSARY_TERMS_ES.filter((t) => t.letterGroup === group);
+      return (
+        <>
+          <h2>{group}</h2>
+          {terms.map((t) => (
+            <p>
+              <strong>{t.term}:</strong> {t.definition}
+            </p>
+          ))}
+        </>
+      );
+    })
+  }
+</BasicLayout>

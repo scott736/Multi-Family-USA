@@ -1,10 +1,35 @@
 ---
+import {
+  buildDefinedTermSetSchema,
+  buildWebPageSchema,
+  SITE_URL,
+} from "@/consts";
 import BasicLayout from "@/layouts/BasicLayout.astro";
+import { GLOSSARY_LETTER_GROUPS, GLOSSARY_TERMS_EN } from "@/lib/glossary-terms";
+
+const pageUrl = `${SITE_URL}/glossary/`;
+const description =
+  "Definitions of DSCR, debt yield, NOI, cap rate, and capital-markets terms used in US commercial multifamily financing (5+ units).";
+const webPageSchema = buildWebPageSchema({
+  name: "Multifamily Financing Glossary",
+  description,
+  url: pageUrl,
+});
+const definedTermSchema = buildDefinedTermSetSchema({
+  name: "Multifamily Financing Glossary",
+  description,
+  url: pageUrl,
+  terms: GLOSSARY_TERMS_EN.map((t) => ({ term: t.term, definition: t.definition })),
+});
 ---
 
 <BasicLayout
   title="Multifamily Financing Glossary | Multi-Family USA"
-  description="Definitions of DSCR, debt yield, NOI, cap rate, and capital-markets terms used in US commercial multifamily financing (5+ units)."
+  description={description}
+  canonical="/glossary"
+  enPath="/glossary/"
+  esPath="/es/glossary/"
+  schema={[webPageSchema, definedTermSchema]}
   crumbs={[
     { label: "Home", href: "/" },
     { label: "Glossary", href: "/glossary" },
@@ -16,40 +41,19 @@ import BasicLayout from "@/layouts/BasicLayout.astro";
     market pages for 5+ unit properties.
   </p>
 
-  <h2>A-C</h2>
-  <p><strong>Amortization:</strong> The schedule for principal repayment over the life of a loan.</p>
-  <p><strong>Bridge Loan:</strong> Shorter-term financing commonly used for transitional multifamily business plans.</p>
-  <p><strong>Cap Rate:</strong> Net operating income divided by value or purchase price, expressed as a percentage.</p>
-  <p><strong>Cash-on-Cash Return:</strong> Annual pre-tax cash flow divided by invested equity.</p>
-  <p><strong>CMBS:</strong> Commercial mortgage-backed securities financing, often used for stabilized commercial assets.</p>
-
-  <h2>D-F</h2>
-  <p><strong>Debt Service:</strong> Total principal and interest payments required by the loan structure.</p>
-  <p><strong>Debt Service Coverage Ratio (DSCR):</strong> NOI divided by annual debt service; a core lender sizing metric.</p>
-  <p><strong>Debt Yield:</strong> NOI divided by loan amount; a lender risk metric independent of interest rate.</p>
-  <p><strong>Effective Gross Income:</strong> Scheduled income minus vacancy/credit loss plus other property income.</p>
-  <p><strong>Exit Cap Rate:</strong> Assumed cap rate at refinance or sale used for sensitivity testing and valuation planning.</p>
-
-  <h2>G-N</h2>
-  <p><strong>Guarantor:</strong> Individual or entity providing credit support to the borrowing structure.</p>
-  <p><strong>In-Place NOI:</strong> NOI based on current operating performance before stabilization assumptions.</p>
-  <p><strong>Interest Rate Cap:</strong> A derivative that limits floating-rate exposure on variable-rate debt.</p>
-  <p><strong>LTV (Loan-to-Value):</strong> Loan amount divided by collateral value.</p>
-  <p><strong>NOI (Net Operating Income):</strong> Property income minus operating expenses, before debt service and capital items.</p>
-
-  <h2>O-S</h2>
-  <p><strong>Prepayment Penalty:</strong> Cost to pay off debt early, often including yield maintenance or defeasance provisions.</p>
-  <p><strong>Recourse:</strong> Lender ability to pursue guarantor assets beyond collateral under specified conditions.</p>
-  <p><strong>Reserve Account:</strong> Escrowed funds for taxes, insurance, repairs, or replacement needs.</p>
-  <p><strong>Seasoning:</strong> Operating history lenders require after acquisition or recap before approving certain refinance or cash-out terms.</p>
-  <p><strong>Single-Purpose Entity (SPE):</strong> Borrowing entity structured to hold one asset with segregated accounts and limited cross-collateralization.</p>
-  <p><strong>Stabilized NOI:</strong> NOI after business-plan improvements are completed and operations normalize.</p>
-  <p><strong>Sponsorship:</strong> The borrower team and guarantor group assessed for experience, liquidity, and governance.</p>
-
-  <h2>T-Z</h2>
-  <p><strong>T12:</strong> Trailing 12-month operating statement used to evaluate recent financial performance.</p>
-  <p><strong>Term Sheet:</strong> Preliminary financing proposal outlining pricing, proceeds, covenants, and key conditions.</p>
-  <p><strong>Underwriting:</strong> The lender process of evaluating cash flow, collateral, sponsorship, and risk.</p>
-  <p><strong>Value-Add:</strong> Strategy focused on operational or capital improvements to increase NOI and value.</p>
-  <p><strong>Yield Maintenance:</strong> Prepayment structure intended to preserve lender yield if a loan is repaid early.</p>
+  {
+    GLOSSARY_LETTER_GROUPS.map((group) => {
+      const terms = GLOSSARY_TERMS_EN.filter((t) => t.letterGroup === group);
+      return (
+        <>
+          <h2>{group}</h2>
+          {terms.map((t) => (
+            <p>
+              <strong>{t.term}:</strong> {t.definition}
+            </p>
+          ))}
+        </>
+      );
+    })
+  }
 </BasicLayout>

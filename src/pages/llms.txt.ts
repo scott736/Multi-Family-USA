@@ -92,6 +92,8 @@ export async function GET() {
 - [Rates](${SITE_URL}/rates/): Multifamily rate context and execution notes.
 - [About](${SITE_URL}/about/): Editorial mission and scope boundaries.
 - [Editorial Standards](${SITE_URL}/editorial-standards/): Neutrality and verification methodology.
+- [Glossary](${SITE_URL}/glossary/): DSCR, debt yield, NOI, cap rate, and capital-markets definitions.
+- [Team](${SITE_URL}/team/): Editorial and advisory contributors.
 - [Contact](${SITE_URL}/contact/): Email and phone for deal review requests.
 
 ## Content hubs
@@ -164,6 +166,10 @@ ${fmt(publishedBlog, "/blog")}
 - [Tipos de préstamo (ES)](${SITE_URL}/es/loan-types/): Agency, puente, banco, FHA/HUD, CMBS.
 - [Tipos de propiedad (ES)](${SITE_URL}/es/property-types/): Clases multifamiliares.
 - [Invertir (ES)](${SITE_URL}/es/invest/): Playbooks por etapa de cartera.
+- [Tasas (ES)](${SITE_URL}/es/rates/): Contexto de tasas multifamiliares.
+- [Glosario (ES)](${SITE_URL}/es/glossary/): Definiciones de términos de capital.
+- [Estándares editoriales (ES)](${SITE_URL}/es/editorial-standards/): Metodología y neutralidad.
+- [Equipo (ES)](${SITE_URL}/es/team/): Colaboradores editoriales.
 - [Blog (ES)](${SITE_URL}/es/blog/): Actualizaciones de mercado y ejecución.
 - [RSS (ES)](${SITE_URL}/es/rss.xml): Feed del blog en español.
 

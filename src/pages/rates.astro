@@ -1,19 +1,51 @@
 ---
 import AnswerCapsule from "@/components/dscr/AnswerCapsule.astro";
+import FaqAccordion from "@/components/dscr/FaqAccordion.astro";
+import { buildFaqSchema, buildWebPageSchema, SITE_LAST_REVIEWED, SITE_URL } from "@/consts";
 import BasicLayout from "@/layouts/BasicLayout.astro";
+
+const pageUrl = `${SITE_URL}/rates/`;
+const description =
+  "Directional US multifamily lending rates context: apartment loan rates, Fannie Mae multifamily rate spreads, Freddie Mac Optigo, bridge pricing, and all-in borrowing costs for 5+ unit properties.";
+
+const rateFaqs = [
+  {
+    q: "What are current multifamily lending rates in 2026?",
+    a: "There is no single multifamily rate. Stabilized agency quotes often land around benchmark plus 150–220 bps on core assets, while floating bridge often prices at SOFR plus roughly 275–500 bps before cap cost. Exact rates require live lender quotes.",
+  },
+  {
+    q: "How are Fannie Mae multifamily rates set?",
+    a: "Fannie Mae multifamily rates combine a benchmark with agency grid spreads tied to loan size, market tier, asset quality, DSCR, and debt yield. Stronger debt yield and lender-ready packages often receive tighter indications.",
+  },
+  {
+    q: "Should I compare coupon or all-in cost?",
+    a: "Compare all-in cost across the hold period—including fees, reserves, interest-rate caps, and prepayment terms—not coupon alone. Two structures with similar coupons can diverge sharply on exit economics.",
+  },
+];
+
+const webPageSchema = buildWebPageSchema({
+  name: "Multifamily Lending Rates",
+  description,
+  url: pageUrl,
+  dateModified: SITE_LAST_REVIEWED,
+  about: "US commercial multifamily lending rates",
+});
+const faqSchema = buildFaqSchema(rateFaqs);
 ---
 
 <BasicLayout
   title="Multifamily Lending Rates & Apartment Loan Rate Context | Multi-Family USA"
-  description="Directional US multifamily lending rates context: apartment loan rates, Fannie Mae multifamily rate spreads, bridge pricing, and all-in borrowing costs for 5+ unit properties."
+  description={description}
   crumbs={[
     { label: "Home", href: "/" },
     { label: "Rates", href: "/rates" },
   ]}
   enPath="/rates/"
   esPath="/es/rates/"
+  schema={[webPageSchema, ...(faqSchema ? [faqSchema] : [])]}
 >
   <h1>Multifamily lending rates</h1>
+  <p class="text-sm text-muted-foreground">Last reviewed: {SITE_LAST_REVIEWED} · Directional mid-2026 quote context</p>
   <AnswerCapsule
     question="What are current multifamily lending rates?"
     answer="Multifamily lending rates are not a single number—they combine a benchmark index plus lender spread, adjusted for asset quality, DSCR, debt yield, and product type. Directionally in mid-2026 quote cycles, stabilized agency spreads on core assets often land around benchmark plus 150–220 bps, while floating bridge debt often prices at SOFR plus roughly 275–500 bps before cap cost. Exact rates change daily and require live quotes."
@@ -31,6 +63,48 @@ import BasicLayout from "@/layouts/BasicLayout.astro";
     Use live quotes for transaction decisions.
   </p>
 
+  <h2>Mid-2026 directional rate snapshot</h2>
+  <p>
+    Ranges below are educational framing for quote conversations—not promises or live rate sheets.
+    Confirm with lenders before underwriting a purchase or refinance.
+  </p>
+  <table>
+    <thead>
+      <tr>
+        <th>Product</th>
+        <th>Directional pricing frame</th>
+        <th>Typical use</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Agency stabilized (Fannie / Freddie Optigo)</td>
+        <td>Benchmark + ~150–220 bps on core assets</td>
+        <td>Stabilized 5+ unit cash flow, longer holds</td>
+      </tr>
+      <tr>
+        <td>Bridge / transitional</td>
+        <td>SOFR + ~275–500 bps before cap cost</td>
+        <td>Value-add, lease-up, timed refinance</td>
+      </tr>
+      <tr>
+        <td>Bank balance sheet</td>
+        <td>Relationship / credit-driven; often competes with agency on select profiles</td>
+        <td>Stabilized or light transitional with banking relationship</td>
+      </tr>
+      <tr>
+        <td>CMBS stabilized</td>
+        <td>Spread + structure-driven; prepay/defeasance critical</td>
+        <td>Stabilized assets where CMBS economics beat agency</td>
+      </tr>
+      <tr>
+        <td>FHA / HUD (eligible programs)</td>
+        <td>Program MIP + long amortization; timeline often outweighs coupon</td>
+        <td>Eligible construction, rehab, or 223(f) paths</td>
+      </tr>
+    </tbody>
+  </table>
+
   <h2>How to think about multifamily lending rates</h2>
   <p>
     Multifamily lending rates combine a benchmark index, lender spread, and product-specific
@@ -43,30 +117,38 @@ import BasicLayout from "@/layouts/BasicLayout.astro";
     <strong>Agency stabilized</strong> apartment loan rates often track benchmark spreads
     plus agency grid adjustments for occupancy, DSCR, and debt yield. Directionally, stabilized
     agency spreads on core assets have often landed around benchmark plus 150-220 bps in
-    recent July 2026 quote cycles—but exact spreads are quote-specific.
+    recent July 2026 quote cycles—but exact spreads are quote-specific. See
+    <a href="/loan-types/agency-stabilized">Fannie Mae agency stabilized</a> and
+    <a href="/loan-types/freddie-mac-optigo">Freddie Mac Optigo</a>.
   </p>
   <p>
     <strong>Bridge and transitional</strong> apartment loan rates typically price higher
     all-in cost reflecting execution risk, shorter terms, and extension economics. Floating-rate
     bridge debt often prices at SOFR plus roughly 275-500 bps before cap cost, with index
-    movement and cap premiums adding to all-in carry.
+    movement and cap premiums adding to all-in carry. See
+    <a href="/loan-types/bridge-value-add">bridge value-add</a>.
   </p>
   <p>
     <strong>Bank and CMBS</strong> apartment loan rates compete with agency on some stabilized
     profiles while binding differently on leverage, prepay, or relationship pricing.
   </p>
-
-  <h2>Fannie Mae multifamily rates context</h2>
   <p>
-    Fannie Mae multifamily rates flow through agency correspondent channels with spreads tied
-    to loan size, market tier, asset quality, and coverage metrics. Sponsors often see better
-    execution when packages include lender-normalized NOI, downside stress cases, and clear
-    stabilization evidence. See our <a href="/blog/fannie-mae-multifamily-loan-requirements">Fannie Mae requirements briefing</a> and <a href="/loan-types/agency-stabilized">agency stabilized loan type</a>.
+    <strong>FHA/HUD</strong> pricing is program-driven; sponsors should compare MIP, reserves,
+    and timeline against private agency alternatives. See
+    <a href="/loan-types/fha-hud-multifamily">FHA HUD multifamily</a>.
+  </p>
+
+  <h2>Fannie Mae and Freddie Mac multifamily rates context</h2>
+  <p>
+    Fannie Mae and Freddie Mac Optigo multifamily rates flow through agency correspondent channels
+    with spreads tied to loan size, market tier, asset quality, and coverage metrics. Sponsors often
+    see better execution when packages include lender-normalized NOI, downside stress cases, and clear
+    stabilization evidence. See our <a href="/blog/fannie-mae-multifamily-loan-requirements">Fannie Mae requirements briefing</a>.
   </p>
   <p>
     Directional ranges—not rate promises—help frame conversations. A stabilized asset with
     strong debt yield may receive tighter spread indication than a thin-coverage value-add
-    story at the same benchmark level.
+    story at the same benchmark level. Quote both GSE channels when the asset is agency-eligible.
   </p>
 
   <h2>Core components of all-in cost</h2>
@@ -93,6 +175,9 @@ import BasicLayout from "@/layouts/BasicLayout.astro";
     <li>Track interest-rate cap timing and replacement cost for floating-rate debt.</li>
     <li>Reassess debt strategy whenever business-plan timing materially changes.</li>
   </ol>
+
+  <h2>Frequently asked questions</h2>
+  <FaqAccordion items={rateFaqs} />
 
   <p>
     Pair this page with <a href="/learn">Learn</a> guides, <a href="/tools">calculators</a>,
