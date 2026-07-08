@@ -14,7 +14,7 @@ const webPageSchema = buildWebPageSchema({
 const faqItems = [
   {
     q: "What types of properties are covered?",
-    a: "Multi-Family USA covers US commercial multifamily properties with five or more units. We do not publish lending guidance for one-to-four-unit residential lending.",
+    a: 'Multi-Family USA covers US commercial multifamily properties with five or more units. We do not publish lending guidance for one-to-four-unit residential lending—for that scope, see our sister site <a href="https://dscrauthority.com/" target="_blank" rel="noopener noreferrer">DSCR Authority</a>.',
   },
   {
     q: "Do you cover financing outside the United States?",
@@ -80,7 +80,7 @@ const faqSchema = buildFaqSchema(faqItems);
 
   <h2>Scope and definitions</h2>
   <h3>{faqItems[0].q}</h3>
-  <p>{faqItems[0].a}</p>
+  <p set:html={faqItems[0].a} />
 
   <h3>{faqItems[1].q}</h3>
   <p>{faqItems[1].a}</p>
