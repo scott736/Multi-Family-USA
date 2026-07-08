@@ -7,11 +7,12 @@ import react from "@astrojs/react";
 import tailwindcss from "@tailwindcss/vite";
 
 import { buildSitemapLastmodMap, lookupLastmod } from "./scripts/sitemap-lastmod.mjs";
+import { SITE_URL } from "./scripts/site-config.mjs";
 
 const lastmodMap = await buildSitemapLastmodMap();
 
 export default defineConfig({
-  site: "https://multifamily-usa.com",
+  site: SITE_URL,
   compressHTML: true,
   prefetch: {
     defaultStrategy: "hover",

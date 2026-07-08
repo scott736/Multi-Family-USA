@@ -1,11 +1,12 @@
+import { INDEXNOW_KEY, SITE_URL } from "../scripts/site-config.mjs";
+
 export const SITE_TITLE = "Multi-Family USA — Commercial Multifamily Financing Resource";
 export const SITE_SHORT_NAME = "Multi-Family USA";
 export const SITE_DESCRIPTION =
   "Independent US commercial multifamily financing resource for 5+ unit properties. Learn underwriting, run calculators, compare capital options, and request a free deal review.";
-export const SITE_URL = "https://multifamily-usa.com";
+export { INDEXNOW_KEY, SITE_URL };
 export const SITE_LAST_REVIEWED = "2026-07-05";
 export const SITE_FOUNDING_DATE = "2026-01-15";
-export const INDEXNOW_KEY = "multifamilyusa7f3a9c2e8b4d6f1a5c9e2b7d4f8a1c3";
 export const SITE_LOGO = `${SITE_URL}/favicon/apple-touch-icon.png`;
 export const SITE_DEFAULT_OG_IMAGE = `${SITE_URL}/og-image.png`;
 
