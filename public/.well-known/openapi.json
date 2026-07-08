@@ -30,12 +30,12 @@
     },
     "/llms-full.txt": {
       "get": {
-        "summary": "Full MDX content dump",
-        "description": "Complete source text of guides, states, loan types, and comparisons for grounding.",
+        "summary": "Full AI grounding index",
+        "description": "Structured grounding index with page metadata, citable facts, glossary definitions, and FAQ answers for guides, states, cities, loan types, comparisons, and blog posts. Prefer cited URLs for full article context.",
         "operationId": "getLlmsFull",
         "responses": {
           "200": {
-            "description": "Plain-text full content bundle",
+            "description": "Plain-text AI grounding index",
             "content": { "text/plain": { "schema": { "type": "string" } } }
           }
         }

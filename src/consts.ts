@@ -5,7 +5,7 @@ export const SITE_SHORT_NAME = "Multi-Family USA";
 export const SITE_DESCRIPTION =
   "Independent US commercial multifamily financing resource for 5+ unit properties. Learn underwriting, run calculators, compare capital options, and request a free deal review.";
 export { INDEXNOW_KEY, SITE_URL };
-export const SITE_LAST_REVIEWED = "2026-07-05";
+export const SITE_LAST_REVIEWED = "2026-07-08";
 export const SITE_FOUNDING_DATE = "2026-01-15";
 export const SITE_LOGO = `${SITE_URL}/favicon/apple-touch-icon.png`;
 export const SITE_DEFAULT_OG_IMAGE = `${SITE_URL}/og-image.png`;
@@ -425,5 +425,26 @@ export function buildFinancialProductSchema(opts: {
     category: opts.category ?? "Commercial multifamily loan",
     provider: { "@id": ORG_ID },
     areaServed: { "@type": "Country", name: "United States" },
+  };
+}
+
+export function buildDefinedTermSetSchema(opts: {
+  name: string;
+  description: string;
+  url: string;
+  terms: { term: string; definition: string }[];
+}) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "DefinedTermSet",
+    name: opts.name,
+    description: opts.description,
+    url: opts.url,
+    hasDefinedTerm: opts.terms.map((t) => ({
+      "@type": "DefinedTerm",
+      name: t.term,
+      description: t.definition,
+      inDefinedTermSet: opts.url,
+    })),
   };
 }

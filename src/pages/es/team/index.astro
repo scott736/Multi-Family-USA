@@ -4,16 +4,16 @@ import DefaultLayout from "@/layouts/DefaultLayout.astro";
 ---
 
 <DefaultLayout
-  title="Team | Multi-Family USA"
-  description="Meet the editorial and advisory contributors behind Multi-Family USA's multifamily financing guides and deal review support."
-  canonical="/team"
+  title="Equipo | Multi-Family USA"
+  description="Conozca a los colaboradores editoriales y de asesoría detrás de las guías de financiamiento multifamiliar y el soporte de revisión de deals de Multi-Family USA."
+  canonical="/es/team"
   enPath="/team/"
   esPath="/es/team/"
 >
   <section class="container py-12 md:py-16">
-    <h1 class="text-4xl font-bold">Team</h1>
+    <h1 class="text-4xl font-bold">Equipo</h1>
     <p class="mt-3 max-w-2xl text-muted-foreground">
-      Multi-Family USA combines editorial analysis with practical multifamily lending and underwriting experience.
+      Multi-Family USA combina análisis editorial con experiencia práctica en préstamos y suscripción multifamiliar.
     </p>
 
     <ul class="mt-10 grid gap-6 md:grid-cols-2">
@@ -42,14 +42,14 @@ import DefaultLayout from "@/layouts/DefaultLayout.astro";
                 href={`/team/${member.slug}`}
                 class="rounded-md border border-border px-3 py-1.5 text-xs font-semibold hover:bg-secondary"
               >
-                View profile
+                Ver perfil
               </a>
               <a
-                href={`/book-strategy-call?advisor=${member.slug}`}
+                href={`/es/book-strategy-call?advisor=${member.slug}`}
                 class="rounded-md bg-accent px-3 py-1.5 text-xs font-bold text-accent-foreground hover:bg-accent/90"
-                data-analytics-location="team-index"
+                data-analytics-location="team-index-es"
               >
-                Book a call
+                Reservar una llamada
               </a>
             </div>
           </li>

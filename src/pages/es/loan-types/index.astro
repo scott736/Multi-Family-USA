@@ -1,0 +1,113 @@
+---
+import { getCollection } from "astro:content";
+
+import AnswerCapsule from "@/components/dscr/AnswerCapsule.astro";
+import Breadcrumbs from "@/components/dscr/Breadcrumbs.astro";
+import CtaCard from "@/components/dscr/CtaCard.astro";
+import FaqAccordion from "@/components/dscr/FaqAccordion.astro";
+import NetworkCrossLinks from "@/components/dscr/NetworkCrossLinks.astro";
+import { buildCollectionPageSchema, buildFaqSchema, buildWebPageSchema, SITE_URL } from "@/consts";
+import DefaultLayout from "@/layouts/DefaultLayout.astro";
+
+const entries = await getCollection("esLoanTypes");
+
+const hubFaqs = [
+  {
+    q: "¿Qué tipos de préstamo multifamiliar cubre este hub?",
+    a: "Cubrimos agency (ejecución estilo Fannie/Freddie), bridge, banco, FHA/HUD, CMBS y marcos de debt fund usados para multifamiliar comercial de 5+ unidades — con enlaces a guías y comparaciones detalladas.",
+  },
+  {
+    q: "¿Cómo elijo entre agency y bridge?",
+    a: 'Agency encaja con flujo de caja estabilizado y holds más largos; bridge encaja con value-add transicional y una ruta clara de refinanciamiento. Vea la <a href="/es/compare/agency-vs-bridge/">comparación agency vs bridge</a> para un marco de decisión estructurado.',
+  },
+  {
+    q: "¿Dónde encajan los programas CMHC MLI?",
+    a: 'CMHC MLI es un programa multifamiliar asegurado canadiense — no un producto de EE. UU. Para CMHC MLI Select y ejecución multifamiliar canadiense, vea <a href="https://lendcity.ca/multifamily-mortgage-financing/" target="_blank" rel="noopener noreferrer">financiamiento multifamiliar de LendCity</a>.',
+  },
+];
+
+const pageUrl = `${SITE_URL}/es/loan-types/`;
+const webPageSchema = buildWebPageSchema({
+  name: "Tipos de préstamo multifamiliar",
+  description: "Marcos de ejecución entre productos agency, bridge, banco y debt fund.",
+  url: pageUrl,
+  inLanguage: "es-US",
+});
+const collectionSchema = buildCollectionPageSchema({
+  name: "Tipos de préstamo multifamiliar",
+  description: "Marcos de ejecución entre productos agency, bridge, banco y debt fund.",
+  url: pageUrl,
+  items: entries.map((entry) => ({
+    name: entry.data.title ?? entry.id,
+    url: `/es/loan-types/${entry.id.replace(/\.mdx$/, "")}/`,
+    description: entry.data.description,
+  })),
+});
+const faqSchema = buildFaqSchema(hubFaqs);
+---
+
+<DefaultLayout
+  title="Tipos de préstamo multifamiliar | Multi-Family USA"
+  description="Marcos de ejecución entre productos agency, bridge, banco y debt fund."
+  canonical="/es/loan-types"
+  enPath="/loan-types/"
+  esPath="/es/loan-types/"
+  schema={[webPageSchema, collectionSchema, ...(faqSchema ? [faqSchema] : [])]}
+>
+  <Breadcrumbs crumbs={[
+    { label: "Inicio", href: "/es" },
+    { label: "Tipos de préstamo", href: "/es/loan-types" },
+  ]} />
+
+  <section class="container py-8">
+    <p class="text-xs font-bold uppercase tracking-wider text-accent">Tipos de préstamo</p>
+    <h1 class="mt-2 text-4xl font-bold lg:text-5xl">Tipos de préstamo multifamiliar</h1>
+    <p class="mt-4 max-w-3xl text-lg text-muted-foreground">Marcos de ejecución entre productos agency, bridge, banco y debt fund.</p>
+  </section>
+
+  <section class="container pb-8">
+    <AnswerCapsule
+      question="¿Qué tipos de préstamo se usan para multifamiliar en EE. UU. (5+ unidades)?"
+      answer="Los patrocinadores de multifamiliar comercial suelen elegir entre ejecución agency, deuda bridge, préstamos de balance sheet bancarios, programas FHA/HUD, CMBS y debt funds — cada uno con distintos trade-offs de proceeds, precio, prepago, recurso y plazos."
+      bullets={[
+        "Cubre planes de negocio estabilizados y transicionales",
+        "Enlaces a comparaciones, guías y calculadoras",
+        "Solo alcance EE. UU. — vea LendCity para CMHC MLI en Canadá",
+      ]}
+    />
+  </section>
+
+  <section class="container py-4">
+    <div class="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+      {entries
+        .sort((a, b) => (a.data.title ?? "").localeCompare(b.data.title ?? ""))
+        .map((entry) => {
+          const slug = entry.id.replace(/\.mdx$/, "");
+          return (
+            <a href={`/es/loan-types/${slug}`} class="group rounded-lg border border-border bg-card p-5 hover:border-accent">
+              <h2 class="text-lg font-bold group-hover:text-primary">{entry.data.title}</h2>
+              <p class="mt-2 line-clamp-3 text-sm text-muted-foreground">{entry.data.description}</p>
+            </a>
+          );
+        })}
+    </div>
+  </section>
+
+  <section class="container py-8">
+    <NetworkCrossLinks
+      heading="Multifamiliar canadiense y cross-border"
+      intro="CMHC MLI y programas multifamiliares asegurados canadienses viven en LendCity. Use los enlaces abajo cuando su cartera abarque ejecución agency/bridge en EE. UU. y planificación de capital canadiense o cross-border."
+    />
+  </section>
+
+  <section class="container py-8">
+    <h2 class="text-2xl font-bold">Preguntas frecuentes</h2>
+    <div class="mt-6">
+      <FaqAccordion items={hubFaqs} />
+    </div>
+  </section>
+
+  <section class="container py-12">
+    <CtaCard />
+  </section>
+</DefaultLayout>

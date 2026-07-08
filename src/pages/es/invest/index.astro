@@ -1,0 +1,110 @@
+---
+import { getCollection } from "astro:content";
+
+import AnswerCapsule from "@/components/dscr/AnswerCapsule.astro";
+import Breadcrumbs from "@/components/dscr/Breadcrumbs.astro";
+import CtaCard from "@/components/dscr/CtaCard.astro";
+import FaqAccordion from "@/components/dscr/FaqAccordion.astro";
+import NetworkCrossLinks from "@/components/dscr/NetworkCrossLinks.astro";
+import { buildCollectionPageSchema, buildFaqSchema, buildWebPageSchema, SITE_URL } from "@/consts";
+import DefaultLayout from "@/layouts/DefaultLayout.astro";
+
+const entries = await getCollection("esInvestorProfiles");
+
+const hubFaqs = [
+  {
+    q: "¿Para quién son los perfiles de inversionista?",
+    a: "Cada playbook mapea decisiones de financiamiento a la etapa del operador — compradores primerizos, patrocinadores value-add, operadores de cartera pequeña y equipos de crecimiento institucional — para que el apalancamiento y los productos coincidan con la capacidad de reporteo.",
+  },
+  {
+    q: "¿Debería un comprador multifamiliar primerizo empezar aquí o en Aprender?",
+    a: 'Use el <a href="/es/invest/first-time-multifamily-buyer/">playbook del comprador primerizo</a> para la secuencia específica del rol, luego profundice en las guías de Aprender y las calculadoras de Herramientas.',
+  },
+  {
+    q: "¿Estos playbooks cubren operadores canadienses que compran en EE. UU.?",
+    a: 'La ejecución en EE. UU. se cubre aquí. Para planificación de entidad y prestamista cross-border desde Canadá, combine estos playbooks con <a href="https://lendcity.ca/cross-border-mortgage-financing/" target="_blank" rel="noopener noreferrer">financiamiento cross-border de LendCity</a>.',
+  },
+];
+
+const pageUrl = `${SITE_URL}/es/invest/`;
+const webPageSchema = buildWebPageSchema({
+  name: "Perfiles de inversionista y playbooks",
+  description: "Playbooks para operadores en distintas etapas de cartera.",
+  url: pageUrl,
+  inLanguage: "es-US",
+});
+const collectionSchema = buildCollectionPageSchema({
+  name: "Perfiles de inversionista y playbooks",
+  description: "Playbooks para operadores en distintas etapas de cartera.",
+  url: pageUrl,
+  items: entries.map((entry) => ({
+    name: entry.data.title ?? entry.id,
+    url: `/es/invest/${entry.id.replace(/\.mdx$/, "")}/`,
+    description: entry.data.description,
+  })),
+});
+const faqSchema = buildFaqSchema(hubFaqs);
+---
+
+<DefaultLayout
+  title="Perfiles de inversionista y playbooks | Multi-Family USA"
+  description="Playbooks para operadores en distintas etapas de cartera."
+  canonical="/es/invest"
+  enPath="/invest/"
+  esPath="/es/invest/"
+  schema={[webPageSchema, collectionSchema, ...(faqSchema ? [faqSchema] : [])]}
+>
+  <Breadcrumbs crumbs={[
+    { label: "Inicio", href: "/es" },
+    { label: "Invertir", href: "/es/invest" },
+  ]} />
+
+  <section class="container py-8">
+    <p class="text-xs font-bold uppercase tracking-wider text-accent">Invertir</p>
+    <h1 class="mt-2 text-4xl font-bold lg:text-5xl">Perfiles de inversionista y playbooks</h1>
+    <p class="mt-4 max-w-3xl text-lg text-muted-foreground">Playbooks para operadores en distintas etapas de cartera.</p>
+  </section>
+
+  <section class="container pb-8">
+    <AnswerCapsule
+      question="¿Qué son los playbooks de inversionista multifamiliar?"
+      answer="Los playbooks de inversionista traducen la estrategia de financiamiento a la etapa del operador — cuánto apalancamiento usar, qué tipos de préstamo encajan con su plan de negocio y qué disciplina de reporteo y reservas exige cada ruta para multifamiliar de 5+ unidades en EE. UU."
+      bullets={[
+        "Perfiles desde compradores primerizos hasta operadores institucionales",
+        "Enlaces a guías, comparaciones y calculadoras",
+        "Enfocados en ejecución — no consejos genéricos de inversión",
+      ]}
+    />
+  </section>
+
+  <section class="container py-4">
+    <div class="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+      {entries
+        .sort((a, b) => (a.data.title ?? "").localeCompare(b.data.title ?? ""))
+        .map((entry) => {
+          const slug = entry.id.replace(/\.mdx$/, "");
+          return (
+            <a href={`/es/invest/${slug}`} class="group rounded-lg border border-border bg-card p-5 hover:border-accent">
+              <h2 class="text-lg font-bold group-hover:text-primary">{entry.data.title}</h2>
+              <p class="mt-2 line-clamp-3 text-sm text-muted-foreground">{entry.data.description}</p>
+            </a>
+          );
+        })}
+    </div>
+  </section>
+
+  <section class="container py-8">
+    <NetworkCrossLinks />
+  </section>
+
+  <section class="container py-8">
+    <h2 class="text-2xl font-bold">Preguntas frecuentes</h2>
+    <div class="mt-6">
+      <FaqAccordion items={hubFaqs} />
+    </div>
+  </section>
+
+  <section class="container py-12">
+    <CtaCard />
+  </section>
+</DefaultLayout>
