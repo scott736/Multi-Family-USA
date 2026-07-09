@@ -1,6 +1,6 @@
 ---
-import BasicLayout from "@/layouts/BasicLayout.astro";
 import { pageLangFromPath } from "@/i18n/alternates";
+import BasicLayout from "@/layouts/BasicLayout.astro";
 
 const isEs = pageLangFromPath(Astro.url.pathname) === "es";
 const homeHref = isEs ? "/es/" : "/";
