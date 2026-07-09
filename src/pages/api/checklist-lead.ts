@@ -17,7 +17,8 @@ const checklistLeadSchema = z.object({
   checklistTitle: z.string().max(200).optional(),
   lang: z.enum(['en', 'es']).default('en'),
   sourcePage: z.string().max(500).optional(),
-  website: z.string().max(0).optional(),
+  // Honeypot: allow any short string so bots pass Zod, then short-circuit below.
+  website: z.string().max(200).optional(),
 });
 
 const HTML_ESCAPES: Record<string, string> = {

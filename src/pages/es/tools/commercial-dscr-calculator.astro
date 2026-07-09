@@ -5,11 +5,11 @@ import ToolShell from "@/components/dscr/ToolShell.astro";
 const faqs = [
   {
     q: "¿Qué es DSCR comercial multifamiliar?",
-    a: "Mide si el NOI normalizado cubre el servicio anual de la deuda (P&I). En propiedades de 5+ unidades, los prestamistas usan DSCR con debt yield y LTV—no programas DSCR residenciales 1-4 unidades.",
+    a: "Mide si el flujo de la propiedad cubre el servicio de la deuda. Esta calculadora usa una pantalla mensual práctica: renta bruta ÷ PITIA (P&I, impuestos, seguro, HOA y flood). La suscripción completa del prestamista en deals de 5+ unidades suele usar NOI normalizado ÷ servicio anual de la deuda, más debt yield y LTV.",
   },
   {
-    q: "¿Cómo se calcula?",
-    a: "DSCR = NOI ÷ Servicio anual de la deuda. NOI $960,000 y P&I $720,000 → DSCR 1.33x.",
+    q: "¿Cómo calcula esta herramienta el DSCR?",
+    a: "DSCR = Renta bruta mensual ÷ PITIA mensual. Si la renta es $2,800 y el PITIA es $2,050, el DSCR es 1.37x. Para dimensionamiento basado en NOI, use Cap Rate & NOI y Debt Yield junto con esta pantalla.",
   },
   {
     q: "¿Qué DSCR exigen los prestamistas?",
@@ -17,7 +17,7 @@ const faqs = [
   },
   {
     q: "¿Por qué difiere del prestamista?",
-    a: "Pueden recortar ingresos, estresar gastos e incluir reservas. El DSCR del patrocinador suele ser mayor que el del prestamista.",
+    a: "Pueden recortar ingresos, estresar gastos e incluir reservas. Una pantalla renta÷PITIA es direccional; el DSCR del patrocinador suele ser mayor que el del prestamista.",
   },
   {
     q: "¿Afecta el período solo intereses?",
@@ -33,29 +33,35 @@ const faqs = [
 <ToolShell
   locale="es"
   title="Calculadora DSCR Comercial Multifamiliar | Multi-Family USA"
-  description="Calculadora DSCR gratuita para préstamos multifamiliares de 5+ unidades. Pruebe cobertura del servicio de la deuda con fórmulas y ejemplo."
+  description="Calculadora DSCR gratuita para préstamos multifamiliares de 5+ unidades. Pruebe cobertura mensual de renta vs PITIA con fórmulas y ejemplo."
   h1="Calculadora DSCR Comercial"
   toolSlug="commercial-dscr-calculator"
-  tagline="Pruebe cobertura del servicio de la deuda para edificios comerciales—no programas DSCR residenciales 1-4 unidades."
+  tagline="Pruebe cobertura mensual de renta vs PITIA para edificios comerciales—no programas DSCR residenciales 1-4 unidades."
   keywords={["calculadora DSCR", "DSCR comercial", "DSCR multifamiliar"]}
   relatedGuides={["commercial-dscr-explained", "debt-yield-and-ltv-framework", "multifamily-underwriting-basics"]}
   relatedComparisons={["agency-vs-bridge", "fixed-vs-floating-rate"]}
   faqs={faqs}
 >
   <Fragment slot="calculator">
-    <DscrCalculator client:load />
+    <DscrCalculator client:load lang="es" />
   </Fragment>
 
   <Fragment slot="content">
     <div class="prose prose-neutral max-w-none dark:prose-invert">
-      <h2>Cómo calcular DSCR comercial</h2>
-      <p><strong>DSCR = NOI ÷ Servicio anual de la deuda</strong></p>
+      <h2>Cómo mide DSCR esta calculadora</h2>
+      <p><strong>DSCR = Renta bruta mensual ÷ PITIA mensual</strong></p>
+      <p>
+        PITIA incluye P&amp;I, impuestos, seguro, HOA y flood. La suscripción comercial del prestamista
+        suele usar <strong>NOI ÷ servicio anual de la deuda</strong>—combine esta pantalla con
+        <a href="/es/tools/cap-rate-noi-calculator">Cap Rate y NOI</a> y
+        <a href="/es/tools/debt-yield-calculator">Debt Yield</a>.
+      </p>
 
-      <h2>Ejemplo: adquisición value-add de 32 unidades</h2>
-      <p>NOI in-place <strong>$480,000</strong>. Servicio anual <strong>$380,000</strong>.</p>
+      <h2>Ejemplo: renta mensual vs PITIA</h2>
+      <p>Renta bruta mensual <strong>$2,800</strong>. PITIA mensual <strong>$2,050</strong>.</p>
       <ul>
-        <li>DSCR in-place: <strong>1.26x</strong></li>
-        <li>NOI estabilizado $620,000 → <strong>1.63x</strong></li>
+        <li>DSCR: <strong>1.37x</strong></li>
+        <li>Flujo mensual después de PITIA: <strong>$750</strong></li>
       </ul>
     </div>
   </Fragment>

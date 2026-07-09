@@ -15,6 +15,7 @@ interface LeadFormStepIndicatorProps {
   steps: readonly LeadFormStep[];
   isHero: boolean;
   isPolished: boolean;
+  lang?: 'en' | 'es';
 }
 
 export function LeadFormStepIndicator({
@@ -22,15 +23,19 @@ export function LeadFormStepIndicator({
   steps,
   isHero,
   isPolished,
+  lang = 'en',
 }: LeadFormStepIndicatorProps) {
+  const isEs = lang === 'es';
   if (isHero) {
     const progress = (step / steps.length) * 100;
     return (
       <div className="mb-5">
         <div className="mb-2.5 flex items-center justify-between gap-3">
-          <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-accent">Your investor journey</p>
+          <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-accent">
+            {isEs ? 'Su recorrido de inversor' : 'Your investor journey'}
+          </p>
           <span className="text-[11px] font-semibold tabular-nums text-muted-foreground">
-            Step {step}/{steps.length} · {Math.round(progress)}%
+            {isEs ? 'Paso' : 'Step'} {step}/{steps.length} · {Math.round(progress)}%
           </span>
         </div>
         <div className="relative h-1.5 overflow-hidden rounded-full bg-secondary/90">
@@ -80,9 +85,11 @@ export function LeadFormStepIndicator({
       <div className="mb-7">
         <div className="mb-3 flex items-center justify-between text-xs font-medium text-muted-foreground">
           <span>
-            Step {step} of {steps.length}
+            {isEs ? 'Paso' : 'Step'} {step} {isEs ? 'de' : 'of'} {steps.length}
           </span>
-          <span className="text-accent">{Math.round((step / steps.length) * 100)}% complete</span>
+          <span className="text-accent">
+            {Math.round((step / steps.length) * 100)}%{isEs ? ' completo' : ' complete'}
+          </span>
         </div>
         <div className="relative h-1.5 overflow-hidden rounded-full bg-secondary">
           <div
@@ -139,7 +146,7 @@ export function LeadFormStepIndicator({
       <div className="mt-2 flex items-center justify-between text-[11px] font-semibold">
         <span className="uppercase tracking-wider text-foreground">{steps[step - 1]?.label}</span>
         <span className="tabular-nums text-muted-foreground">
-          Step {step} of {steps.length}
+          {isEs ? 'Paso' : 'Step'} {step} {isEs ? 'de' : 'of'} {steps.length}
         </span>
       </div>
     </div>

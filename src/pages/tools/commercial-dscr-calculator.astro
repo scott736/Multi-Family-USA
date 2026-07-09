@@ -5,11 +5,11 @@ import ToolShell from "@/components/dscr/ToolShell.astro";
 const faqs = [
   {
     q: "What is commercial DSCR for multifamily?",
-    a: "Commercial DSCR measures whether normalized NOI covers annual debt service (principal and interest). Lenders on 5+ unit properties use DSCR with debt yield and LTV to size proceeds—not residential 1–4 unit DSCR programs.",
+    a: "Commercial DSCR measures whether property cash flow covers debt service. This calculator uses a practical monthly screen: gross rent ÷ PITIA (principal & interest, taxes, insurance, HOA, and flood). Full lender underwriting on 5+ unit deals often uses normalized NOI ÷ annual debt service, then layers debt yield and LTV.",
   },
   {
-    q: "How do you calculate DSCR?",
-    a: "DSCR = NOI ÷ Annual Debt Service. If NOI is $960,000 and annual P&I is $720,000, DSCR is 1.33x. Higher coverage generally supports more proceeds or better pricing.",
+    q: "How does this calculator compute DSCR?",
+    a: "DSCR = Monthly Gross Rent ÷ Monthly PITIA. If rent is $2,800 and PITIA is $2,050, DSCR is 1.37x. Higher coverage generally supports more proceeds or better pricing. For NOI-based sizing, use our Cap Rate & NOI and Debt Yield tools alongside this screen.",
   },
   {
     q: "What DSCR do multifamily lenders require?",
@@ -17,7 +17,7 @@ const faqs = [
   },
   {
     q: "Why does my DSCR differ from the lender's?",
-    a: "Lenders may haircut revenue, stress expenses, include reserves, and use their own rate and amortization assumptions. Sponsor spreadsheet DSCR often runs higher than lender underwriting DSCR.",
+    a: "Lenders may haircut revenue, stress expenses, include reserves, and use their own rate and amortization assumptions. A rent÷PITIA screen is directional; sponsor spreadsheet DSCR often runs higher than lender underwriting DSCR.",
   },
   {
     q: "Does interest-only debt affect DSCR?",
@@ -25,7 +25,7 @@ const faqs = [
   },
   {
     q: "How can I improve DSCR before refinancing?",
-    a: "Focus on durable NOI improvements—occupancy, effective rent, expense control—and realistic loan sizing. Short-term rate bets rarely substitute for stronger operating performance.",
+    a: "Focus on durable income improvements—occupancy, effective rent, expense control—and realistic loan sizing. Short-term rate bets rarely substitute for stronger operating performance.",
   },
   {
     q: "Is this calculator for residential DSCR loans?",
@@ -36,10 +36,10 @@ const faqs = [
 
 <ToolShell
   title="DSCR Calculator for Commercial Multifamily | Multi-Family USA"
-  description="Free commercial DSCR calculator for 5+ unit multifamily loans. Stress-test debt service coverage with formulas, FAQs, and a worked apartment example."
+  description="Free commercial DSCR calculator for 5+ unit multifamily loans. Stress-test monthly rent vs PITIA coverage with formulas, FAQs, and a worked apartment example."
   h1="Commercial DSCR Calculator"
   toolSlug="commercial-dscr-calculator"
-  tagline="Stress-test debt service coverage for commercial apartment buildings—not residential 1–4 unit DSCR programs."
+  tagline="Stress-test monthly rent vs PITIA coverage for commercial apartment buildings—not residential 1–4 unit DSCR programs."
   keywords={["dscr calculator", "commercial dscr", "multifamily dscr", "debt service coverage", "apartment loan qualification"]}
   relatedGuides={["commercial-dscr-explained", "debt-yield-and-ltv-framework", "multifamily-underwriting-basics"]}
   relatedComparisons={["agency-vs-bridge", "fixed-vs-floating-rate"]}
@@ -52,25 +52,33 @@ const faqs = [
 
   <Fragment slot="content">
     <div class="prose prose-neutral max-w-none dark:prose-invert">
-      <h2>How to calculate commercial DSCR</h2>
+      <h2>How this calculator measures DSCR</h2>
       <p>
-        For multifamily acquisitions and refinances on 5+ units, commercial DSCR is:
+        This tool uses a practical monthly coverage screen for 5+ unit multifamily deals:
       </p>
-      <p><strong>DSCR = NOI ÷ Annual Debt Service</strong></p>
+      <p><strong>DSCR = Monthly Gross Rent ÷ Monthly PITIA</strong></p>
       <p>
-        Annual debt service includes principal and interest (and sometimes lender-required reserves). Use normalized NOI consistent with lender underwriting, not unadjusted sponsor projections.
+        PITIA includes principal &amp; interest, property tax, insurance, HOA, and flood.
+        Lender commercial underwriting often uses <strong>NOI ÷ annual debt service</strong> instead—pair this
+        screen with our <a href="/tools/cap-rate-noi-calculator">Cap Rate &amp; NOI</a> and
+        <a href="/tools/debt-yield-calculator">Debt Yield</a> calculators for a fuller picture.
       </p>
 
-      <h2>Worked example: 32-unit value-add acquisition</h2>
+      <h2>Worked example: monthly rent vs PITIA</h2>
       <p>
-        A sponsor acquires a 32-unit value-add property. In-place normalized NOI is <strong>$480,000</strong>. Proposed permanent debt service is <strong>$380,000</strong> per year at full amortization.
+        A 32-unit building collects <strong>$2,800</strong> monthly gross rent on a unit-level screen.
+        Monthly PITIA is <strong>$2,050</strong> (P&amp;I $1,620 + tax $320 + insurance $110).
       </p>
       <ul>
-        <li>In-place DSCR: $480,000 ÷ $380,000 = <strong>1.26x</strong></li>
-        <li>Stabilized NOI target of $620,000 implies <strong>1.63x</strong> coverage on the same debt service</li>
+        <li>DSCR: $2,800 ÷ $2,050 = <strong>1.37x</strong></li>
+        <li>Monthly cash flow after PITIA: <strong>$750</strong></li>
       </ul>
       <p>
-        Bridge lenders may size on in-place metrics while agency takeout lenders focus on stabilized coverage. See our <a href="/learn/commercial-dscr-explained">commercial DSCR guide</a> and <a href="/compare/agency-vs-bridge">agency vs bridge comparison</a>. For 1–4 unit rentals, use the <a href="https://dscrauthority.com/tools/dscr-calculator/" target="_blank" rel="noopener noreferrer">free DSCR calculator</a> at DSCR Authority instead.
+        Bridge lenders may size on in-place metrics while agency takeout lenders focus on stabilized NOI coverage.
+        See our <a href="/learn/commercial-dscr-explained">commercial DSCR guide</a> and
+        <a href="/compare/agency-vs-bridge">agency vs bridge comparison</a>. For 1–4 unit rentals, use the
+        <a href="https://dscrauthority.com/tools/dscr-calculator/" target="_blank" rel="noopener noreferrer">free DSCR calculator</a>
+        at DSCR Authority instead.
       </p>
     </div>
   </Fragment>

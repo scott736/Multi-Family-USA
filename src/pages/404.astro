@@ -1,17 +1,26 @@
 ---
 import BasicLayout from "@/layouts/BasicLayout.astro";
+import { pageLangFromPath } from "@/i18n/alternates";
+
+const isEs = pageLangFromPath(Astro.url.pathname) === "es";
+const homeHref = isEs ? "/es/" : "/";
 ---
 
 <BasicLayout
-  title="Page Not Found | Multi-Family USA"
-  description="The page you requested does not exist. Browse multifamily financing guides, calculators, and market coverage."
+  title={isEs ? "Página no encontrada | Multi-Family USA" : "Page Not Found | Multi-Family USA"}
+  description={
+    isEs
+      ? "La página solicitada no existe. Explore guías, calculadoras y cobertura de mercados de financiamiento multifamiliar."
+      : "The page you requested does not exist. Browse multifamily financing guides, calculators, and market coverage."
+  }
   noindex
+  includeSpanish={false}
   crumbs={[
-    { label: "Home", href: "/" },
-    { label: "Page not found", href: "/404" },
+    { label: isEs ? "Inicio" : "Home", href: homeHref },
+    { label: isEs ? "Página no encontrada" : "Page not found", href: "/404" },
   ]}
 >
-  <h1>Page not found</h1>
-  <p>The page you requested is unavailable.</p>
-  <p><a href="/">Return home</a></p>
+  <h1>{isEs ? "Página no encontrada" : "Page not found"}</h1>
+  <p>{isEs ? "La página solicitada no está disponible." : "The page you requested is unavailable."}</p>
+  <p><a href={homeHref}>{isEs ? "Volver al inicio" : "Return home"}</a></p>
 </BasicLayout>

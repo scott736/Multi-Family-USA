@@ -31,7 +31,9 @@ const leadSchema = z.object({
   timeline: z.enum(['asap', '30-60', '60-90', '90-plus']),
   sourcePage: z.string().max(500).optional(),
   sourceContext: z.string().max(500).optional(),
-  website: z.string().max(0).optional(),
+  lang: z.enum(['en', 'es']).optional(),
+  // Honeypot: allow any short string so bots pass Zod, then short-circuit below.
+  website: z.string().max(200).optional(),
 });
 
 type Lead = z.infer<typeof leadSchema>;
@@ -268,6 +270,7 @@ export const POST: APIRoute = async ({ request }) => {
           },
         },
         assignedTo,
+        { lang: lead.lang ?? 'en' },
       ),
       sendElasticEmail({
         to: assignedTo.email,

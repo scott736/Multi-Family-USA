@@ -5,15 +5,15 @@ import ToolShell from "@/components/dscr/ToolShell.astro";
 const faqs = [
   {
     q: "What is a multifamily loan sizing calculator?",
-    a: "A loan sizing calculator estimates maximum proceeds by testing DSCR, debt yield, and LTV constraints together. The binding constraint—the lowest proceeds amount—usually drives the lender term sheet.",
+    a: "This calculator estimates maximum supportable loan amount from a DSCR target: it solves for the largest monthly P&I such that rent ÷ (P&I + fixed costs) meets your target DSCR, then back-calculates loan amount from amortization. Purchase-price ranges at 75% and 80% LTV are shown as context—not as a separate binding constraint engine.",
   },
   {
     q: "How do lenders size multifamily loans?",
-    a: "Lenders calculate max loan from each metric (DSCR floor, debt yield floor, LTV cap) and lend to the lowest result. Sponsors should model base and downside cases before selecting a product.",
+    a: "In practice, lenders often calculate max loan from DSCR, debt yield, and LTV and lend to the lowest result. This tool focuses on the DSCR path so you can stress rent, fixed costs, rate, and target coverage quickly. Use our Debt Yield calculator for the NOI ÷ loan screen.",
   },
   {
-    q: "Which constraint binds most often?",
-    a: "It depends on market, rate environment, and asset stage. In tight spread environments, debt yield often binds on stabilized deals. Value-add bridge deals may bind on in-place DSCR or LTV until stabilization.",
+    q: "Does this tool apply debt yield and LTV constraints?",
+    a: "No. It sizes by DSCR only, then shows illustrative purchase prices at 75% and 80% LTV for the computed loan. Debt yield and formal LTV caps still matter on term sheets—model them separately before requesting quotes.",
   },
   {
     q: "Should I size to maximum leverage?",
@@ -21,21 +21,21 @@ const faqs = [
   },
   {
     q: "How does property value affect loan sizing?",
-    a: "LTV caps proceeds as a percentage of appraised or lender value. NOI drives DSCR and debt yield caps. Weak value opinions or thin NOI can bind before leverage targets are reached.",
+    a: "LTV caps proceeds as a percentage of appraised or lender value. This calculator back-solves illustrative prices from the DSCR-sized loan; a weak appraisal can still bind below that level.",
   },
   {
     q: "Can I use this for agency and bridge scenarios?",
-    a: "Yes. Change DSCR, debt yield, and LTV assumptions to match each product's typical underwriting band, then compare proceeds side by side before requesting quotes.",
+    a: "Yes. Change the target DSCR, rate, and amortization to match each product's typical underwriting band, then compare proceeds before requesting quotes. Pair with debt yield and NOI tools for a fuller stack.",
   },
 ];
 ---
 
 <ToolShell
   title="Multifamily Loan Calculator | Multi-Family USA"
-  description="Free multifamily loan sizing calculator. Find max proceeds from DSCR, debt yield, and LTV constraints with formulas and a worked 5+ unit example."
+  description="Free multifamily loan sizing calculator. Estimate max proceeds from a DSCR target using rent, fixed costs, rate, and amortization—with LTV context and a worked 5+ unit example."
   h1="Multifamily Loan Sizing Calculator"
   toolSlug="loan-sizing-calculator"
-  tagline="Back into maximum supportable debt from DSCR, debt yield, and LTV—the three metrics that bind most apartment loan term sheets."
+  tagline="Back into maximum supportable debt from a DSCR target—then see illustrative purchase prices at 75% and 80% LTV."
   keywords={["multifamily loan calculator", "loan sizing calculator", "apartment loan proceeds", "ltv dscr debt yield", "commercial multifamily"]}
   relatedGuides={["multifamily-underwriting-basics", "debt-yield-and-ltv-framework", "capital-stack-design-for-value-add"]}
   relatedComparisons={["fixed-vs-floating-rate", "agency-vs-bridge"]}
@@ -48,28 +48,32 @@ const faqs = [
 
   <Fragment slot="content">
     <div class="prose prose-neutral max-w-none dark:prose-invert">
-      <h2>How to size a multifamily loan</h2>
+      <h2>How this calculator sizes a multifamily loan</h2>
       <p>
-        Commercial multifamily proceeds are usually limited by the lowest of three calculations:
+        The widget solves a DSCR-based max loan from monthly rent and fixed costs:
       </p>
       <ul>
-        <li><strong>DSCR constraint:</strong> Max Debt Service = NOI ÷ Min DSCR → solve for loan from payment</li>
-        <li><strong>Debt yield constraint:</strong> Max Loan = NOI ÷ Min Debt Yield</li>
-        <li><strong>LTV constraint:</strong> Max Loan = Property Value × Max LTV</li>
+        <li><strong>Max monthly P&amp;I</strong> = Rent ÷ Target DSCR − Fixed costs (tax, insurance, etc.)</li>
+        <li><strong>Max loan</strong> = amortizing loan amount that produces that P&amp;I at your rate and term</li>
+        <li><strong>LTV context</strong> = illustrative purchase price at 75% and 80% LTV for that loan</li>
       </ul>
-      <p>The binding constraint determines proceeds. Always stress NOI and rates in downside cases.</p>
+      <p>
+        Full lender term sheets often also bind on <a href="/tools/debt-yield-calculator">debt yield</a>
+        and appraisal LTV. Always stress NOI and rates in downside cases.
+      </p>
 
-      <h2>Worked example: 56-unit stabilized acquisition</h2>
+      <h2>Worked example: DSCR-based max loan</h2>
       <p>
-        NOI: <strong>$980,000</strong>. Value: <strong>$14,000,000</strong>. Lender floors: 1.25x DSCR, 9.25% debt yield, 75% LTV. At a 6.5% rate and 30-year amortization, annual debt service on a $10.5M loan ≈ $798,000.
+        Monthly rent <strong>$2,800</strong>, fixed costs <strong>$430</strong>, rate <strong>7.25%</strong>,
+        30-year amortization, target DSCR <strong>1.00x</strong>.
       </p>
       <ul>
-        <li>DSCR max ≈ $10.5M (1.23x at that balance—near floor)</li>
-        <li>Debt yield max: $980,000 ÷ 0.0925 ≈ <strong>$10.59M</strong></li>
-        <li>LTV max: $14M × 75% = <strong>$10.5M</strong></li>
+        <li>Max monthly P&amp;I ≈ <strong>$2,370</strong></li>
+        <li>Max loan ≈ <strong>$347,000</strong></li>
+        <li>Illustrative purchase price @ 75% LTV ≈ <strong>$463,000</strong></li>
       </ul>
       <p>
-        Proceeds likely bind near <strong>$10.5M</strong>. Explore structure trade-offs in our <a href="/learn/agency-vs-bridge-execution">agency vs bridge execution guide</a>.
+        Explore structure trade-offs in our <a href="/learn/agency-vs-bridge-execution">agency vs bridge execution guide</a>.
       </p>
     </div>
   </Fragment>

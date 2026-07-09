@@ -193,7 +193,7 @@ export function BookingConfirmation({
                 </Button>
               )}
               <Button asChild size="lg">
-                <a href="/">{t('scheduling.returnHome')}</a>
+                <a href={lang === 'es' ? '/es' : '/'}>{t('scheduling.returnHome')}</a>
               </Button>
             </div>
 

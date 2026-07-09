@@ -12,6 +12,18 @@ const initialTeamMember = advisorSlug
   ? teamMembers.find((m) => m.slug === advisorSlug)
   : undefined;
 
+const serviceDescriptionEs =
+  "Una llamada de 30 minutos para revisar su escenario de 5+ unidades, restricciones de suscripción y rutas probables de financiamiento.";
+const localizedServices = services.map((s) =>
+  s.id === "strategy-call"
+    ? {
+        ...s,
+        name: "Llamada estratégica multifamiliar gratuita",
+        description: serviceDescriptionEs,
+      }
+    : s,
+);
+
 const faqs = [
   {
     q: "¿Es una llamada de ventas?",
@@ -56,8 +68,7 @@ const faqs = [
             Reserve una <span class="text-accent">llamada de estrategia</span> multifamiliar
           </h1>
           <p class="max-w-xl text-lg leading-relaxed text-white/72">
-            {service?.description ??
-              "Hable de su escenario de 5+ unidades con un especialista — restricciones de suscripción, encaje con prestamistas y timing de ejecución."}
+            {serviceDescriptionEs}
           </p>
           <ul class="space-y-2 text-sm text-white/70">
             <li>✓ Solo multifamiliar comercial en EE. UU. (5+ unidades)</li>
@@ -83,7 +94,7 @@ const faqs = [
       <div class="min-w-0">
         <SchedulingWidgetWithBoundary
           client:load
-          services={services}
+          services={localizedServices}
           teamMembers={teamMembers}
           initialServiceId="strategy-call"
           initialTeamMemberId={initialTeamMember?.id}

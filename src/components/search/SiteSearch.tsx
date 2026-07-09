@@ -183,9 +183,9 @@ export default function SiteSearch({ lang = "en" }: SiteSearchProps) {
       }
 
       dispatch({ type: "set-loading", loading: true });
-      const response = await pf.debouncedSearch(term.trim(), {
-        filters: { lang },
-      });
+      // Pagefind scopes indexes by <html lang>; do not pass a custom `lang`
+      // filter — none is indexed, so filtering would return zero results.
+      const response = await pf.debouncedSearch(term.trim());
 
       if (!response) {
         dispatch({ type: "set-results", results: [] });
@@ -208,7 +208,7 @@ export default function SiteSearch({ lang = "en" }: SiteSearchProps) {
       dispatch({ type: "set-results", results: items });
       dispatch({ type: "set-loading", loading: false });
     },
-    [isEs, lang, loadPagefind],
+    [isEs, loadPagefind],
   );
 
   useEffect(() => {

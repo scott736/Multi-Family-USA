@@ -1,20 +1,25 @@
 ---
 import { SITE_PHONE, SITE_PHONE_HREF } from "../../consts";
+
+const isEs = Astro.url.pathname === "/es" || Astro.url.pathname.startsWith("/es/");
+const bookHref = isEs ? "/es/book-strategy-call" : "/book-strategy-call";
 ---
 
 <div class="relative bg-primary text-primary-foreground" data-site-banner>
   <div class="container flex flex-col items-center justify-between gap-2 py-2 text-sm md:flex-row md:py-2.5">
     <p class="flex items-center gap-2 font-medium">
       <span class="hidden text-accent md:inline">◆</span>
-      US-only multifamily financing insights for 5+ unit properties.
+      {isEs
+        ? "Información de financiamiento multifamiliar solo EE. UU. para propiedades de 5+ unidades."
+        : "US-only multifamily financing insights for 5+ unit properties."}
     </p>
     <div class="flex flex-wrap items-center justify-center gap-4 md:justify-end">
       <a
-        href="/book-strategy-call"
+        href={bookHref}
         class="font-semibold text-accent hover:underline"
         data-analytics-location="banner"
       >
-        Book a free strategy call
+        {isEs ? "Reserve una llamada de estrategia gratis" : "Book a free strategy call"}
       </a>
       <a href={SITE_PHONE_HREF} class="flex items-center gap-1.5 font-semibold text-primary-foreground hover:text-accent">
       <svg

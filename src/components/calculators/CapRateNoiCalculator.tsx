@@ -15,8 +15,8 @@ import { cn } from "@/lib/utils";
 /*  Helpers                                                                   */
 /* -------------------------------------------------------------------------- */
 
-function capRateTier(cr: number, isEs: boolean) {
-  if (cr <= 0) return { label: isEs ? "Ingresa tus números" : "Enter your numbers", color: "text-muted-foreground", bg: "bg-muted/40", ring: "ring-border" };
+function capRateTier(cr: number, isEs: boolean, hasPrice: boolean) {
+  if (!hasPrice) return { label: isEs ? "Ingresa tus números" : "Enter your numbers", color: "text-muted-foreground", bg: "bg-muted/40", ring: "ring-border" };
   if (cr < 3) return { label: isEs ? "Menos del 3% — muy comprimido" : "Below 3% — very compressed", color: "text-destructive", bg: "bg-destructive/10", ring: "ring-destructive/40" };
   if (cr < 5) return { label: isEs ? "3–5% — mercado gateway / apuesta a apreciación" : "3–5% — gateway / appreciation play", color: "text-amber-600 dark:text-amber-400", bg: "bg-amber-500/10", ring: "ring-amber-500/40" };
   if (cr < 7) return { label: isEs ? "5–7% — flujo de caja balanceado" : "5–7% — balanced cash flow", color: "text-yellow-600 dark:text-yellow-400", bg: "bg-yellow-500/10", ring: "ring-yellow-500/40" };
@@ -127,7 +127,7 @@ export default function CapRateNoiCalculator({ lang = "en" }: CapRateNoiCalculat
     });
   }
 
-  const t = capRateTier(v.capRate, isEs);
+  const t = capRateTier(v.capRate, isEs, v.price > 0);
 
   const dealReviewUrl = useMemo(
     () =>
@@ -145,7 +145,7 @@ export default function CapRateNoiCalculator({ lang = "en" }: CapRateNoiCalculat
   );
 
   const analysisSummary = useMemo(() => {
-    if (v.capRate <= 0) return undefined;
+    if (v.price <= 0) return undefined;
     return {
       "Cap rate": `${v.capRate.toFixed(2)}%`,
       NOI: fmtUSD(v.noi),
@@ -201,7 +201,7 @@ export default function CapRateNoiCalculator({ lang = "en" }: CapRateNoiCalculat
               <div className={cn("rounded-xl p-5 ring-2 transition", t.ring, t.bg)}>
                 <p className="text-xs font-bold uppercase tracking-wider text-muted-foreground">Cap Rate</p>
                 <div className={cn("text-5xl font-bold tabular-nums mt-1", t.color)}>
-                  {v.capRate > 0 ? `${v.capRate.toFixed(2)}%` : "—"}
+                  {v.price > 0 ? `${v.capRate.toFixed(2)}%` : "—"}
                 </div>
                 <p className={cn("mt-2 text-sm font-semibold", t.color)}>{t.label}</p>
               </div>
@@ -230,9 +230,9 @@ export default function CapRateNoiCalculator({ lang = "en" }: CapRateNoiCalculat
                 />
                 <ResultRow
                   label="Cap Rate"
-                  value={v.capRate > 0 ? `${v.capRate.toFixed(2)}%` : "—"}
+                  value={v.price > 0 ? `${v.capRate.toFixed(2)}%` : "—"}
                   bold
-                  accent={v.capRate >= 5 ? "good" : v.capRate > 0 ? undefined : undefined}
+                  accent={v.capRate >= 5 ? "good" : v.capRate < 0 ? "bad" : undefined}
                 />
               </dl>
             </div>

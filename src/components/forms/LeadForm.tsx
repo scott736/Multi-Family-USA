@@ -30,14 +30,21 @@ const STATES = [
   'VA','WA','WV','WI','WY','DC',
 ];
 
-const PURPOSES = [
+const PURPOSES_EN = [
   { value: 'acquisition', label: 'Acquisition' },
   { value: 'refinance', label: 'Refinance' },
   { value: 'bridge-to-stabilized', label: 'Bridge to Stabilized Refi' },
   { value: 'supplemental-or-second', label: 'Supplemental / 2nd Position' },
 ] as const;
 
-const PROPERTY_TYPES = [
+const PURPOSES_ES = [
+  { value: 'acquisition', label: 'Adquisición' },
+  { value: 'refinance', label: 'Refinanciamiento' },
+  { value: 'bridge-to-stabilized', label: 'Puente a refi estabilizado' },
+  { value: 'supplemental-or-second', label: 'Suplementario / 2ª posición' },
+] as const;
+
+const PROPERTY_TYPES_EN = [
   { value: 'garden-style', label: 'Garden-Style Apartments' },
   { value: 'mid-rise', label: 'Mid-Rise Multifamily' },
   { value: 'value-add', label: 'Value-Add C-Class' },
@@ -45,18 +52,40 @@ const PROPERTY_TYPES = [
   { value: 'mixed-multifamily', label: 'Mixed Multifamily (5+ units)' },
 ] as const;
 
-const TIMELINES = [
+const PROPERTY_TYPES_ES = [
+  { value: 'garden-style', label: 'Apartamentos garden-style' },
+  { value: 'mid-rise', label: 'Multifamiliar mid-rise' },
+  { value: 'value-add', label: 'Value-add clase C' },
+  { value: 'suburban-community', label: 'Comunidad suburbana' },
+  { value: 'mixed-multifamily', label: 'Multifamiliar mixto (5+ unidades)' },
+] as const;
+
+const TIMELINES_EN = [
   { value: 'asap', label: 'ASAP (< 30 days)' },
   { value: '30-60', label: '30-60 days' },
   { value: '60-90', label: '60-90 days' },
   { value: '90-plus', label: '90+ days' },
 ] as const;
 
-const STEPS = [
+const TIMELINES_ES = [
+  { value: 'asap', label: 'Lo antes posible (< 30 días)' },
+  { value: '30-60', label: '30-60 días' },
+  { value: '60-90', label: '60-90 días' },
+  { value: '90-plus', label: '90+ días' },
+] as const;
+
+const STEPS_EN = [
   { label: 'Asset', short: 'Asset', icon: Building2 },
   { label: 'Numbers', short: 'Numbers', icon: DollarSign },
   { label: 'Profile', short: 'Profile', icon: ShieldCheck },
   { label: 'Contact', short: 'Contact', icon: User },
+] as const;
+
+const STEPS_ES = [
+  { label: 'Activo', short: 'Activo', icon: Building2 },
+  { label: 'Números', short: 'Números', icon: DollarSign },
+  { label: 'Perfil', short: 'Perfil', icon: ShieldCheck },
+  { label: 'Contacto', short: 'Contacto', icon: User },
 ] as const;
 
 interface LeadFormProps {
@@ -221,7 +250,7 @@ export default function LeadForm({
   const savePartialLead = () => {
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) return;
 
-    void fetch('/api/lead-partial', {
+    void fetch('/api/lead-partial/', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -250,19 +279,25 @@ export default function LeadForm({
     dispatchUi({ type: 'submit-start' });
 
     try {
-      const res = await fetch('/api/lead', {
+      const res = await fetch('/api/lead/', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           ...formData,
           sourcePage,
           sourceContext,
+          lang,
         }),
       });
 
       const data = await res.json();
       if (!res.ok) {
-        dispatchUi({ type: 'submit-failure', message: data.error || 'Submission failed. Please try again.' });
+        dispatchUi({
+          type: 'submit-failure',
+          message:
+            data.error ||
+            (isEs ? 'Error al enviar. Inténtelo de nuevo.' : 'Submission failed. Please try again.'),
+        });
         return;
       }
 
@@ -281,9 +316,15 @@ export default function LeadForm({
         purpose: formData.purpose,
         assignedOfficer: data.assignedTo?.id || '',
       });
-      window.location.href = `/thank-you?${params.toString()}`;
+      const thankYouPath = isEs ? '/es/thank-you/' : '/thank-you/';
+      window.location.href = `${thankYouPath}?${params.toString()}`;
     } catch {
-      dispatchUi({ type: 'submit-failure', message: 'Submission failed. Please try again or call us directly.' });
+      dispatchUi({
+        type: 'submit-failure',
+        message: isEs
+          ? 'Error al enviar. Inténtelo de nuevo o llámenos directamente.'
+          : 'Submission failed. Please try again or call us directly.',
+      });
     }
   };
 
@@ -389,6 +430,11 @@ function renderLeadFormCard({
   bookCallHref,
   isEs,
 }: RenderLeadFormCardProps) {
+  const lang = isEs ? 'es' : 'en';
+  const PURPOSES = isEs ? PURPOSES_ES : PURPOSES_EN;
+  const PROPERTY_TYPES = isEs ? PROPERTY_TYPES_ES : PROPERTY_TYPES_EN;
+  const TIMELINES = isEs ? TIMELINES_ES : TIMELINES_EN;
+  const STEPS = isEs ? STEPS_ES : STEPS_EN;
   const formCard = (
     <div
       className={cn(
@@ -432,7 +478,7 @@ function renderLeadFormCard({
         </p>
       </div>
 
-      <LeadFormStepIndicator step={step} steps={STEPS} isHero={isHero} isPolished={isPolished} />
+      <LeadFormStepIndicator step={step} steps={STEPS} isHero={isHero} isPolished={isPolished} lang={lang} />
 
       <form onSubmit={handleSubmit} noValidate className={cn(isPremium ? 'space-y-6' : isHero ? 'space-y-4' : 'space-y-5')}>
         <input
@@ -453,7 +499,9 @@ function renderLeadFormCard({
           {step === 1 && (
             <div className={cn(isPremium ? 'space-y-6' : isHero ? 'space-y-3.5' : 'space-y-5')}>
               <div className="space-y-2">
-                <Label className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">Deal purpose</Label>
+                <Label className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
+                  {isEs ? 'Propósito del deal' : 'Deal purpose'}
+                </Label>
                 <div className="grid gap-2 @sm:grid-cols-2">
                   {PURPOSES.map((p) => (
                     <button
@@ -472,7 +520,7 @@ function renderLeadFormCard({
                 <div className="grid gap-3 @sm:grid-cols-2">
                   <div className="space-y-2">
                     <Label className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
-                      Property type
+                      {isEs ? 'Tipo de propiedad' : 'Property type'}
                     </Label>
                     <select
                       id="lf-property-type"
@@ -482,7 +530,7 @@ function renderLeadFormCard({
                       required
                     >
                       <option value="" disabled>
-                        Select type
+                        {isEs ? 'Seleccionar tipo' : 'Select type'}
                       </option>
                       {PROPERTY_TYPES.map((p) => (
                         <option key={p.value} value={p.value}>
@@ -497,7 +545,8 @@ function renderLeadFormCard({
                       htmlFor="lf-units"
                       className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground"
                     >
-                      Unit count <span className="font-medium normal-case tracking-normal text-foreground/70">(5+)</span>
+                      {isEs ? 'Unidades' : 'Unit count'}{' '}
+                      <span className="font-medium normal-case tracking-normal text-foreground/70">(5+)</span>
                     </Label>
                     <Input
                       id="lf-units"
@@ -516,7 +565,7 @@ function renderLeadFormCard({
                 <>
                   <div className="space-y-2">
                     <Label className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
-                      Property type
+                      {isEs ? 'Tipo de propiedad' : 'Property type'}
                     </Label>
                     <div className="grid gap-2 @sm:grid-cols-2">
                       {PROPERTY_TYPES.map((p) => (
@@ -551,7 +600,10 @@ function renderLeadFormCard({
                         'text-xs',
                       )}
                     >
-                      Unit count <span className="font-medium normal-case tracking-normal text-foreground/70">(5+ required)</span>
+                      {isEs ? 'Unidades' : 'Unit count'}{' '}
+                      <span className="font-medium normal-case tracking-normal text-foreground/70">
+                        {isEs ? '(5+ requerido)' : '(5+ required)'}
+                      </span>
                     </Label>
                     <Input
                       id="lf-units"
@@ -574,10 +626,10 @@ function renderLeadFormCard({
             <div className={cn(isHero ? 'space-y-3.5' : 'space-y-5')}>
               <div className={cn(isHero ? 'grid gap-3 @sm:grid-cols-2' : 'grid gap-4 @md:grid-cols-2')}>
                 {[
-                  ['purchasePrice', 'Purchase price', '3,250,000'],
-                  ['loanAmount', 'Requested loan amount', '2,200,000'],
-                  ['annualNoi', 'Annual NOI', '285,000'],
-                  ['occupancy', 'Occupancy %', '93'],
+                  ['purchasePrice', isEs ? 'Precio de compra' : 'Purchase price', '3,250,000'],
+                  ['loanAmount', isEs ? 'Monto de préstamo solicitado' : 'Requested loan amount', '2,200,000'],
+                  ['annualNoi', isEs ? 'NOI anual' : 'Annual NOI', '285,000'],
+                  ['occupancy', isEs ? 'Ocupación %' : 'Occupancy %', '93'],
                 ].map(([key, label, placeholder]) => (
                   <div key={key} className="grid gap-1.5">
                     <Label
@@ -611,6 +663,7 @@ function renderLeadFormCard({
                 debtYield={parsed.debtYield}
                 isHero={isHero}
                 isPolished={isPolished}
+                lang={lang}
               />
 
               <div className="grid gap-1.5">
@@ -649,7 +702,7 @@ function renderLeadFormCard({
                     htmlFor="lf-credit"
                     className={cn('font-medium text-foreground', isHero ? 'text-[11px]' : 'text-xs')}
                   >
-                    Estimated sponsor credit score
+                    {isEs ? 'Score de crédito estimado del sponsor' : 'Estimated sponsor credit score'}
                   </Label>
                   <Input
                     id="lf-credit"
@@ -670,7 +723,7 @@ function renderLeadFormCard({
                     htmlFor="lf-state"
                     className={cn('font-medium text-foreground', isHero ? 'text-[11px]' : 'text-xs')}
                   >
-                    Property state
+                    {isEs ? 'Estado de la propiedad' : 'Property state'}
                   </Label>
                   <select
                     id="lf-state"
@@ -684,7 +737,7 @@ function renderLeadFormCard({
                     required
                   >
                     <option value="" disabled>
-                      Select state
+                      {isEs ? 'Seleccionar estado' : 'Select state'}
                     </option>
                     {STATES.map((s) => (
                       <option key={s} value={s}>
@@ -698,7 +751,7 @@ function renderLeadFormCard({
               {isHero ? (
                 <div className="space-y-2">
                   <Label className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
-                    Execution timeline
+                    {isEs ? 'Plazo de ejecución' : 'Execution timeline'}
                   </Label>
                   <select
                     id="lf-timeline"
@@ -708,7 +761,7 @@ function renderLeadFormCard({
                     required
                   >
                     <option value="" disabled>
-                      Select timeline
+                      {isEs ? 'Seleccionar plazo' : 'Select timeline'}
                     </option>
                     {TIMELINES.map((o) => (
                       <option key={o.value} value={o.value}>
@@ -720,7 +773,7 @@ function renderLeadFormCard({
               ) : (
                 <div className="space-y-2.5">
                   <Label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-                    Execution timeline
+                    {isEs ? 'Plazo de ejecución' : 'Execution timeline'}
                   </Label>
                   <div className="grid gap-2 @sm:grid-cols-2">
                     {TIMELINES.map((o) => (
@@ -746,14 +799,14 @@ function renderLeadFormCard({
                   htmlFor="lf-name"
                   className={cn('font-medium text-foreground', isHero ? 'text-[11px]' : 'text-xs')}
                 >
-                  Full name
+                  {isEs ? 'Nombre completo' : 'Full name'}
                 </Label>
                 <div className="relative">
                   <User className="absolute left-3.5 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
                   <Input
                     id="lf-name"
                     type="text"
-                    placeholder="Jane Investor"
+                    placeholder={isEs ? 'Jane Inversora' : 'Jane Investor'}
                     className={cn(inputClass, 'pl-10')}
                     value={formData.name}
                     onChange={(e) => update('name', e.target.value)}
@@ -767,7 +820,7 @@ function renderLeadFormCard({
                   htmlFor="lf-phone"
                   className={cn('font-medium text-foreground', isHero ? 'text-[11px]' : 'text-xs')}
                 >
-                  Phone
+                  {isEs ? 'Teléfono' : 'Phone'}
                 </Label>
                 <div className="relative">
                   <Phone className="absolute left-3.5 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
@@ -817,7 +870,7 @@ function renderLeadFormCard({
               )}
             >
               <ArrowLeft className="size-4" />
-              Back
+              {isEs ? 'Atrás' : 'Back'}
             </button>
           )}
 
@@ -834,7 +887,7 @@ function renderLeadFormCard({
                   : 'bg-primary text-primary-foreground hover:bg-primary/95',
               )}
             >
-              Continue
+              {isEs ? 'Continuar' : 'Continue'}
               <ArrowRight className="size-4" />
             </button>
           ) : (
@@ -852,11 +905,11 @@ function renderLeadFormCard({
               {loading ? (
                 <>
                   <Loader2 className="size-4 animate-spin" />
-                  Submitting...
+                  {isEs ? 'Enviando...' : 'Submitting...'}
                 </>
               ) : (
                 <>
-                  {submitLabel ?? 'Get My Deal Review'}
+                  {submitLabel ?? (isEs ? 'Obtener mi revisión' : 'Get My Deal Review')}
                   <ArrowRight className="size-4" />
                 </>
               )}
@@ -873,7 +926,11 @@ function renderLeadFormCard({
           )}
         >
           <ShieldCheck className="size-3.5 shrink-0 text-success" />
-          <span>No credit pull. US multifamily only. Your info is shared only for deal review follow-up.</span>
+          <span>
+            {isEs
+              ? 'Sin consulta de crédito. Solo multifamiliar en EE. UU. Su información se usa solo para el seguimiento de la revisión.'
+              : 'No credit pull. US multifamily only. Your info is shared only for deal review follow-up.'}
+          </span>
         </p>
       )}
     </div>

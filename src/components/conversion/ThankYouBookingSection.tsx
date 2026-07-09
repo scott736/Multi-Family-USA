@@ -19,7 +19,7 @@ export function ThankYouBookingSection({
   lang = 'en',
 }: ThankYouBookingSectionProps) {
   const isEs = lang === 'es';
-  const firstName = guestName?.split(' ')[0] ?? (isEs ? 'ahí' : 'there');
+  const firstName = guestName?.split(' ')[0] ?? (isEs ? 'inversor' : 'there');
 
   return (
     <div className="mt-8 rounded-xl border border-accent/30 bg-card p-6 md:p-8">

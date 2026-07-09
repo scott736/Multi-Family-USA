@@ -82,7 +82,7 @@ const allSchemas = [...getBaseSchemas(), ...schemaArray];
   </head>
   <body class="min-h-screen antialiased">
     <TopBanner />
-    <Navbar currentPath={Astro.url.pathname} />
+    <Navbar currentPath={Astro.url.pathname} enPath={enPath} esPath={esPath} />
     <main data-pagefind-body><slot /></main>
     <div class="cv-auto">
       <Footer currentPath={Astro.url.pathname} />

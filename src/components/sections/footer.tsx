@@ -49,15 +49,16 @@ const navigationEs = [
       { name: "Fundamentos", href: "/es/learn" },
       { name: "Guías", href: "/es/learn" },
       { name: "FAQ", href: "/es/faq" },
+      { name: "Glosario", href: "/es/glossary" },
     ],
   },
   {
     title: "Herramientas",
     links: [
-      { name: "Cap rate y NOI", href: "/tools/cap-rate-noi-calculator" },
-      { name: "Debt yield", href: "/tools/debt-yield-calculator" },
-      { name: "DSCR comercial", href: "/tools/commercial-dscr-calculator" },
-      { name: "Dimensionamiento", href: "/tools/loan-sizing-calculator" },
+      { name: "Cap rate y NOI", href: "/es/tools/cap-rate-noi-calculator" },
+      { name: "Debt yield", href: "/es/tools/debt-yield-calculator" },
+      { name: "DSCR comercial", href: "/es/tools/commercial-dscr-calculator" },
+      { name: "Dimensionamiento", href: "/es/tools/loan-sizing-calculator" },
     ],
   },
   {
@@ -65,6 +66,7 @@ const navigationEs = [
     links: [
       { name: "Estados", href: "/es/states" },
       { name: "Ciudades", href: "/es/cities" },
+      { name: "Tasas", href: "/es/rates" },
       { name: "Blog", href: "/es/blog" },
     ],
   },
@@ -72,9 +74,10 @@ const navigationEs = [
     title: "Empresa",
     links: [
       { name: "Acerca de", href: "/es/about" },
+      { name: "Estándares editoriales", href: "/es/editorial-standards" },
+      { name: "Equipo", href: "/es/team" },
       { name: "Reservar llamada", href: "/es/book-strategy-call" },
       { name: "Revisión gratuita", href: "/es/deal-review" },
-      { name: "Contacto", href: "/es/contact" },
     ],
   },
 ];

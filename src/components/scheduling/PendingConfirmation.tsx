@@ -189,7 +189,7 @@ export function PendingConfirmation({
 
             <div className="flex justify-center">
               <Button asChild variant="outline" size="lg">
-                <a href="/">{t('scheduling.returnHome')}</a>
+                <a href={lang === 'es' ? '/es' : '/'}>{t('scheduling.returnHome')}</a>
               </Button>
             </div>
           </div>

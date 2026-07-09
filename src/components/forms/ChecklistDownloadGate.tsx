@@ -14,25 +14,13 @@ interface ChecklistDownloadGateProps {
   className?: string;
 }
 
-async function triggerChecklistDownload(checklistId: string): Promise<void> {
-  const pdfUrl = `/downloads/checklists/${checklistId}.pdf`;
+function printableChecklistUrl(checklistId: string, lang: 'en' | 'es'): string {
+  const base = `/downloads/checklists/${checklistId}`;
+  return lang === 'es' ? `${base}?lang=es` : base;
+}
 
-  try {
-    const res = await fetch(pdfUrl, { method: 'HEAD' });
-    if (res.ok) {
-      const anchor = document.createElement('a');
-      anchor.href = pdfUrl;
-      anchor.download = `${checklistId}.pdf`;
-      document.body.appendChild(anchor);
-      anchor.click();
-      anchor.remove();
-      return;
-    }
-  } catch {
-    // Fall through to printable page
-  }
-
-  window.open(`/downloads/checklists/${checklistId}`, '_blank', 'noopener,noreferrer');
+function openPrintableChecklist(checklistId: string, lang: 'en' | 'es'): void {
+  window.open(printableChecklistUrl(checklistId, lang), '_blank', 'noopener,noreferrer');
 }
 
 export default function ChecklistDownloadGate({
@@ -49,6 +37,7 @@ export default function ChecklistDownloadGate({
 
   const sourcePage =
     typeof window !== 'undefined' ? window.location.pathname : `/checklists/${checklistId}`;
+  const printableHref = printableChecklistUrl(checklistId, lang);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -61,7 +50,7 @@ export default function ChecklistDownloadGate({
     setErrorMsg('');
 
     try {
-      const res = await fetch('/api/checklist-lead', {
+      const res = await fetch('/api/checklist-lead/', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -80,7 +69,7 @@ export default function ChecklistDownloadGate({
       }
 
       setSuccess(true);
-      await triggerChecklistDownload(checklistId);
+      openPrintableChecklist(checklistId, lang);
     } catch {
       setErrorMsg(isEs ? 'Error al enviar. Inténtelo de nuevo.' : 'Submission failed. Please try again.');
     } finally {
@@ -98,15 +87,15 @@ export default function ChecklistDownloadGate({
       >
         <CheckCircle2 className="mx-auto mb-3 size-10 text-success" />
         <h3 className="text-lg font-bold text-foreground">
-          {isEs ? 'Descarga iniciada' : 'Download started'}
+          {isEs ? 'Lista lista para imprimir' : 'Checklist ready to print'}
         </h3>
         <p className="mt-2 text-sm text-muted-foreground">
           {isEs
             ? 'Si no se abrió automáticamente, use el enlace imprimible a continuación.'
-            : 'If your download did not start, use the printable link below.'}
+            : 'If it did not open automatically, use the printable link below.'}
         </p>
         <a
-          href={`/downloads/checklists/${checklistId}`}
+          href={printableHref}
           target="_blank"
           rel="noopener noreferrer"
           className="mt-4 inline-flex items-center gap-2 text-sm font-semibold text-accent hover:underline"
@@ -129,12 +118,12 @@ export default function ChecklistDownloadGate({
         <Download className="mt-0.5 size-5 shrink-0 text-accent" />
         <div className="flex-1">
           <h3 className="text-lg font-bold text-foreground">
-            {isEs ? 'Descargar PDF imprimible' : 'Download printable PDF'}
+            {isEs ? 'Abrir lista imprimible' : 'Open printable checklist'}
           </h3>
           <p className="mt-1 text-sm text-muted-foreground">
             {isEs
-              ? `Reciba la lista "${checklistTitle}" en su correo y descárguela al instante.`
-              : `Get the "${checklistTitle}" checklist by email and download instantly.`}
+              ? `Reciba la lista "${checklistTitle}" en su correo y ábrala al instante para imprimir o guardar como PDF.`
+              : `Get the "${checklistTitle}" checklist by email and open the printable version instantly (print or save as PDF).`}
           </p>
 
           <form onSubmit={handleSubmit} noValidate className="mt-4 flex flex-col gap-3 sm:flex-row sm:items-end">
@@ -169,7 +158,7 @@ export default function ChecklistDownloadGate({
               ) : (
                 <>
                   <Download className="size-4" />
-                  {isEs ? 'Descargar PDF' : 'Download PDF'}
+                  {isEs ? 'Abrir lista' : 'Open checklist'}
                 </>
               )}
             </button>

@@ -15,7 +15,7 @@ const ELASTIC_EMAIL_API = 'https://api.elasticemail.com/v4/emails/transactional'
 const DEFAULT_FROM_EMAIL =
   (import.meta.env.ELASTIC_FROM_EMAIL as string | undefined)?.trim() ||
   (typeof process !== 'undefined' ? process.env.ELASTIC_FROM_EMAIL?.trim() : undefined) ||
-  'bookings@dscrauthority.com';
+  'bookings@multifamily-usa.com';
 const DEFAULT_FROM_NAME = SITE_SHORT_NAME;
 
 // Elastic Email caps TimeOffset at 35 days (50,400 minutes).

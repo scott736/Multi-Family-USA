@@ -50,7 +50,7 @@ export default function EmailAnalysisCapture({
     setErrorMsg('');
 
     try {
-      const res = await fetch('/api/analysis-email', {
+      const res = await fetch('/api/analysis-email/', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({

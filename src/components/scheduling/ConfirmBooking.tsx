@@ -308,12 +308,12 @@ function ConfirmedView({
           <p className="text-sm text-muted-foreground">{t('scheduling.rescheduleNote')} </p>
           <div className="flex flex-wrap justify-center gap-2">
             <Button asChild variant="outline" size="sm">
-              <a href={`/book/reschedule?token=${encodeURIComponent(token)}`}>
+              <a href={`/booking/reschedule?token=${encodeURIComponent(token)}`}>
                 {t('scheduling.rescheduleAppointment')}
               </a>
             </Button>
             <Button asChild variant="outline" size="sm">
-              <a href={`/book/cancel?token=${encodeURIComponent(token)}`}>
+              <a href={`/booking/cancel?token=${encodeURIComponent(token)}`}>
                 {t('scheduling.cancelAppointment')}
               </a>
             </Button>

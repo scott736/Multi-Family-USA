@@ -15,8 +15,8 @@ import { cn } from "@/lib/utils";
 /*  Helpers                                                                   */
 /* -------------------------------------------------------------------------- */
 
-function cocTier(coc: number, isEs: boolean) {
-  if (coc <= 0) return {
+function cocTier(coc: number, isEs: boolean, hasInputs: boolean) {
+  if (!hasInputs) return {
     label: isEs ? "Ingresa tus números" : "Enter your numbers",
     color: "text-muted-foreground", bg: "bg-muted/40", ring: "ring-border",
     detail: isEs ? "Completa el formulario para ver el cash-on-cash." : "Fill in the form to see cash-on-cash."
@@ -116,7 +116,7 @@ export default function CashOnCashCalculator({ lang = "en" }: CashOnCashCalculat
     };
   }, [f]);
 
-  const t = cocTier(v.coc, isEs);
+  const t = cocTier(v.coc, isEs, v.totalCashIn > 0);
 
   const dealReviewUrl = useMemo(() => {
     const price = parseNum(f.price);

@@ -5,15 +5,15 @@ import ToolShell from "@/components/dscr/ToolShell.astro";
 const faqs = [
   {
     q: "¿Qué es una calculadora de dimensionamiento de préstamo?",
-    a: "Estima proceeds máximos probando DSCR, debt yield y LTV juntos. La restricción vinculante—el monto más bajo—suele fijar la hoja de términos.",
+    a: "Esta calculadora estima el préstamo máximo soportable desde un DSCR objetivo: resuelve el P&I mensual máximo tal que renta ÷ (P&I + costos fijos) cumpla su DSCR, luego calcula el monto del préstamo por amortización. Los precios de compra a 75% y 80% LTV son contexto—no un motor de restricciones múltiples.",
   },
   {
     q: "¿Cómo dimensionan los prestamistas?",
-    a: "Calculan el máximo de cada métrica y prestan al resultado más bajo. Modele escenarios base y de estrés.",
+    a: "En la práctica suelen calcular el máximo por DSCR, debt yield y LTV y prestan al resultado más bajo. Esta herramienta se centra en la ruta DSCR. Use la calculadora de Debt Yield para la pantalla NOI ÷ préstamo.",
   },
   {
-    q: "¿Qué restricción vincula más a menudo?",
-    a: "Depende del mercado y etapa del activo. En spreads ajustados, debt yield suele vincular en deals estabilizados; value-add puede vincular por DSCR in-place o LTV.",
+    q: "¿Aplica debt yield y LTV como restricciones?",
+    a: "No. Dimensiona solo por DSCR y muestra precios ilustrativos a 75% y 80% LTV. Debt yield y topes formales de LTV siguen importando en la hoja de términos.",
   },
   {
     q: "¿Debo dimensionar al máximo apalancamiento?",
@@ -21,11 +21,11 @@ const faqs = [
   },
   {
     q: "¿Cómo afecta el valor?",
-    a: "LTV limita proceeds como porcentaje del valor. NOI impulsa DSCR y debt yield.",
+    a: "LTV limita proceeds como porcentaje del valor. Esta calculadora ilustra precios desde el préstamo dimensionado por DSCR; una tasación débil aún puede vincular por debajo.",
   },
   {
     q: "¿Sirve para agency y bridge?",
-    a: "Sí. Cambie supuestos de DSCR, debt yield y LTV por producto y compare proceeds.",
+    a: "Sí. Cambie DSCR objetivo, tasa y amortización por producto y compare proceeds. Combine con debt yield y NOI para un stack más completo.",
   },
 ];
 ---
@@ -33,30 +33,37 @@ const faqs = [
 <ToolShell
   locale="es"
   title="Calculadora de Préstamo Multifamiliar | Multi-Family USA"
-  description="Calculadora gratuita de dimensionamiento de préstamo multifamiliar. Encuentre proceeds máximos por DSCR, debt yield y LTV."
+  description="Calculadora gratuita de dimensionamiento de préstamo multifamiliar. Estime proceeds máximos desde un DSCR objetivo con renta, costos fijos, tasa y amortización."
   h1="Calculadora de Dimensionamiento de Préstamo"
   toolSlug="loan-sizing-calculator"
-  tagline="Calcule deuda máxima soportable desde DSCR, debt yield y LTV—las tres métricas que vinculan la mayoría de hojas de términos."
+  tagline="Calcule deuda máxima soportable desde un DSCR objetivo—luego vea precios ilustrativos a 75% y 80% LTV."
   keywords={["calculadora préstamo multifamiliar", "dimensionamiento préstamo", "proceeds apartamentos"]}
   relatedGuides={["multifamily-underwriting-basics", "debt-yield-and-ltv-framework", "capital-stack-design-for-value-add"]}
   relatedComparisons={["fixed-vs-floating-rate", "agency-vs-bridge"]}
   faqs={faqs}
 >
   <Fragment slot="calculator">
-    <MaxLoanCalculator client:load />
+    <MaxLoanCalculator client:load lang="es" />
   </Fragment>
 
   <Fragment slot="content">
     <div class="prose prose-neutral max-w-none dark:prose-invert">
-      <h2>Cómo dimensionar un préstamo multifamiliar</h2>
+      <h2>Cómo dimensiona esta calculadora</h2>
       <ul>
-        <li><strong>DSCR:</strong> Servicio máx = NOI ÷ DSCR mín</li>
-        <li><strong>Debt yield:</strong> Préstamo máx = NOI ÷ debt yield mín</li>
-        <li><strong>LTV:</strong> Préstamo máx = Valor × LTV máx</li>
+        <li><strong>P&amp;I mensual máx</strong> = Renta ÷ DSCR objetivo − Costos fijos</li>
+        <li><strong>Préstamo máx</strong> = monto amortizante que produce ese P&amp;I</li>
+        <li><strong>Contexto LTV</strong> = precio ilustrativo a 75% y 80% LTV</li>
       </ul>
+      <p>
+        Las hojas de términos también suelen vincular por
+        <a href="/es/tools/debt-yield-calculator">debt yield</a> y LTV de tasación.
+      </p>
 
-      <h2>Ejemplo: adquisición estabilizada de 56 unidades</h2>
-      <p>NOI $980,000; valor $14M; pisos 1.25x DSCR, 9.25% debt yield, 75% LTV. Proceeds probablemente cerca de <strong>$10.5M</strong>.</p>
+      <h2>Ejemplo: préstamo máximo por DSCR</h2>
+      <p>
+        Renta mensual $2,800; costos fijos $430; tasa 7.25%; 30 años; DSCR objetivo 1.00x.
+        P&amp;I máx ≈ <strong>$2,370</strong>; préstamo ≈ <strong>$347,000</strong>.
+      </p>
     </div>
   </Fragment>
 </ToolShell>

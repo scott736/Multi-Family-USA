@@ -31,11 +31,14 @@ function getZonedParts(date: Date, timeZone: string): ZonedParts {
     Sat: 6,
   };
 
+  // Some engines report midnight as hour "24"; normalize to 0.
+  const hour = Number(lookup.hour) % 24;
+
   return {
     year: Number(lookup.year),
     month: Number(lookup.month),
     day: Number(lookup.day),
-    hour: Number(lookup.hour),
+    hour,
     minute: Number(lookup.minute),
     weekday: weekdayMap[lookup.weekday] ?? 0,
   };
@@ -55,7 +58,8 @@ export function zonedLocalToUtc(dateStr: string, timeStr: string, timeZone: stri
     const dayDiff = desiredDayKey - actualDayKey;
     const minuteDiff = dayDiff * 24 * 60 + (hour * 60 + minute - (parts.hour * 60 + parts.minute));
     if (minuteDiff === 0) break;
-    utcMs -= minuteDiff * 60 * 1000;
+    // Move UTC toward the desired local wall time (not away from it).
+    utcMs += minuteDiff * 60 * 1000;
   }
 
   return new Date(utcMs);

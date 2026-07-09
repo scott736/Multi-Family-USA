@@ -1,5 +1,7 @@
 ---
 import SiteSearch from "@/components/search/SiteSearch";
+import LanguageSwitcher from "@/components/ui/language-switcher";
+import { ensureTrailingSlash, pageLangFromPath } from "@/i18n/alternates";
 
 import { SITE_PHONE, SITE_PHONE_HREF, SITE_SHORT_NAME } from "../../consts";
 
@@ -8,24 +10,45 @@ interface NavItem {
   href: string;
 }
 
-const NAV_ITEMS: NavItem[] = [
-  { label: "Learn", href: "/learn" },
-  { label: "Tools", href: "/tools" },
-  { label: "Markets", href: "/states" },
-  { label: "Compare", href: "/compare" },
-  { label: "Invest", href: "/invest" },
-];
-
 interface Props {
   currentPath?: string;
+  enPath?: string;
+  esPath?: string;
 }
 
 const currentPath = Astro.props.currentPath ?? Astro.url.pathname;
+const isEs = pageLangFromPath(currentPath) === "es";
+const homeHref = isEs ? "/es" : "/";
+const bookHref = isEs ? "/es/book-strategy-call" : "/book-strategy-call";
+const dealHref = isEs ? "/es/deal-review" : "/deal-review";
+
+const switcherEnPath = ensureTrailingSlash(
+  Astro.props.enPath ?? (isEs ? currentPath.replace(/^\/es/, "") || "/" : currentPath),
+);
+const switcherEsPath = ensureTrailingSlash(
+  Astro.props.esPath ?? (isEs ? currentPath : `/es${currentPath === "/" ? "" : currentPath}`),
+);
+
+const NAV_ITEMS: NavItem[] = isEs
+  ? [
+      { label: "Aprender", href: "/es/learn" },
+      { label: "Herramientas", href: "/es/tools" },
+      { label: "Mercados", href: "/es/states" },
+      { label: "Comparar", href: "/es/compare" },
+      { label: "Invertir", href: "/es/invest" },
+    ]
+  : [
+      { label: "Learn", href: "/learn" },
+      { label: "Tools", href: "/tools" },
+      { label: "Markets", href: "/states" },
+      { label: "Compare", href: "/compare" },
+      { label: "Invest", href: "/invest" },
+    ];
 ---
 
 <header class="sticky top-0 z-50 border-b border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/80" data-nav>
   <div class="container flex h-16 items-center justify-between gap-4">
-    <a href="/" class="flex items-center gap-2 shrink-0">
+    <a href={homeHref} class="flex items-center gap-2 shrink-0">
       <span class="flex size-8 items-center justify-center rounded-md bg-primary font-serif text-lg font-bold text-primary-foreground">M</span>
       <span class="text-lg font-bold tracking-tight text-foreground">{SITE_SHORT_NAME}</span>
     </a>
@@ -48,11 +71,18 @@ const currentPath = Astro.props.currentPath ?? Astro.url.pathname;
     </nav>
 
     <div class="flex items-center gap-2">
-      <SiteSearch lang="en" client:idle />
+      <SiteSearch lang={isEs ? "es" : "en"} client:idle />
+      <LanguageSwitcher
+        currentLang={isEs ? "es" : "en"}
+        enPath={switcherEnPath}
+        esPath={switcherEsPath}
+        variant="icon"
+        className="hidden sm:inline-flex"
+      />
       <button
         type="button"
         data-theme-toggle
-        aria-label="Toggle theme"
+        aria-label={isEs ? "Cambiar tema" : "Toggle theme"}
         class="inline-flex size-9 items-center justify-center rounded-full border border-input bg-background text-foreground shadow-xs hover:bg-secondary"
       >
         <svg class="size-4 hidden dark:block" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>
@@ -60,20 +90,20 @@ const currentPath = Astro.props.currentPath ?? Astro.url.pathname;
       </button>
       <a href={SITE_PHONE_HREF} class="hidden xl:inline text-sm font-semibold text-foreground hover:text-primary">{SITE_PHONE}</a>
       <a
-        href="/book-strategy-call"
+        href={bookHref}
         class="hidden md:inline-flex items-center justify-center whitespace-nowrap rounded-md border border-accent/40 bg-accent/10 px-3 text-sm font-bold text-accent shadow-xs hover:bg-accent/20 h-9 transition-colors"
         data-analytics-location="navbar"
       >
-        Book a Call
+        {isEs ? "Reservar llamada" : "Book a Call"}
       </a>
-      <a href="/deal-review" class="hidden md:inline-flex items-center justify-center whitespace-nowrap rounded-md bg-accent px-3 text-accent-foreground shadow-md hover:bg-accent/90 font-bold text-xs h-9 ring-1 ring-accent/40 transition-colors" data-analytics-location="navbar">Free Deal Review</a>
+      <a href={dealHref} class="hidden md:inline-flex items-center justify-center whitespace-nowrap rounded-md bg-accent px-3 text-accent-foreground shadow-md hover:bg-accent/90 font-bold text-xs h-9 ring-1 ring-accent/40 transition-colors" data-analytics-location="navbar">{isEs ? "Revisión gratuita" : "Free Deal Review"}</a>
       <button
         type="button"
         class="lg:hidden rounded-md p-2 text-foreground hover:bg-secondary"
         data-nav-toggle
         aria-expanded="false"
         aria-controls="mobile-nav"
-        aria-label="Open navigation menu"
+        aria-label={isEs ? "Abrir menú de navegación" : "Open navigation menu"}
       >
         <svg class="size-5" data-icon-menu xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="4" x2="20" y1="12" y2="12"/><line x1="4" x2="20" y1="6" y2="6"/><line x1="4" x2="20" y1="18" y2="18"/></svg>
         <svg class="size-5 hidden" data-icon-close xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
@@ -86,9 +116,18 @@ const currentPath = Astro.props.currentPath ?? Astro.url.pathname;
       {NAV_ITEMS.map((item) => (
         <a href={item.href} class="block rounded-md p-3 text-base font-semibold hover:bg-secondary">{item.label}</a>
       ))}
-      <a href="/deal-review" class="block pt-4"><span class="inline-flex h-12 w-full items-center justify-center rounded-md bg-accent px-8 text-base font-bold text-accent-foreground shadow-md ring-1 ring-accent/40 hover:bg-accent/90">Free Deal Review</span></a>
-      <a href="/book-strategy-call" class="block pt-2"><span class="inline-flex h-12 w-full items-center justify-center rounded-md border border-accent/40 bg-accent/10 px-8 text-base font-bold text-accent shadow-xs hover:bg-accent/20">Book a Call</span></a>
-      <a href={SITE_PHONE_HREF} class="flex w-full justify-center py-3 text-base font-semibold text-primary">Call {SITE_PHONE}</a>
+      <div class="flex items-center justify-between gap-3 px-3 pt-3">
+        <span class="text-sm font-semibold text-muted-foreground">{isEs ? "Idioma" : "Language"}</span>
+        <LanguageSwitcher
+          currentLang={isEs ? "es" : "en"}
+          enPath={switcherEnPath}
+          esPath={switcherEsPath}
+          variant="pill"
+        />
+      </div>
+      <a href={dealHref} class="block pt-4"><span class="inline-flex h-12 w-full items-center justify-center rounded-md bg-accent px-8 text-base font-bold text-accent-foreground shadow-md ring-1 ring-accent/40 hover:bg-accent/90">{isEs ? "Revisión gratuita" : "Free Deal Review"}</span></a>
+      <a href={bookHref} class="block pt-2"><span class="inline-flex h-12 w-full items-center justify-center rounded-md border border-accent/40 bg-accent/10 px-8 text-base font-bold text-accent shadow-xs hover:bg-accent/20">{isEs ? "Reservar llamada" : "Book a Call"}</span></a>
+      <a href={SITE_PHONE_HREF} class="flex w-full justify-center py-3 text-base font-semibold text-primary">{isEs ? `Llamar ${SITE_PHONE}` : `Call ${SITE_PHONE}`}</a>
     </div>
   </div>
 </header>

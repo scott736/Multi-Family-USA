@@ -19,7 +19,8 @@ const bookSchema = z.object({
   timezone: z.string().min(1).max(100),
   meetingType: z.enum(['phone', 'teams', 'zoom', 'meet']).optional(),
   cancelToken: z.string().min(1).optional(),
-  website: z.string().max(0).optional(),
+  // Honeypot: allow any short string so bots pass Zod, then short-circuit below.
+  website: z.string().max(200).optional(),
 });
 
 export const POST: APIRoute = async ({ request }) => {
