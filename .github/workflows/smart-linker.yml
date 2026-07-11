@@ -1,0 +1,182 @@
+name: Smart Linker v9
+
+# Auto-links NEW blog posts on push (Intent Placement EN generate + validate + LLM judge).
+# Applies links to en + es. Full-site relinks run locally:
+#   npx tsx scripts/automation -f linker-v4 -m relink-local
+
+on:
+  push:
+    branches: [main]
+    paths: ["src/content/blog/**/*.mdx"]
+  workflow_dispatch:
+    inputs:
+      slugs:
+        description: "Space-separated post slugs to auto-link (new/edited posts only)"
+        required: false
+        default: ""
+        type: string
+      concurrency:
+        description: "API concurrency for generate step (1-10)"
+        required: false
+        default: "3"
+        type: string
+
+concurrency:
+  group: writes-to-main
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+
+jobs:
+  link-new-posts:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    if: >-
+      (github.event_name == 'push'
+        && !contains(github.event.head_commit.message, 'smart linker'))
+      || (github.event_name == 'workflow_dispatch' && inputs.slugs != '')
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          fetch-depth: 2
+
+      - uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e # v6.4.0
+        with:
+          node-version: "24"
+          cache: "npm"
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Detect new posts (push only)
+        if: github.event_name == 'push'
+        id: changes
+        run: |
+          NEW=$(git diff --name-only --diff-filter=AR HEAD~1 HEAD -- 'src/content/blog/*.mdx' || true)
+          if [ -n "$NEW" ]; then
+            echo "has_new=true" >> $GITHUB_OUTPUT
+            SLUGS=$(echo "$NEW" | xargs -I{} basename {} .mdx | tr '\n' ' ')
+            echo "slugs=$SLUGS" >> $GITHUB_OUTPUT
+            echo "New posts detected: $SLUGS"
+          else
+            echo "has_new=false" >> $GITHUB_OUTPUT
+            echo "No new posts detected"
+          fi
+
+      - name: Resolve slugs to process
+        id: slugs
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            echo "list=${{ inputs.slugs }}" >> $GITHUB_OUTPUT
+          else
+            echo "list=${{ steps.changes.outputs.slugs }}" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Build catalog + embedding index + purpose cards
+        if: steps.slugs.outputs.list != ''
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+        run: npx tsx scripts/automation/index.ts -f linker-v4 -m build-catalog
+
+      - name: Generate link suggestions (Intent Placement v9)
+        if: steps.slugs.outputs.list != ''
+        env:
+          GITHUB_ACTIONS: true
+          XAI_API_KEY: ${{ secrets.XAI_API_KEY }}
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          INPUT_SLUGS: ${{ steps.slugs.outputs.list }}
+          INPUT_CONCURRENCY: ${{ inputs.concurrency || '3' }}
+        run: |
+          for SLUG in $INPUT_SLUGS; do
+            echo "--- Generating Intent Placement suggestions for: $SLUG ---"
+            npx tsx scripts/automation/index.ts -f linker-v4 -m generate \
+              --slug "$SLUG" --use-api --force --concurrency "$INPUT_CONCURRENCY"
+          done
+
+      - name: Validate suggestions (purpose-card gates)
+        if: steps.slugs.outputs.list != ''
+        env:
+          INPUT_SLUGS: ${{ steps.slugs.outputs.list }}
+        run: |
+          for SLUG in $INPUT_SLUGS; do
+            npx tsx scripts/automation/index.ts -f linker-v4 -m validate --slug "$SLUG"
+          done
+
+      - name: Semantic judge (LLM — reject misleading links)
+        if: steps.slugs.outputs.list != ''
+        env:
+          GITHUB_ACTIONS: true
+          XAI_API_KEY: ${{ secrets.XAI_API_KEY }}
+          INPUT_SLUGS: ${{ steps.slugs.outputs.list }}
+        run: |
+          for SLUG in $INPUT_SLUGS; do
+            npx tsx scripts/automation/index.ts -f linker-v4 -m semantic-judge --slug "$SLUG"
+          done
+
+      - name: Rerank (if excess links passed validation)
+        if: steps.slugs.outputs.list != ''
+        env:
+          XAI_API_KEY: ${{ secrets.XAI_API_KEY }}
+          INPUT_SLUGS: ${{ steps.slugs.outputs.list }}
+        run: |
+          for SLUG in $INPUT_SLUGS; do
+            npx tsx scripts/automation/index.ts -f linker-v4 -m rerank --slug "$SLUG"
+          done
+
+      - name: Apply links (en + es)
+        if: steps.slugs.outputs.list != ''
+        env:
+          INPUT_SLUGS: ${{ steps.slugs.outputs.list }}
+        run: |
+          for SLUG in $INPUT_SLUGS; do
+            npx tsx scripts/automation/index.ts -f linker-v4 -m apply --slug "$SLUG" --locale all
+          done
+
+      - name: Orphan inbound for new posts (exact + bridge drafts)
+        if: steps.slugs.outputs.list != ''
+        env:
+          XAI_API_KEY: ${{ secrets.XAI_API_KEY }}
+          INPUT_SLUGS: ${{ steps.slugs.outputs.list }}
+        run: |
+          for SLUG in $INPUT_SLUGS; do
+            npx tsx scripts/automation/index.ts -f linker-v4 -m draft-orphan-inbound --slug "$SLUG"
+          done
+          npx tsx scripts/automation/index.ts -f linker-v4 -m validate --all || true
+          for SLUG in $INPUT_SLUGS; do
+            npx tsx scripts/automation/index.ts -f linker-v4 -m apply --locale all || true
+          done
+          npx tsx scripts/automation/index.ts -f linker-v4 -m apply-orphan-drafts
+          npx tsx scripts/automation/index.ts -f linker-v4 -m graph || true
+
+      - name: Commit changes
+        if: steps.slugs.outputs.list != ''
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add src/content/ src/data/linker-v4/
+          git diff --staged --quiet || git commit -m "chore: smart linker v9 — auto-link new posts [skip ci]"
+          for i in 1 2 3; do
+            git pull --rebase origin main && git push && break
+            echo "Push attempt $i failed, retrying in 5s..."
+            sleep 5
+          done
+
+  validate-only:
+    runs-on: ubuntu-latest
+    if: github.event_name == 'workflow_dispatch' && inputs.slugs == ''
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+      - uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e # v6.4.0
+        with:
+          node-version: "24"
+          cache: "npm"
+      - run: npm ci
+      - name: Validate existing suggestions (no API)
+        run: |
+          npx tsx scripts/automation/index.ts -f linker-v4 -m validate --all || true
+          npx tsx scripts/automation/index.ts -f linker-v4 -m report --all || true
+      - name: Reminder
+        run: |
+          echo "Full-site relinks:"
+          echo "  npx tsx scripts/automation -f linker-v4 -m relink-local"

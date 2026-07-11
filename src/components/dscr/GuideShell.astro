@@ -4,6 +4,7 @@ import Breadcrumbs from "@/components/dscr/Breadcrumbs.astro";
 import CtaCard from "@/components/dscr/CtaCard.astro";
 import FaqAccordion from "@/components/dscr/FaqAccordion.astro";
 import RelatedReading from "@/components/dscr/RelatedReading.astro";
+import BlogPostClosingCta from "@/components/sections/BlogPostClosingCta.astro";
 import { getLangFromUrl } from "@/i18n/utils";
 import DefaultLayout from "@/layouts/DefaultLayout.astro";
 import { getOgImageForKind } from "@/lib/og-image";
@@ -330,6 +331,7 @@ const schema = [
           <FaqAccordion items={faqList} />
         </>
       )}
+      {relatedKind === "blog" && <BlogPostClosingCta lang={lang} />}
     </div>
 
     <aside class="hidden lg:block lg:col-span-1">

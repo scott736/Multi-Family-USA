@@ -1,0 +1,15 @@
+---
+import CtaSection from "@/components/sections/cta-section";
+import { getLangFromUrl } from "@/i18n/utils";
+
+interface Props {
+  lang?: string;
+  pathname?: string;
+}
+
+const { lang: langProp, pathname: pathnameProp } = Astro.props;
+const lang = langProp || getLangFromUrl(Astro.url);
+const pathname = pathnameProp || Astro.url.pathname;
+---
+
+<CtaSection lang={lang} pathname={pathname} client:visible />

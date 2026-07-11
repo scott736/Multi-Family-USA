@@ -1,0 +1,34 @@
+{
+  "scheduler": {
+    "publishFrequency": 1,
+    "publishTime": "06:00",
+    "minScheduledPosts": 1,
+    "defaultCategory": "investing-fundamentals",
+    "shuffleQueue": true
+  },
+  "podcast": {
+    "showMapping": {
+      "71061": {
+        "name": "The Wisdom, Lifestyle, Money Show",
+        "category": "investing-fundamentals",
+        "defaultPersona": "beginner",
+        "defaultCluster": "investor-mindset",
+        "description": "Helps train investors on how to grow"
+      },
+      "71049": {
+        "name": "Close More Deals - For REALTORS",
+        "category": "mortgage-financing",
+        "defaultPersona": "professional",
+        "defaultCluster": "mortgage-basics",
+        "description": "Helps realtors grow, covers mortgage programs"
+      }
+    },
+    "autoPublish": false,
+    "saveToQueue": true
+  },
+  "images": {
+    "maxWidth": 1600,
+    "quality": 80,
+    "format": "webp"
+  }
+}

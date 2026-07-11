@@ -3,9 +3,9 @@ import { getCollection } from "astro:content";
 
 import AnswerCapsule from "@/components/dscr/AnswerCapsule.astro";
 import Breadcrumbs from "@/components/dscr/Breadcrumbs.astro";
-import CtaCard from "@/components/dscr/CtaCard.astro";
 import FaqAccordion from "@/components/dscr/FaqAccordion.astro";
 import NetworkCrossLinks from "@/components/dscr/NetworkCrossLinks.astro";
+import SmartCtaSection from "@/components/sections/SmartCtaSection.astro";
 import { buildCollectionPageSchema, buildFaqSchema, buildWebPageSchema, SITE_URL } from "@/consts";
 import DefaultLayout from "@/layouts/DefaultLayout.astro";
 
@@ -104,7 +104,5 @@ const faqSchema = buildFaqSchema(hubFaqs);
     </div>
   </section>
 
-  <section class="container py-12">
-    <CtaCard />
-  </section>
+  <SmartCtaSection pathname={Astro.url.pathname} />
 </DefaultLayout>

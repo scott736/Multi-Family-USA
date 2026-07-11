@@ -16,7 +16,11 @@
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "check": "npm run lint && npm run build",
-    "brand:assets": "node scripts/generate-brand-assets.mjs && node scripts/generate-og-images.mjs"
+    "brand:assets": "node scripts/generate-brand-assets.mjs && node scripts/generate-og-images.mjs",
+    "lc": "npx tsx scripts/automation/index.ts",
+    "automation": "npx tsx scripts/automation/index.ts",
+    "linker:check": "npx tsx scripts/automation/index.ts -f linker-v4 -m validate --all",
+    "linker:catalog": "npx tsx scripts/automation/index.ts -f linker-v4 -m build-catalog --no-api"
   },
   "dependencies": {
     "@astrojs/mdx": "^7.0.2",
@@ -56,12 +60,16 @@
     "@typescript-eslint/eslint-plugin": "^8.62.1",
     "@typescript-eslint/parser": "^8.62.1",
     "astro-eslint-parser": "^2.1.0",
+    "dotenv": "^17.4.2",
     "eslint": "^10.6.0",
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-astro": "^2.1.1",
     "eslint-plugin-simple-import-sort": "^13.0.0",
+    "gray-matter": "^4.0.3",
+    "openai": "^6.46.0",
     "prettier": "^3.9.4",
     "prettier-plugin-astro": "^0.14.1",
-    "prettier-plugin-tailwindcss": "^0.8.0"
+    "prettier-plugin-tailwindcss": "^0.8.0",
+    "tsx": "^4.23.0"
   }
 }

@@ -2,7 +2,7 @@
 import { getCollection } from "astro:content";
 
 import Breadcrumbs from "@/components/dscr/Breadcrumbs.astro";
-import CtaCard from "@/components/dscr/CtaCard.astro";
+import SmartCtaSection from "@/components/sections/SmartCtaSection.astro";
 import UsMapExplorer from "@/components/sections/us-map-explorer";
 import DefaultLayout from "@/layouts/DefaultLayout.astro";
 
@@ -95,10 +95,5 @@ const mapStates = entries.map((e) => ({
     </div>
   </section>
 
-  <section class="container py-12">
-    <CtaCard
-      headline="¿Necesita orientación sobre encaje con prestamistas para un estado específico?"
-      subheadline="Comparta su operación y mapearemos rutas de ejecución probables por mercado y objetivo de apalancamiento."
-    />
-  </section>
+  <SmartCtaSection pathname={Astro.url.pathname} />
 </DefaultLayout>

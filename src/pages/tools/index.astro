@@ -3,6 +3,7 @@ import AnswerCapsule from "@/components/dscr/AnswerCapsule.astro";
 import Breadcrumbs from "@/components/dscr/Breadcrumbs.astro";
 import FaqAccordion from "@/components/dscr/FaqAccordion.astro";
 import NetworkCrossLinks from "@/components/dscr/NetworkCrossLinks.astro";
+import SmartCtaSection from "@/components/sections/SmartCtaSection.astro";
 import { buildCollectionPageSchema, buildFaqSchema, buildWebPageSchema, SITE_URL } from "@/consts";
 import DefaultLayout from "@/layouts/DefaultLayout.astro";
 
@@ -161,4 +162,5 @@ const faqSchema = buildFaqSchema(hubFaqs);
       <FaqAccordion items={hubFaqs} />
     </div>
   </section>
+  <SmartCtaSection pathname={Astro.url.pathname} />
 </DefaultLayout>

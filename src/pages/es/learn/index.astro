@@ -2,6 +2,7 @@
 import { getCollection } from "astro:content";
 
 import Breadcrumbs from "@/components/dscr/Breadcrumbs.astro";
+import SmartCtaSection from "@/components/sections/SmartCtaSection.astro";
 import DefaultLayout from "@/layouts/DefaultLayout.astro";
 
 const entries = await getCollection("esGuides");
@@ -29,4 +30,5 @@ const entries = await getCollection("esGuides");
       })}
     </div>
   </section>
+  <SmartCtaSection pathname={Astro.url.pathname} />
 </DefaultLayout>

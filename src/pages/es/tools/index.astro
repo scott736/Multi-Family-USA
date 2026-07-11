@@ -1,5 +1,6 @@
 ---
 import Breadcrumbs from "@/components/dscr/Breadcrumbs.astro";
+import SmartCtaSection from "@/components/sections/SmartCtaSection.astro";
 import DefaultLayout from "@/layouts/DefaultLayout.astro";
 
 const tools = [
@@ -61,4 +62,5 @@ const tools = [
       ))}
     </div>
   </section>
+  <SmartCtaSection pathname={Astro.url.pathname} />
 </DefaultLayout>

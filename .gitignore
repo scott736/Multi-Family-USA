@@ -28,3 +28,4 @@ pnpm-debug.log*
 .qodo
 .vercel
 .env*.local
+src/data/api-cache/

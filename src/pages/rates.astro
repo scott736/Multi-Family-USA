@@ -1,6 +1,7 @@
 ---
 import AnswerCapsule from "@/components/dscr/AnswerCapsule.astro";
 import FaqAccordion from "@/components/dscr/FaqAccordion.astro";
+import SmartCtaSection from "@/components/sections/SmartCtaSection.astro";
 import { buildFaqSchema, buildWebPageSchema, SITE_LAST_REVIEWED, SITE_URL } from "@/consts";
 import BasicLayout from "@/layouts/BasicLayout.astro";
 
@@ -185,4 +186,5 @@ const faqSchema = buildFaqSchema(rateFaqs);
     <a href="/tools/loan-sizing-calculator">multifamily loan calculator</a>. For 1–4 unit
     rental pricing context, see <a href="https://dscrauthority.com/rates/" target="_blank" rel="noopener noreferrer">current DSCR loan rates</a> on our sister site DSCR Authority.
   </p>
+  <SmartCtaSection pathname={Astro.url.pathname} />
 </BasicLayout>

@@ -1,6 +1,7 @@
 ---
 import AnswerCapsule from "@/components/dscr/AnswerCapsule.astro";
 import FaqAccordion from "@/components/dscr/FaqAccordion.astro";
+import SmartCtaSection from "@/components/sections/SmartCtaSection.astro";
 import { buildFaqSchema, buildWebPageSchema, SITE_LAST_REVIEWED, SITE_URL } from "@/consts";
 import BasicLayout from "@/layouts/BasicLayout.astro";
 
@@ -151,4 +152,5 @@ const faqSchema = buildFaqSchema(rateFaqs);
     Combine con <a href="/es/learn">Aprender</a>, <a href="/es/tools">herramientas</a> y
     <a href="/es/compare">comparaciones</a>.
   </p>
+  <SmartCtaSection pathname={Astro.url.pathname} />
 </BasicLayout>

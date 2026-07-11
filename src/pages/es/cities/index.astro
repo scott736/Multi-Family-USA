@@ -2,7 +2,7 @@
 import { getCollection } from "astro:content";
 
 import Breadcrumbs from "@/components/dscr/Breadcrumbs.astro";
-import CtaCard from "@/components/dscr/CtaCard.astro";
+import SmartCtaSection from "@/components/sections/SmartCtaSection.astro";
 import { buildCollectionPageSchema, buildWebPageSchema, SITE_URL } from "@/consts";
 import DefaultLayout from "@/layouts/DefaultLayout.astro";
 
@@ -66,10 +66,5 @@ const collectionSchema = buildCollectionPageSchema({
     </div>
   </section>
 
-  <section class="container py-12">
-    <CtaCard
-      headline="¿Quiere encaje de prestamista a nivel de ciudad?"
-      subheadline="Envíe sus supuestos y mapearemos opciones de ejecución probables por mercado."
-    />
-  </section>
+  <SmartCtaSection pathname={Astro.url.pathname} />
 </DefaultLayout>
