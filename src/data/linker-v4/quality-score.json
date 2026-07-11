@@ -1,0 +1,25 @@
+{
+  "generatedAt": "2026-07-11T22:14:02.405Z",
+  "brand": "Multi-Family USA",
+  "scores": {
+    "orphanRate": 0,
+    "forceBridgeRate": 5.571428571428571,
+    "avgOutboundPerPost": 7.857142857142857,
+    "postsWithZeroOutbound": 0,
+    "postsWithZeroInbound": 0,
+    "forceBridgeParagraphs": 39,
+    "totalBlogPosts": 7,
+    "catalogNodes": 67,
+    "catalogOrphans": 0,
+    "totalEdges": 130
+  },
+  "flags": [
+    "high force-bridge density (39 paragraphs)",
+    "force/legacy bridges present — run upgrade-force-bridges when refining"
+  ],
+  "recommendations": [
+    "Upgrade marked/legacy force bridges via: npx tsx scripts/automation/linker-v4/upgrade-force-bridges.ts",
+    "Treat quality grade as the north star; orphan count=0 alone is not enough."
+  ],
+  "grade": "A"
+}

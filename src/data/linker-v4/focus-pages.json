@@ -1,353 +1,353 @@
 {
-  "updatedAt": "2026-07-11T22:00:26.649Z",
+  "updatedAt": "2026-07-11T22:14:01.963Z",
   "description": "Pages that should receive priority inbound links. Manual entries (high-value, seo-target, manual) are preserved across rebuilds. Auto entries (orphan, low-inbound, fragile) are regenerated from the link graph.",
   "pages": [
     {
       "url": "/learn",
       "reason": "low-inbound",
-      "addedAt": "2026-07-11T22:00:26.649Z",
+      "addedAt": "2026-07-11T22:14:01.963Z",
       "addedBy": "link-graph"
     },
     {
       "url": "/states",
       "reason": "low-inbound",
-      "addedAt": "2026-07-11T22:00:26.649Z",
+      "addedAt": "2026-07-11T22:14:01.963Z",
       "addedBy": "link-graph"
     },
     {
       "url": "/cities",
       "reason": "low-inbound",
-      "addedAt": "2026-07-11T22:00:26.649Z",
+      "addedAt": "2026-07-11T22:14:01.963Z",
       "addedBy": "link-graph"
     },
     {
       "url": "/compare",
       "reason": "low-inbound",
-      "addedAt": "2026-07-11T22:00:26.649Z",
+      "addedAt": "2026-07-11T22:14:01.963Z",
       "addedBy": "link-graph"
     },
     {
       "url": "/tools/commercial-dscr-calculator",
       "reason": "low-inbound",
-      "addedAt": "2026-07-11T22:00:26.649Z",
+      "addedAt": "2026-07-11T22:14:01.963Z",
       "addedBy": "link-graph"
     },
     {
       "url": "/tools/cap-rate-noi-calculator",
       "reason": "low-inbound",
-      "addedAt": "2026-07-11T22:00:26.649Z",
+      "addedAt": "2026-07-11T22:14:01.963Z",
       "addedBy": "link-graph"
     },
     {
       "url": "/tools/debt-yield-calculator",
       "reason": "low-inbound",
-      "addedAt": "2026-07-11T22:00:26.649Z",
+      "addedAt": "2026-07-11T22:14:01.963Z",
       "addedBy": "link-graph"
     },
     {
       "url": "/tools/cash-on-cash-calculator",
       "reason": "low-inbound",
-      "addedAt": "2026-07-11T22:00:26.649Z",
+      "addedAt": "2026-07-11T22:14:01.963Z",
       "addedBy": "link-graph"
     },
     {
       "url": "/checklists/due-diligence-checklist",
       "reason": "low-inbound",
-      "addedAt": "2026-07-11T22:00:26.649Z",
+      "addedAt": "2026-07-11T22:14:01.963Z",
       "addedBy": "link-graph"
     },
     {
       "url": "/checklists/lender-document-checklist",
       "reason": "low-inbound",
-      "addedAt": "2026-07-11T22:00:26.649Z",
+      "addedAt": "2026-07-11T22:14:01.963Z",
       "addedBy": "link-graph"
     },
     {
       "url": "/checklists/pro-forma-template",
       "reason": "low-inbound",
-      "addedAt": "2026-07-11T22:00:26.649Z",
+      "addedAt": "2026-07-11T22:14:01.963Z",
       "addedBy": "link-graph"
     },
     {
       "url": "/glossary",
       "reason": "low-inbound",
-      "addedAt": "2026-07-11T22:00:26.649Z",
+      "addedAt": "2026-07-11T22:14:01.963Z",
       "addedBy": "link-graph"
     },
     {
       "url": "/about",
       "reason": "low-inbound",
-      "addedAt": "2026-07-11T22:00:26.649Z",
+      "addedAt": "2026-07-11T22:14:01.963Z",
       "addedBy": "link-graph"
     },
     {
       "url": "/loan-types/agency-stabilized",
       "reason": "low-inbound",
-      "addedAt": "2026-07-11T22:00:26.649Z",
+      "addedAt": "2026-07-11T22:14:01.963Z",
       "addedBy": "link-graph"
     },
     {
       "url": "/loan-types/bank-balance-sheet",
       "reason": "low-inbound",
-      "addedAt": "2026-07-11T22:00:26.649Z",
+      "addedAt": "2026-07-11T22:14:01.963Z",
       "addedBy": "link-graph"
     },
     {
       "url": "/loan-types/bridge-value-add",
       "reason": "low-inbound",
-      "addedAt": "2026-07-11T22:00:26.649Z",
+      "addedAt": "2026-07-11T22:14:01.963Z",
       "addedBy": "link-graph"
     },
     {
       "url": "/loan-types/cmbs-stabilized",
       "reason": "low-inbound",
-      "addedAt": "2026-07-11T22:00:26.649Z",
+      "addedAt": "2026-07-11T22:14:01.963Z",
       "addedBy": "link-graph"
     },
     {
       "url": "/loan-types/debt-fund-floating-rate",
       "reason": "low-inbound",
-      "addedAt": "2026-07-11T22:00:26.649Z",
+      "addedAt": "2026-07-11T22:14:01.963Z",
       "addedBy": "link-graph"
     },
     {
       "url": "/loan-types/fha-hud-multifamily",
       "reason": "low-inbound",
-      "addedAt": "2026-07-11T22:00:26.649Z",
+      "addedAt": "2026-07-11T22:14:01.963Z",
       "addedBy": "link-graph"
     },
     {
       "url": "/loan-types/freddie-mac-optigo",
       "reason": "low-inbound",
-      "addedAt": "2026-07-11T22:00:26.649Z",
+      "addedAt": "2026-07-11T22:14:01.963Z",
       "addedBy": "link-graph"
     },
     {
       "url": "/property-types/garden-style-multifamily",
       "reason": "low-inbound",
-      "addedAt": "2026-07-11T22:00:26.649Z",
+      "addedAt": "2026-07-11T22:14:01.963Z",
       "addedBy": "link-graph"
     },
     {
       "url": "/property-types/large-suburban-apartment",
       "reason": "low-inbound",
-      "addedAt": "2026-07-11T22:00:26.649Z",
+      "addedAt": "2026-07-11T22:14:01.963Z",
       "addedBy": "link-graph"
     },
     {
       "url": "/property-types/mid-rise-urban-multifamily",
       "reason": "low-inbound",
-      "addedAt": "2026-07-11T22:00:26.649Z",
+      "addedAt": "2026-07-11T22:14:01.963Z",
       "addedBy": "link-graph"
     },
     {
       "url": "/property-types/value-add-c-class-multifamily",
       "reason": "low-inbound",
-      "addedAt": "2026-07-11T22:00:26.649Z",
+      "addedAt": "2026-07-11T22:14:01.963Z",
       "addedBy": "link-graph"
     },
     {
       "url": "/learn/agency-vs-bridge-execution",
       "reason": "low-inbound",
-      "addedAt": "2026-07-11T22:00:26.649Z",
+      "addedAt": "2026-07-11T22:14:01.963Z",
       "addedBy": "link-graph"
     },
     {
       "url": "/learn/apartment-building-loan-guide",
       "reason": "low-inbound",
-      "addedAt": "2026-07-11T22:00:26.649Z",
+      "addedAt": "2026-07-11T22:14:01.963Z",
       "addedBy": "link-graph"
     },
     {
       "url": "/learn/capital-stack-design-for-value-add",
       "reason": "low-inbound",
-      "addedAt": "2026-07-11T22:00:26.649Z",
+      "addedAt": "2026-07-11T22:14:01.963Z",
       "addedBy": "link-graph"
     },
     {
       "url": "/learn/commercial-dscr-explained",
       "reason": "low-inbound",
-      "addedAt": "2026-07-11T22:00:26.649Z",
+      "addedAt": "2026-07-11T22:14:01.963Z",
       "addedBy": "link-graph"
     },
     {
       "url": "/learn/debt-yield-and-ltv-framework",
       "reason": "low-inbound",
-      "addedAt": "2026-07-11T22:00:26.649Z",
+      "addedAt": "2026-07-11T22:14:01.963Z",
       "addedBy": "link-graph"
     },
     {
       "url": "/learn/entity-structure-for-multifamily-borrowing",
       "reason": "low-inbound",
-      "addedAt": "2026-07-11T22:00:26.649Z",
+      "addedAt": "2026-07-11T22:14:01.963Z",
       "addedBy": "link-graph"
     },
     {
       "url": "/learn/fha-hud-multifamily-financing",
       "reason": "low-inbound",
-      "addedAt": "2026-07-11T22:00:26.649Z",
+      "addedAt": "2026-07-11T22:14:01.963Z",
       "addedBy": "link-graph"
     },
     {
       "url": "/learn/five-plus-unit-commercial-financing-basics",
       "reason": "low-inbound",
-      "addedAt": "2026-07-11T22:00:26.649Z",
+      "addedAt": "2026-07-11T22:14:01.963Z",
       "addedBy": "link-graph"
     },
     {
       "url": "/learn/multifamily-cash-out-refinance",
       "reason": "low-inbound",
-      "addedAt": "2026-07-11T22:00:26.649Z",
+      "addedAt": "2026-07-11T22:14:01.963Z",
       "addedBy": "link-graph"
     },
     {
       "url": "/learn/multifamily-close-checklist",
       "reason": "low-inbound",
-      "addedAt": "2026-07-11T22:00:26.649Z",
+      "addedAt": "2026-07-11T22:14:01.963Z",
       "addedBy": "link-graph"
     },
     {
       "url": "/learn/multifamily-construction-financing",
       "reason": "low-inbound",
-      "addedAt": "2026-07-11T22:00:26.649Z",
+      "addedAt": "2026-07-11T22:14:01.963Z",
       "addedBy": "link-graph"
     },
     {
       "url": "/learn/multifamily-noi-normalization",
       "reason": "low-inbound",
-      "addedAt": "2026-07-11T22:00:26.649Z",
+      "addedAt": "2026-07-11T22:14:01.963Z",
       "addedBy": "link-graph"
     },
     {
       "url": "/learn/multifamily-underwriting-basics",
       "reason": "low-inbound",
-      "addedAt": "2026-07-11T22:00:26.649Z",
+      "addedAt": "2026-07-11T22:14:01.963Z",
       "addedBy": "link-graph"
     },
     {
       "url": "/learn/operator-reporting-for-lenders",
       "reason": "low-inbound",
-      "addedAt": "2026-07-11T22:00:26.649Z",
+      "addedAt": "2026-07-11T22:14:01.963Z",
       "addedBy": "link-graph"
     },
     {
       "url": "/learn/rate-risk-and-refinance-planning",
       "reason": "low-inbound",
-      "addedAt": "2026-07-11T22:00:26.649Z",
+      "addedAt": "2026-07-11T22:14:01.963Z",
       "addedBy": "link-graph"
     },
     {
       "url": "/learn/stabilized-vs-transitional-assets",
       "reason": "low-inbound",
-      "addedAt": "2026-07-11T22:00:26.649Z",
+      "addedAt": "2026-07-11T22:14:01.963Z",
       "addedBy": "link-graph"
     },
     {
       "url": "/compare/acquisition-vs-refinance",
       "reason": "low-inbound",
-      "addedAt": "2026-07-11T22:00:26.649Z",
+      "addedAt": "2026-07-11T22:14:01.963Z",
       "addedBy": "link-graph"
     },
     {
       "url": "/compare/agency-vs-bridge",
       "reason": "low-inbound",
-      "addedAt": "2026-07-11T22:00:26.649Z",
+      "addedAt": "2026-07-11T22:14:01.963Z",
       "addedBy": "link-graph"
     },
     {
       "url": "/compare/bank-vs-debt-fund",
       "reason": "low-inbound",
-      "addedAt": "2026-07-11T22:00:26.649Z",
+      "addedAt": "2026-07-11T22:14:01.963Z",
       "addedBy": "link-graph"
     },
     {
       "url": "/compare/cmbs-vs-agency-multifamily",
       "reason": "low-inbound",
-      "addedAt": "2026-07-11T22:00:26.649Z",
+      "addedAt": "2026-07-11T22:14:01.963Z",
       "addedBy": "link-graph"
     },
     {
       "url": "/compare/fha-vs-agency-multifamily",
       "reason": "low-inbound",
-      "addedAt": "2026-07-11T22:00:26.649Z",
+      "addedAt": "2026-07-11T22:14:01.963Z",
       "addedBy": "link-graph"
     },
     {
       "url": "/compare/fixed-vs-floating-rate",
       "reason": "low-inbound",
-      "addedAt": "2026-07-11T22:00:26.649Z",
+      "addedAt": "2026-07-11T22:14:01.963Z",
       "addedBy": "link-graph"
     },
     {
       "url": "/compare/recourse-vs-nonrecourse",
       "reason": "low-inbound",
-      "addedAt": "2026-07-11T22:00:26.649Z",
+      "addedAt": "2026-07-11T22:14:01.963Z",
       "addedBy": "link-graph"
     },
     {
       "url": "/invest/first-time-multifamily-buyer",
       "reason": "low-inbound",
-      "addedAt": "2026-07-11T22:00:26.649Z",
+      "addedAt": "2026-07-11T22:14:01.963Z",
       "addedBy": "link-graph"
     },
     {
       "url": "/invest/institutional-growth-operator",
       "reason": "low-inbound",
-      "addedAt": "2026-07-11T22:00:26.649Z",
+      "addedAt": "2026-07-11T22:14:01.963Z",
       "addedBy": "link-graph"
     },
     {
       "url": "/invest/small-portfolio-operator",
       "reason": "low-inbound",
-      "addedAt": "2026-07-11T22:00:26.649Z",
+      "addedAt": "2026-07-11T22:14:01.963Z",
       "addedBy": "link-graph"
     },
     {
       "url": "/invest/value-add-sponsor",
       "reason": "low-inbound",
-      "addedAt": "2026-07-11T22:00:26.649Z",
+      "addedAt": "2026-07-11T22:14:01.963Z",
       "addedBy": "link-graph"
     },
     {
       "url": "/blog/debt-yield-vs-dscr-vs-ltv-comparison",
       "reason": "low-inbound",
-      "addedAt": "2026-07-11T22:00:26.649Z",
+      "addedAt": "2026-07-11T22:14:01.963Z",
       "addedBy": "link-graph"
     },
     {
       "url": "/blog/debt-yield-why-it-drives-term-sheet-velocity",
       "reason": "low-inbound",
-      "addedAt": "2026-07-11T22:00:26.649Z",
+      "addedAt": "2026-07-11T22:14:01.963Z",
       "addedBy": "link-graph"
     },
     {
       "url": "/blog/fannie-mae-multifamily-loan-requirements",
       "reason": "low-inbound",
-      "addedAt": "2026-07-11T22:00:26.649Z",
+      "addedAt": "2026-07-11T22:14:01.963Z",
       "addedBy": "link-graph"
     },
     {
       "url": "/blog/how-operators-are-sizing-bridge-risk",
       "reason": "low-inbound",
-      "addedAt": "2026-07-11T22:00:26.649Z",
+      "addedAt": "2026-07-11T22:14:01.963Z",
       "addedBy": "link-graph"
     },
     {
       "url": "/blog/how-to-finance-a-5-10-unit-apartment-building",
       "reason": "low-inbound",
-      "addedAt": "2026-07-11T22:00:26.649Z",
+      "addedAt": "2026-07-11T22:14:01.963Z",
       "addedBy": "link-graph"
     },
     {
       "url": "/blog/multifamily-dscr-requirements-by-lender-type",
       "reason": "low-inbound",
-      "addedAt": "2026-07-11T22:00:26.649Z",
+      "addedAt": "2026-07-11T22:14:01.963Z",
       "addedBy": "link-graph"
     },
     {
       "url": "/blog/multifamily-rate-spread-update-q2-2026",
       "reason": "low-inbound",
-      "addedAt": "2026-07-11T22:00:26.649Z",
+      "addedAt": "2026-07-11T22:14:01.963Z",
       "addedBy": "link-graph"
     }
   ]

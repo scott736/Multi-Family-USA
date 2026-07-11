@@ -108,6 +108,10 @@ export async function relinkLocal(options: CLIOptions): Promise<void> {
 
   await printLocaleParityReport();
 
+  console.log("\nStep 11: Quality score (grade, not just orphan count)...\n");
+  const { runQualityScore } = await import("./quality-score");
+  await runQualityScore({ ...options });
+
   console.log("\n═══════════════════════════════════════════════");
   console.log("  Local relink complete (v9 Intent Placement)");
   console.log("═══════════════════════════════════════════════\n");

@@ -1,7 +1,7 @@
 {
-  "generatedAt": "2026-07-11T22:00:26.648Z",
+  "generatedAt": "2026-07-11T22:14:01.962Z",
   "totalNodes": 67,
-  "totalEdges": 129,
+  "totalEdges": 130,
   "nodes": {
     "/loan-types": {
       "slug": "loan-types",
@@ -12,7 +12,7 @@
       "outboundCount": 0,
       "inboundFrom": [],
       "outboundTo": [],
-      "pageRank": 0.012989
+      "pageRank": 0.012979
     },
     "/property-types": {
       "slug": "property-types",
@@ -23,7 +23,7 @@
       "outboundCount": 0,
       "inboundFrom": [],
       "outboundTo": [],
-      "pageRank": 0.012989
+      "pageRank": 0.012979
     },
     "/learn": {
       "slug": "learn",
@@ -37,7 +37,7 @@
         "/rates"
       ],
       "outboundTo": [],
-      "pageRank": 0.014216
+      "pageRank": 0.014205
     },
     "/tools": {
       "slug": "tools",
@@ -52,7 +52,7 @@
         "/thank-you"
       ],
       "outboundTo": [],
-      "pageRank": 0.014216
+      "pageRank": 0.014205
     },
     "/states": {
       "slug": "states",
@@ -65,7 +65,7 @@
         "/faq"
       ],
       "outboundTo": [],
-      "pageRank": 0.012989
+      "pageRank": 0.012979
     },
     "/cities": {
       "slug": "cities",
@@ -78,7 +78,7 @@
         "/faq"
       ],
       "outboundTo": [],
-      "pageRank": 0.012989
+      "pageRank": 0.012979
     },
     "/compare": {
       "slug": "compare",
@@ -91,7 +91,7 @@
         "/rates"
       ],
       "outboundTo": [],
-      "pageRank": 0.014216
+      "pageRank": 0.014205
     },
     "/invest": {
       "slug": "invest",
@@ -102,7 +102,7 @@
       "outboundCount": 0,
       "inboundFrom": [],
       "outboundTo": [],
-      "pageRank": 0.012989
+      "pageRank": 0.012979
     },
     "/checklists": {
       "slug": "checklists",
@@ -113,7 +113,7 @@
       "outboundCount": 0,
       "inboundFrom": [],
       "outboundTo": [],
-      "pageRank": 0.012989
+      "pageRank": 0.012979
     },
     "/rates": {
       "slug": "rates",
@@ -134,7 +134,7 @@
         "/compare",
         "/tools/loan-sizing-calculator"
       ],
-      "pageRank": 0.012989
+      "pageRank": 0.012979
     },
     "/book-strategy-call": {
       "slug": "book-strategy-call",
@@ -151,7 +151,7 @@
       "outboundTo": [
         "/deal-review"
       ],
-      "pageRank": 0.019028
+      "pageRank": 0.019008
     },
     "/deal-review": {
       "slug": "deal-review",
@@ -167,7 +167,7 @@
         "/index"
       ],
       "outboundTo": [],
-      "pageRank": 0.035203
+      "pageRank": 0.035166
     },
     "/tools/commercial-dscr-calculator": {
       "slug": "tools/commercial-dscr-calculator",
@@ -181,7 +181,7 @@
         "/blog/multifamily-dscr-requirements-by-lender-type"
       ],
       "outboundTo": [],
-      "pageRank": 0.015467
+      "pageRank": 0.015413
     },
     "/tools/cap-rate-noi-calculator": {
       "slug": "tools/cap-rate-noi-calculator",
@@ -194,7 +194,7 @@
         "/blog/multifamily-rate-spread-update-q2-2026"
       ],
       "outboundTo": [],
-      "pageRank": 0.015025
+      "pageRank": 0.014994
     },
     "/tools/debt-yield-calculator": {
       "slug": "tools/debt-yield-calculator",
@@ -207,7 +207,7 @@
         "/blog/debt-yield-vs-dscr-vs-ltv-comparison"
       ],
       "outboundTo": [],
-      "pageRank": 0.014622
+      "pageRank": 0.01461
     },
     "/tools/loan-sizing-calculator": {
       "slug": "tools/loan-sizing-calculator",
@@ -223,7 +223,7 @@
         "/rates"
       ],
       "outboundTo": [],
-      "pageRank": 0.018169
+      "pageRank": 0.018239
     },
     "/tools/cash-on-cash-calculator": {
       "slug": "tools/cash-on-cash-calculator",
@@ -236,7 +236,7 @@
         "/blog/debt-yield-vs-dscr-vs-ltv-comparison"
       ],
       "outboundTo": [],
-      "pageRank": 0.014622
+      "pageRank": 0.01461
     },
     "/checklists/due-diligence-checklist": {
       "slug": "checklists/due-diligence-checklist",
@@ -249,7 +249,7 @@
         "/blog/how-operators-are-sizing-bridge-risk"
       ],
       "outboundTo": [],
-      "pageRank": 0.015117
+      "pageRank": 0.015102
     },
     "/checklists/lender-document-checklist": {
       "slug": "checklists/lender-document-checklist",
@@ -262,7 +262,7 @@
         "/blog/how-operators-are-sizing-bridge-risk"
       ],
       "outboundTo": [],
-      "pageRank": 0.015117
+      "pageRank": 0.015102
     },
     "/checklists/pro-forma-template": {
       "slug": "checklists/pro-forma-template",
@@ -275,7 +275,7 @@
         "/blog/how-operators-are-sizing-bridge-risk"
       ],
       "outboundTo": [],
-      "pageRank": 0.015117
+      "pageRank": 0.015102
     },
     "/glossary": {
       "slug": "glossary",
@@ -288,7 +288,7 @@
         "/blog/how-to-finance-a-5-10-unit-apartment-building"
       ],
       "outboundTo": [],
-      "pageRank": 0.014211
+      "pageRank": 0.014188
     },
     "/about": {
       "slug": "about",
@@ -304,7 +304,7 @@
         "/deal-review",
         "/book-strategy-call"
       ],
-      "pageRank": 0.014211
+      "pageRank": 0.014188
     },
     "/loan-types/agency-stabilized": {
       "slug": "loan-types/agency-stabilized",
@@ -318,7 +318,7 @@
         "/rates"
       ],
       "outboundTo": [],
-      "pageRank": 0.015314
+      "pageRank": 0.015398
     },
     "/loan-types/bank-balance-sheet": {
       "slug": "loan-types/bank-balance-sheet",
@@ -331,7 +331,7 @@
         "/blog/fannie-mae-multifamily-loan-requirements"
       ],
       "outboundTo": [],
-      "pageRank": 0.014087
+      "pageRank": 0.014172
     },
     "/loan-types/bridge-value-add": {
       "slug": "loan-types/bridge-value-add",
@@ -344,7 +344,7 @@
         "/rates"
       ],
       "outboundTo": [],
-      "pageRank": 0.014216
+      "pageRank": 0.014205
     },
     "/loan-types/cmbs-stabilized": {
       "slug": "loan-types/cmbs-stabilized",
@@ -357,7 +357,7 @@
         "/blog/fannie-mae-multifamily-loan-requirements"
       ],
       "outboundTo": [],
-      "pageRank": 0.014087
+      "pageRank": 0.014172
     },
     "/loan-types/debt-fund-floating-rate": {
       "slug": "loan-types/debt-fund-floating-rate",
@@ -370,7 +370,7 @@
         "/blog/fannie-mae-multifamily-loan-requirements"
       ],
       "outboundTo": [],
-      "pageRank": 0.014087
+      "pageRank": 0.014172
     },
     "/loan-types/fha-hud-multifamily": {
       "slug": "loan-types/fha-hud-multifamily",
@@ -383,7 +383,7 @@
         "/rates"
       ],
       "outboundTo": [],
-      "pageRank": 0.014216
+      "pageRank": 0.014205
     },
     "/loan-types/freddie-mac-optigo": {
       "slug": "loan-types/freddie-mac-optigo",
@@ -396,7 +396,7 @@
         "/rates"
       ],
       "outboundTo": [],
-      "pageRank": 0.014216
+      "pageRank": 0.014205
     },
     "/property-types/garden-style-multifamily": {
       "slug": "property-types/garden-style-multifamily",
@@ -409,7 +409,7 @@
         "/blog/how-to-finance-a-5-10-unit-apartment-building"
       ],
       "outboundTo": [],
-      "pageRank": 0.014211
+      "pageRank": 0.014188
     },
     "/property-types/large-suburban-apartment": {
       "slug": "property-types/large-suburban-apartment",
@@ -422,7 +422,7 @@
         "/blog/how-to-finance-a-5-10-unit-apartment-building"
       ],
       "outboundTo": [],
-      "pageRank": 0.014211
+      "pageRank": 0.014188
     },
     "/property-types/mid-rise-urban-multifamily": {
       "slug": "property-types/mid-rise-urban-multifamily",
@@ -435,7 +435,7 @@
         "/blog/how-to-finance-a-5-10-unit-apartment-building"
       ],
       "outboundTo": [],
-      "pageRank": 0.014211
+      "pageRank": 0.014188
     },
     "/property-types/value-add-c-class-multifamily": {
       "slug": "property-types/value-add-c-class-multifamily",
@@ -448,7 +448,7 @@
         "/blog/how-to-finance-a-5-10-unit-apartment-building"
       ],
       "outboundTo": [],
-      "pageRank": 0.014211
+      "pageRank": 0.014188
     },
     "/learn/agency-vs-bridge-execution": {
       "slug": "learn/agency-vs-bridge-execution",
@@ -461,7 +461,7 @@
         "/blog/fannie-mae-multifamily-loan-requirements"
       ],
       "outboundTo": [],
-      "pageRank": 0.014087
+      "pageRank": 0.014172
     },
     "/learn/apartment-building-loan-guide": {
       "slug": "learn/apartment-building-loan-guide",
@@ -474,7 +474,7 @@
         "/blog/how-to-finance-a-5-10-unit-apartment-building"
       ],
       "outboundTo": [],
-      "pageRank": 0.014211
+      "pageRank": 0.014188
     },
     "/learn/capital-stack-design-for-value-add": {
       "slug": "learn/capital-stack-design-for-value-add",
@@ -487,7 +487,7 @@
         "/blog/how-operators-are-sizing-bridge-risk"
       ],
       "outboundTo": [],
-      "pageRank": 0.015117
+      "pageRank": 0.015102
     },
     "/learn/commercial-dscr-explained": {
       "slug": "learn/commercial-dscr-explained",
@@ -500,7 +500,7 @@
         "/blog/multifamily-dscr-requirements-by-lender-type"
       ],
       "outboundTo": [],
-      "pageRank": 0.014369
+      "pageRank": 0.01422
     },
     "/learn/debt-yield-and-ltv-framework": {
       "slug": "learn/debt-yield-and-ltv-framework",
@@ -513,7 +513,7 @@
         "/blog/debt-yield-vs-dscr-vs-ltv-comparison"
       ],
       "outboundTo": [],
-      "pageRank": 0.014622
+      "pageRank": 0.01461
     },
     "/learn/entity-structure-for-multifamily-borrowing": {
       "slug": "learn/entity-structure-for-multifamily-borrowing",
@@ -526,7 +526,7 @@
         "/blog/how-to-finance-a-5-10-unit-apartment-building"
       ],
       "outboundTo": [],
-      "pageRank": 0.014211
+      "pageRank": 0.014188
     },
     "/learn/fha-hud-multifamily-financing": {
       "slug": "learn/fha-hud-multifamily-financing",
@@ -539,7 +539,7 @@
         "/blog/fannie-mae-multifamily-loan-requirements"
       ],
       "outboundTo": [],
-      "pageRank": 0.014087
+      "pageRank": 0.014172
     },
     "/learn/five-plus-unit-commercial-financing-basics": {
       "slug": "learn/five-plus-unit-commercial-financing-basics",
@@ -552,7 +552,7 @@
         "/blog/how-to-finance-a-5-10-unit-apartment-building"
       ],
       "outboundTo": [],
-      "pageRank": 0.014211
+      "pageRank": 0.014188
     },
     "/learn/multifamily-cash-out-refinance": {
       "slug": "learn/multifamily-cash-out-refinance",
@@ -565,7 +565,7 @@
         "/blog/fannie-mae-multifamily-loan-requirements"
       ],
       "outboundTo": [],
-      "pageRank": 0.014087
+      "pageRank": 0.014172
     },
     "/learn/multifamily-close-checklist": {
       "slug": "learn/multifamily-close-checklist",
@@ -578,7 +578,7 @@
         "/blog/how-operators-are-sizing-bridge-risk"
       ],
       "outboundTo": [],
-      "pageRank": 0.015117
+      "pageRank": 0.015102
     },
     "/learn/multifamily-construction-financing": {
       "slug": "learn/multifamily-construction-financing",
@@ -591,7 +591,7 @@
         "/blog/how-operators-are-sizing-bridge-risk"
       ],
       "outboundTo": [],
-      "pageRank": 0.015117
+      "pageRank": 0.015102
     },
     "/learn/multifamily-noi-normalization": {
       "slug": "learn/multifamily-noi-normalization",
@@ -604,7 +604,7 @@
         "/blog/debt-yield-vs-dscr-vs-ltv-comparison"
       ],
       "outboundTo": [],
-      "pageRank": 0.014622
+      "pageRank": 0.01461
     },
     "/learn/multifamily-underwriting-basics": {
       "slug": "learn/multifamily-underwriting-basics",
@@ -617,7 +617,7 @@
         "/blog/debt-yield-vs-dscr-vs-ltv-comparison"
       ],
       "outboundTo": [],
-      "pageRank": 0.014622
+      "pageRank": 0.01461
     },
     "/learn/operator-reporting-for-lenders": {
       "slug": "learn/operator-reporting-for-lenders",
@@ -630,7 +630,7 @@
         "/blog/debt-yield-why-it-drives-term-sheet-velocity"
       ],
       "outboundTo": [],
-      "pageRank": 0.019199
+      "pageRank": 0.019184
     },
     "/learn/rate-risk-and-refinance-planning": {
       "slug": "learn/rate-risk-and-refinance-planning",
@@ -643,7 +643,7 @@
         "/blog/multifamily-rate-spread-update-q2-2026"
       ],
       "outboundTo": [],
-      "pageRank": 0.015025
+      "pageRank": 0.014994
     },
     "/learn/stabilized-vs-transitional-assets": {
       "slug": "learn/stabilized-vs-transitional-assets",
@@ -656,7 +656,7 @@
         "/blog/multifamily-dscr-requirements-by-lender-type"
       ],
       "outboundTo": [],
-      "pageRank": 0.014369
+      "pageRank": 0.01422
     },
     "/compare/acquisition-vs-refinance": {
       "slug": "compare/acquisition-vs-refinance",
@@ -669,7 +669,7 @@
         "/blog/multifamily-dscr-requirements-by-lender-type"
       ],
       "outboundTo": [],
-      "pageRank": 0.014369
+      "pageRank": 0.01422
     },
     "/compare/agency-vs-bridge": {
       "slug": "compare/agency-vs-bridge",
@@ -682,7 +682,7 @@
         "/blog/fannie-mae-multifamily-loan-requirements"
       ],
       "outboundTo": [],
-      "pageRank": 0.014087
+      "pageRank": 0.014172
     },
     "/compare/bank-vs-debt-fund": {
       "slug": "compare/bank-vs-debt-fund",
@@ -695,7 +695,7 @@
         "/blog/multifamily-dscr-requirements-by-lender-type"
       ],
       "outboundTo": [],
-      "pageRank": 0.014369
+      "pageRank": 0.01422
     },
     "/compare/cmbs-vs-agency-multifamily": {
       "slug": "compare/cmbs-vs-agency-multifamily",
@@ -708,7 +708,7 @@
         "/blog/fannie-mae-multifamily-loan-requirements"
       ],
       "outboundTo": [],
-      "pageRank": 0.014087
+      "pageRank": 0.014172
     },
     "/compare/fha-vs-agency-multifamily": {
       "slug": "compare/fha-vs-agency-multifamily",
@@ -721,7 +721,7 @@
         "/blog/multifamily-dscr-requirements-by-lender-type"
       ],
       "outboundTo": [],
-      "pageRank": 0.014369
+      "pageRank": 0.01422
     },
     "/compare/fixed-vs-floating-rate": {
       "slug": "compare/fixed-vs-floating-rate",
@@ -734,7 +734,7 @@
         "/blog/multifamily-rate-spread-update-q2-2026"
       ],
       "outboundTo": [],
-      "pageRank": 0.015025
+      "pageRank": 0.014994
     },
     "/compare/recourse-vs-nonrecourse": {
       "slug": "compare/recourse-vs-nonrecourse",
@@ -747,7 +747,7 @@
         "/blog/debt-yield-vs-dscr-vs-ltv-comparison"
       ],
       "outboundTo": [],
-      "pageRank": 0.014622
+      "pageRank": 0.01461
     },
     "/invest/first-time-multifamily-buyer": {
       "slug": "invest/first-time-multifamily-buyer",
@@ -760,7 +760,7 @@
         "/blog/multifamily-dscr-requirements-by-lender-type"
       ],
       "outboundTo": [],
-      "pageRank": 0.014369
+      "pageRank": 0.01422
     },
     "/invest/institutional-growth-operator": {
       "slug": "invest/institutional-growth-operator",
@@ -773,7 +773,7 @@
         "/blog/debt-yield-vs-dscr-vs-ltv-comparison"
       ],
       "outboundTo": [],
-      "pageRank": 0.014622
+      "pageRank": 0.01461
     },
     "/invest/small-portfolio-operator": {
       "slug": "invest/small-portfolio-operator",
@@ -786,7 +786,7 @@
         "/blog/multifamily-rate-spread-update-q2-2026"
       ],
       "outboundTo": [],
-      "pageRank": 0.015025
+      "pageRank": 0.014994
     },
     "/invest/value-add-sponsor": {
       "slug": "invest/value-add-sponsor",
@@ -799,7 +799,7 @@
         "/blog/multifamily-rate-spread-update-q2-2026"
       ],
       "outboundTo": [],
-      "pageRank": 0.015025
+      "pageRank": 0.014994
     },
     "/blog/debt-yield-vs-dscr-vs-ltv-comparison": {
       "slug": "debt-yield-vs-dscr-vs-ltv-comparison",
@@ -823,9 +823,9 @@
         "/learn/debt-yield-and-ltv-framework",
         "/tools/loan-sizing-calculator"
       ],
-      "pageRank": 0.019199,
-      "wordCount": 285,
-      "outboundDensity": 17.54,
+      "pageRank": 0.019184,
+      "wordCount": 323,
+      "outboundDensity": 15.48,
       "isOverLinked": true,
       "isUnderLinked": false
     },
@@ -843,9 +843,9 @@
         "/blog/debt-yield-vs-dscr-vs-ltv-comparison",
         "/learn/operator-reporting-for-lenders"
       ],
-      "pageRank": 0.014622,
-      "wordCount": 312,
-      "outboundDensity": 3.21,
+      "pageRank": 0.01461,
+      "wordCount": 316,
+      "outboundDensity": 3.16,
       "isOverLinked": false,
       "isUnderLinked": false
     },
@@ -854,9 +854,10 @@
       "url": "/blog/fannie-mae-multifamily-loan-requirements",
       "title": "Fannie Mae Multifamily Loan Requirements",
       "type": "post",
-      "inboundCount": 1,
+      "inboundCount": 2,
       "outboundCount": 11,
       "inboundFrom": [
+        "/blog/multifamily-dscr-requirements-by-lender-type",
         "/rates"
       ],
       "outboundTo": [
@@ -872,9 +873,9 @@
         "/compare/cmbs-vs-agency-multifamily",
         "/loan-types/agency-stabilized"
       ],
-      "pageRank": 0.014216,
-      "wordCount": 251,
-      "outboundDensity": 21.91,
+      "pageRank": 0.015446,
+      "wordCount": 281,
+      "outboundDensity": 19.57,
       "isOverLinked": true,
       "isUnderLinked": false
     },
@@ -896,9 +897,9 @@
         "/learn/multifamily-close-checklist",
         "/checklists/pro-forma-template"
       ],
-      "pageRank": 0.015025,
-      "wordCount": 373,
-      "outboundDensity": 8.04,
+      "pageRank": 0.014994,
+      "wordCount": 406,
+      "outboundDensity": 7.39,
       "isOverLinked": true,
       "isUnderLinked": false
     },
@@ -924,9 +925,9 @@
         "/learn/five-plus-unit-commercial-financing-basics",
         "/learn/apartment-building-loan-guide"
       ],
-      "pageRank": 0.014369,
-      "wordCount": 327,
-      "outboundDensity": 15.29,
+      "pageRank": 0.01422,
+      "wordCount": 361,
+      "outboundDensity": 13.85,
       "isOverLinked": true,
       "isUnderLinked": false
     },
@@ -936,12 +937,13 @@
       "title": "Multifamily DSCR Requirements by Lender Type",
       "type": "post",
       "inboundCount": 1,
-      "outboundCount": 9,
+      "outboundCount": 10,
       "inboundFrom": [
         "/blog/debt-yield-vs-dscr-vs-ltv-comparison"
       ],
       "outboundTo": [
         "/blog/how-to-finance-a-5-10-unit-apartment-building",
+        "/blog/fannie-mae-multifamily-loan-requirements",
         "/compare/acquisition-vs-refinance",
         "/compare/bank-vs-debt-fund",
         "/invest/first-time-multifamily-buyer",
@@ -951,9 +953,9 @@
         "/tools/commercial-dscr-calculator",
         "/learn/commercial-dscr-explained"
       ],
-      "pageRank": 0.014622,
-      "wordCount": 337,
-      "outboundDensity": 13.35,
+      "pageRank": 0.01461,
+      "wordCount": 389,
+      "outboundDensity": 12.85,
       "isOverLinked": true,
       "isUnderLinked": false
     },
@@ -975,9 +977,9 @@
         "/invest/small-portfolio-operator",
         "/learn/rate-risk-and-refinance-planning"
       ],
-      "pageRank": 0.014369,
-      "wordCount": 390,
-      "outboundDensity": 7.69,
+      "pageRank": 0.01422,
+      "wordCount": 420,
+      "outboundDensity": 7.14,
       "isOverLinked": true,
       "isUnderLinked": false
     }

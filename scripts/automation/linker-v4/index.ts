@@ -245,10 +245,16 @@ export async function runLinkerV4(options: CLIOptions): Promise<void> {
       break;
     }
 
+    case "quality-score": {
+      const { runQualityScore } = await import("./quality-score");
+      await runQualityScore(options);
+      break;
+    }
+
     default:
       console.error(`Unknown linker-v4 mode: ${mode}`);
       console.log(
-        `\nValid modes: build-catalog, generate, validate, apply, strip, report, audit, semantic-audit, graph, anchor-report, quality-report, reader-paths, detect-pillars, relink-local, semantic-judge, rerank, draft-orphan-inbound, apply-orphan-drafts`
+        `\nValid modes: build-catalog, generate, validate, apply, strip, report, audit, semantic-audit, graph, anchor-report, quality-report, quality-score, reader-paths, detect-pillars, relink-local, semantic-judge, rerank, draft-orphan-inbound, apply-orphan-drafts`
       );
       console.log(
         `\nMultilingual: use --locale en|es|fr|all on strip/apply; relink-local processes all locales automatically.`

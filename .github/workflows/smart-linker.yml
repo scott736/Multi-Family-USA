@@ -149,6 +149,10 @@ jobs:
           npx tsx scripts/automation/index.ts -f linker-v4 -m apply-orphan-drafts
           npx tsx scripts/automation/index.ts -f linker-v4 -m graph || true
 
+      - name: Quality score
+        if: steps.slugs.outputs.list != ''
+        run: npx tsx scripts/automation/index.ts -f linker-v4 -m quality-score
+
       - name: Commit changes
         if: steps.slugs.outputs.list != ''
         run: |

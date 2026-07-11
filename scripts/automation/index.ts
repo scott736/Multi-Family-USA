@@ -40,6 +40,7 @@ const { values } = parseArgs({
     "skip-existing": { type: "boolean" },
     category: { type: "string" },
     "no-api": { type: "boolean" },
+    strict: { type: "boolean" },
     locale: { type: "string" },
     collection: { type: "string" },
     count: { type: "string" },
@@ -79,6 +80,7 @@ const options: CLIOptions = {
   skipExisting: values["skip-existing"],
   category: values.category,
   noApi: values["no-api"],
+  strict: values.strict,
   locale: values.locale,
   collection: values.collection,
   threshold: values.threshold ? (isNaN(parseInt(values.threshold, 10)) ? undefined : parseInt(values.threshold, 10)) : undefined,
@@ -130,6 +132,9 @@ LINKER v6 (-f linker-v4)
     strip              Remove internal links (preserves CTA links by default)
     rerank             LLM trim when too many links passed validation (GHA)
     semantic-audit     Audit live links for quality issues (no API)
+    quality-score      Grade link graph health (orphans, force bridges, outbound)
+    draft-orphan-inbound  Draft inbound links for orphans (XAI when keyed)
+    apply-orphan-drafts   Apply orphan inbound drafts
 
   Options:
     --slug <name>      Target specific post
@@ -138,6 +143,7 @@ LINKER v6 (-f linker-v4)
     --dry-run          Preview changes without saving
     --use-api          xAI Grok API — GitHub Actions only (new published posts)
     --force            Regenerate even if suggestions exist
+    --strict           Fail quality-score when grade is D/F
     --model <name>     Model: haiku (default), sonnet, opus
     --concurrency <n>  Parallel API calls (default: 3)
 

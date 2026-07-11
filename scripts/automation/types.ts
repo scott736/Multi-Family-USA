@@ -335,6 +335,8 @@ export interface CLIOptions {
   category?: string;
   /** Skip API call and use template-only path for Smart CTA rescan/generate. */
   noApi?: boolean;
+  /** Fail quality-score when grade is D/F. */
+  strict?: boolean;
   /** Locale for blog content: en | es | fr. Defaults to en. */
   locale?: string;
   /** Content collection: blog | glossary. Defaults to blog. */

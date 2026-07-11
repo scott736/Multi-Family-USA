@@ -1,12 +1,11 @@
 #!/usr/bin/env npx tsx
-// Force inbound links to orphan blog posts by inserting a bridge paragraph
-// into the best related source article. No external API.
+// Force inbound links to orphan pages via contextual bridge paragraphs.
+// No external API. Uses linker-site-config for brand voice + quality thresholds.
 //
 //   npx tsx scripts/automation/linker-v4/force-orphan-inbound.ts
-//   npx tsx scripts/automation/linker-v4/force-orphan-inbound.ts --max 120
+//   npx tsx scripts/automation/linker-v4/force-orphan-inbound.ts --max 200 --all
 
 import fs from "fs/promises";
-import path from "path";
 import {
   loadBlogAndCatalog,
   intentOverlapScore,
@@ -19,41 +18,42 @@ import {
 } from "./parse";
 import { normalizeUrl } from "./catalog-utils";
 import { loadLinkGraph, buildLinkGraph } from "./link-graph";
+import { LINKER_SITE } from "./linker-site-config";
 
 function parseArgs(argv: string[]) {
   const maxIdx = argv.indexOf("--max");
   const dryRun = argv.includes("--dry-run");
+  const all = argv.includes("--all");
   return {
     max: maxIdx >= 0 ? parseInt(argv[maxIdx + 1], 10) : 150,
     dryRun,
+    all,
   };
 }
 
 async function main() {
-  const { max, dryRun } = parseArgs(process.argv.slice(2));
+  const { max, dryRun, all } = parseArgs(process.argv.slice(2));
   let graph = await loadLinkGraph();
   if (!graph) graph = await buildLinkGraph();
 
   const { posts, catalog } = await loadBlogAndCatalog();
   const byUrl = new Map(catalog.map((p) => [normalizeUrl(p.url), p]));
-  const bySlug = new Map(posts.map((p) => [p.slug, p]));
+  const skip = new Set(LINKER_SITE.skipForceOrphanUrls.map(normalizeUrl));
 
-  const orphanPages = (graph.orphanPages || [])
+  const orphans = (graph.orphanPages || [])
     .map((u) => byUrl.get(normalizeUrl(u)))
-    .filter((p): p is NonNullable<typeof p> => Boolean(p));
+    .filter((p): p is NonNullable<typeof p> => {
+      if (!p) return false;
+      if (skip.has(normalizeUrl(p.url))) return false;
+      if (!all && p.type !== "post") return false;
+      return true;
+    })
+    .slice(0, max);
 
-  // Prefer blog posts first, then other catalog pages
-  const orphans = [
-    ...orphanPages.filter((p) => p.type === "post"),
-    ...orphanPages.filter((p) => p.type !== "post"),
-  ].slice(0, max);
-
-  const blogCount = orphans.filter((p) => p.type === "post").length;
   console.log(
-    `Processing ${orphans.length} catalog orphans (${blogCount} blog, ${orphans.length - blogCount} other)...\n`
+    `Processing ${orphans.length} ${all ? "catalog" : "blog"} orphans (min overlap ${LINKER_SITE.minForceOverlap})...\n`
   );
 
-  // Track how many bridges we've inserted into each source (cap 6)
   const sourceInserts = new Map<string, number>();
   let inserted = 0;
   let skipped = 0;
@@ -62,35 +62,48 @@ async function main() {
     const orphanNorm = normalizeUrl(orphan.url);
     const orphanPurpose = purposeText(orphan);
 
-    // Rank potential sources
     const ranked = posts
       .filter((a) => a.slug !== orphan.slug)
       .map((a) => {
         const body = parseBody(a.rawContent);
-        if (body.includes(orphanNorm) || body.includes(orphan.url)) return null;
+        if (
+          body.includes(orphanNorm) ||
+          body.includes(orphan.url) ||
+          body.includes(`${orphanNorm}/`)
+        ) {
+          return null;
+        }
         const cat = catalog.find((c) => c.slug === a.slug);
         const score = intentOverlapScore(
           orphanPurpose,
-          cat ? purposeText(cat) : `${a.frontmatter.title} ${a.frontmatter.description || ""}`
+          cat
+            ? purposeText(cat)
+            : `${a.frontmatter.title} ${a.frontmatter.description || ""}`
         );
         return { article: a, score };
       })
-      .filter((x): x is { article: (typeof posts)[0]; score: number } => Boolean(x) && x!.score >= 0.08)
+      .filter(
+        (x): x is { article: (typeof posts)[0]; score: number } =>
+          Boolean(x) && x!.score >= LINKER_SITE.minForceOverlap
+      )
       .sort((a, b) => b.score - a.score);
 
     let placed = false;
-    for (const { article, score } of ranked.slice(0, 12)) {
+    for (const { article, score } of ranked.slice(0, 24)) {
       const used = sourceInserts.get(article.slug) || 0;
-      if (used >= 6) continue;
+      if (used >= LINKER_SITE.maxForceBridgesPerSource) continue;
 
       const body = parseBody(article.rawContent);
       const paragraphs = numberParagraphs(body).filter((p) => p.isContent);
-      const mid = paragraphs[Math.floor(paragraphs.length * 0.55)] || paragraphs[3];
+      const mid =
+        paragraphs[Math.floor(paragraphs.length * 0.55)] || paragraphs[3];
       if (!mid) continue;
 
-      const url = orphan.url.endsWith("/") ? orphan.url : `${orphan.url}/`;
-      const anchor = orphan.title.replace(/[\[\]]/g, "").slice(0, 80);
-      const bridge = `For multifamily investors digging deeper, [${anchor}](${url}) covers the details.`;
+      const bridge = LINKER_SITE.buildForceBridge({
+        title: orphan.title,
+        url: orphan.url,
+        type: orphan.type,
+      });
 
       const insertAt = mid.offset + mid.text.length;
       const newBody =
@@ -98,8 +111,9 @@ async function main() {
       const rawFrontmatter = extractRawFrontmatter(article.rawContent);
       const newContent = rawFrontmatter + newBody;
 
+      const label = orphan.slug || orphanNorm;
       console.log(
-        `${dryRun ? "[dry] " : ""}${orphan.slug} ← ${article.slug} (score ${score.toFixed(2)})`
+        `${dryRun ? "[dry] " : ""}${label} ← ${article.slug} (score ${score.toFixed(2)})`
       );
       if (!dryRun) {
         await fs.writeFile(article.filePath, newContent, "utf-8");
@@ -113,11 +127,14 @@ async function main() {
 
     if (!placed) {
       skipped++;
-      console.log(`  skip ${orphan.slug}: no suitable source`);
+      console.log(`  skip ${orphan.slug || orphanNorm}: no suitable source`);
     }
   }
 
   console.log(`\nOrphan inbound bridges: ${inserted}, skipped: ${skipped}`);
+  console.log(
+    `Tip: prefer API draft-orphan-inbound for better bridges; force bridges are a safety net.`
+  );
 }
 
 main().catch((e) => {
