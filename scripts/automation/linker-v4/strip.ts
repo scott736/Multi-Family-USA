@@ -187,6 +187,10 @@ async function cleanupTracker(strippedSlugs: string[]): Promise<void> {
     return; // No tracker file — nothing to clean
   }
 
+  if (!Array.isArray(tracker.links)) {
+    return; // Empty/malformed tracker — nothing to clean
+  }
+
   const slugSet = new Set(strippedSlugs);
   const before = tracker.links.length;
   tracker.links = tracker.links.filter((link) => !slugSet.has(link.from));

@@ -1,0 +1,32 @@
+{
+  "generatedAt": "2026-07-11T21:58:19.340Z",
+  "orphansConsidered": 6,
+  "exactLinksAdded": 3,
+  "bridgesDrafted": 0,
+  "stillOrphaned": [
+    "how-operators-are-sizing-bridge-risk",
+    "how-to-finance-a-5-10-unit-apartment-building",
+    "multifamily-rate-spread-update-q2-2026"
+  ],
+  "exactByOrphan": {
+    "debt-yield-vs-dscr-vs-ltv-comparison": [
+      {
+        "sourceSlug": "multifamily-rate-spread-update-q2-2026",
+        "anchorText": "proceeds from the most restrictive metric among DSCR, debt yield, and leverage."
+      }
+    ],
+    "debt-yield-why-it-drives-term-sheet-velocity": [
+      {
+        "sourceSlug": "debt-yield-vs-dscr-vs-ltv-comparison",
+        "anchorText": "debt yield or DSCR alone."
+      }
+    ],
+    "multifamily-dscr-requirements-by-lender-type": [
+      {
+        "sourceSlug": "debt-yield-vs-dscr-vs-ltv-comparison",
+        "anchorText": "debt yield or DSCR alone."
+      }
+    ]
+  },
+  "drafts": []
+}

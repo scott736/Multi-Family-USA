@@ -38,14 +38,22 @@ async function main() {
   const byUrl = new Map(catalog.map((p) => [normalizeUrl(p.url), p]));
   const bySlug = new Map(posts.map((p) => [p.slug, p]));
 
-  const orphans = (graph.orphanPages || [])
+  const orphanPages = (graph.orphanPages || [])
     .map((u) => byUrl.get(normalizeUrl(u)))
-    .filter((p): p is NonNullable<typeof p> => Boolean(p) && p.type === "post")
-    .slice(0, max);
+    .filter((p): p is NonNullable<typeof p> => Boolean(p));
 
-  console.log(`Processing ${orphans.length} blog orphans...\n`);
+  // Prefer blog posts first, then other catalog pages
+  const orphans = [
+    ...orphanPages.filter((p) => p.type === "post"),
+    ...orphanPages.filter((p) => p.type !== "post"),
+  ].slice(0, max);
 
-  // Track how many bridges we've inserted into each source (cap 2)
+  const blogCount = orphans.filter((p) => p.type === "post").length;
+  console.log(
+    `Processing ${orphans.length} catalog orphans (${blogCount} blog, ${orphans.length - blogCount} other)...\n`
+  );
+
+  // Track how many bridges we've inserted into each source (cap 6)
   const sourceInserts = new Map<string, number>();
   let inserted = 0;
   let skipped = 0;
@@ -73,7 +81,7 @@ async function main() {
     let placed = false;
     for (const { article, score } of ranked.slice(0, 12)) {
       const used = sourceInserts.get(article.slug) || 0;
-      if (used >= 2) continue;
+      if (used >= 6) continue;
 
       const body = parseBody(article.rawContent);
       const paragraphs = numberParagraphs(body).filter((p) => p.isContent);
@@ -82,7 +90,7 @@ async function main() {
 
       const url = orphan.url.endsWith("/") ? orphan.url : `${orphan.url}/`;
       const anchor = orphan.title.replace(/[\[\]]/g, "").slice(0, 80);
-      const bridge = `If you're exploring this further, our guide to [${anchor}](${url}) covers the details.`;
+      const bridge = `For multifamily investors digging deeper, [${anchor}](${url}) covers the details.`;
 
       const insertAt = mid.offset + mid.text.length;
       const newBody =
@@ -95,6 +103,7 @@ async function main() {
       );
       if (!dryRun) {
         await fs.writeFile(article.filePath, newContent, "utf-8");
+        article.rawContent = newContent;
       }
       sourceInserts.set(article.slug, used + 1);
       inserted++;

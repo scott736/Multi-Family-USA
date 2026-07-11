@@ -99,7 +99,7 @@ async function main() {
     const url = best.url.endsWith("/") ? best.url : `${best.url}/`;
     const anchor =
       (best.title || "related financing guide").replace(/[\[\]]/g, "").slice(0, 80);
-    const bridge = `For a deeper look at the financing angle behind this topic, see our guide to [${anchor}](${url}).`;
+    const bridge = `For multifamily investors comparing financing options, see [${anchor}](${url}).`;
 
     const paragraphs = numberParagraphs(body).filter((p) => p.isContent);
     const mid = paragraphs[Math.floor(paragraphs.length * 0.45)] || paragraphs[2];

@@ -1,1 +1,22 @@
-{}
+{
+  "schemaVersion": 1,
+  "updatedAt": "2026-07-11T21:58:19.418Z",
+  "links": [
+    {
+      "from": "debt-yield-why-it-drives-term-sheet-velocity",
+      "to": "debt-yield-vs-dscr-vs-ltv-comparison",
+      "toUrl": "/blog/debt-yield-vs-dscr-vs-ltv-comparison/",
+      "anchor": "proceeds from the most restrictive metric among DSCR, debt yield, and leverage.",
+      "readerNeed": "Compare debt yield, DSCR, and LTV for commercial multifamily loan sizing—formulas, binding constraints, and when each metric drives proceeds.",
+      "appliedAt": "2026-07-11T21:58:19.257Z"
+    },
+    {
+      "from": "debt-yield-vs-dscr-vs-ltv-comparison",
+      "to": "debt-yield-why-it-drives-term-sheet-velocity",
+      "toUrl": "/blog/debt-yield-why-it-drives-term-sheet-velocity/",
+      "anchor": "debt yield or DSCR alone.",
+      "readerNeed": "Inbound for orphan: Debt Yield: Why It Drives Term Sheet Velocity",
+      "appliedAt": "2026-07-11T21:58:19.417Z"
+    }
+  ]
+}

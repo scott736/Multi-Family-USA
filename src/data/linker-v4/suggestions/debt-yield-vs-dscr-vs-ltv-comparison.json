@@ -1,0 +1,70 @@
+{
+  "sourceSlug": "debt-yield-vs-dscr-vs-ltv-comparison",
+  "sourceContentHash": "17d0374795999b07dfb6f85f731929ff3939a07e6cbb9599346a4986b4ea69e8",
+  "generatedAt": "2026-07-11T21:58:19.400Z",
+  "model": "intent-orphan-inbound-v9",
+  "catalogSize": 1,
+  "raw": [
+    {
+      "paragraphIndex": 10,
+      "anchorText": "debt yield or DSCR alone.",
+      "targetUrl": "/blog/debt-yield-why-it-drives-term-sheet-velocity/",
+      "readerNeed": "Inbound for orphan: Debt Yield: Why It Drives Term Sheet Velocity",
+      "expectation": "Why debt yield can accelerate or stall lender feedback even when DSCR appears acceptable.",
+      "semanticIntent": "v9 orphan-inbound exact match",
+      "confidence": 0.88
+    },
+    {
+      "paragraphIndex": 10,
+      "anchorText": "debt yield or DSCR alone.",
+      "targetUrl": "/blog/multifamily-dscr-requirements-by-lender-type/",
+      "readerNeed": "Inbound for orphan: Multifamily DSCR Requirements by Lender Type",
+      "expectation": "How commercial DSCR floors vary across agency, bridge, bank, CMBS, and debt-fund multifamily lenders—and what sponsors should model before quoting.",
+      "semanticIntent": "v9 orphan-inbound exact match",
+      "confidence": 0.88
+    }
+  ],
+  "validated": [
+    {
+      "suggestion": {
+        "paragraphIndex": 10,
+        "anchorText": "debt yield or DSCR alone.",
+        "targetUrl": "/blog/debt-yield-why-it-drives-term-sheet-velocity/",
+        "readerNeed": "Inbound for orphan: Debt Yield: Why It Drives Term Sheet Velocity",
+        "expectation": "Why debt yield can accelerate or stall lender feedback even when DSCR appears acceptable.",
+        "semanticIntent": "v9 orphan-inbound exact match",
+        "confidence": 0.88
+      },
+      "positionInBody": 1165,
+      "passed": true,
+      "confidenceTier": "medium",
+      "positionBucket": "conclusion",
+      "positionDistribution": {
+        "intro": 0,
+        "body": 0,
+        "conclusion": 1
+      }
+    },
+    {
+      "suggestion": {
+        "paragraphIndex": 10,
+        "anchorText": "debt yield or DSCR alone.",
+        "targetUrl": "/blog/multifamily-dscr-requirements-by-lender-type/",
+        "readerNeed": "Inbound for orphan: Multifamily DSCR Requirements by Lender Type",
+        "expectation": "How commercial DSCR floors vary across agency, bridge, bank, CMBS, and debt-fund multifamily lenders—and what sponsors should model before quoting.",
+        "semanticIntent": "v9 orphan-inbound exact match",
+        "confidence": 0.88
+      },
+      "positionInBody": 1165,
+      "passed": false,
+      "rejectionReason": "too-close-to-other-link",
+      "confidenceTier": "medium",
+      "positionDistribution": {
+        "intro": 0,
+        "body": 0,
+        "conclusion": 1
+      }
+    }
+  ],
+  "appliedAt": "2026-07-11T21:58:19.417Z"
+}

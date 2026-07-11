@@ -13,7 +13,7 @@ import {
   extractRawFrontmatter,
   BLOG_DIR,
 } from "./parse";
-import { normalizeUrl, isPreservedInternalLink, loadMergedCatalog } from "./catalog-utils";
+import { normalizeUrl, loadMergedCatalog } from "./catalog-utils";
 import { buildLocalizedCatalogTargetIndex } from "./localized-apply";
 
 const BRIDGE: Record<"es" | "fr", (anchor: string, url: string) => string> = {
@@ -27,8 +27,10 @@ function contentUrls(body: string): Set<string> {
   const out = new Set<string>();
   for (const m of body.matchAll(/\[([^\]]+)\]\(([^)]+)\)/g)) {
     if (!m[2].startsWith("/")) continue;
-    if (isPreservedInternalLink(m[2], m[1])) continue;
-    out.add(normalizeUrl(m[2]));
+    // Only skip booking CTAs — still mirror editorial tool/hub links for locale parity
+    const n = normalizeUrl(m[2]);
+    if (n.includes("/book-strategy-call") || n.includes("/deal-review")) continue;
+    out.add(n);
   }
   return out;
 }

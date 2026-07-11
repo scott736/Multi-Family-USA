@@ -1,0 +1,40 @@
+{
+  "sourceSlug": "how-operators-are-sizing-bridge-risk",
+  "sourceContentHash": "125604905a1854980b25d3da3bcc078f175bcf0e4b2a2dcbfe6c8fd283dcecf9",
+  "generatedAt": "2026-07-11T21:58:18.933Z",
+  "model": "deterministic-v8",
+  "catalogSize": 42,
+  "raw": [
+    {
+      "paragraphIndex": 6,
+      "anchorText": "proceeds from the most restrictive metric among DSCR, debt yield, and leverage.",
+      "targetUrl": "/blog/debt-yield-why-it-drives-term-sheet-velocity/",
+      "readerNeed": "Why debt yield can accelerate or stall lender feedback even when DSCR appears acceptable.",
+      "expectation": "Why debt yield can accelerate or stall lender feedback even when DSCR appears acceptable.",
+      "semanticIntent": "v8 semantic match: score 0.51",
+      "confidence": 0.95
+    }
+  ],
+  "validated": [
+    {
+      "suggestion": {
+        "paragraphIndex": 6,
+        "anchorText": "proceeds from the most restrictive metric among DSCR, debt yield, and leverage.",
+        "targetUrl": "/blog/debt-yield-why-it-drives-term-sheet-velocity/",
+        "readerNeed": "Why debt yield can accelerate or stall lender feedback even when DSCR appears acceptable.",
+        "expectation": "Why debt yield can accelerate or stall lender feedback even when DSCR appears acceptable.",
+        "semanticIntent": "v8 semantic match: score 0.51",
+        "confidence": 0.95
+      },
+      "positionInBody": 903,
+      "passed": false,
+      "rejectionReason": "semantic-mismatch: context-target score 0.18",
+      "confidenceTier": "high",
+      "positionDistribution": {
+        "intro": 0,
+        "body": 0,
+        "conclusion": 0
+      }
+    }
+  ]
+}

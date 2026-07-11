@@ -1,1 +1,37 @@
-{}
+{
+  "schemaVersion": 1,
+  "links": [
+    {
+      "rejectedAt": null,
+      "rejectionReason": null,
+      "firstSeen": "2026-07-11T21:58:19.257Z",
+      "lastSeen": "2026-07-11T21:58:19.257Z",
+      "id": "debt-yield-why-it-drives-term-sheet-velocity::/blog/debt-yield-vs-dscr-vs-ltv-comparison/",
+      "sourceSlug": "debt-yield-why-it-drives-term-sheet-velocity",
+      "sourceUrl": "/blog/debt-yield-why-it-drives-term-sheet-velocity/",
+      "targetUrl": "/blog/debt-yield-vs-dscr-vs-ltv-comparison/",
+      "anchorText": "proceeds from the most restrictive metric among DSCR, debt yield, and leverage.",
+      "appliedAt": "2026-07-11T21:58:19.257Z",
+      "modelUsed": "deterministic-v8",
+      "confidence": 0.95,
+      "paragraphIndex": 6,
+      "positionBucket": "body"
+    },
+    {
+      "rejectedAt": null,
+      "rejectionReason": null,
+      "firstSeen": "2026-07-11T21:58:19.417Z",
+      "lastSeen": "2026-07-11T21:58:19.417Z",
+      "id": "debt-yield-vs-dscr-vs-ltv-comparison::/blog/debt-yield-why-it-drives-term-sheet-velocity/",
+      "sourceSlug": "debt-yield-vs-dscr-vs-ltv-comparison",
+      "sourceUrl": "/blog/debt-yield-vs-dscr-vs-ltv-comparison/",
+      "targetUrl": "/blog/debt-yield-why-it-drives-term-sheet-velocity/",
+      "anchorText": "debt yield or DSCR alone.",
+      "appliedAt": "2026-07-11T21:58:19.417Z",
+      "modelUsed": "intent-orphan-inbound-v9",
+      "confidence": 0.88,
+      "paragraphIndex": 10,
+      "positionBucket": "conclusion"
+    }
+  ]
+}

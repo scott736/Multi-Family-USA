@@ -1,0 +1,69 @@
+{
+  "sourceSlug": "multifamily-rate-spread-update-q2-2026",
+  "sourceContentHash": "00ab4eea8e7683488b7ec4bea7fa66d5c8641af94619261eaa486eefb8f49978",
+  "generatedAt": "2026-07-11T21:58:19.362Z",
+  "model": "intent-orphan-inbound-v9",
+  "catalogSize": 41,
+  "raw": [
+    {
+      "paragraphIndex": 6,
+      "anchorText": "proceeds from the most restrictive metric among DSCR, debt yield, and leverage.",
+      "targetUrl": "/blog/debt-yield-why-it-drives-term-sheet-velocity/",
+      "readerNeed": "Why debt yield can accelerate or stall lender feedback even when DSCR appears acceptable.",
+      "expectation": "Why debt yield can accelerate or stall lender feedback even when DSCR appears acceptable.",
+      "semanticIntent": "v8 semantic match: score 0.50",
+      "confidence": 0.95
+    },
+    {
+      "paragraphIndex": 6,
+      "anchorText": "proceeds from the most restrictive metric among DSCR, debt yield, and leverage.",
+      "targetUrl": "/blog/debt-yield-vs-dscr-vs-ltv-comparison/",
+      "readerNeed": "Inbound for orphan: Debt Yield vs DSCR vs LTV — Multifamily Comparison",
+      "expectation": "Compare debt yield, DSCR, and LTV for commercial multifamily loan sizing—formulas, binding constraints, and when each metric drives proceeds.",
+      "semanticIntent": "v9 orphan-inbound exact match",
+      "confidence": 0.88
+    }
+  ],
+  "validated": [
+    {
+      "suggestion": {
+        "paragraphIndex": 6,
+        "anchorText": "proceeds from the most restrictive metric among DSCR, debt yield, and leverage.",
+        "targetUrl": "/blog/debt-yield-why-it-drives-term-sheet-velocity/",
+        "readerNeed": "Why debt yield can accelerate or stall lender feedback even when DSCR appears acceptable.",
+        "expectation": "Why debt yield can accelerate or stall lender feedback even when DSCR appears acceptable.",
+        "semanticIntent": "v8 semantic match: score 0.50",
+        "confidence": 0.95
+      },
+      "positionInBody": 980,
+      "passed": false,
+      "rejectionReason": "semantic-mismatch: context-target score 0.18",
+      "confidenceTier": "high",
+      "positionDistribution": {
+        "intro": 0,
+        "body": 0,
+        "conclusion": 0
+      }
+    },
+    {
+      "suggestion": {
+        "paragraphIndex": 6,
+        "anchorText": "proceeds from the most restrictive metric among DSCR, debt yield, and leverage.",
+        "targetUrl": "/blog/debt-yield-vs-dscr-vs-ltv-comparison/",
+        "readerNeed": "Inbound for orphan: Debt Yield vs DSCR vs LTV — Multifamily Comparison",
+        "expectation": "Compare debt yield, DSCR, and LTV for commercial multifamily loan sizing—formulas, binding constraints, and when each metric drives proceeds.",
+        "semanticIntent": "v9 orphan-inbound exact match",
+        "confidence": 0.88
+      },
+      "positionInBody": 980,
+      "passed": false,
+      "rejectionReason": "duplicate-anchor-cross-article",
+      "confidenceTier": "medium",
+      "positionDistribution": {
+        "intro": 0,
+        "body": 0,
+        "conclusion": 0
+      }
+    }
+  ]
+}

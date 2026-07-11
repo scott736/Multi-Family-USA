@@ -73,6 +73,10 @@ export async function buildAnchorDiversityIndex(
     return {};
   }
 
+  if (!Array.isArray(tracker.links)) {
+    return {};
+  }
+
   const index: AnchorDiversityIndex = {};
 
   for (const link of tracker.links) {

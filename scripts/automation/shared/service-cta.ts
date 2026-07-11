@@ -180,13 +180,10 @@ function normalizeHubPath(url: string): string {
 
 /** True when URL points at a parent service hub (or a path under one). */
 export function isServiceHubUrl(url: string): boolean {
+  // Exact hub roots / named CTA tools only — not every child page under /learn/, /loan-types/, etc.
+  // Prefix matching treated editorial bridges as CTAs and blocked locale mirroring.
   const normalized = normalizeHubPath(url);
-  if (SERVICE_HUB_SET.has(normalized)) return true;
-  for (const hub of SERVICE_HUB_URLS) {
-    const h = hub.replace(/\/$/, "");
-    if (normalized.startsWith(`${h}/`)) return true;
-  }
-  return false;
+  return SERVICE_HUB_SET.has(normalized);
 }
 
 /** True if the article body already links to any service hub. */

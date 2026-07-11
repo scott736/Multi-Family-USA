@@ -1,0 +1,41 @@
+{
+  "sourceSlug": "debt-yield-why-it-drives-term-sheet-velocity",
+  "sourceContentHash": "2110abab62d9e270f015e3dee6d5b87a70fc375bd199ed2f56be5193fc7eb5a4",
+  "generatedAt": "2026-07-11T21:58:18.616Z",
+  "model": "deterministic-v8",
+  "catalogSize": 41,
+  "raw": [
+    {
+      "paragraphIndex": 6,
+      "anchorText": "proceeds from the most restrictive metric among DSCR, debt yield, and leverage.",
+      "targetUrl": "/blog/debt-yield-vs-dscr-vs-ltv-comparison/",
+      "readerNeed": "Compare debt yield, DSCR, and LTV for commercial multifamily loan sizing—formulas, binding constraints, and when each metric drives proceeds.",
+      "expectation": "Compare debt yield, DSCR, and LTV for commercial multifamily loan sizing—formulas, binding constraints, and when each metric drives proceeds.",
+      "semanticIntent": "v8 semantic match: score 0.50",
+      "confidence": 0.95
+    }
+  ],
+  "validated": [
+    {
+      "suggestion": {
+        "paragraphIndex": 6,
+        "anchorText": "proceeds from the most restrictive metric among DSCR, debt yield, and leverage.",
+        "targetUrl": "/blog/debt-yield-vs-dscr-vs-ltv-comparison/",
+        "readerNeed": "Compare debt yield, DSCR, and LTV for commercial multifamily loan sizing—formulas, binding constraints, and when each metric drives proceeds.",
+        "expectation": "Compare debt yield, DSCR, and LTV for commercial multifamily loan sizing—formulas, binding constraints, and when each metric drives proceeds.",
+        "semanticIntent": "v8 semantic match: score 0.50",
+        "confidence": 0.95
+      },
+      "positionInBody": 906,
+      "passed": false,
+      "rejectionReason": "in-skip-zone: existing-link",
+      "confidenceTier": "high",
+      "positionDistribution": {
+        "intro": 0,
+        "body": 0,
+        "conclusion": 0
+      }
+    }
+  ],
+  "appliedAt": "2026-07-11T21:58:19.257Z"
+}
