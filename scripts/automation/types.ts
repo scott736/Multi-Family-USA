@@ -7,50 +7,45 @@
 // ----------------
 
 export type Category =
-  | "mortgage-financing"
-  | "investing-fundamentals"
-  | "scaling-portfolio"
-  | "partnerships-capital"
-  | "us-cross-border"
-  | "personal-finance-mindset";
+  | "fundamentals"
+  | "underwriting"
+  | "qualification"
+  | "capital-markets"
+  | "execution"
+  | "risk"
+  | "rates";
 
+/**
+ * Multi-Family USA topic clusters — hub-and-spoke linking for commercial
+ * multifamily (5+ unit) financing. Not LendCity residential/CMHC clusters.
+ */
 export type TopicCluster =
-  | "mortgage-basics"
-  | "mortgage-qualification"
-  | "refinancing-strategies"
-  | "commercial-lending"
-  | "getting-started"
-  | "rental-property-analysis"
-  | "multifamily-investing"
-  | "brrrr-flipping"
-  | "portfolio-scaling"
-  | "joint-ventures-partnerships"
-  | "capital-raising"
-  | "us-investing-basics"
-  | "dscr-foreign-national"
-  | "cross-border-tax-legal"
-  | "investor-mindset"
-  | "success-stories"
-  | "team-building"
-  | "market-analysis"
-  | "property-management"
-  | "short-term-rentals"
-  | "private-mortgage-investing"
-  | "development-investing";
+  | "loan-products"
+  | "agency-execution"
+  | "bridge-value-add"
+  | "underwriting-metrics"
+  | "property-types"
+  | "small-multifamily"
+  | "market-geography"
+  | "deal-execution"
+  | "capital-stack"
+  | "rates-spreads"
+  | "sponsor-strategy"
+  | "construction-rehab";
 
 export type FunnelStage = "awareness" | "consideration" | "decision";
 
 export type TargetPersona =
-  | "beginner"
-  | "scaling-investor"
-  | "cross-border"
-  | "professional";
+  | "first-time-buyer"
+  | "value-add-sponsor"
+  | "portfolio-operator"
+  | "institutional";
 
-export type Region = "canada" | "usa" | "both" | "mexico";
+export type Region = "usa";
 
 export type Priority = "low" | "normal" | "high";
 export type QueueStatus = "ready" | "merged" | "hold";
-export type QueueRegion = "canada" | "usa" | "both";
+export type QueueRegion = "usa";
 
 export type ArticleSource = "manual" | "podcast" | "import";
 

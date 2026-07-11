@@ -3,7 +3,7 @@
     "publishFrequency": 1,
     "publishTime": "06:00",
     "minScheduledPosts": 1,
-    "defaultCategory": "investing-fundamentals",
+    "defaultCategory": "fundamentals",
     "shuffleQueue": true
   },
   "podcast": {

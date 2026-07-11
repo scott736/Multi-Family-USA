@@ -35,43 +35,56 @@ const MAX_PILLARS_PER_CATEGORY = 3;
  * Hardcoded fallback used when detected-pillars.json is missing, stale, or
  * unreadable. Kept in sync with PILLAR_PAGES in build-catalog.ts.
  */
+/**
+ * Hub-and-spoke pillars for Multi-Family USA content categories.
+ * Hubs: loan-types + tools; spokes: blog / learn guides.
+ */
 export const FALLBACK_CATEGORY_PILLARS: Record<string, string[]> = {
-  "mortgage-financing": [
-    "/multi-family-mortgage-financing/",
-    "/residential-mortgage-financing/",
-    "/flip-mortgage-financing/",
-    "/development-mortgage-financing/",
-    "/office-mortgage-financing/",
-    "/retail-mortgage-financing/",
-    "/padsplit-mortgage-financing/",
-    "/dscr-loans/",
-    "/investment-property-lending-locations/",
-    "/mortgage-financing-for-canadians-in-canada/",
-    "/mortgage-financing-for-canadians-in-the-u-s-a/",
-    "/mortgage-financing-for-canadians-in-mexico/",
+  fundamentals: [
+    "/loan-types/",
+    "/learn/",
+    "/tools/",
+    "/learn/five-plus-unit-commercial-financing-basics/",
   ],
-  "investing-fundamentals": [
-    "/investor-resources/",
-    "/invest-in-real-estate/",
+  underwriting: [
+    "/tools/",
+    "/tools/commercial-dscr-calculator/",
+    "/tools/debt-yield-calculator/",
+    "/learn/commercial-dscr-explained/",
   ],
-  "scaling-portfolio": [
-    "/multi-family-mortgage-financing/",
-    "/investor-resources/",
+  qualification: [
+    "/tools/commercial-dscr-calculator/",
+    "/tools/loan-sizing-calculator/",
+    "/loan-types/",
+    "/learn/debt-yield-and-ltv-framework/",
   ],
-  "partnerships-capital": [
-    "/investor-resources/",
-    "/invest-in-real-estate/",
-    "/invest-in-private-mortgages/",
-    "/invest-in-development/",
+  "capital-markets": [
+    "/loan-types/",
+    "/compare/",
+    "/loan-types/agency-stabilized/",
+    "/loan-types/bridge-value-add/",
   ],
-  "us-cross-border": [
-    "/mortgage-financing-for-canadians-in-the-u-s-a/",
-    "/dscr-loans/",
-    "/mortgage-financing-for-canadians-in-mexico/",
+  execution: [
+    "/checklists/",
+    "/loan-types/bridge-value-add/",
+    "/learn/multifamily-close-checklist/",
+    "/deal-review/",
   ],
-  "personal-finance-mindset": [
-    "/investor-resources/",
+  risk: [
+    "/rates/",
+    "/checklists/",
+    "/learn/rate-risk-and-refinance-planning/",
+    "/compare/",
   ],
+  rates: [
+    "/rates/",
+    "/loan-types/",
+    "/tools/loan-sizing-calculator/",
+    "/compare/agency-vs-bridge/",
+  ],
+  // Catalog page types that still tag financing hubs
+  "mortgage-financing": ["/loan-types/", "/tools/", "/compare/"],
+  "investing-fundamentals": ["/learn/", "/invest/", "/tools/"],
 };
 
 /** @deprecated Use FALLBACK_CATEGORY_PILLARS or detectPillars() instead. */

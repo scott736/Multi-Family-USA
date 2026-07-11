@@ -26,28 +26,18 @@ const DATA_DIR = "src/data/linker-v4";
 // ----------------
 
 const TOPIC_CLUSTER_ASSET_TYPES: Record<string, string[]> = {
-  "mortgage-basics": ["single-family", "residential", "duplex", "triplex", "fourplex"],
-  "mortgage-qualification": ["residential", "investment-property"],
-  "refinancing-strategies": ["residential", "investment-property"],
-  "commercial-lending": ["commercial", "multifamily", "office", "retail", "industrial", "mixed-use"],
-  "getting-started": ["residential", "investment-property"],
-  "rental-property-analysis": ["investment-property", "rental", "residential"],
-  "multifamily-investing": ["multifamily", "apartment"],
-  "brrrr-flipping": ["single-family", "residential"],
-  "us-investing-basics": ["investment-property", "rental"],
-  "dscr-foreign-national": ["investment-property", "rental"],
-  "portfolio-scaling": ["investment-property", "multifamily", "residential"],
-  "joint-ventures-partnerships": ["investment-property"],
-  "capital-raising": ["investment-property"],
-  "cross-border-tax-legal": ["investment-property"],
-  "investor-mindset": ["education"],
-  "success-stories": ["investment-property"],
-  "team-building": ["investment-property"],
-  "market-analysis": ["investment-property", "residential"],
-  "property-management": ["rental", "investment-property"],
-  "short-term-rentals": ["short-term-rental", "vacation-rental"],
-  "private-mortgage-investing": ["passive-income", "private-lending", "secured-lending"],
-  "development-investing": ["development", "capital-raising", "joint-ventures-partnerships"],
+  "loan-products": ["multifamily", "apartment", "5-plus-unit"],
+  "agency-execution": ["multifamily", "stabilized", "apartment"],
+  "bridge-value-add": ["multifamily", "value-add", "transitional"],
+  "underwriting-metrics": ["multifamily", "commercial"],
+  "property-types": ["garden", "mid-rise", "suburban", "value-add", "multifamily"],
+  "small-multifamily": ["5-10-unit", "small-multifamily", "apartment"],
+  "market-geography": ["multifamily", "market"],
+  "deal-execution": ["multifamily", "closing"],
+  "capital-stack": ["multifamily", "capital-stack"],
+  "rates-spreads": ["multifamily", "agency", "bridge"],
+  "sponsor-strategy": ["multifamily", "sponsor"],
+  "construction-rehab": ["multifamily", "construction", "rehab"],
 };
 
 // ----------------
@@ -55,178 +45,151 @@ const TOPIC_CLUSTER_ASSET_TYPES: Record<string, string[]> = {
 // ----------------
 
 const TOPIC_CLUSTER_LINK_WHEN: Record<string, string[]> = {
-  "mortgage-basics": [
-    "when explaining core mortgage concepts or qualification basics",
-    "when the reader needs foundational lending guidance",
+  "loan-products": [
+    "when the reader needs to choose among agency, bridge, bank, CMBS, debt fund, or FHA paths",
+    "when comparing multifamily loan product fit for a 5+ unit asset",
   ],
-  "mortgage-qualification": [
-    "when the article discusses approval criteria or underwriting",
-    "when the reader is trying to understand how to qualify",
+  "agency-execution": [
+    "when Fannie Mae, Freddie Mac Optigo, or stabilized agency underwriting is the focus",
+    "when DSCR, debt yield, and occupancy grids for agency debt are discussed",
   ],
-  "refinancing-strategies": [
-    "when discussing refinancing, equity access, or BRRRR refi exits",
-    "when the reader wants to leverage existing property equity",
+  "bridge-value-add": [
+    "when bridge, transitional, or value-add multifamily debt is the topic",
+    "when extension risk, floating rate, or business-plan execution drives financing",
   ],
-  "commercial-lending": [
-    "when the article discusses commercial property financing or DSCR/NOI",
-    "when the deal involves 5+ units or income-based commercial underwriting",
+  "underwriting-metrics": [
+    "when DSCR, debt yield, cap rate, NOI, or LTV math is central",
+    "when the reader should run calculator tools before choosing a product",
   ],
-  "getting-started": [
-    "when the article targets beginner investors exploring first steps",
-    "when the reader needs an entry point to investment property financing",
+  "property-types": [
+    "when garden-style, mid-rise, suburban, or C-class value-add assets change lender appetite",
+    "when property type drives leverage or execution channel",
   ],
-  "rental-property-analysis": [
-    "when analyzing rental deal metrics, cash flow, or cap rates",
-    "when the reader is evaluating whether a rental property pencils out",
+  "small-multifamily": [
+    "when financing 5–10 unit apartment buildings is the focus",
+    "when crossing the commercial threshold from residential 1–4 unit habits",
   ],
-  "multifamily-investing": [
-    "when discussing apartment buildings or scaling to multifamily",
-    "when the reader is moving beyond single-family rentals",
+  "market-geography": [
+    "when state or city market context affects multifamily financing",
+    "when tax, rent control, or local capital markets matter to lender fit",
   ],
-  "brrrr-flipping": [
-    "when the article covers fix-and-flip, BRRRR, or value-add renovation",
-    "when short-term renovation financing is relevant",
+  "deal-execution": [
+    "when closing, diligence, lender docs, entity structure, or reporting is the focus",
+    "when the reader needs checklists before term sheet or close",
   ],
-  "us-investing-basics": [
-    "when Canadians are buying or financing US investment property",
-    "when cross-border US market entry is the topic",
+  "capital-stack": [
+    "when comparing capital paths (agency vs bridge, bank vs debt fund, fixed vs floating)",
+    "when stack design or recourse structure is the decision",
   ],
-  "dscr-foreign-national": [
-    "when US DSCR or foreign national lending is discussed",
-    "when qualifying on rental income without personal income docs",
+  "rates-spreads": [
+    "when multifamily rate, spread, or all-in cost context is the topic",
+    "when pricing differences across agency, bridge, and bank matter",
   ],
-  "portfolio-scaling": [
-    "when the article discusses growing a rental portfolio",
-    "when financing strategy shifts as unit count increases",
+  "sponsor-strategy": [
+    "when sponsor profile (first-time, value-add, portfolio, institutional) drives capital strategy",
+    "when the reader needs an investor playbook rather than a product page",
   ],
-  "joint-ventures-partnerships": [
-    "when structuring deals with partners or raising capital for acquisitions",
-    "when the reader needs financing alongside partnership structures",
-  ],
-  "capital-raising": [
-    "when raising private capital or creative financing for deals",
-    "when the reader needs capital stack options beyond traditional mortgages",
-  ],
-  "cross-border-tax-legal": [
-    "when US LLC, ITIN, or cross-border entity setup affects financing",
-    "when legal structure decisions precede property acquisition",
-  ],
-  "investor-mindset": [
-    "when the article focuses on psychology or habits with a financing intro",
-    "when beginner readers need educational context before product pages",
-  ],
-  "success-stories": [
-    "when a case study illustrates a financing strategy the reader might replicate",
-    "when the narrative connects portfolio growth to specific lending products",
-  ],
-  "team-building": [
-    "when assembling a professional team including mortgage brokers",
-    "when the reader is scaling and needs financing partners",
-  ],
-  "market-analysis": [
-    "when city or market guides connect to local financing options",
-    "when market selection leads to a financing decision",
-  ],
-  "property-management": [
-    "when operational topics tie back to financing qualification or refi",
-    "when improving NOI or rents affects lending options",
-  ],
-  "short-term-rentals": [
-    "when Airbnb, VRBO, or short-term rental financing is discussed",
-    "when platform income affects mortgage qualification",
-  ],
-  "private-mortgage-investing": [
-    "when the reader wants to lend capital as a private mortgage investor",
-    "when passive secured yield, MICs, or RRSP private lending is discussed",
-  ],
-  "development-investing": [
-    "when the reader invests equity in development projects or syndications",
-    "when GP/LP structures or development partnership due diligence is the topic",
+  "construction-rehab": [
+    "when ground-up construction, major rehab, or FHA 221(d)(4) is discussed",
+    "when construction loan structure or takeout planning is relevant",
   ],
 };
 
 const CATEGORY_LINK_WHEN: Record<string, string[]> = {
-  "mortgage-financing": [
-    "when the article discusses mortgage products, rates, or lender options",
-    "when the reader needs help choosing a financing path",
+  fundamentals: [
+    "when explaining commercial multifamily financing basics for 5+ unit assets",
+    "when the reader needs an entry path into loan types or underwriting tools",
   ],
-  "investing-fundamentals": [
-    "when investment strategy connects to how deals get funded",
-    "when the reader is learning how financing fits their investing plan",
+  underwriting: [
+    "when metric definitions or binding constraints (DSCR, debt yield, LTV) are the focus",
+    "when calculator tools are the natural next step",
   ],
-  "scaling-portfolio": [
-    "when portfolio growth requires new financing structures beyond one lender",
-    "when the reader needs lender sequencing or alternative qualification paths",
+  qualification: [
+    "when sizing proceeds or meeting lender coverage floors is the topic",
+    "when the reader needs qualification math before choosing a product",
   ],
-  "partnerships-capital": [
-    "when capital structure or partnerships affect how deals are financed",
-    "when the reader combines private capital with institutional debt",
+  "capital-markets": [
+    "when loan product or capital market channel selection is discussed",
+    "when agency, bridge, CMBS, or FHA execution is compared",
   ],
-  "us-cross-border": [
-    "when cross-border investing or foreign national lending is the topic",
-    "when the reader is a Canadian investing outside Canada",
+  execution: [
+    "when closing process, checklists, or deal packaging is the focus",
+    "when operational execution after term sheet matters",
   ],
-  "personal-finance-mindset": [
-    "when personal finance decisions connect to real estate leverage",
-    "when mindset content references taking action on financed deals",
+  risk: [
+    "when rate risk, refinance planning, or downside stress is discussed",
+    "when extension or exit risk should drive structure choice",
+  ],
+  rates: [
+    "when spread or all-in borrowing cost context is the article focus",
+    "when readers need rate framing before requesting quotes",
   ],
 };
 
 const CATEGORY_DO_NOT_LINK_WHEN: Record<string, string[]> = {
-  "mortgage-financing": [
-    "when the article topic is unrelated to lending or property acquisition",
-    "when a more specific regional or product pillar is the clear fit",
+  fundamentals: [
+    "when a specific loan product or calculator is already the clear destination",
+    "when the article is a live deal review with no educational framing",
   ],
-  "investing-fundamentals": [
-    "when the reader needs a specific mortgage product page, not general strategy",
-    "when financing is mentioned only in passing without actionable context",
+  underwriting: [
+    "when metrics are mentioned only in passing without calculation intent",
+    "when the reader needs a market geography page, not a metric tool",
   ],
-  "scaling-portfolio": [
-    "when the article is a beginner guide with no portfolio-scale financing need",
-    "when the context is operational (property management) without lending angle",
+  qualification: [
+    "when the article is purely a rate update with no sizing math",
   ],
-  "partnerships-capital": [
-    "when partnerships are discussed without property financing implications",
-    "when the deal size does not involve institutional mortgage lending",
+  "capital-markets": [
+    "when the reader needs diligence checklists rather than product comparison",
   ],
-  "us-cross-border": [
-    "when the article is purely about Canadian domestic lending with no cross-border angle",
-    "when tax or legal topics have no financing decision attached",
+  execution: [
+    "when the article is only defining underwriting metrics with no process angle",
   ],
-  "personal-finance-mindset": [
-    "when the article is motivational content without a financing call-to-action",
-    "when the reader needs technical mortgage guidance, not mindset content",
+  risk: [
+    "when risk is mentioned generically without refinance or rate exposure",
+  ],
+  rates: [
+    "when rates are background color without pricing or spread decisions",
   ],
 };
 
 const TOPIC_CLUSTER_DO_NOT_LINK: Record<string, string[]> = {
-  "commercial-lending": [
-    "when the property is 1–4 units and residential qualification applies",
-    "when commercial is mentioned only to contrast with residential lending",
+  "loan-products": [
+    "when the article is already a deep single-product loan-type page",
+    "when the reader only needs a calculator with no product choice",
   ],
-  "multifamily-investing": [
-    "when the article focuses on single-family rentals only",
-    "when unit count is 1–4 and residential financing is appropriate",
+  "agency-execution": [
+    "when the asset is clearly transitional/value-add and bridge is the fit",
+    "when Fannie/Freddie are mentioned only as market commentary",
   ],
-  "dscr-foreign-national": [
-    "when the article is about Canadian conventional or CMHC residential mortgages",
-    "when DSCR refers to Canadian commercial without US investing context",
+  "bridge-value-add": [
+    "when the asset is fully stabilized and agency is the clear path",
   ],
-  "us-investing-basics": [
-    "when the article is about Canadian domestic investing only",
-    "when US markets are mentioned only for comparison without financing intent",
+  "underwriting-metrics": [
+    "when numbers are not actionable and a narrative market piece is enough",
   ],
-  "brrrr-flipping": [
-    "when the article is about long-term buy-and-hold without renovation financing",
-    "when flip is mentioned as market commentary without capital needs",
+  "property-types": [
+    "when property type is incidental and product selection is the real topic",
   ],
-  "private-mortgage-investing": [
-    "when the reader is borrowing a mortgage, not investing as a lender",
-    "when development equity is the primary capital deployment topic",
+  "small-multifamily": [
+    "when the deal is institutional large-scale multifamily with no 5–10 unit angle",
   ],
-  "development-investing": [
-    "when the reader wants secured debt income rather than equity upside",
-    "when development is discussed only from a builder/borrower perspective",
+  "market-geography": [
+    "when city or state names appear only as examples without market intent",
+  ],
+  "deal-execution": [
+    "when the article is a rate or product overview with no process steps",
+  ],
+  "capital-stack": [
+    "when only one product is being explained in depth",
+  ],
+  "rates-spreads": [
+    "when rates are not the decision driver",
+  ],
+  "sponsor-strategy": [
+    "when the focus is pure product mechanics without sponsor profile",
+  ],
+  "construction-rehab": [
+    "when the deal is stabilized acquisition with no construction component",
   ],
 };
 

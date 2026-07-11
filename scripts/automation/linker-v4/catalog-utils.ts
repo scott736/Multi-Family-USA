@@ -55,12 +55,15 @@ export const CATEGORY_ADJACENCY: Record<string, string[]> = {
 // ----------------
 
 export const CATEGORY_LABELS: Record<string, string> = {
-  "mortgage-financing": "Mortgage & Financing",
-  "investing-fundamentals": "Investment Strategy",
-  "scaling-portfolio": "Scaling & Portfolio Growth",
-  "partnerships-capital": "Partnerships & Capital",
-  "us-cross-border": "US & Cross-Border Investing",
-  "personal-finance-mindset": "Mindset & Success Stories",
+  fundamentals: "Multifamily Fundamentals",
+  underwriting: "Underwriting Metrics",
+  qualification: "Qualification & Sizing",
+  "capital-markets": "Capital Markets & Loan Products",
+  execution: "Deal Execution",
+  risk: "Risk & Refinance Planning",
+  rates: "Rates & Spreads",
+  "mortgage-financing": "Multifamily Financing",
+  "investing-fundamentals": "Investor Education",
 };
 
 // ----------------
@@ -105,21 +108,20 @@ export const GENERIC_ANCHORS = [
 // Pillar URL Patterns
 // ----------------
 
-/** Pillar page URL prefixes */
+/** Pillar page URL prefixes for Multi-Family USA sitemap */
 export const PILLAR_URL_PATTERNS = [
-  "/multi-family-mortgage-financing",
-  "/residential-mortgage-financing",
-  "/flip-mortgage-financing",
-  "/development-mortgage-financing",
-  "/office-mortgage-financing",
-  "/retail-mortgage-financing",
-  "/padsplit-mortgage-financing",
-  "/dscr-loans",
-  "/investment-property-lending-locations",
-  "/investor-resources",
-  "/mortgage-financing-for-canadians-in-canada",
-  "/mortgage-financing-for-canadians-in-the-u-s-a",
-  "/mortgage-financing-for-canadians-in-mexico",
+  "/loan-types",
+  "/property-types",
+  "/learn",
+  "/tools",
+  "/states",
+  "/cities",
+  "/compare",
+  "/invest",
+  "/checklists",
+  "/rates",
+  "/book-strategy-call",
+  "/deal-review",
 ];
 
 // ----------------

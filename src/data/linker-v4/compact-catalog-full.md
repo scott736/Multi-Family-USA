@@ -1,5 +1,5 @@
 # Multi-Family USA Site — All Linkable Pages
-# Generated: 2026-07-11T21:40:20.869Z
+# Generated: 2026-07-11T21:52:03.419Z
 # Total: 67 pages
 
 ## Service & Financing Pages
@@ -64,19 +64,19 @@
 - Small Portfolio Operator Playbook (/invest/small-portfolio-operator/) — Capital strategy and underwriting playbook for the Small portfolio operator profile in US multifamily financing. [invest, sponsors, small portfolio operator, multifamily investor profile, portfolio strategy, apartment financing]
 - Value-Add Sponsor Playbook (/invest/value-add-sponsor/) — Capital strategy and underwriting playbook for the Value-add sponsor profile in US multifamily financing. [invest, sponsors, value-add sponsor, multifamily investor profile, portfolio strategy, apartment financing]
 
-## underwriting Articles
+## Underwriting Metrics Articles
 - Debt Yield vs DSCR vs LTV — Multifamily Comparison (/blog/debt-yield-vs-dscr-vs-ltv-comparison/) — Compare debt yield, DSCR, and LTV for commercial multifamily loan sizing—formulas, binding constraints, and when each metric drives proceeds.
 - Debt Yield: Why It Drives Term Sheet Velocity (/blog/debt-yield-why-it-drives-term-sheet-velocity/) — Why debt yield can accelerate or stall lender feedback even when DSCR appears acceptable.
 - Multifamily DSCR Requirements by Lender Type (/blog/multifamily-dscr-requirements-by-lender-type/) — How commercial DSCR floors vary across agency, bridge, bank, CMBS, and debt-fund multifamily lenders—and what sponsors should model before quoting.
 
-## capital-markets Articles
+## Capital Markets & Loan Products Articles
 - Fannie Mae Multifamily Loan Requirements (/blog/fannie-mae-multifamily-loan-requirements/) — Overview of Fannie Mae multifamily loan requirements for stabilized US apartment buildings—DSCR, debt yield, occupancy, sponsorship, and execution expectations.
 
-## execution Articles
+## Deal Execution Articles
 - How Operators Are Sizing Bridge Risk in 2026 (/blog/how-operators-are-sizing-bridge-risk/) — A practical look at extension optionality, floating-rate protection, and refinance assumptions.
 
-## fundamentals Articles
+## Multifamily Fundamentals Articles
 - How to Finance a 5–10 Unit Apartment Building (/blog/how-to-finance-a-5-10-unit-apartment-building/) — Step-by-step guide to financing a 5–10 unit apartment building in the US—products, underwriting, and common mistakes when crossing the commercial lending threshold.
 
-## rates Articles
+## Rates & Spreads Articles
 - Multifamily Rate Spread Update: Q2 2026 (/blog/multifamily-rate-spread-update-q2-2026/) — How spread behavior is impacting all-in borrowing costs across agency, bridge, and bank executions.

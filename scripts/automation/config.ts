@@ -2,7 +2,7 @@
 // Multi-Family USA Automation System - Configuration
 // ============================================
 
-import type { TopicCluster, Category, AutomationConfig } from "./types";
+import type { TopicCluster, Category, TargetPersona, AutomationConfig } from "./types";
 import configJson from "../../src/data/automation/config.json";
 
 // Export loaded config
@@ -32,101 +32,55 @@ export const MODELS = {
 // Default cluster assignments based on category
 
 export const CATEGORY_TO_CLUSTERS: Record<Category, TopicCluster[]> = {
-  "mortgage-financing": [
-    "mortgage-basics",
-    "mortgage-qualification",
-    "refinancing-strategies",
-    "commercial-lending",
+  fundamentals: ["loan-products", "small-multifamily", "underwriting-metrics"],
+  underwriting: ["underwriting-metrics", "loan-products", "capital-stack"],
+  qualification: ["underwriting-metrics", "agency-execution", "loan-products"],
+  "capital-markets": [
+    "loan-products",
+    "agency-execution",
+    "bridge-value-add",
+    "capital-stack",
   ],
-  "investing-fundamentals": [
-    "getting-started",
-    "rental-property-analysis",
-    "multifamily-investing",
-    "brrrr-flipping",
-    "market-analysis",
-    "short-term-rentals",
-  ],
-  "scaling-portfolio": [
-    "portfolio-scaling",
-    "multifamily-investing",
-    "brrrr-flipping",
-    "property-management",
-  ],
-  "partnerships-capital": [
-    "joint-ventures-partnerships",
-    "capital-raising",
-    "team-building",
-    "private-mortgage-investing",
-    "development-investing",
-  ],
-  "us-cross-border": [
-    "us-investing-basics",
-    "dscr-foreign-national",
-    "cross-border-tax-legal",
-  ],
-  "personal-finance-mindset": [
-    "investor-mindset",
-    "success-stories",
-    "team-building",
-  ],
+  execution: ["deal-execution", "bridge-value-add", "construction-rehab"],
+  risk: ["rates-spreads", "deal-execution", "capital-stack"],
+  rates: ["rates-spreads", "agency-execution", "loan-products"],
 };
 
 // ----------------
 // Approved Tags
 // ----------------
-// Tags that can be assigned to posts
 
 export const APPROVED_TAGS = [
-  "mortgage-basics",
-  "investment-strategy",
-  "rental-properties",
-  "portfolio-growth",
-  "mortgage-qualification",
-  "brrrr",
-  "multifamily",
-  "cash-flow",
-  "refinancing",
-  "canadian-investing",
-  "us-investing",
-  "dscr-loans",
-  "commercial-financing",
-  "mindset",
-  "success-stories",
-  "partnerships",
-  "getting-started",
-  "leverage",
-  "market-analysis",
-  "credit",
-  "cmhc",
-  "down-payment",
-  "fix-and-flip",
-  "passive-investing",
+  "agency",
+  "fannie-mae",
+  "freddie-mac",
+  "bridge",
+  "bank-balance-sheet",
+  "cmbs",
+  "debt-fund",
+  "fha-hud",
+  "commercial-dscr",
+  "debt-yield",
+  "cap-rate",
+  "noi",
+  "ltv",
+  "loan-sizing",
+  "garden-style",
+  "mid-rise",
   "value-add",
-  "development",
-  "cross-border",
-  "tax-strategy",
-  "legal-structure",
-  "insurance",
-  "property-management",
-  "deal-finding",
-  "networking",
-  "real-estate-team",
-  "self-employed",
-  "mortgage-rates",
-  "mortgage-costs",
-  "mortgage-brokers",
-  "distressed-properties",
-  "rural-property",
-  "short-term-rentals",
-  "single-family",
-  "entrepreneurship",
-  "career",
-  "education",
-  "wealth-building",
-  "financial-planning",
-  "due-diligence",
-  "renovation",
-  "selling",
+  "small-multifamily",
+  "5-plus-unit",
+  "states",
+  "cities",
+  "checklists",
+  "closing",
+  "entity-structure",
+  "capital-stack",
+  "rates",
+  "spreads",
+  "construction",
+  "cash-out-refinance",
+  "sponsor",
 ];
 
 // ----------------
@@ -229,30 +183,15 @@ export const SHOW_MAPPING: Record<
   string,
   {
     category: string;
-    defaultPersona: "beginner" | "scaling-investor" | "cross-border" | "professional";
+    defaultPersona: TargetPersona;
     defaultCluster: TopicCluster;
     autoPublish?: boolean;
   }
 > = {
-  // The Wisdom, Lifestyle, Money Show - Helps train investors on how to grow
-  "71061": {
-    category: "investing-fundamentals",
-    defaultPersona: "beginner",
-    defaultCluster: "investor-mindset",
-    autoPublish: true,
-  },
-  // Close More Deals - For REALTORS - Helps realtors grow, covers mortgage programs
-  "71049": {
-    category: "mortgage-financing",
-    defaultPersona: "professional",
-    defaultCluster: "mortgage-basics",
-    autoPublish: true,
-  },
-  // Fallback for unknown shows
   default: {
-    category: "investing-fundamentals",
-    defaultPersona: "beginner",
-    defaultCluster: "getting-started",
+    category: "fundamentals",
+    defaultPersona: "value-add-sponsor",
+    defaultCluster: "loan-products",
     autoPublish: false,
   },
 };

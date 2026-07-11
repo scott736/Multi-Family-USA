@@ -28,36 +28,35 @@ export const SERVICE_HUB_URLS = [
 
 const SERVICE_HUB_SET = new Set<string>(SERVICE_HUB_URLS);
 
-/** CONTENT_CTA_SIGNALS topics → parent service hub. */
+/** CONTENT_CTA_SIGNALS topics → parent service hub (hub-and-spoke). */
 export const TOPIC_TO_SERVICE: Record<string, string> = {
-  "dscr-loans": "/tools/commercial-dscr-calculator/",
-  multifamily: "/loan-types/",
-  refinancing: "/learn/multifamily-cash-out-refinance/",
-  development: "/learn/multifamily-construction-financing/",
-  "brrrr-flipping": "/loan-types/bridge-value-add/",
-  "private-lending": "/invest/",
-  "joint-venture": "/invest/",
-  "cross-border": "/loan-types/",
-  factoring: "/loan-types/",
-  "rent-to-own": "/learn/",
-  "vacation-rental": "/property-types/",
+  agency: "/loan-types/agency-stabilized/",
+  bridge: "/loan-types/bridge-value-add/",
+  "commercial-dscr": "/tools/commercial-dscr-calculator/",
+  "debt-yield": "/tools/debt-yield-calculator/",
+  "cap-rate-noi": "/tools/cap-rate-noi-calculator/",
+  "loan-sizing": "/tools/loan-sizing-calculator/",
+  "property-type": "/property-types/",
+  "small-multifamily": "/learn/five-plus-unit-commercial-financing-basics/",
+  geography: "/states/",
+  "deal-process": "/checklists/",
+  "capital-compare": "/compare/",
+  rates: "/rates/",
+  construction: "/learn/multifamily-construction-financing/",
+  "loan-products": "/loan-types/",
 };
 
 /**
- * Category fallbacks for MFUSA blog categories / linker categories.
+ * Category fallbacks for MFUSA blog/guide categories.
  */
 export const CATEGORY_SERVICE_FALLBACK: Record<string, string> = {
-  "mortgage-financing": "/loan-types/",
-  "investing-fundamentals": "/learn/",
-  "scaling-portfolio": "/invest/",
-  "partnerships-capital": "/invest/",
-  "us-cross-border": "/loan-types/",
-  "personal-finance-mindset": "/learn/",
-  fundamentals: "/learn/",
-  qualification: "/learn/",
-  "capital-markets": "/compare/",
+  fundamentals: "/loan-types/",
+  underwriting: "/tools/",
+  qualification: "/tools/commercial-dscr-calculator/",
+  "capital-markets": "/loan-types/",
   execution: "/checklists/",
   risk: "/learn/rate-risk-and-refinance-planning/",
+  rates: "/rates/",
 };
 
 const SERVICE_CTA_MARKER = "<!-- service-cta -->";
@@ -147,21 +146,21 @@ const HUB_LINK_LABELS: Record<string, { en: string; es: string; fr: string }> = 
 
 const SERVICE_CTA_TEMPLATES: Record<"en" | "es" | "fr", string[]> = {
   en: [
-    "For a deeper look at the financing angle behind this topic, see {link}.",
-    "When you're ready to structure the mortgage side of this strategy, {link} covers the programs that typically fit.",
-    "The right financing product can change the math on this entirely — explore {link} for the options most investors use.",
+    "For a deeper look at the commercial multifamily financing angle, see {link}.",
+    "When you're ready to structure the debt side of this strategy, {link} covers the executions that typically fit.",
+    "The right loan product can change proceeds and risk entirely — explore {link} for the options sponsors use most.",
     "If this approach is on your radar, {link} walks through how Multi-Family USA structures these deals.",
   ],
   es: [
-    "Para profundizar en el ángulo de financiamiento de este tema, consulta {link}.",
-    "Cuando quieras estructurar el lado hipotecario de esta estrategia, {link} cubre los programas que suelen encajar.",
-    "El producto de financiamiento correcto puede cambiar por completo los números — explora {link} para ver las opciones que más usan los inversores.",
+    "Para profundizar en el ángulo de financiamiento multifamiliar comercial, consulta {link}.",
+    "Cuando quieras estructurar el lado de deuda de esta estrategia, {link} cubre las ejecuciones que suelen encajar.",
+    "El producto de préstamo correcto puede cambiar por completo el proceeds y el riesgo — explora {link}.",
     "Si este enfoque está en tu radar, {link} explica cómo Multi-Family USA estructura estas operaciones.",
   ],
   fr: [
-    "Pour approfondir l'angle financement de ce sujet, consultez {link}.",
-    "Quand vous serez prêt à structurer le volet hypothécaire de cette stratégie, {link} couvre les programmes qui conviennent le mieux.",
-    "Le bon produit de financement peut changer complètement les chiffres — explorez {link} pour les options que la plupart des investisseurs utilisent.",
+    "Pour approfondir l'angle financement multifamilial commercial, consultez {link}.",
+    "Quand vous serez prêt à structurer le volet dette, {link} couvre les exécutions qui conviennent le mieux.",
+    "Le bon produit de prêt peut changer complètement les proceeds et le risque — explorez {link}.",
     "Si cette approche vous intéresse, {link} explique comment Multi-Family USA structure ces opérations.",
   ],
 };
@@ -214,17 +213,20 @@ function detectContentTopic(content: string): string | null {
   const contentLower = content.toLowerCase();
   // Prefer specific financing topics over generic "refinanc*" noise
   const TOPIC_WEIGHT: Record<string, number> = {
-    "brrrr-flipping": 2,
-    "dscr-loans": 2,
-    multifamily: 2,
-    development: 2,
-    "cross-border": 2,
-    "vacation-rental": 2,
-    "rent-to-own": 1.5,
-    factoring: 1.5,
-    "private-lending": 1.5,
-    "joint-venture": 1.5,
-    refinancing: 0.4,
+    agency: 2,
+    bridge: 2,
+    "commercial-dscr": 2.5,
+    "debt-yield": 2.5,
+    "cap-rate-noi": 2,
+    "loan-sizing": 2,
+    "small-multifamily": 2,
+    construction: 2,
+    "capital-compare": 1.5,
+    "deal-process": 1.5,
+    rates: 1.5,
+    geography: 1.2,
+    "property-type": 1.2,
+    "loan-products": 1,
   };
 
   let bestTopic: string | null = null;
@@ -252,8 +254,8 @@ export function resolveServiceHub(content: string, category?: string): string {
   if (topic && TOPIC_TO_SERVICE[topic]) {
     return TOPIC_TO_SERVICE[topic];
   }
-  const cat = category || "investing-fundamentals";
-  return CATEGORY_SERVICE_FALLBACK[cat] || "/invest-in-real-estate/";
+  const cat = category || "fundamentals";
+  return CATEGORY_SERVICE_FALLBACK[cat] || "/loan-types/";
 }
 
 function buildServiceLink(hubUrl: string, locale: string): string {

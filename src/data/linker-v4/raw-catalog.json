@@ -1,6 +1,6 @@
 {
-  "_inputsHash": "10840401ad877bc1ed773a4fc4b1aa063e9f222986823f07e92d63ee7bffff5d",
-  "generatedAt": "2026-07-11T21:40:20.848Z",
+  "_inputsHash": "30225d8f6ab793bf9f57e6906e3a4c85ba792b98b8ebe9c4fa87f53ce7a6b18a",
+  "generatedAt": "2026-07-11T21:52:03.405Z",
   "totalPages": 67,
   "pages": [
     {
@@ -9,7 +9,7 @@
       "title": "Multifamily Loan Types",
       "type": "pillar",
       "description": "Compare agency, bridge, bank, CMBS, debt fund, FHA/HUD, and Freddie Mac Optigo multifamily loan executions for US 5+ unit properties.",
-      "category": "mortgage-financing",
+      "category": "capital-markets",
       "tags": [
         "multifamily",
         "commercial-financing",
@@ -24,7 +24,7 @@
       "title": "Multifamily Property Types",
       "type": "pillar",
       "description": "Financing and underwriting guides for garden-style, mid-rise, suburban, and value-add C-class multifamily assets.",
-      "category": "mortgage-financing",
+      "category": "fundamentals",
       "tags": [
         "multifamily",
         "property-types"
@@ -37,7 +37,7 @@
       "title": "Multifamily Financing Guides",
       "type": "pillar",
       "description": "Plain-English guides covering commercial DSCR, debt yield, NOI normalization, agency vs bridge, and closing checklists.",
-      "category": "investing-fundamentals",
+      "category": "fundamentals",
       "tags": [
         "education",
         "underwriting",
@@ -51,7 +51,7 @@
       "title": "Multifamily Underwriting Calculators",
       "type": "pillar",
       "description": "Free commercial DSCR, cap rate / NOI, debt yield, cash-on-cash, and loan sizing calculators for multifamily sponsors.",
-      "category": "mortgage-financing",
+      "category": "underwriting",
       "tags": [
         "tools",
         "dscr-loans",
@@ -65,7 +65,7 @@
       "title": "Multifamily Financing by State",
       "type": "pillar",
       "description": "State-by-state multifamily financing overviews covering tax, foreclosure, rent control, and capital market context.",
-      "category": "mortgage-financing",
+      "category": "fundamentals",
       "tags": [
         "markets",
         "states"
@@ -78,7 +78,7 @@
       "title": "Multifamily Financing by City",
       "type": "pillar",
       "description": "City-level multifamily market snapshots with pricing, rents, and financing implications for US apartment investors.",
-      "category": "mortgage-financing",
+      "category": "fundamentals",
       "tags": [
         "markets",
         "cities"
@@ -91,7 +91,7 @@
       "title": "Compare Multifamily Capital Options",
       "type": "pillar",
       "description": "Side-by-side comparisons of agency vs bridge, bank vs debt fund, fixed vs floating, recourse, CMBS, and FHA paths.",
-      "category": "mortgage-financing",
+      "category": "capital-markets",
       "tags": [
         "compare",
         "capital-stack"
@@ -104,7 +104,7 @@
       "title": "Investor Playbooks",
       "type": "pillar",
       "description": "Capital strategy playbooks for first-time buyers, value-add sponsors, small portfolio operators, and institutional growth.",
-      "category": "investing-fundamentals",
+      "category": "fundamentals",
       "tags": [
         "investing",
         "sponsors"
@@ -117,7 +117,7 @@
       "title": "Multifamily Financing Checklists",
       "type": "pillar",
       "description": "Due diligence, lender document, and pro forma checklists for commercial multifamily debt execution.",
-      "category": "mortgage-financing",
+      "category": "execution",
       "tags": [
         "checklists",
         "execution"
@@ -130,7 +130,7 @@
       "title": "Multifamily Rate Context",
       "type": "pillar",
       "description": "Current multifamily rate and spread context for agency, bridge, and bank executions.",
-      "category": "mortgage-financing",
+      "category": "rates",
       "tags": [
         "rates",
         "spreads"
@@ -143,7 +143,7 @@
       "title": "Book a Strategy Call",
       "type": "pillar",
       "description": "Book a free multifamily strategy call with Multi-Family USA to review debt structure and lender fit.",
-      "category": "mortgage-financing",
+      "category": "execution",
       "tags": [
         "booking"
       ],
@@ -155,7 +155,7 @@
       "title": "Free Multifamily Deal Review",
       "type": "pillar",
       "description": "Submit a multifamily deal for a free lender-fit and underwriting review.",
-      "category": "mortgage-financing",
+      "category": "execution",
       "tags": [
         "deal-review"
       ],
@@ -167,7 +167,7 @@
       "title": "Commercial DSCR Calculator",
       "type": "page",
       "description": "Calculate commercial debt service coverage ratio for US multifamily (5+ unit) deals.",
-      "category": "mortgage-financing",
+      "category": "underwriting",
       "tags": [
         "dscr-loans",
         "tools",
@@ -181,7 +181,7 @@
       "title": "Cap Rate & NOI Calculator",
       "type": "page",
       "description": "Calculate cap rate and net operating income for multifamily acquisitions and refinances.",
-      "category": "mortgage-financing",
+      "category": "underwriting",
       "tags": [
         "cap-rate",
         "noi",
@@ -195,7 +195,7 @@
       "title": "Debt Yield Calculator",
       "type": "page",
       "description": "Calculate debt yield — the binding constraint on many agency and CMBS multifamily term sheets.",
-      "category": "mortgage-financing",
+      "category": "underwriting",
       "tags": [
         "debt-yield",
         "tools",
@@ -209,7 +209,7 @@
       "title": "Loan Sizing Calculator",
       "type": "page",
       "description": "Size multifamily loan proceeds using DSCR, debt yield, and LTV constraints.",
-      "category": "mortgage-financing",
+      "category": "qualification",
       "tags": [
         "loan-sizing",
         "tools",
@@ -223,7 +223,7 @@
       "title": "Cash-on-Cash Calculator",
       "type": "page",
       "description": "Calculate cash-on-cash return for leveraged multifamily investments.",
-      "category": "mortgage-financing",
+      "category": "underwriting",
       "tags": [
         "cash-on-cash",
         "tools"
@@ -236,7 +236,7 @@
       "title": "Multifamily Due Diligence Checklist",
       "type": "page",
       "description": "Due diligence checklist for US commercial multifamily acquisitions.",
-      "category": "mortgage-financing",
+      "category": "execution",
       "tags": [
         "checklists",
         "due-diligence"
@@ -249,7 +249,7 @@
       "title": "Lender Document Checklist",
       "type": "page",
       "description": "Document package checklist lenders expect for multifamily debt.",
-      "category": "mortgage-financing",
+      "category": "execution",
       "tags": [
         "checklists",
         "lender-docs"
@@ -262,7 +262,7 @@
       "title": "Multifamily Pro Forma Template",
       "type": "page",
       "description": "Pro forma structure lenders expect for multifamily underwriting.",
-      "category": "mortgage-financing",
+      "category": "execution",
       "tags": [
         "checklists",
         "pro-forma"
@@ -275,7 +275,7 @@
       "title": "Multifamily Financing Glossary",
       "type": "page",
       "description": "Definitions for commercial multifamily financing and underwriting terms.",
-      "category": "investing-fundamentals",
+      "category": "fundamentals",
       "tags": [
         "education",
         "glossary"
@@ -288,7 +288,7 @@
       "title": "About Multi-Family USA",
       "type": "page",
       "description": "About Multi-Family USA — commercial multifamily financing resource.",
-      "category": "mortgage-financing",
+      "category": "fundamentals",
       "tags": [],
       "region": "usa"
     },
@@ -298,7 +298,7 @@
       "title": "Fannie Mae Multifamily Loan — Agency Stabilized",
       "type": "page",
       "description": "Fannie Mae multifamily loan execution for stabilized US apartment buildings (5+ units)—agency underwriting, DSCR, debt yield, and fit vs bridge or CMBS.",
-      "category": "mortgage-financing",
+      "category": "capital-markets",
       "tags": [
         "loan-types",
         "multifamily",
@@ -316,7 +316,7 @@
       "title": "Bank Balance-Sheet Multifamily Loan",
       "type": "page",
       "description": "Execution framework for Bank Balance-Sheet Multifamily Loan in US commercial multifamily financing, including fit, constraints, and risk controls.",
-      "category": "mortgage-financing",
+      "category": "capital-markets",
       "tags": [
         "loan-types",
         "multifamily",
@@ -333,7 +333,7 @@
       "title": "Bridge Loan for Value-Add Multifamily",
       "type": "page",
       "description": "Execution framework for Bridge Loan for Value-Add Multifamily in US commercial multifamily financing, including fit, constraints, and risk controls.",
-      "category": "mortgage-financing",
+      "category": "capital-markets",
       "tags": [
         "loan-types",
         "multifamily",
@@ -350,7 +350,7 @@
       "title": "CMBS Stabilized Multifamily Loan",
       "type": "page",
       "description": "Execution framework for CMBS stabilized multifamily financing on US 5+ unit assets, including sizing, prepayment, and servicing considerations.",
-      "category": "mortgage-financing",
+      "category": "capital-markets",
       "tags": [
         "loan-types",
         "multifamily",
@@ -367,7 +367,7 @@
       "title": "Debt Fund Floating-Rate Loan",
       "type": "page",
       "description": "Execution framework for Debt Fund Floating-Rate Loan in US commercial multifamily financing, including fit, constraints, and risk controls.",
-      "category": "mortgage-financing",
+      "category": "capital-markets",
       "tags": [
         "loan-types",
         "multifamily",
@@ -384,7 +384,7 @@
       "title": "FHA HUD Multifamily Loan",
       "type": "page",
       "description": "FHA and HUD multifamily loan execution for eligible US apartment projects—including 221(d)(4) construction/rehab and 223(f) acquisition/refinance context.",
-      "category": "mortgage-financing",
+      "category": "capital-markets",
       "tags": [
         "loan-types",
         "multifamily",
@@ -402,7 +402,7 @@
       "title": "Freddie Mac Optigo Multifamily Loan",
       "type": "page",
       "description": "Freddie Mac Optigo multifamily loan execution for stabilized US apartment buildings (5+ units)—agency underwriting, DSCR, debt yield, and fit vs Fannie or bridge.",
-      "category": "mortgage-financing",
+      "category": "capital-markets",
       "tags": [
         "loan-types",
         "multifamily",
@@ -420,7 +420,7 @@
       "title": "Garden-Style Multifamily Financing Guide",
       "type": "page",
       "description": "Underwriting and debt execution guide for Garden-Style Multifamily assets in US multifamily financing (minimum 5 units).",
-      "category": "mortgage-financing",
+      "category": "fundamentals",
       "tags": [
         "property-types",
         "multifamily",
@@ -437,7 +437,7 @@
       "title": "Large Suburban Apartment Communities Financing Guide",
       "type": "page",
       "description": "Underwriting and debt execution guide for Large Suburban Apartment Communities assets in US multifamily financing (minimum 5 units).",
-      "category": "mortgage-financing",
+      "category": "fundamentals",
       "tags": [
         "property-types",
         "multifamily",
@@ -454,7 +454,7 @@
       "title": "Mid-Rise Urban Multifamily Financing Guide",
       "type": "page",
       "description": "Underwriting and debt execution guide for Mid-Rise Urban Multifamily assets in US multifamily financing (minimum 5 units).",
-      "category": "mortgage-financing",
+      "category": "fundamentals",
       "tags": [
         "property-types",
         "multifamily",
@@ -471,7 +471,7 @@
       "title": "Value-Add C-Class Multifamily Financing Guide",
       "type": "page",
       "description": "Underwriting and debt execution guide for Value-Add C-Class Multifamily assets in US multifamily financing (minimum 5 units).",
-      "category": "mortgage-financing",
+      "category": "fundamentals",
       "tags": [
         "property-types",
         "multifamily",
@@ -765,7 +765,7 @@
       "title": "Acquisition vs Refinance Financing",
       "type": "page",
       "description": "Decision framework comparing acquisition and refinance financing paths for US commercial multifamily sponsors on 5+ unit assets.",
-      "category": "mortgage-financing",
+      "category": "capital-markets",
       "tags": [
         "compare",
         "acquisition vs refinance",
@@ -781,7 +781,7 @@
       "title": "Agency vs Bridge for Multifamily",
       "type": "page",
       "description": "Decision framework comparing Agency Debt and Bridge Debt for US multifamily financing execution on 5+ unit assets.",
-      "category": "mortgage-financing",
+      "category": "capital-markets",
       "tags": [
         "compare",
         "agency debt vs bridge debt",
@@ -797,7 +797,7 @@
       "title": "Bank vs Debt Fund Execution",
       "type": "page",
       "description": "Decision framework comparing Bank Loan and Debt Fund Loan for US multifamily financing execution on 5+ unit assets.",
-      "category": "mortgage-financing",
+      "category": "capital-markets",
       "tags": [
         "compare",
         "bank loan vs debt fund loan",
@@ -813,7 +813,7 @@
       "title": "CMBS vs Agency Multifamily Financing",
       "type": "page",
       "description": "Compare CMBS and agency multifamily loans for US apartment investors—proceeds, prepay, recourse, and execution on stabilized 5+ unit assets.",
-      "category": "mortgage-financing",
+      "category": "capital-markets",
       "tags": [
         "compare",
         "cmbs vs agency multifamily",
@@ -829,7 +829,7 @@
       "title": "FHA HUD vs Agency Multifamily Financing",
       "type": "page",
       "description": "Compare FHA HUD multifamily programs and Fannie Mae agency debt for US apartment sponsors—timelines, fit, and execution trade-offs on 5+ unit properties.",
-      "category": "mortgage-financing",
+      "category": "capital-markets",
       "tags": [
         "compare",
         "fha vs agency multifamily",
@@ -845,7 +845,7 @@
       "title": "Fixed vs Floating-Rate Multifamily Debt",
       "type": "page",
       "description": "Decision framework comparing Fixed-Rate Debt and Floating-Rate Debt for US multifamily financing execution on 5+ unit assets.",
-      "category": "mortgage-financing",
+      "category": "capital-markets",
       "tags": [
         "compare",
         "fixed-rate debt vs floating-rate debt",
@@ -861,7 +861,7 @@
       "title": "Recourse vs Non-Recourse Structures",
       "type": "page",
       "description": "Decision framework comparing Recourse Debt and Non-Recourse Debt for US multifamily financing execution on 5+ unit assets.",
-      "category": "mortgage-financing",
+      "category": "capital-markets",
       "tags": [
         "compare",
         "recourse debt vs non-recourse debt",
@@ -877,7 +877,7 @@
       "title": "First-Time Multifamily Buyer Playbook",
       "type": "page",
       "description": "Capital strategy and underwriting playbook for the First-time multifamily buyer profile in US multifamily financing.",
-      "category": "investing-fundamentals",
+      "category": "fundamentals",
       "tags": [
         "invest",
         "sponsors",
@@ -894,7 +894,7 @@
       "title": "Institutional Growth Operator Playbook",
       "type": "page",
       "description": "Capital strategy and underwriting playbook for the Institutional growth operator profile in US multifamily financing.",
-      "category": "investing-fundamentals",
+      "category": "fundamentals",
       "tags": [
         "invest",
         "sponsors",
@@ -911,7 +911,7 @@
       "title": "Small Portfolio Operator Playbook",
       "type": "page",
       "description": "Capital strategy and underwriting playbook for the Small portfolio operator profile in US multifamily financing.",
-      "category": "investing-fundamentals",
+      "category": "fundamentals",
       "tags": [
         "invest",
         "sponsors",
@@ -928,7 +928,7 @@
       "title": "Value-Add Sponsor Playbook",
       "type": "page",
       "description": "Capital strategy and underwriting playbook for the Value-add sponsor profile in US multifamily financing.",
-      "category": "investing-fundamentals",
+      "category": "fundamentals",
       "tags": [
         "invest",
         "sponsors",
