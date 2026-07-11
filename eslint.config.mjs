@@ -52,9 +52,15 @@ export default [
     },
   },
 
-  // Ignore build output
+  // Ignore build output + ported automation CLI (Node scripts, not site runtime)
   {
-    ignores: ["node_modules/**", "dist/**", ".astro/**", ".vercel/**"],
+    ignores: [
+      "node_modules/**",
+      "dist/**",
+      ".astro/**",
+      ".vercel/**",
+      "scripts/automation/**",
+    ],
   },
 
   eslintConfigPrettier,
