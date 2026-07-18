@@ -2,8 +2,8 @@ import { teamMembers } from '@/lib/nylas/config';
 import type { TeamMember } from '@/lib/nylas/types';
 
 const GRANT_ENV_BY_MEMBER: Record<string, string> = {
-  scott: 'NYLAS_GRANT_SCOTT',
-  aya: 'NYLAS_GRANT_AYA',
+  chris: 'NYLAS_GRANT_CHRIS',
+  josh: 'NYLAS_GRANT_JOSH',
 };
 
 function readEnv(name: string): string | undefined {

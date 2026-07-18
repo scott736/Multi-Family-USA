@@ -1,6 +1,7 @@
 /**
  * Nylas Scheduling Configuration — Multi-Family USA
  * US-focused commercial multifamily advisory calls.
+ * Round-robin bookable officers match DSCR Authority (Josh + Chris).
  */
 
 import type { AvailabilityRule, Service, TeamMember } from "./types";
@@ -18,27 +19,27 @@ const DEFAULT_TZ = { timezone: "America/New_York", rules: DEFAULT_AVAILABILITY }
 
 export const teamMembers: TeamMember[] = [
   {
-    id: "scott",
-    name: "Scott Dillingham",
-    email: "scott@lendcity.ca",
-    slug: "scott-dillingham",
-    title: "Multifamily Advisor",
-    photo: "/images/team/scott-dillingham.webp",
-    bio: "Commercial multifamily advisor focused on execution planning and lender fit.",
-    nylasGrantId: "df7ba1f7-5c51-4781-96dd-dab387d63261",
+    id: "chris",
+    name: "Chris Micucci",
+    email: "chris@lendcity.ca",
+    slug: "chris-micucci",
+    title: "U.S. Loan Officer",
+    photo: "/images/team/chris-micucci.webp",
+    bio: "College professor who brings an educator's approach to mortgage financing, ensuring clients understand every step of U.S. multifamily lending.",
+    nylasGrantId: "9a198c88-3442-4748-8070-1dc6875377c9",
     services: ["strategy-call"],
     calendars: DEFAULT_CALENDAR,
     availability: DEFAULT_TZ,
   },
   {
-    id: "aya",
-    name: "Aya Dillingham",
-    email: "aya@lendcity.ca",
-    slug: "aya-dillingham",
-    title: "Client Success",
-    photo: "/images/team/aya-dillingham.webp",
-    nylasGrantId: "d1adb692-bc1c-4c93-8243-04d37846154d",
-    bio: "Intake and borrower support for multifamily financing workflows.",
+    id: "josh",
+    name: "Josh Bauerle",
+    email: "josh@lendcity.ca",
+    slug: "josh-bauerle",
+    title: "U.S. Loan Officer",
+    photo: "/images/team/josh-bauerle.webp",
+    bio: "Licensed CPA and best-selling author with a growing rental portfolio across the U.S. Combines CPA-level financial insight with hands-on investing experience.",
+    nylasGrantId: "5013303a-2769-4a83-8fca-6e7354a208a9",
     services: ["strategy-call"],
     calendars: DEFAULT_CALENDAR,
     availability: DEFAULT_TZ,
