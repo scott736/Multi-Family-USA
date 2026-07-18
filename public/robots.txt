@@ -6,6 +6,8 @@ Allow: /
 Disallow: /api/
 Disallow: /thank-you/
 Disallow: /admin/
+# Block legacy SearchAction template / client search query URLs
+Disallow: /*?q=
 
 # LLMs index for AI crawlers and answer engines
 # See: https://multifamily-usa.com/llms.txt

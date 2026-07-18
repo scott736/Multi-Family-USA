@@ -1,4 +1,5 @@
 ---
+import { ensureTrailingSlash } from "@/i18n/alternates";
 import { SITE_URL } from "../../consts";
 
 interface Crumb {
@@ -10,10 +11,16 @@ interface Props {
 }
 const { crumbs } = Astro.props;
 
+/** Normalize to trailing-slash URLs so BreadcrumbList JSON-LD matches canonicals. */
+const normalizedCrumbs = crumbs.map((c) => ({
+  ...c,
+  href: ensureTrailingSlash(c.href),
+}));
+
 const itemList = {
   "@context": "https://schema.org",
   "@type": "BreadcrumbList",
-  itemListElement: crumbs.map((c, i) => ({
+  itemListElement: normalizedCrumbs.map((c, i) => ({
     "@type": "ListItem",
     position: i + 1,
     name: c.label,
@@ -27,7 +34,7 @@ const itemList = {
   class="container flex flex-wrap items-center gap-1 py-4 text-sm text-muted-foreground"
 >
   {
-    crumbs.map((c, i) => (
+    normalizedCrumbs.map((c, i) => (
       <>
         {i > 0 && (
           <svg
@@ -43,7 +50,7 @@ const itemList = {
             <path d="m9 18 6-6-6-6"></path>
           </svg>
         )}
-        {i === crumbs.length - 1 ? (
+        {i === normalizedCrumbs.length - 1 ? (
           <span class="text-foreground font-medium">{c.label}</span>
         ) : (
           <a href={c.href} class="hover:text-primary">

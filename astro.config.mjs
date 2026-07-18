@@ -13,6 +13,7 @@ const lastmodMap = await buildSitemapLastmodMap();
 
 export default defineConfig({
   site: SITE_URL,
+  trailingSlash: "always",
   compressHTML: true,
   prefetch: {
     defaultStrategy: "hover",
