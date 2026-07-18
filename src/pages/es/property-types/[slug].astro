@@ -15,7 +15,7 @@ const { entry } = Astro.props;
 const { Content } = await render(entry);
 const data = entry.data;
 const slug = entry.id.replace(/\.mdx$/, "");
-const canonicalSlug = `/es/property-types/${slug}`;
+const canonicalSlug = `/es/property-types/${slug}/`;
 ---
 
 <GuideShell
@@ -31,8 +31,8 @@ const canonicalSlug = `/es/property-types/${slug}`;
   canonicalSlug={canonicalSlug}
   keywords={data.keywords}
   crumbs={[
-    { label: "Inicio", href: "/es" },
-    { label: "Property Types", href: "/property-types" },
+    { label: "Inicio", href: "/es/" },
+    { label: "Tipos de propiedad", href: "/es/property-types/" },
     { label: data.title, href: canonicalSlug },
   ]}
   faqs={data.faq}

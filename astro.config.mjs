@@ -13,6 +13,7 @@ const lastmodMap = await buildSitemapLastmodMap();
 
 export default defineConfig({
   site: SITE_URL,
+  trailingSlash: "always",
   compressHTML: true,
   prefetch: {
     defaultStrategy: "hover",
@@ -24,7 +25,10 @@ export default defineConfig({
         !page.includes("/api/") &&
         !page.includes("/404") &&
         !page.includes("/thank-you") &&
-        !page.includes("/admin/"),
+        !page.includes("/admin/") &&
+        // Utility / printable pages — noindex or tokenized; exclude from crawl budget.
+        !page.includes("/booking/") &&
+        !page.includes("/downloads/"),
       i18n: {
         defaultLocale: "en",
         locales: {

@@ -35,8 +35,8 @@ const collectionSchema = buildCollectionPageSchema({
   schema={[webPageSchema, collectionSchema]}
 >
   <Breadcrumbs crumbs={[
-    { label: "Inicio", href: "/es" },
-    { label: "Tipos de propiedad", href: "/es/property-types" },
+    { label: "Inicio", href: "/es/" },
+    { label: "Tipos de propiedad", href: "/es/property-types/" },
   ]} />
 
   <section class="container py-8">
@@ -52,7 +52,7 @@ const collectionSchema = buildCollectionPageSchema({
         .map((entry) => {
           const slug = entry.id.replace(/\.mdx$/, "");
           return (
-            <a href={`/es/property-types/${slug}`} class="group rounded-lg border border-border bg-card p-5 hover:border-accent">
+            <a href={`/es/property-types/${slug}/`} class="group rounded-lg border border-border bg-card p-5 hover:border-accent">
               <h2 class="text-lg font-bold group-hover:text-primary">{entry.data.title}</h2>
               <p class="mt-2 line-clamp-3 text-sm text-muted-foreground">{entry.data.description}</p>
             </a>
