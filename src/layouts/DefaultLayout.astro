@@ -77,6 +77,13 @@ const allSchemas = [...getBaseSchemas(), ...schemaArray];
         <script type="application/ld+json" set:html={JSON.stringify(s)} />
       ))
     }
+    <!-- Cloudflare Web Analytics -->
+    <script
+      is:inline
+      defer
+      src="https://static.cloudflareinsights.com/beacon.min.js"
+      data-cf-beacon='{"token": "2393c247241f4db69e53382852184e79"}'
+    ></script>
   </head>
   <body class="min-h-screen antialiased">
     <TopBanner />
