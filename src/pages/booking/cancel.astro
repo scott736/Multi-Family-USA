@@ -8,10 +8,12 @@ const token = Astro.url.searchParams.get("token") ?? "";
 <BasicLayout
   title="Cancel Booking | Multi-Family USA"
   description="Cancel your Multi-Family USA strategy call booking."
+  noindex
+  includeSpanish={false}
   crumbs={[
     { label: "Home", href: "/" },
-    { label: "Book a strategy call", href: "/book-strategy-call" },
-    { label: "Cancel booking", href: "/booking/cancel" },
+    { label: "Book a strategy call", href: "/book-strategy-call/" },
+    { label: "Cancel booking", href: "/booking/cancel/" },
   ]}
 >
   <div class="mx-auto max-w-3xl space-y-6">
