@@ -10,26 +10,9 @@ function trackConversion(
     w.dataLayer.push({ event, ...payload });
   }
 
-  import('@vercel/analytics')
-    .then(({ track }) => {
-      const props: Record<string, string | number | boolean | null> = {};
-      for (const [key, value] of Object.entries(payload)) {
-        if (
-          typeof value === 'string' ||
-          typeof value === 'number' ||
-          typeof value === 'boolean' ||
-          value === null
-        ) {
-          props[key] = value;
-        } else if (value !== undefined) {
-          props[key] = String(value);
-        }
-      }
-      track(event, props);
-    })
-    .catch(() => {
-      /* analytics optional in dev / when blocked */
-    });
+  if (import.meta.env.DEV) {
+    console.debug('[analytics]', event, payload);
+  }
 }
 
 function inferLinkLocation(anchor: HTMLAnchorElement): string {

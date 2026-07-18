@@ -1,6 +1,4 @@
 ---
-import Analytics from "@vercel/analytics/astro";
-
 import BaseHead from "@/components/BaseHead.astro";
 import TopBanner from "@/components/sections/banner.astro";
 import { Footer } from "@/components/sections/footer";
@@ -88,7 +86,6 @@ const allSchemas = [...getBaseSchemas(), ...schemaArray];
       <Footer currentPath={Astro.url.pathname} />
     </div>
     <StickyMobileCta currentPath={Astro.url.pathname} />
-    <Analytics />
     <script>
       import "@/scripts/analytics-tracker";
     </script>
