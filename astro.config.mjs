@@ -2,7 +2,7 @@
 import { defineConfig } from "astro/config";
 import mdx from "@astrojs/mdx";
 import sitemap from "@astrojs/sitemap";
-import vercel from "@astrojs/vercel";
+import cloudflare from "@astrojs/cloudflare";
 import react from "@astrojs/react";
 import tailwindcss from "@tailwindcss/vite";
 
@@ -59,19 +59,18 @@ export default defineConfig({
     }),
     react(),
   ],
+  // Static by default; API routes opt into SSR via prerender = false.
   output: "static",
-  adapter: vercel({
-    maxDuration: 60,
+  adapter: cloudflare({
+    imageService: "compile",
+    platformProxy: {
+      enabled: true,
+    },
+    prerenderEnvironment: "node",
   }),
   build: {
-    // Vercel build machines expose 4 cores; parallelize static page generation.
     concurrency: 4,
     inlineStylesheets: "auto",
-  },
-  image: {
-    service: {
-      entrypoint: "astro/assets/services/sharp",
-    },
   },
   vite: {
     plugins: [tailwindcss()],
