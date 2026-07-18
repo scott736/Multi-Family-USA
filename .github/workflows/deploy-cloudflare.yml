@@ -13,14 +13,34 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: "22"
+          node-version: '24'
           cache: npm
       - run: npm ci
       - run: npm run build
+        env:
+          SITE: ${{ secrets.SITE }}
+          PUBLIC_SUPABASE_URL: ${{ secrets.PUBLIC_SUPABASE_URL }}
+          PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.PUBLIC_SUPABASE_ANON_KEY }}
+          SUPABASE_SERVICE_KEY: ${{ secrets.SUPABASE_SERVICE_KEY }}
+          ELASTIC_EMAIL_API_KEY: ${{ secrets.ELASTIC_EMAIL_API_KEY }}
+          ELASTIC_FROM_EMAIL: ${{ secrets.ELASTIC_FROM_EMAIL }}
+          NYLAS_API_KEY: ${{ secrets.NYLAS_API_KEY }}
+          NYLAS_API_URI: ${{ secrets.NYLAS_API_URI }}
+          NYLAS_CLIENT_ID: ${{ secrets.NYLAS_CLIENT_ID }}
+          NYLAS_WEBHOOK_SECRET: ${{ secrets.NYLAS_WEBHOOK_SECRET }}
+          NYLAS_GRANT_CHRIS: ${{ secrets.NYLAS_GRANT_CHRIS }}
+          NYLAS_GRANT_JOSH: ${{ secrets.NYLAS_GRANT_JOSH }}
+          UPSTASH_REDIS_REST_URL: ${{ secrets.UPSTASH_REDIS_REST_URL }}
+          UPSTASH_REDIS_REST_TOKEN: ${{ secrets.UPSTASH_REDIS_REST_TOKEN }}
+          ZOHO_BIGIN_CLIENT_ID: ${{ secrets.ZOHO_BIGIN_CLIENT_ID }}
+          ZOHO_BIGIN_CLIENT_SECRET: ${{ secrets.ZOHO_BIGIN_CLIENT_SECRET }}
+          ZOHO_BIGIN_REFRESH_TOKEN: ${{ secrets.ZOHO_BIGIN_REFRESH_TOKEN }}
+          ZOHO_BIGIN_REFERRAL_SOURCE: ${{ secrets.ZOHO_BIGIN_REFERRAL_SOURCE }}
+          CRM_WEBHOOK_URL: ${{ secrets.CRM_WEBHOOK_URL }}
+          CRM_WEBHOOK_SECRET: ${{ secrets.CRM_WEBHOOK_SECRET }}
       - name: Deploy to Cloudflare Workers
         uses: cloudflare/wrangler-action@v3
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           command: deploy
-

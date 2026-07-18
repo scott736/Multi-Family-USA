@@ -1,23 +1,26 @@
 import { createClient } from '@supabase/supabase-js';
 
-const SUPABASE_URL = import.meta.env.PUBLIC_SUPABASE_URL;
-const SUPABASE_ANON_KEY = import.meta.env.PUBLIC_SUPABASE_ANON_KEY;
-const SUPABASE_SERVICE_KEY = import.meta.env.SUPABASE_SERVICE_KEY;
-
-function getClientSupabase() {
-  if (!SUPABASE_URL || !SUPABASE_ANON_KEY) {
-    throw new Error('Supabase client configuration missing');
-  }
-  return createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+function readEnv(name: string): string | undefined {
+  const fromImportMeta =
+    typeof import.meta !== 'undefined' ? import.meta.env?.[name] : undefined;
+  const fromProcess =
+    typeof process !== 'undefined' ? process.env[name] : undefined;
+  return fromImportMeta || fromProcess;
 }
 
 export function getServerSupabase() {
-  if (!SUPABASE_URL || !SUPABASE_SERVICE_KEY) {
+  const url = readEnv('PUBLIC_SUPABASE_URL');
+  const serviceKey = readEnv('SUPABASE_SERVICE_KEY');
+  if (!url || !serviceKey) {
     throw new Error('Supabase server configuration missing');
   }
-  return createClient(SUPABASE_URL, SUPABASE_SERVICE_KEY);
+  return createClient(url, serviceKey);
 }
 
 export function isSupabaseConfigured() {
-  return !!SUPABASE_URL && (!!SUPABASE_ANON_KEY || !!SUPABASE_SERVICE_KEY);
+  const url = readEnv('PUBLIC_SUPABASE_URL');
+  return (
+    !!url &&
+    (!!readEnv('PUBLIC_SUPABASE_ANON_KEY') || !!readEnv('SUPABASE_SERVICE_KEY'))
+  );
 }
