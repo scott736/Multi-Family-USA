@@ -156,7 +156,13 @@ export async function rateLimit(
   const upstashLimiter = await upstashLimiterPromise;
 
   if (upstashLimiter) {
-    return upstashLimiter(id, ip, limit, windowSeconds);
+    try {
+      return await upstashLimiter(id, ip, limit, windowSeconds);
+    } catch (err) {
+      console.warn('Upstash rate-limit call failed; falling back to in-memory:', err);
+      // Reset lazy init so a transient Redis failure can recover on a later request.
+      upstashLimiterPromise = null;
+    }
   }
 
   if (!rateLimitFallbackWarned) {
