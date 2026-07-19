@@ -286,7 +286,7 @@ function CalendarPanel({
       <div className="mb-2 grid grid-cols-7">
         {weekdays.map((day) => (
           <div key={day} className="py-3 text-center">
-            <span className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">{day}</span>
+            <span className="text-xs font-semibold uppercase tracking-wider text-foreground/70">{day}</span>
           </div>
         ))}
       </div>
@@ -316,14 +316,14 @@ function CalendarPanel({
               disabled={!hasAvailability || isLoading}
               className={cn(
                 'relative flex aspect-square items-center justify-center rounded-md text-sm font-medium',
-                !isCurrentMonth && 'text-muted-foreground/25',
+                !isCurrentMonth && 'text-foreground/25',
                 isLoading && availabilityMap.size === 0 && isCurrentMonth && !isPast && 'text-foreground',
-                !isLoading && isCurrentMonth && !hasAvailability && 'text-muted-foreground/40',
+                !isLoading && isCurrentMonth && !hasAvailability && 'text-foreground/35',
                 !isLoading &&
                   hasAvailability &&
                   !isSelected &&
                   'text-foreground hover:bg-brand/10 hover:text-brand',
-                isSelected && 'scale-105 bg-brand text-black shadow-md',
+                isSelected && 'scale-105 bg-brand text-white shadow-md',
                 !hasAvailability && 'cursor-default',
                 isToday && !isSelected && 'ring-2 ring-brand/30 font-bold'
               )}
@@ -419,8 +419,8 @@ function TimeSlotsPanel({
                 className={cn(
                   'w-full rounded-md border-2 px-4 py-3.5 text-sm font-semibold',
                   isCurrentSlot
-                    ? 'border-brand bg-brand text-black shadow-md hover:bg-brand/90'
-                    : 'border-border bg-background hover:border-brand hover:bg-brand/5'
+                    ? 'border-brand bg-brand text-white shadow-md hover:bg-brand/90'
+                    : 'border-border bg-background text-foreground hover:border-brand hover:bg-brand/5'
                 )}
               >
                 {formatTime(slot.startTime)}
@@ -682,7 +682,7 @@ export function AvailabilityPicker({
   return (
     <div
       ref={handleContainerRef}
-      className={cn('mx-auto max-w-6xl overflow-hidden rounded-2xl border bg-card shadow-sm', className)}
+      className={cn('mx-auto w-full max-w-6xl overflow-hidden rounded-2xl border bg-card shadow-sm', className)}
     >
       <div className="flex flex-col divide-y lg:flex-row lg:divide-x lg:divide-y-0">
         <MeetingInfoPanel

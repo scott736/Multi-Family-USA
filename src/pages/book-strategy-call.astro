@@ -1,6 +1,5 @@
 ---
 import BookCallSidebar from "@/components/conversion/BookCallSidebar.astro";
-import ConversionPathHelper from "@/components/conversion/ConversionPathHelper.astro";
 import FaqAccordion from "@/components/dscr/FaqAccordion.astro";
 import { SchedulingWidgetWithBoundary } from "@/components/scheduling/scheduling-with-boundary";
 import DefaultLayout from "@/layouts/DefaultLayout.astro";
@@ -79,23 +78,16 @@ const faqs = [
   </section>
 
   <section class="container py-10 md:py-12">
-    <div class="grid gap-10 lg:grid-cols-[1fr_minmax(0,420px)] lg:gap-12">
-      <div class="min-w-0">
-        <SchedulingWidgetWithBoundary
-          client:load
-          services={services}
-          teamMembers={teamMembers}
-          initialServiceId="strategy-call"
-          initialTeamMemberId={initialTeamMember?.id}
-        />
-      </div>
-      <aside class="space-y-6 lg:sticky lg:top-24">
-        <div class="lg:hidden">
-          <BookCallSidebar />
-        </div>
-        <ConversionPathHelper />
-      </aside>
+    <div class="lg:hidden mb-8">
+      <BookCallSidebar />
     </div>
+    <SchedulingWidgetWithBoundary
+      client:load
+      services={services}
+      teamMembers={teamMembers}
+      initialServiceId="strategy-call"
+      initialTeamMemberId={initialTeamMember?.id}
+    />
   </section>
 
   <section class="container pb-14">
