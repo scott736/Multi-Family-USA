@@ -1,8 +1,16 @@
 import { createClient } from '@supabase/supabase-js';
 
-const SUPABASE_URL = import.meta.env.PUBLIC_SUPABASE_URL;
-const SUPABASE_ANON_KEY = import.meta.env.PUBLIC_SUPABASE_ANON_KEY;
-const SUPABASE_SERVICE_KEY = import.meta.env.SUPABASE_SERVICE_KEY;
+// Cloudflare Workers expose secrets on process.env at request time;
+// import.meta.env alone is empty for wrangler secrets after migration.
+const SUPABASE_URL =
+  import.meta.env.PUBLIC_SUPABASE_URL ||
+  (typeof process !== 'undefined' ? process.env.PUBLIC_SUPABASE_URL : undefined);
+const SUPABASE_ANON_KEY =
+  import.meta.env.PUBLIC_SUPABASE_ANON_KEY ||
+  (typeof process !== 'undefined' ? process.env.PUBLIC_SUPABASE_ANON_KEY : undefined);
+const SUPABASE_SERVICE_KEY =
+  import.meta.env.SUPABASE_SERVICE_KEY ||
+  (typeof process !== 'undefined' ? process.env.SUPABASE_SERVICE_KEY : undefined);
 
 function getClientSupabase() {
   if (!SUPABASE_URL || !SUPABASE_ANON_KEY) {
