@@ -14,12 +14,14 @@ Blog posts in `src/content/blog/*.mdx` go live automatically based on their
    - RSS (downstream of the same data)
 3. A daily GitHub Action (`.github/workflows/scheduled-publish.yml`) runs at
    12:05 UTC, checks whether any post has `published:` equal to today, and
-   if so pushes a tiny empty commit to `main`. Vercel auto-deploys on every
-   push, so the next build picks up the newly-eligible post.
+   if so pushes a tiny empty commit to `main`. The Deploy Cloudflare
+   workflow runs on every push to `main`, so the next build picks up the
+   newly-eligible post.
 
-**No deploy hook, no Vercel-side setup, no GitHub secrets required.** The
-workflow uses the default `GITHUB_TOKEN` with `contents: write` permission
-to push the empty commit.
+**No deploy hook required beyond the existing Cloudflare deploy workflow
+and `CLOUDFLARE_*` secrets.** The scheduled publish workflow uses the
+default `GITHUB_TOKEN` with `contents: write` permission to push the
+empty commit.
 
 ## Authoring a new scheduled post
 
@@ -78,6 +80,6 @@ extra commits to main over five months. They're easy to filter with
 `git log --invert-grep --grep="scheduled publish"`.
 
 If you ever want to eliminate even those commits, replace the workflow's
-`Push empty commit` step with a `curl POST` to a Vercel deploy hook URL
-stored as the `VERCEL_DEPLOY_HOOK_URL` repo secret. The trade-off is one
-extra one-time setup step.
+`Push empty commit` step with a manual trigger of the Deploy Cloudflare
+workflow (`workflow_dispatch`) or a Cloudflare Deploy Hook URL stored as
+a repo secret. The trade-off is one extra one-time setup step.

@@ -2,8 +2,8 @@ name: Scheduled blog publishing
 
 # Runs daily, checks whether any blog post in src/content/blog/ has a
 # `published:` frontmatter date equal to today (UTC), and if so pushes a
-# tiny empty commit to main. Vercel auto-deploys on every push to main,
-# so the next build picks up the newly-eligible post.
+# tiny empty commit to main. The Deploy Cloudflare workflow runs on every
+# push to main, so the next build picks up the newly-eligible post.
 #
 # No deploy hook or secrets needed — the workflow uses the default
 # GITHUB_TOKEN with contents: write.
@@ -62,7 +62,7 @@ jobs:
             echo "today=${today}" >> "${GITHUB_OUTPUT}"
           fi
 
-      - name: Push empty commit to trigger Vercel rebuild
+      - name: Push empty commit to trigger Cloudflare rebuild
         if: steps.detect.outputs.should_publish == 'true' || inputs.force_publish == 'true'
         env:
           TODAY: ${{ steps.detect.outputs.today }}

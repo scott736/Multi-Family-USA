@@ -2,9 +2,9 @@
 //
 // Posts whose `published` frontmatter date is in the future are excluded from
 // listings, getStaticPaths, RSS, and sitemap. The site is rebuilt daily by
-// .github/workflows/scheduled-publish.yml hitting a Vercel deploy hook, so
-// each scheduled post goes live on the build that runs on or after its
-// `published` date.
+// .github/workflows/scheduled-publish.yml pushing an empty commit to main,
+// which triggers Deploy Cloudflare, so each scheduled post goes live on the
+// build that runs on or after its `published` date.
 
 interface MaybePublishedEntry {
   data: {
