@@ -29,3 +29,6 @@ pnpm-debug.log*
 .vercel
 .env*.local
 src/data/api-cache/
+
+# Wrangler local state
+.wrangler/

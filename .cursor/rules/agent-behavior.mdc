@@ -15,7 +15,7 @@ alwaysApply: true
 - Content lives in `src/content/**` (MDX) and pages in `src/pages/**`
 - English + Spanish mirrors (`src/content/es-*`, `src/pages/es/**`) — update both when the change applies to both locales
 - Blog posts use `published:` frontmatter; future dates stay hidden until publish day (see `.github/SCHEDULED_PUBLISHING.md`)
-- Deploys via Vercel on push to `main`
+- Deploys via Cloudflare Workers (GitHub Actions + wrangler) on push to `main`
 
 ## 1. Think before coding
 
