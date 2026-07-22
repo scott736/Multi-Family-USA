@@ -46,6 +46,13 @@ export interface ElasticSendOptions {
    * `Options.TimeOffset` (minutes from now; max 35 days).
    */
   scheduledAt?: string;
+  /**
+   * Click tracking rewrites links via tracking.* → Elastic Email (TLS cert
+   * mismatch → Firefox blocks CTAs). Default false for booking-safe links.
+   */
+  trackClicks?: boolean;
+  /** Open tracking does not rewrite links. Defaults to true. */
+  trackOpens?: boolean;
 }
 
 export interface ElasticSendResult {
@@ -69,6 +76,9 @@ export async function sendElasticEmail(options: ElasticSendOptions): Promise<Ela
     }
   }
 
+  const trackClicks = options.trackClicks === true;
+  const trackOpens = options.trackOpens !== false;
+
   const payload = {
     Recipients: {
       To: toList,
@@ -85,9 +95,11 @@ export async function sendElasticEmail(options: ElasticSendOptions): Promise<Ela
       Subject: options.subject,
       ...(options.replyTo && { ReplyTo: options.replyTo }),
     },
-    ...(timeOffsetMinutes !== undefined && {
-      Options: { TimeOffset: timeOffsetMinutes },
-    }),
+    Options: {
+      TrackClicks: trackClicks ? 'true' : 'false',
+      TrackOpens: trackOpens ? 'true' : 'false',
+      ...(timeOffsetMinutes !== undefined && { TimeOffset: timeOffsetMinutes }),
+    },
   };
 
   const response = await fetch(ELASTIC_EMAIL_API, {
