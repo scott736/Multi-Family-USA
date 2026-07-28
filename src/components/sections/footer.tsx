@@ -6,38 +6,38 @@ const navigationEn = [
   {
     title: "Learn",
     links: [
-      { name: "Fundamentals", href: "/learn" },
-      { name: "Guides", href: "/learn" },
-      { name: "FAQ", href: "/faq" },
-      { name: "Glossary", href: "/glossary" },
+      { name: "Fundamentals", href: "/learn/" },
+      { name: "Guides", href: "/learn/" },
+      { name: "FAQ", href: "/faq/" },
+      { name: "Glossary", href: "/glossary/" },
     ],
   },
   {
     title: "Tools",
     links: [
-      { name: "Cap Rate & NOI", href: "/tools/cap-rate-noi-calculator" },
-      { name: "Debt Yield", href: "/tools/debt-yield-calculator" },
-      { name: "Commercial DSCR", href: "/tools/commercial-dscr-calculator" },
-      { name: "Loan Sizing", href: "/tools/loan-sizing-calculator" },
+      { name: "Cap Rate & NOI", href: "/tools/cap-rate-noi-calculator/" },
+      { name: "Debt Yield", href: "/tools/debt-yield-calculator/" },
+      { name: "Commercial DSCR", href: "/tools/commercial-dscr-calculator/" },
+      { name: "Loan Sizing", href: "/tools/loan-sizing-calculator/" },
     ],
   },
   {
     title: "Markets",
     links: [
-      { name: "States", href: "/states" },
-      { name: "Cities", href: "/cities" },
-      { name: "Rates", href: "/rates" },
-      { name: "Blog", href: "/blog" },
+      { name: "States", href: "/states/" },
+      { name: "Cities", href: "/cities/" },
+      { name: "Rates", href: "/rates/" },
+      { name: "Blog", href: "/blog/" },
     ],
   },
   {
     title: "Company",
     links: [
-      { name: "About", href: "/about" },
-      { name: "Editorial Standards", href: "/editorial-standards" },
-      { name: "Team", href: "/team" },
-      { name: "Book Strategy Call", href: "/book-strategy-call" },
-      { name: "Free Deal Review", href: "/deal-review" },
+      { name: "About", href: "/about/" },
+      { name: "Editorial Standards", href: "/editorial-standards/" },
+      { name: "Team", href: "/team/" },
+      { name: "Book Strategy Call", href: "/book-strategy-call/" },
+      { name: "Free Deal Review", href: "/deal-review/" },
     ],
   },
 ];
@@ -46,52 +46,52 @@ const navigationEs = [
   {
     title: "Aprender",
     links: [
-      { name: "Fundamentos", href: "/es/learn" },
-      { name: "Guías", href: "/es/learn" },
-      { name: "FAQ", href: "/es/faq" },
-      { name: "Glosario", href: "/es/glossary" },
+      { name: "Fundamentos", href: "/es/learn/" },
+      { name: "Guías", href: "/es/learn/" },
+      { name: "FAQ", href: "/es/faq/" },
+      { name: "Glosario", href: "/es/glossary/" },
     ],
   },
   {
     title: "Herramientas",
     links: [
-      { name: "Cap rate y NOI", href: "/es/tools/cap-rate-noi-calculator" },
-      { name: "Debt yield", href: "/es/tools/debt-yield-calculator" },
-      { name: "DSCR comercial", href: "/es/tools/commercial-dscr-calculator" },
-      { name: "Dimensionamiento", href: "/es/tools/loan-sizing-calculator" },
+      { name: "Cap rate y NOI", href: "/es/tools/cap-rate-noi-calculator/" },
+      { name: "Debt yield", href: "/es/tools/debt-yield-calculator/" },
+      { name: "DSCR comercial", href: "/es/tools/commercial-dscr-calculator/" },
+      { name: "Dimensionamiento", href: "/es/tools/loan-sizing-calculator/" },
     ],
   },
   {
     title: "Mercados",
     links: [
-      { name: "Estados", href: "/es/states" },
-      { name: "Ciudades", href: "/es/cities" },
-      { name: "Tasas", href: "/es/rates" },
-      { name: "Blog", href: "/es/blog" },
+      { name: "Estados", href: "/es/states/" },
+      { name: "Ciudades", href: "/es/cities/" },
+      { name: "Tasas", href: "/es/rates/" },
+      { name: "Blog", href: "/es/blog/" },
     ],
   },
   {
     title: "Empresa",
     links: [
-      { name: "Acerca de", href: "/es/about" },
-      { name: "Estándares editoriales", href: "/es/editorial-standards" },
-      { name: "Equipo", href: "/es/team" },
-      { name: "Reservar llamada", href: "/es/book-strategy-call" },
-      { name: "Revisión gratuita", href: "/es/deal-review" },
+      { name: "Acerca de", href: "/es/about/" },
+      { name: "Estándares editoriales", href: "/es/editorial-standards/" },
+      { name: "Equipo", href: "/es/team/" },
+      { name: "Reservar llamada", href: "/es/book-strategy-call/" },
+      { name: "Revisión gratuita", href: "/es/deal-review/" },
     ],
   },
 ];
 
 const legalEn = [
-  { name: "Privacy Policy", href: "/privacy" },
-  { name: "Terms of Service", href: "/terms" },
-  { name: "Cookie Policy", href: "/cookie-policy" },
+  { name: "Privacy Policy", href: "/privacy/" },
+  { name: "Terms of Service", href: "/terms/" },
+  { name: "Cookie Policy", href: "/cookie-policy/" },
 ];
 
 const legalEs = [
-  { name: "Política de privacidad", href: "/es/privacy" },
-  { name: "Términos de servicio", href: "/es/terms" },
-  { name: "Política de cookies", href: "/es/cookie-policy" },
+  { name: "Política de privacidad", href: "/es/privacy/" },
+  { name: "Términos de servicio", href: "/es/terms/" },
+  { name: "Política de cookies", href: "/es/cookie-policy/" },
 ];
 
 interface FooterProps {

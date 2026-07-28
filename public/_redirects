@@ -1,0 +1,61 @@
+# Permanent trailing-slash canonicals (301).
+# Clears GSC "Alternate page with proper canonical tag" for slashless URLs
+# that previously returned 200 with a slash canonical (and still get rediscovered
+# via internal links). CF assets default to 307; these force 301.
+
+/cities /cities/ 301
+/faq /faq/ 301
+/team /team/ 301
+/invest /invest/ 301
+/property-types /property-types/ 301
+/property-types/mid-rise-urban-multifamily /property-types/mid-rise-urban-multifamily/ 301
+/tools/commercial-dscr-calculator /tools/commercial-dscr-calculator/ 301
+/es/invest /es/invest/ 301
+/es/rates /es/rates/ 301
+/es/tools /es/tools/ 301
+/es/learn /es/learn/ 301
+
+# High-traffic hubs still linked without trailing slash in nav/footer
+/about /about/ 301
+/blog /blog/ 301
+/book-strategy-call /book-strategy-call/ 301
+/compare /compare/ 301
+/contact /contact/ 301
+/cookie-policy /cookie-policy/ 301
+/deal-review /deal-review/ 301
+/editorial-standards /editorial-standards/ 301
+/glossary /glossary/ 301
+/learn /learn/ 301
+/loan-types /loan-types/ 301
+/privacy /privacy/ 301
+/rates /rates/ 301
+/states /states/ 301
+/terms /terms/ 301
+/tools /tools/ 301
+/tools/cap-rate-noi-calculator /tools/cap-rate-noi-calculator/ 301
+/tools/cash-on-cash-calculator /tools/cash-on-cash-calculator/ 301
+/tools/debt-yield-calculator /tools/debt-yield-calculator/ 301
+/tools/loan-sizing-calculator /tools/loan-sizing-calculator/ 301
+/es /es/ 301
+/es/about /es/about/ 301
+/es/blog /es/blog/ 301
+/es/book-strategy-call /es/book-strategy-call/ 301
+/es/cities /es/cities/ 301
+/es/compare /es/compare/ 301
+/es/contact /es/contact/ 301
+/es/cookie-policy /es/cookie-policy/ 301
+/es/deal-review /es/deal-review/ 301
+/es/editorial-standards /es/editorial-standards/ 301
+/es/faq /es/faq/ 301
+/es/glossary /es/glossary/ 301
+/es/loan-types /es/loan-types/ 301
+/es/privacy /es/privacy/ 301
+/es/property-types /es/property-types/ 301
+/es/states /es/states/ 301
+/es/team /es/team/ 301
+/es/terms /es/terms/ 301
+/es/tools/cap-rate-noi-calculator /es/tools/cap-rate-noi-calculator/ 301
+/es/tools/cash-on-cash-calculator /es/tools/cash-on-cash-calculator/ 301
+/es/tools/commercial-dscr-calculator /es/tools/commercial-dscr-calculator/ 301
+/es/tools/debt-yield-calculator /es/tools/debt-yield-calculator/ 301
+/es/tools/loan-sizing-calculator /es/tools/loan-sizing-calculator/ 301

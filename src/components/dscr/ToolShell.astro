@@ -61,7 +61,7 @@ const {
 
 const isEs = locale === "es";
 const faqList = Array.isArray(faqs) ? faqs : [];
-const toolPath = isEs ? `/es/tools/${toolSlug}` : `/tools/${toolSlug}`;
+const toolPath = isEs ? `/es/tools/${toolSlug}/` : `/tools/${toolSlug}/`;
 const canonicalUrl = `${SITE_URL}${toolPath}`;
 const resolvedKicker = kicker ?? (isEs ? "Herramienta interactiva" : "Interactive tool");
 const resolvedEnPath = enPath ?? `/tools/${toolSlug}/`;
@@ -129,13 +129,13 @@ const relatedLinks = await getRelatedLinks({
     crumbs={
       isEs
         ? [
-            { label: "Inicio", href: "/es" },
-            { label: "Herramientas", href: "/es/tools" },
+            { label: "Inicio", href: "/es/" },
+            { label: "Herramientas", href: "/es/tools/" },
             { label: h1, href: toolPath },
           ]
         : [
             { label: "Home", href: "/" },
-            { label: "Tools", href: "/tools" },
+            { label: "Tools", href: "/tools/" },
             { label: h1, href: toolPath },
           ]
     }

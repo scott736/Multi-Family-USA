@@ -18,9 +18,9 @@ interface Props {
 
 const currentPath = Astro.props.currentPath ?? Astro.url.pathname;
 const isEs = pageLangFromPath(currentPath) === "es";
-const homeHref = isEs ? "/es" : "/";
-const bookHref = isEs ? "/es/book-strategy-call" : "/book-strategy-call";
-const dealHref = isEs ? "/es/deal-review" : "/deal-review";
+const homeHref = isEs ? "/es/" : "/";
+const bookHref = isEs ? "/es/book-strategy-call/" : "/book-strategy-call/";
+const dealHref = isEs ? "/es/deal-review/" : "/deal-review/";
 
 const switcherEnPath = ensureTrailingSlash(
   Astro.props.enPath ?? (isEs ? currentPath.replace(/^\/es/, "") || "/" : currentPath),
@@ -31,18 +31,18 @@ const switcherEsPath = ensureTrailingSlash(
 
 const NAV_ITEMS: NavItem[] = isEs
   ? [
-      { label: "Aprender", href: "/es/learn" },
-      { label: "Herramientas", href: "/es/tools" },
-      { label: "Mercados", href: "/es/states" },
-      { label: "Comparar", href: "/es/compare" },
-      { label: "Invertir", href: "/es/invest" },
+      { label: "Aprender", href: "/es/learn/" },
+      { label: "Herramientas", href: "/es/tools/" },
+      { label: "Mercados", href: "/es/states/" },
+      { label: "Comparar", href: "/es/compare/" },
+      { label: "Invertir", href: "/es/invest/" },
     ]
   : [
-      { label: "Learn", href: "/learn" },
-      { label: "Tools", href: "/tools" },
-      { label: "Markets", href: "/states" },
-      { label: "Compare", href: "/compare" },
-      { label: "Invest", href: "/invest" },
+      { label: "Learn", href: "/learn/" },
+      { label: "Tools", href: "/tools/" },
+      { label: "Markets", href: "/states/" },
+      { label: "Compare", href: "/compare/" },
+      { label: "Invest", href: "/invest/" },
     ];
 ---
 
@@ -55,7 +55,12 @@ const NAV_ITEMS: NavItem[] = isEs
 
     <nav class="hidden lg:flex items-center gap-1">
       {NAV_ITEMS.map((item) => {
-        const isActive = currentPath === item.href || currentPath.startsWith(`${item.href}/`);
+        const base = item.href.replace(/\/$/, "");
+        const isActive =
+          currentPath === item.href ||
+          currentPath === base ||
+          currentPath === `${base}/` ||
+          currentPath.startsWith(`${base}/`);
         return (
           <a
             href={item.href}
