@@ -43,8 +43,8 @@ const faqSchema = buildFaqSchema(rateFaqs);
   esPath="/es/rates/"
   schema={[webPageSchema, ...(faqSchema ? [faqSchema] : [])]}
   crumbs={[
-    { label: "Inicio", href: "/es" },
-    { label: "Tasas", href: "/es/rates" },
+    { label: "Inicio", href: "/es/" },
+    { label: "Tasas", href: "/es/rates/" },
   ]}
 >
   <h1>Tasas de préstamos multifamiliares</h1>
@@ -115,25 +115,25 @@ const faqSchema = buildFaqSchema(rateFaqs);
   <h2>Tasas de préstamos para apartamentos por producto</h2>
   <p>
     <strong>Agency estabilizado:</strong> spreads sobre benchmark con ajustes por ocupación, DSCR y debt yield.
-    Vea <a href="/es/loan-types/agency-stabilized">agency estabilizado Fannie Mae</a> y
-    <a href="/es/loan-types/freddie-mac-optigo">Freddie Mac Optigo</a>.
+    Vea <a href="/es/loan-types/agency-stabilized/">agency estabilizado Fannie Mae</a> y
+    <a href="/es/loan-types/freddie-mac-optigo/">Freddie Mac Optigo</a>.
   </p>
   <p>
     <strong>Bridge transicional:</strong> costo total suele ser mayor por riesgo de ejecución y plazos cortos.
-    Vea <a href="/es/loan-types/bridge-value-add">bridge value-add</a>.
+    Vea <a href="/es/loan-types/bridge-value-add/">bridge value-add</a>.
   </p>
   <p>
     <strong>Banco y CMBS:</strong> compiten con agency según perfil y relación.
   </p>
   <p>
     <strong>FHA/HUD:</strong> el precio es impulsado por el programa; compare MIP, reservas y plazos.
-    Vea <a href="/es/loan-types/fha-hud-multifamily">FHA HUD multifamiliar</a>.
+    Vea <a href="/es/loan-types/fha-hud-multifamily/">FHA HUD multifamiliar</a>.
   </p>
 
   <h2>Contexto de tasas Fannie Mae y Freddie Mac</h2>
   <p>
     Las tasas Fannie Mae y Freddie Mac Optigo fluyen por canales agency con spreads ligados a tamaño, mercado y métricas de cobertura.
-    Vea nuestro <a href="/es/blog/fannie-mae-multifamily-loan-requirements">resumen de requisitos Fannie Mae</a>.
+    Vea nuestro <a href="/es/blog/fannie-mae-multifamily-loan-requirements/">resumen de requisitos Fannie Mae</a>.
   </p>
 
   <h2>Componentes del costo total</h2>
@@ -149,8 +149,8 @@ const faqSchema = buildFaqSchema(rateFaqs);
   <FaqAccordion items={rateFaqs} />
 
   <p>
-    Combine con <a href="/es/learn">Aprender</a>, <a href="/es/tools">herramientas</a> y
-    <a href="/es/compare">comparaciones</a>.
+    Combine con <a href="/es/learn/">Aprender</a>, <a href="/es/tools/">herramientas</a> y
+    <a href="/es/compare/">comparaciones</a>.
   </p>
   <SmartCtaSection pathname={Astro.url.pathname} />
 </BasicLayout>

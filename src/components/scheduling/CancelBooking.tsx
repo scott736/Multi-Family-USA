@@ -384,9 +384,9 @@ function LoadedView({
 
 export function CancelBooking({ token, lang = 'en' }: CancelBookingProps) {
   const t = useTranslations(lang);
-  const bookCallHref = lang === 'es' ? '/es/book-strategy-call' : '/book-strategy-call';
-  const homeHref = lang === 'es' ? '/es' : '/';
-  const contactHref = lang === 'es' ? '/es/contact' : '/contact';
+  const bookCallHref = lang === 'es' ? '/es/book-strategy-call/' : '/book-strategy-call/';
+  const homeHref = lang === 'es' ? '/es/' : '/';
+  const contactHref = lang === 'es' ? '/es/contact/' : '/contact/';
   const locale = lang === 'en' ? 'en-US' : 'es-ES';
   const [state, dispatch] = useReducer(cancelBookingReducer, initialState);
   const loadedTokenRef = useRef<string | null>(null);

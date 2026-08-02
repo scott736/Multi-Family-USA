@@ -149,7 +149,7 @@ export function Footer({ currentPath = "/" }: FooterProps) {
               </div>
               <div className="flex flex-col gap-3 sm:flex-row lg:flex-col xl:flex-row">
                 <a
-                  href={isEs ? "/es/deal-review" : "/deal-review"}
+                  href={isEs ? "/es/deal-review/" : "/deal-review/"}
                   className="group inline-flex items-center justify-center gap-2 rounded-xl bg-accent px-6 py-3.5 text-sm font-bold text-accent-foreground shadow-lg shadow-accent/25 transition duration-300 hover:-translate-y-0.5 hover:shadow-xl hover:shadow-accent/35"
                   data-analytics-location="footer-cta"
                 >
@@ -157,7 +157,7 @@ export function Footer({ currentPath = "/" }: FooterProps) {
                   <ArrowRight className="size-4 transition-transform duration-300 group-hover:translate-x-0.5" />
                 </a>
                 <a
-                  href={isEs ? "/es/book-strategy-call" : "/book-strategy-call"}
+                  href={isEs ? "/es/book-strategy-call/" : "/book-strategy-call/"}
                   className="inline-flex items-center justify-center rounded-xl border border-white/20 bg-white/[0.06] px-6 py-3.5 text-sm font-semibold text-white backdrop-blur-sm transition duration-300 hover:-translate-y-0.5 hover:bg-white/[0.12]"
                   data-analytics-location="footer-cta"
                 >
@@ -172,7 +172,7 @@ export function Footer({ currentPath = "/" }: FooterProps) {
       <div className="container py-12 md:py-14">
         <div className="grid gap-10 md:grid-cols-2 lg:grid-cols-[1.4fr_1fr_1fr_1fr_1fr] lg:gap-8">
           <div className="max-w-xs">
-            <a href={isEs ? "/es" : "/"} className="mb-4 flex items-center gap-2.5">
+            <a href={isEs ? "/es/" : "/"} className="mb-4 flex items-center gap-2.5">
               <span className="flex size-9 items-center justify-center rounded-lg bg-primary font-serif text-lg font-bold text-primary-foreground shadow-sm">
                 M
               </span>

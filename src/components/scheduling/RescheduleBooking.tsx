@@ -436,9 +436,9 @@ function SelectTimeView({
 
 export function RescheduleBooking({ token, lang = 'en' }: RescheduleBookingProps) {
   const t = useTranslations(lang);
-  const bookCallHref = lang === 'es' ? '/es/book-strategy-call' : '/book-strategy-call';
-  const homeHref = lang === 'es' ? '/es' : '/';
-  const contactHref = lang === 'es' ? '/es/contact' : '/contact';
+  const bookCallHref = lang === 'es' ? '/es/book-strategy-call/' : '/book-strategy-call/';
+  const homeHref = lang === 'es' ? '/es/' : '/';
+  const contactHref = lang === 'es' ? '/es/contact/' : '/contact/';
   const locale = lang === 'en' ? 'en-US' : 'es-ES';
   const timezone = useMemo(() => getBrowserTimezone(), []);
   const [state, dispatch] = useReducer(rescheduleBookingReducer, initialState);

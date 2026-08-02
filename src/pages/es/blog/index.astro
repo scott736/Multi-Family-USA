@@ -15,7 +15,7 @@ const posts = filterPublished(await getCollection("esBlog"));
   enPath="/blog/"
   esPath="/es/blog/"
 >
-  <Breadcrumbs crumbs={[{ label: "Inicio", href: "/es" }, { label: "Blog", href: "/es/blog" }]} />
+  <Breadcrumbs crumbs={[{ label: "Inicio", href: "/es/" }, { label: "Blog", href: "/es/blog/" }]} />
   <section class="container py-8">
     <h1 class="text-4xl font-bold">Blog</h1>
     <ol class="mt-6 space-y-4">
@@ -23,7 +23,7 @@ const posts = filterPublished(await getCollection("esBlog"));
         const slug = post.id.replace(/\.mdx$/, "");
         return (
           <li>
-            <a href={`/es/blog/${slug}`} class="font-semibold hover:text-accent">{post.data.title}</a>
+            <a href={`/es/blog/${slug}/`} class="font-semibold hover:text-accent">{post.data.title}</a>
             <p class="text-sm text-muted-foreground">{post.data.description}</p>
           </li>
         );

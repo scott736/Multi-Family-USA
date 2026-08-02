@@ -39,8 +39,8 @@ const mapStates = entries.map((e) => ({
   esPath="/es/states/"
 >
   <Breadcrumbs crumbs={[
-    { label: "Inicio", href: "/es" },
-    { label: "Mercados", href: "/es/states" },
+    { label: "Inicio", href: "/es/" },
+    { label: "Mercados", href: "/es/states/" },
   ]} />
 
   <section class="container py-8">
@@ -63,7 +63,7 @@ const mapStates = entries.map((e) => ({
             {byTier[tier].map((entry) => {
               const slug = entry.id.replace(/\.mdx$/, "");
               return (
-                <a href={`/es/states/${slug}`} class="rounded-lg border border-border bg-card p-4 hover:border-accent">
+                <a href={`/es/states/${slug}/`} class="rounded-lg border border-border bg-card p-4 hover:border-accent">
                   <p class="font-semibold">{entry.data.stateName}</p>
                   <p class="text-xs text-muted-foreground mt-1">
                     Cap rate prom. {entry.data.avgCapRate.toFixed(1)}% · Prom. $/unidad ${entry.data.avgPricePerUnit.toLocaleString()}

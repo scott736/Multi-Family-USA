@@ -32,8 +32,8 @@ const esDescription =
     eyebrow="Multifamiliar comercial en EE. UU."
     title="Suscríbe operaciones multifamiliares con más claridad y compara rutas de financiamiento."
     description="Multi-Family USA es un recurso neutral para propiedades de 5+ unidades. Usa las calculadoras, explora cobertura por estado y ciudad, y solicita una revisión gratuita de tu operación."
-    ctaPrimary={{ href: "/es/deal-review", label: "Revisión gratuita" }}
-    ctaSecondary={{ href: "/es/book-strategy-call", label: "Reservar llamada" }}
+    ctaPrimary={{ href: "/es/deal-review/", label: "Revisión gratuita" }}
+    ctaSecondary={{ href: "/es/book-strategy-call/", label: "Reservar llamada" }}
     pills={["Solo 5+ unidades", "Sin consulta de crédito", "Respuesta ~1 h"]}
     formSourceContext="es-homepage-hero"
     stats={[
@@ -84,7 +84,7 @@ const esDescription =
         }[pillar.slug];
         return (
           <a
-            href={pillar.slug === "markets" ? "/es/states" : `/es/${pillar.slug}`}
+            href={pillar.slug === "markets" ? "/es/states/" : `/es/${pillar.slug}/`}
             class="group flex flex-col rounded-xl border border-border bg-card p-5 transition duration-300 hover:-translate-y-0.5 hover:border-accent/60 hover:shadow-lg hover:shadow-primary/[0.06]"
           >
             <p class="text-xs font-bold uppercase tracking-wide text-accent">{esCopy.tagline}</p>
