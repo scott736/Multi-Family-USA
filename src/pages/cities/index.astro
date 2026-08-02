@@ -33,7 +33,7 @@ const collectionSchema = buildCollectionPageSchema({
 >
   <Breadcrumbs crumbs={[
     { label: "Home", href: "/" },
-    { label: "Cities", href: "/cities" },
+    { label: "Cities", href: "/cities/" },
   ]} />
 
   <section class="container py-8">
@@ -51,7 +51,7 @@ const collectionSchema = buildCollectionPageSchema({
         .map((entry) => {
           const slug = entry.id.replace(/\.mdx$/, "");
           return (
-            <a href={`/cities/${slug}`} class="rounded-lg border border-border bg-card p-5 hover:border-accent">
+            <a href={`/cities/${slug}/`} class="rounded-lg border border-border bg-card p-5 hover:border-accent">
               <h2 class="text-lg font-bold">{entry.data.cityName}, {entry.data.stateCode}</h2>
               <p class="mt-2 text-sm text-muted-foreground">{entry.data.description}</p>
               <p class="mt-3 text-xs text-muted-foreground">

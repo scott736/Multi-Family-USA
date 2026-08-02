@@ -193,14 +193,14 @@ export function BookingConfirmation({
                 </Button>
               )}
               <Button asChild size="lg">
-                <a href={lang === 'es' ? '/es' : '/'}>{t('scheduling.returnHome')}</a>
+                <a href={lang === 'es' ? '/es/' : '/'}>{t('scheduling.returnHome')}</a>
               </Button>
             </div>
 
             {/* Help Note */}
             <p className="text-muted-foreground text-center text-sm">
               {t('scheduling.rescheduleNote')}{' '}
-              <a href={lang === 'es' ? '/es/contact' : '/contact'} className="text-brand hover:underline">
+              <a href={lang === 'es' ? '/es/contact/' : '/contact/'} className="text-brand hover:underline">
                 {t('scheduling.contactUs')}
               </a>
               . {t('scheduling.confirmationEmailNote')}

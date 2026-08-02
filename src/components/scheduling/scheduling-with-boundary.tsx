@@ -17,7 +17,7 @@ interface SchedulingWidgetWithBoundaryProps {
 
 export function SchedulingWidgetWithBoundary({ lang = 'en', ...props }: SchedulingWidgetWithBoundaryProps) {
   const t = useTranslations(lang);
-  const contactHref = lang === 'es' ? '/es/contact' : '/contact';
+  const contactHref = lang === 'es' ? '/es/contact/' : '/contact/';
 
   const fallback = (
     <div className="rounded-xl border border-destructive/20 bg-destructive/5 p-6 text-center">

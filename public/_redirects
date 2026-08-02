@@ -3,6 +3,7 @@
 # that previously returned 200 with a slash canonical (and still get rediscovered
 # via internal links). CF assets default to 307; these force 301.
 
+# --- GSC coverage examples (Aug 2026 drilldown) ---
 /cities /cities/ 301
 /faq /faq/ 301
 /team /team/ 301
@@ -15,10 +16,11 @@
 /es/tools /es/tools/ 301
 /es/learn /es/learn/ 301
 
-# High-traffic hubs still linked without trailing slash in nav/footer
+# --- High-traffic hubs ---
 /about /about/ 301
 /blog /blog/ 301
 /book-strategy-call /book-strategy-call/ 301
+/checklists /checklists/ 301
 /compare /compare/ 301
 /contact /contact/ 301
 /cookie-policy /cookie-policy/ 301
@@ -31,6 +33,7 @@
 /rates /rates/ 301
 /states /states/ 301
 /terms /terms/ 301
+/thank-you /thank-you/ 301
 /tools /tools/ 301
 /tools/cap-rate-noi-calculator /tools/cap-rate-noi-calculator/ 301
 /tools/cash-on-cash-calculator /tools/cash-on-cash-calculator/ 301
@@ -40,6 +43,7 @@
 /es/about /es/about/ 301
 /es/blog /es/blog/ 301
 /es/book-strategy-call /es/book-strategy-call/ 301
+/es/checklists /es/checklists/ 301
 /es/cities /es/cities/ 301
 /es/compare /es/compare/ 301
 /es/contact /es/contact/ 301
@@ -54,8 +58,33 @@
 /es/states /es/states/ 301
 /es/team /es/team/ 301
 /es/terms /es/terms/ 301
+/es/thank-you /es/thank-you/ 301
 /es/tools/cap-rate-noi-calculator /es/tools/cap-rate-noi-calculator/ 301
 /es/tools/cash-on-cash-calculator /es/tools/cash-on-cash-calculator/ 301
 /es/tools/commercial-dscr-calculator /es/tools/commercial-dscr-calculator/ 301
 /es/tools/debt-yield-calculator /es/tools/debt-yield-calculator/ 301
 /es/tools/loan-sizing-calculator /es/tools/loan-sizing-calculator/ 301
+
+# --- One-segment child pages: force 301 (not CF default 307) ---
+/blog/:slug /blog/:slug/ 301
+/checklists/:slug /checklists/:slug/ 301
+/cities/:slug /cities/:slug/ 301
+/compare/:slug /compare/:slug/ 301
+/invest/:slug /invest/:slug/ 301
+/learn/:slug /learn/:slug/ 301
+/loan-types/:slug /loan-types/:slug/ 301
+/property-types/:slug /property-types/:slug/ 301
+/states/:slug /states/:slug/ 301
+/team/:slug /team/:slug/ 301
+/tools/:slug /tools/:slug/ 301
+/es/blog/:slug /es/blog/:slug/ 301
+/es/checklists/:slug /es/checklists/:slug/ 301
+/es/cities/:slug /es/cities/:slug/ 301
+/es/compare/:slug /es/compare/:slug/ 301
+/es/invest/:slug /es/invest/:slug/ 301
+/es/learn/:slug /es/learn/:slug/ 301
+/es/loan-types/:slug /es/loan-types/:slug/ 301
+/es/property-types/:slug /es/property-types/:slug/ 301
+/es/states/:slug /es/states/:slug/ 301
+/es/team/:slug /es/team/:slug/ 301
+/es/tools/:slug /es/tools/:slug/ 301

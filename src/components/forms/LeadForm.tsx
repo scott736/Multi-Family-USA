@@ -167,7 +167,7 @@ export default function LeadForm({
   lang = 'en',
 }: LeadFormProps) {
   const isEs = lang === 'es';
-  const bookCallHref = isEs ? '/es/book-strategy-call' : '/book-strategy-call';
+  const bookCallHref = isEs ? '/es/book-strategy-call/' : '/book-strategy-call/';
   const isHero = variant === 'hero';
   const isPremium = variant === 'premium';
   const isPolished = isPremium;

@@ -6,8 +6,8 @@ interface Props {
 
 const { locale = "en", className = "" } = Astro.props;
 const isEs = locale === "es";
-const dealReviewHref = isEs ? "/es/deal-review" : "/deal-review";
-const bookHref = isEs ? "/es/book-strategy-call" : "/book-strategy-call";
+const dealReviewHref = isEs ? "/es/deal-review/" : "/deal-review/";
+const bookHref = isEs ? "/es/book-strategy-call/" : "/book-strategy-call/";
 ---
 
 <div

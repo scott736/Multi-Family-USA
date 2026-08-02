@@ -55,7 +55,7 @@ const faqSchema = buildFaqSchema(hubFaqs);
 >
   <Breadcrumbs crumbs={[
     { label: "Home", href: "/" },
-    { label: "Learn", href: "/learn" },
+    { label: "Learn", href: "/learn/" },
   ]} />
 
   <section class="container py-8">
@@ -83,7 +83,7 @@ const faqSchema = buildFaqSchema(hubFaqs);
         .map((entry) => {
           const slug = entry.id.replace(/\.mdx$/, "");
           return (
-            <a href={`/learn/${slug}`} class="group rounded-lg border border-border bg-card p-5 hover:border-accent">
+            <a href={`/learn/${slug}/`} class="group rounded-lg border border-border bg-card p-5 hover:border-accent">
               <h2 class="text-lg font-bold group-hover:text-primary">{entry.data.title}</h2>
               <p class="mt-2 line-clamp-3 text-sm text-muted-foreground">{entry.data.description}</p>
             </a>

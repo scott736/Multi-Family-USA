@@ -2,7 +2,7 @@
 import { SITE_PHONE, SITE_PHONE_HREF } from "../../consts";
 
 const isEs = Astro.url.pathname === "/es" || Astro.url.pathname.startsWith("/es/");
-const bookHref = isEs ? "/es/book-strategy-call" : "/book-strategy-call";
+const bookHref = isEs ? "/es/book-strategy-call/" : "/book-strategy-call/";
 ---
 
 <div class="relative bg-primary text-primary-foreground" data-site-banner>
