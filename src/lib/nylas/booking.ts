@@ -300,6 +300,17 @@ export async function createPendingBooking(
     expiresAt,
   });
 
+  void fireCrmWebhook({
+    event: 'booking_pending',
+    name: input.guestName,
+    email: input.guestEmail,
+    phone: input.guestPhone,
+    source: '/booking',
+    serviceName: service.name,
+    teamMemberName: teamMember.name,
+    startTime: input.startTime,
+  });
+
   return {
     token,
     email: input.guestEmail,
