@@ -308,12 +308,12 @@ function ConfirmedView({
           <p className="text-sm text-muted-foreground">{t('scheduling.rescheduleNote')} </p>
           <div className="flex flex-wrap justify-center gap-2">
             <Button asChild variant="outline" size="sm">
-              <a href={`/booking/reschedule?token=${encodeURIComponent(token)}/`}>
+              <a href={`/booking/reschedule/?token=${encodeURIComponent(token)}`}>
                 {t('scheduling.rescheduleAppointment')}
               </a>
             </Button>
             <Button asChild variant="outline" size="sm">
-              <a href={`/booking/cancel?token=${encodeURIComponent(token)}/`}>
+              <a href={`/booking/cancel/?token=${encodeURIComponent(token)}`}>
                 {t('scheduling.cancelAppointment')}
               </a>
             </Button>
@@ -447,7 +447,7 @@ function PendingView({
 
         <div className="text-center">
           <a
-            href={`${bookCallHref}?cancelToken=${encodeURIComponent(token)}/`}
+            href={`${bookCallHref}?cancelToken=${encodeURIComponent(token)}`}
             className="text-sm text-muted-foreground underline hover:text-foreground"
           >
             {t('sched.changeTime')}
