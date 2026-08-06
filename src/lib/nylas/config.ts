@@ -53,8 +53,8 @@ export const services: Service[] = [
     description:
       "A 30-minute call to review your 5+ unit scenario, underwriting constraints, and likely financing execution paths.",
     duration: 30,
-    bufferBefore: 5,
-    bufferAfter: 5,
+    bufferBefore: 0,
+    bufferAfter: 0,
     teamMembers: [],
     roundRobin: true,
     icon: "PhoneCall",
