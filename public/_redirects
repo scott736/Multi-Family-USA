@@ -3,6 +3,16 @@
 # that previously returned 200 with a slash canonical (and still get rediscovered
 # via internal links). CF assets default to 307; these force 301.
 
+# --- Sitemap alias (GSC + crawlers still request /sitemap.xml) ---
+/sitemap.xml /sitemap-index.xml 301
+/sitemap.xml/ /sitemap-index.xml 301
+
+# --- ES checklist pages that only exist in English (GSC 404 Aug 2026) ---
+/es/checklists/pro-forma-template /checklists/pro-forma-template/ 301
+/es/checklists/pro-forma-template/ /checklists/pro-forma-template/ 301
+/es/checklists/due-diligence-checklist /checklists/due-diligence-checklist/ 301
+/es/checklists/due-diligence-checklist/ /checklists/due-diligence-checklist/ 301
+
 # --- GSC coverage examples (Aug 2026 drilldown) ---
 /cities /cities/ 301
 /faq /faq/ 301

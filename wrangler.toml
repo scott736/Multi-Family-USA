@@ -16,7 +16,16 @@ binding = "ASSETS"
 not_found_handling = "404-page"
 # Match Astro trailingSlash:"always" — non-slash HTML requests redirect to slash form.
 html_handling = "force-trailing-slash"
-# API routes are SSR. Also run the worker first on locale homepages so
-# legacy `?q=` SearchAction/template URLs can 301 to the clean canonical
-# (see src/middleware.ts). All other static HTML stays on the CDN path.
-run_worker_first = ["/", "/es", "/es/", "/api/*"]
+# API routes are SSR. Also run the worker first on paths that must strip
+# legacy query strings (SearchAction `?q=` + calculator → deal-review params).
+# See src/middleware.ts. All other static HTML stays on the CDN path.
+run_worker_first = [
+  "/",
+  "/es",
+  "/es/",
+  "/deal-review",
+  "/deal-review/",
+  "/es/deal-review",
+  "/es/deal-review/",
+  "/api/*",
+]

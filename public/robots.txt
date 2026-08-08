@@ -6,8 +6,8 @@ Allow: /
 Disallow: /api/
 Disallow: /thank-you/
 Disallow: /admin/
-# Block legacy SearchAction template / client search query URLs
-Disallow: /*?q=
+# Legacy `?q=` SearchAction URLs 301 via middleware — do not robots-block them
+# or GSC keeps a permanent "Blocked by robots.txt" row for /?q={search_term_string}.
 
 # LLMs index for AI crawlers and answer engines
 # See: https://multifamily-usa.com/llms.txt
