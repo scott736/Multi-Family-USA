@@ -1,8 +1,8 @@
 // ============================================
-// Shared LLM client — xAI Grok 4.5
+// Shared LLM client — Meta Muse Spark 1.2
 // ============================================
 // Drop-in Messages API shape used across automation scripts.
-// Backed by the OpenAI SDK pointed at api.x.ai (Grok 4.5).
+// Backed by the OpenAI SDK pointed at api.meta.ai (Muse Spark 1.2).
 
 import OpenAI from "openai";
 import type {
@@ -13,22 +13,34 @@ import type {
 import { MODELS } from "../config";
 
 export {
+  LLM_BASE_URL,
   XAI_BASE_URL,
   deleteXaiFile,
+  getLlmApiKey,
   respondWithFiles,
   uploadXaiFile,
 } from "../../../src/lib/xai";
-import { XAI_BASE_URL } from "../../../src/lib/xai";
+import { LLM_BASE_URL, getLlmApiKey } from "../../../src/lib/xai";
 
 export type TextBlock = { type: "text"; text: string };
-export type ToolUseBlock = { type: "tool_use"; id: string; name: string; input: unknown };
-export type ContentBlock = TextBlock | ToolUseBlock | { type: string; [key: string]: unknown };
+export type ToolUseBlock = {
+  type: "tool_use";
+  id: string;
+  name: string;
+  input: unknown;
+};
+export type ContentBlock =
+  | TextBlock
+  | ToolUseBlock
+  | { type: string; [key: string]: unknown };
 
 export interface MessageResponse {
   content: ContentBlock[];
   stop_reason: string | null;
   usage: { input_tokens: number; output_tokens: number };
 }
+
+export type ReasoningEffort = "minimal" | "low" | "medium" | "high" | "xhigh";
 
 export interface MessageCreateParams {
   model: string;
@@ -38,6 +50,8 @@ export interface MessageCreateParams {
     content: string | ContentBlock[];
   }>;
   temperature?: number;
+  /** Muse Spark reasoning depth. Default minimal for cost/latency. */
+  reasoning_effort?: ReasoningEffort;
   tools?: Array<{
     name: string;
     description?: string;
@@ -51,9 +65,11 @@ export interface MessageCreateParams {
 }
 
 function requireApiKey(explicit?: string): string {
-  const key = explicit || process.env.XAI_API_KEY;
+  const key = getLlmApiKey(explicit);
   if (!key) {
-    throw new Error("XAI_API_KEY is missing. Cannot call Grok.");
+    throw new Error(
+      "MODEL_API_KEY (or legacy XAI_API_KEY) is missing. Cannot call Muse Spark."
+    );
   }
   return key;
 }
@@ -61,7 +77,7 @@ function requireApiKey(explicit?: string): string {
 export function createOpenAIClient(apiKey?: string): OpenAI {
   return new OpenAI({
     apiKey: requireApiKey(apiKey),
-    baseURL: XAI_BASE_URL,
+    baseURL: LLM_BASE_URL,
     timeout: 3600_000,
   });
 }
@@ -78,7 +94,11 @@ function contentToOpenAI(
       continue;
     }
 
-    if (block.type === "image" && block.source && typeof block.source === "object") {
+    if (
+      block.type === "image" &&
+      block.source &&
+      typeof block.source === "object"
+    ) {
       const source = block.source as {
         type?: string;
         media_type?: string;
@@ -95,9 +115,11 @@ function contentToOpenAI(
       }
     }
 
-    if (block.type === "document" && block.source && typeof block.source === "object") {
-      // PDFs should use uploadXaiFile + respondWithFiles (Responses API).
-      // Fallback: note that a document was provided.
+    if (
+      block.type === "document" &&
+      block.source &&
+      typeof block.source === "object"
+    ) {
       parts.push({
         type: "text",
         text: "[Document attachment provided — use Files API / respondWithFiles for PDF analysis]",
@@ -105,7 +127,6 @@ function contentToOpenAI(
       continue;
     }
 
-    // Fallback: stringify unknown blocks so the model still sees something.
     parts.push({ type: "text", text: JSON.stringify(block) });
   }
 
@@ -139,9 +160,7 @@ function toOpenAITools(
 
 function toOpenAIToolChoice(
   toolChoice: MessageCreateParams["tool_choice"]
-):
-  | OpenAI.Chat.ChatCompletionToolChoiceOption
-  | undefined {
+): OpenAI.Chat.ChatCompletionToolChoiceOption | undefined {
   if (!toolChoice) return undefined;
   if (toolChoice.type === "auto") return "auto";
   if (toolChoice.type === "none") return "none";
@@ -198,7 +217,7 @@ function fromOpenAIResponse(
 
 /**
  * Messages-shaped client used by existing automation call sites.
- * `new LlmClient()` / `new LlmClient({ apiKey })` uses XAI_API_KEY.
+ * Uses MODEL_API_KEY (falls back to legacy XAI_API_KEY).
  */
 export class LlmClient {
   private openai: OpenAI;
@@ -218,7 +237,8 @@ export class LlmClient {
         messages: toOpenAIMessages(params.messages),
         tools: toOpenAITools(params.tools),
         tool_choice: toOpenAIToolChoice(params.tool_choice),
-      });
+        reasoning_effort: params.reasoning_effort || "minimal",
+      } as OpenAI.Chat.ChatCompletionCreateParamsNonStreaming);
       return fromOpenAIResponse(completion);
     },
 
@@ -233,9 +253,10 @@ export class LlmClient {
             messages: toOpenAIMessages(params.messages),
             tools: toOpenAITools(params.tools),
             tool_choice: toOpenAIToolChoice(params.tool_choice),
+            reasoning_effort: params.reasoning_effort || "minimal",
             stream: true,
             stream_options: { include_usage: true },
-          });
+          } as OpenAI.Chat.ChatCompletionCreateParamsStreaming);
 
           let text = "";
           const toolCalls = new Map<
@@ -259,7 +280,8 @@ export class LlmClient {
               };
               if (tc.id) existing.id = tc.id;
               if (tc.function?.name) existing.name = tc.function.name;
-              if (tc.function?.arguments) existing.arguments += tc.function.arguments;
+              if (tc.function?.arguments)
+                existing.arguments += tc.function.arguments;
               toolCalls.set(tc.index, existing);
             }
             if (chunk.usage) {
@@ -301,9 +323,8 @@ export class LlmClient {
   };
 }
 
-/** Default export for `import LlmClient from "./llm"` usage. */
 export default LlmClient;
 
 export function hasLlmApiKey(): boolean {
-  return Boolean(process.env.XAI_API_KEY);
+  return Boolean(getLlmApiKey());
 }

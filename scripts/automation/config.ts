@@ -12,13 +12,15 @@ export const config = configJson as AutomationConfig;
 // Model IDs
 // ----------------
 
+/** Muse Spark 1.2 on Meta Model API. Override with LLM_MODEL env if needed. */
+const MUSE_MODEL =
+  (typeof process !== "undefined" && process.env.LLM_MODEL) ||
+  "muse-spark-1.2";
+
 export const MODELS = {
-  /** Heavy content work: article writing, enhancement, glossary definitions */
-  CONTENT: "grok-4.5",
-  /** Lighter analysis: metadata enrichment, SEO meta, link suggestions */
-  ANALYSIS: "grok-4.5",
-  /** Utilitarian tasks: translation, basic cleanup, Smart CTAs */
-  UTILITY: "grok-4.5",
+  CONTENT: MUSE_MODEL,
+  ANALYSIS: MUSE_MODEL,
+  UTILITY: MUSE_MODEL,
 } as const;
 
 // ----------------

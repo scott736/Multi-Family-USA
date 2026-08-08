@@ -141,7 +141,7 @@ LINKER v6 (-f linker-v4)
     --all              Process all posts
     --locale <code>    en (default), es, fr, or all (strip/apply; relink-local uses all)
     --dry-run          Preview changes without saving
-    --use-api          xAI Grok API — GitHub Actions only (new published posts)
+    --use-api          Meta Muse Spark API — GitHub Actions only (new published posts)
     --force            Regenerate even if suggestions exist
     --strict           Fail quality-score when grade is D/F
     --model <name>     Model: haiku (default), sonnet, opus
@@ -173,7 +173,7 @@ SMART CTA (-f smart-cta)
     --all              Process all posts (rescan mode)
     --collection <name>  blog (default) or glossary (rescan)
     --locale <code>    en (default), es, or fr (rescan)
-    --use-api          Skip interactive prompt, use xAI Grok API directly
+    --use-api          Skip interactive prompt, use Meta Muse Spark API directly
     --dry-run          Preview changes without saving
     --skip-existing    Skip posts that already have inline CTAs (rescan)
     --category <name>  Only process posts in this category (rescan)
@@ -204,7 +204,7 @@ SERVICE CTA (-f service-cta)
     npx tsx scripts/automation -f service-cta -m rescan --all --locale all
     npx tsx scripts/automation -f service-cta -m rescan --all --locale en --dry-run
 
-  Model: Grok 4.5 (grok-4.5)
+  Model: Muse Spark 1.2 (muse-spark-1.2)
   Requires: XAI_API_KEY environment variable
 
   Examples:

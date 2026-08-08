@@ -26,7 +26,7 @@ export async function runLinkerV4(options: CLIOptions): Promise<void> {
           const { buildPrompt } = await import("./build-prompt");
           await buildPrompt(options);
         }
-      } else if (options.useApi || process.env.XAI_API_KEY) {
+      } else if (options.useApi || (process.env.MODEL_API_KEY || process.env.XAI_API_KEY)) {
         // Intent Placement is the default semantic generator (API or local with key)
         const { generateIntent } = await import("./generate-intent");
         if (options.all || options.slug) {
@@ -80,7 +80,7 @@ export async function runLinkerV4(options: CLIOptions): Promise<void> {
       break;
     }
 
-    // Monthly audit via xAI Grok API (GitHub Actions)
+    // Monthly audit via Meta Muse Spark API (GitHub Actions)
     case "audit": {
       const { auditLinks } = await import("./audit");
       await auditLinks(options);
@@ -144,11 +144,11 @@ export async function runLinkerV4(options: CLIOptions): Promise<void> {
       const LlmClient = (await import("../shared/llm")).default;
       const { MODELS } = await import("../config");
       const { loadMarkdownFiles, BLOG_DIR } = await import("./parse");
-      if (!process.env.XAI_API_KEY) {
-        console.error("XAI_API_KEY required for rerank.");
+      if (!(process.env.MODEL_API_KEY || process.env.XAI_API_KEY)) {
+        console.error("MODEL_API_KEY (or legacy XAI_API_KEY) required for rerank.");
         break;
       }
-      const modelId = options.model === "sonnet" ? "grok-4.5" : "grok-4.5";
+      const modelId = options.model === "sonnet" ? "muse-spark-1.2" : "muse-spark-1.2";
       if (options.slug) {
         const posts = await loadMarkdownFiles(BLOG_DIR);
         const article = posts.find((p) => p.slug === options.slug);

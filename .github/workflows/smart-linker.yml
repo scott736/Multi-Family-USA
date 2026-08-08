@@ -83,6 +83,7 @@ jobs:
         if: steps.slugs.outputs.list != ''
         env:
           GITHUB_ACTIONS: true
+          MODEL_API_KEY: ${{ secrets.MODEL_API_KEY }}
           XAI_API_KEY: ${{ secrets.XAI_API_KEY }}
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
           INPUT_SLUGS: ${{ steps.slugs.outputs.list }}
@@ -107,6 +108,7 @@ jobs:
         if: steps.slugs.outputs.list != ''
         env:
           GITHUB_ACTIONS: true
+          MODEL_API_KEY: ${{ secrets.MODEL_API_KEY }}
           XAI_API_KEY: ${{ secrets.XAI_API_KEY }}
           INPUT_SLUGS: ${{ steps.slugs.outputs.list }}
         run: |
@@ -117,6 +119,7 @@ jobs:
       - name: Rerank (if excess links passed validation)
         if: steps.slugs.outputs.list != ''
         env:
+          MODEL_API_KEY: ${{ secrets.MODEL_API_KEY }}
           XAI_API_KEY: ${{ secrets.XAI_API_KEY }}
           INPUT_SLUGS: ${{ steps.slugs.outputs.list }}
         run: |
@@ -136,6 +139,7 @@ jobs:
       - name: Orphan inbound for new posts (exact + bridge drafts)
         if: steps.slugs.outputs.list != ''
         env:
+          MODEL_API_KEY: ${{ secrets.MODEL_API_KEY }}
           XAI_API_KEY: ${{ secrets.XAI_API_KEY }}
           INPUT_SLUGS: ${{ steps.slugs.outputs.list }}
         run: |

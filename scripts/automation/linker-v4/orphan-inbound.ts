@@ -220,11 +220,11 @@ export async function draftOrphanInbound(options: CLIOptions): Promise<void> {
 
   console.log(`Blog orphans/targets to process: ${focused.length}\n`);
 
-  if (!process.env.XAI_API_KEY) {
-    console.warn("XAI_API_KEY missing — will only attempt exact-substring inbound links (no bridge drafts).\n");
+  if (!(process.env.MODEL_API_KEY || process.env.XAI_API_KEY)) {
+    console.warn("MODEL_API_KEY (or legacy XAI_API_KEY) missing — will only attempt exact-substring inbound links (no bridge drafts).\n");
   }
 
-  const client = process.env.XAI_API_KEY ? new LlmClient() : null;
+  const client = (process.env.MODEL_API_KEY || process.env.XAI_API_KEY) ? new LlmClient() : null;
   const modelId = MODELS.ANALYSIS;
   const draftsDir = path.resolve(DRAFTS_DIR);
   await fs.mkdir(draftsDir, { recursive: true });

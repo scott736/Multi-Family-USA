@@ -16,7 +16,7 @@ export async function relinkLocal(options: CLIOptions): Promise<void> {
   console.log("═══════════════════════════════════════════════");
   console.log("  Smart Linker v9 — Full Local Relink");
   console.log(`  Mode: ${dryRun ? "DRY RUN" : "LIVE"}`);
-  console.log(`  Semantic judge: ${useJudge && process.env.XAI_API_KEY ? "ON" : "OFF"}`);
+  console.log(`  Semantic judge: ${useJudge && (process.env.MODEL_API_KEY || process.env.XAI_API_KEY) ? "ON" : "OFF"}`);
   console.log("  Locales: en (generate) → en/es/fr (apply)");
   console.log("═══════════════════════════════════════════════\n");
 
@@ -53,11 +53,11 @@ export async function relinkLocal(options: CLIOptions): Promise<void> {
 
   // Step 5: Intent Placement generation (EN only)
   console.log("\nStep 5/10: Generate suggestions (Intent Placement v9, EN)...\n");
-  if (process.env.XAI_API_KEY && options.noApi !== true) {
+  if ((process.env.MODEL_API_KEY || process.env.XAI_API_KEY) && options.noApi !== true) {
     const { generateIntent } = await import("./generate-intent");
     await generateIntent({ ...options, all: true, force: true, locale: "en" });
   } else {
-    console.log("  No XAI_API_KEY (or --no-api) — using deterministic v8 fallback\n");
+    console.log("  No MODEL_API_KEY (or --no-api) — using deterministic v8 fallback\n");
     const { generateDeterministic } = await import("./generate-deterministic");
     await generateDeterministic({ ...options, all: true, force: true, locale: "en" });
   }
@@ -68,12 +68,12 @@ export async function relinkLocal(options: CLIOptions): Promise<void> {
   await validateSuggestions({ all: true });
 
   // Step 7: LLM semantic judge (optional)
-  if (useJudge && process.env.XAI_API_KEY) {
+  if (useJudge && (process.env.MODEL_API_KEY || process.env.XAI_API_KEY)) {
     console.log("\nStep 7/10: LLM semantic judge (batch)...\n");
     const { semanticJudgeAll } = await import("./semantic-judge");
     await semanticJudgeAll({ verbose: false, allowLocal: true });
   } else {
-    console.log("\nStep 7/10: LLM semantic judge skipped (set XAI_API_KEY + --use-api)\n");
+    console.log("\nStep 7/10: LLM semantic judge skipped (set MODEL_API_KEY + --use-api)\n");
   }
 
   // Step 8: Apply (EN + localized es/fr)

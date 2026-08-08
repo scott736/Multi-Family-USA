@@ -47,8 +47,8 @@ function toSuggestion(link: IntentLink) {
 export async function generateIntent(options: CLIOptions): Promise<void> {
   const { slug, all, dryRun, force, concurrency } = options;
 
-  if (!process.env.XAI_API_KEY) {
-    console.error("XAI_API_KEY required for Intent Placement generate.");
+  if (!(process.env.MODEL_API_KEY || process.env.XAI_API_KEY)) {
+    console.error("MODEL_API_KEY (or legacy XAI_API_KEY) required for Intent Placement generate.");
     console.error("Fall back: npx tsx scripts/automation -f linker-v4 -m generate --no-api --slug …");
     return;
   }

@@ -1,22 +1,37 @@
 // ============================================
-// xAI Grok helpers for runtime (Vercel) use
+// Meta Muse Spark helpers for runtime (Cloudflare Workers) use
 // ============================================
-// Kept under src/ so Vercel can bundle them. scripts/ is .vercelignore'd.
+// Kept under src/ so Vercel can bundle them. Kept under src/ for the Workers bundle.
+// Filename retained (xai.ts) for import stability after Grok → Muse migration.
 
-export const XAI_BASE_URL = "https://api.x.ai/v1";
-export const XAI_DEFAULT_MODEL = "grok-4.5";
+export const LLM_BASE_URL = "https://api.meta.ai/v1";
+/** @deprecated Use LLM_BASE_URL */
+export const XAI_BASE_URL = LLM_BASE_URL;
+
+/** Muse Spark 1.2 (Standard). Override with LLM_MODEL if needed. */
+export const LLM_DEFAULT_MODEL =
+  (typeof process !== "undefined" ? process.env.LLM_MODEL : undefined) ||
+  "muse-spark-1.2";
+/** @deprecated Use LLM_DEFAULT_MODEL */
+export const XAI_DEFAULT_MODEL = LLM_DEFAULT_MODEL;
+
+export function getLlmApiKey(explicit?: string): string | undefined {
+  if (explicit) return explicit;
+  if (typeof process === "undefined") return undefined;
+  return process.env.MODEL_API_KEY || process.env.XAI_API_KEY;
+}
 
 function requireApiKey(explicit?: string): string {
-  const key =
-    explicit ||
-    (typeof process !== "undefined" ? process.env.XAI_API_KEY : undefined);
+  const key = getLlmApiKey(explicit);
   if (!key) {
-    throw new Error("XAI_API_KEY is missing. Cannot call Grok.");
+    throw new Error(
+      "MODEL_API_KEY (or legacy XAI_API_KEY) is missing. Cannot call Muse Spark."
+    );
   }
   return key;
 }
 
-/** Upload a binary/base64 file to xAI Files API. Returns file id. */
+/** Upload a binary/base64 file to Meta Files API. Returns file id. */
 export async function uploadXaiFile(options: {
   apiKey?: string;
   data: Buffer | Uint8Array | string;
@@ -31,38 +46,45 @@ export async function uploadXaiFile(options: {
       : Buffer.from(options.data);
 
   const form = new FormData();
-  const ab = bytes.buffer.slice(bytes.byteOffset, bytes.byteOffset + bytes.byteLength);
+  const ab = bytes.buffer.slice(
+    bytes.byteOffset,
+    bytes.byteOffset + bytes.byteLength
+  );
   form.append(
     "file",
     new Blob([ab], { type: options.mimeType || "application/octet-stream" }),
     options.filename
   );
-  form.append("purpose", options.purpose || "assistants");
+  // Meta Files API: purpose=user_data for inference reference
+  form.append("purpose", options.purpose || "user_data");
 
-  const res = await fetch(`${XAI_BASE_URL}/files`, {
+  const res = await fetch(`${LLM_BASE_URL}/files`, {
     method: "POST",
     headers: { Authorization: `Bearer ${apiKey}` },
     body: form,
   });
   if (!res.ok) {
     const body = await res.text();
-    throw new Error(`xAI file upload failed (${res.status}): ${body}`);
+    throw new Error(`Meta file upload failed (${res.status}): ${body}`);
   }
   const json = (await res.json()) as { id?: string };
-  if (!json.id) throw new Error("xAI file upload returned no id");
+  if (!json.id) throw new Error("Meta file upload returned no id");
   return json.id;
 }
 
-export async function deleteXaiFile(fileId: string, apiKey?: string): Promise<void> {
+export async function deleteXaiFile(
+  fileId: string,
+  apiKey?: string
+): Promise<void> {
   const key = requireApiKey(apiKey);
-  await fetch(`${XAI_BASE_URL}/files/${fileId}`, {
+  await fetch(`${LLM_BASE_URL}/files/${fileId}`, {
     method: "DELETE",
     headers: { Authorization: `Bearer ${key}` },
   });
 }
 
 /**
- * Analyze text + uploaded file ids / image data URLs via xAI Responses API.
+ * Analyze text + uploaded file ids / image data URLs via Meta Responses API.
  * Prefer this for PDFs (Files API + input_file).
  */
 export async function respondWithFiles(options: {
@@ -72,6 +94,7 @@ export async function respondWithFiles(options: {
   fileIds?: string[];
   imageDataUrls?: string[];
   maxTokens?: number;
+  reasoningEffort?: "minimal" | "low" | "medium" | "high" | "xhigh";
 }): Promise<string> {
   const apiKey = requireApiKey(options.apiKey);
   const content: Array<Record<string, unknown>> = [
@@ -84,27 +107,29 @@ export async function respondWithFiles(options: {
     content.push({ type: "input_image", image_url: url });
   }
 
-  const res = await fetch(`${XAI_BASE_URL}/responses`, {
+  const res = await fetch(`${LLM_BASE_URL}/responses`, {
     method: "POST",
     headers: {
       Authorization: `Bearer ${apiKey}`,
       "Content-Type": "application/json",
     },
     body: JSON.stringify({
-      model: options.model || XAI_DEFAULT_MODEL,
-      input: [{ role: "user", content }],
+      model: options.model || LLM_DEFAULT_MODEL,
+      input: [{ type: "message", role: "user", content }],
       max_output_tokens: options.maxTokens ?? 4096,
+      reasoning: { effort: options.reasoningEffort || "minimal" },
     }),
   });
 
   if (!res.ok) {
     const body = await res.text();
-    throw new Error(`xAI responses failed (${res.status}): ${body}`);
+    throw new Error(`Meta responses failed (${res.status}): ${body}`);
   }
 
   const data = (await res.json()) as {
     output_text?: string;
     output?: Array<{
+      type?: string;
       content?: Array<{ type?: string; text?: string }>;
     }>;
   };
@@ -113,8 +138,14 @@ export async function respondWithFiles(options: {
     return data.output_text;
   }
 
-  const last = data.output?.[data.output.length - 1];
-  const text = last?.content?.find((c) => c.type === "output_text")?.text;
-  if (text) return text;
-  throw new Error("xAI responses returned no text");
+  const texts: string[] = [];
+  for (const item of data.output || []) {
+    if (item.type && item.type !== "message") continue;
+    for (const block of item.content || []) {
+      if (block.type === "output_text" && block.text) texts.push(block.text);
+    }
+  }
+  if (texts.length) return texts.join("\n");
+
+  throw new Error("Meta responses returned no text");
 }

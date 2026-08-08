@@ -1,7 +1,7 @@
 // ============================================
 // Smart Linker v4 — API-Based Suggestion Generation
 // ============================================
-// Calls xAI Grok API directly (Haiku by default) to generate link suggestions.
+// Calls Meta Muse Spark API directly (Haiku by default) to generate link suggestions.
 // Supports concurrent batch processing and category-filtered catalogs.
 //
 // Usage:
@@ -60,9 +60,9 @@ const RERANK_TRIGGER_MARGIN = 2;
 const RERANK_CANDIDATE_MARGIN = 3;
 
 const MODEL_MAP: Record<string, string> = {
-  sonnet: "grok-4.5",
-  haiku: "grok-4.5",
-  opus: "grok-4.5",
+  sonnet: "muse-spark-1.2",
+  haiku: "muse-spark-1.2",
+  opus: "muse-spark-1.2",
 };
 
 // ----------------
@@ -84,12 +84,12 @@ export async function generateViaApi(options: CLIOptions): Promise<void> {
     return;
   }
 
-  if (!process.env.XAI_API_KEY) {
-    console.error("XAI_API_KEY environment variable required.");
+  if (!(process.env.MODEL_API_KEY || process.env.XAI_API_KEY)) {
+    console.error("MODEL_API_KEY (or legacy XAI_API_KEY) environment variable required.");
     return;
   }
 
-  console.log("Generating link suggestions via xAI Grok API...\n");
+  console.log("Generating link suggestions via Meta Muse Spark API...\n");
   console.log(`  Model: ${modelId}`);
   console.log(`  Concurrency: ${concurrency}`);
   console.log(`  Mode: ${dryRun ? "dry-run" : "write suggestions"}\n`);
@@ -764,9 +764,9 @@ export async function autoLinkArticle(
   dryRun?: boolean,
   opts?: { rerank?: boolean; verbose?: boolean }
 ): Promise<{ applied: number; suggestions: number }> {
-  if (!process.env.XAI_API_KEY) {
+  if (!(process.env.MODEL_API_KEY || process.env.XAI_API_KEY)) {
     console.log(
-      "  Skipping auto-link: XAI_API_KEY not set"
+      "  Skipping auto-link: MODEL_API_KEY (or legacy XAI_API_KEY) not set"
     );
     return { applied: 0, suggestions: 0 };
   }
@@ -1041,8 +1041,8 @@ export async function rerankValidatedSuggestionFile(
 export async function rerankAllValidatedSuggestions(
   options: { verbose?: boolean; model?: string } = {}
 ): Promise<void> {
-  if (!process.env.XAI_API_KEY) {
-    console.log("  Skipping rerank: XAI_API_KEY not set");
+  if (!(process.env.MODEL_API_KEY || process.env.XAI_API_KEY)) {
+    console.log("  Skipping rerank: MODEL_API_KEY (or legacy XAI_API_KEY) not set");
     return;
   }
 

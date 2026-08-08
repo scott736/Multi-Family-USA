@@ -924,8 +924,8 @@ function printTable(rows: MetricRow[]) {
 async function main() {
   const { skipJudge, slugs } = parseArgs(process.argv.slice(2));
 
-  if (!process.env.XAI_API_KEY) {
-    console.error("XAI_API_KEY required for v9 + judge.");
+  if (!(process.env.MODEL_API_KEY || process.env.XAI_API_KEY)) {
+    console.error("MODEL_API_KEY (or legacy XAI_API_KEY) required for v9 + judge.");
     process.exit(1);
   }
 

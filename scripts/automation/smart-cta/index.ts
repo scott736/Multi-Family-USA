@@ -2,7 +2,7 @@
 // Smart CTA — CLI Handler
 // ============================================
 // Generate and manage AI-powered inline CTAs for blog posts.
-// Uses Grok 4.5 via the xAI Grok API.
+// Uses Muse Spark 1.2 via the Meta Muse Spark API.
 //
 // Usage:
 //   npx tsx scripts/automation -f smart-cta -m generate --slug my-article
@@ -130,8 +130,8 @@ async function generateForArticle(options: CLIOptions): Promise<void> {
   }
 
   // API method
-  if (!process.env.XAI_API_KEY) {
-    console.error("XAI_API_KEY environment variable required for API mode.");
+  if (!(process.env.MODEL_API_KEY || process.env.XAI_API_KEY)) {
+    console.error("MODEL_API_KEY (or legacy XAI_API_KEY) environment variable required for API mode.");
     return;
   }
 
@@ -146,7 +146,7 @@ async function generateForArticle(options: CLIOptions): Promise<void> {
   }, verbose);
 
   if (aiCTAs.length === 0) {
-    console.log("No CTAs generated. Check your XAI_API_KEY and try again.");
+    console.log("No CTAs generated. Check your MODEL_API_KEY and try again.");
     return;
   }
 
@@ -179,7 +179,7 @@ function promptGenerationMethod(): Promise<"api" | "prompt"> {
 
   return new Promise((resolve) => {
     console.log("\nCTA generation method:");
-    console.log("  1) xAI Grok API (Grok 4.5)");
+    console.log("  1) Meta Muse Spark API (Muse Spark 1.2)");
     console.log("  2) Output prompt for agent");
 
     rl.question("Choose [1/2]: ", (answer) => {
@@ -206,8 +206,8 @@ async function rescanAll(options: CLIOptions): Promise<void> {
     return;
   }
 
-  if (!noApi && !process.env.XAI_API_KEY) {
-    console.error("XAI_API_KEY environment variable required (or pass --no-api to use templates).");
+  if (!noApi && !(process.env.MODEL_API_KEY || process.env.XAI_API_KEY)) {
+    console.error("MODEL_API_KEY (or legacy XAI_API_KEY) environment variable required (or pass --no-api to use templates).");
     return;
   }
 
@@ -217,7 +217,7 @@ async function rescanAll(options: CLIOptions): Promise<void> {
 
   console.log(`Rescanning ${mdFiles.length} ${collection} entries (locale=${locale}) with Smart CTAs`);
   console.log(`  Source: ${blogDir}`);
-  console.log(`  Mode: ${noApi ? "templates only (no-api)" : "AI (grok-4.5)"}`);
+  console.log(`  Mode: ${noApi ? "templates only (no-api)" : "AI (muse-spark-1.2)"}`);
   console.log(`  Concurrency: ${concurrency}`);
   if (skipExisting) console.log(`  Skip existing: yes`);
   if (categoryFilter) console.log(`  Category filter: ${categoryFilter}`);

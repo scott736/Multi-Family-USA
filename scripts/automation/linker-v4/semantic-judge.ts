@@ -179,8 +179,8 @@ export async function semanticJudgeAll(options: {
   verbose?: boolean;
   allowLocal?: boolean;
 }): Promise<void> {
-  if (!process.env.XAI_API_KEY) {
-    console.log("  Skipping semantic judge: XAI_API_KEY not set");
+  if (!(process.env.MODEL_API_KEY || process.env.XAI_API_KEY)) {
+    console.log("  Skipping semantic judge: MODEL_API_KEY (or legacy XAI_API_KEY) not set");
     return;
   }
 
@@ -191,9 +191,9 @@ export async function semanticJudgeAll(options: {
 
   const client = new LlmClient();
   const modelMap: Record<string, string> = {
-    haiku: "grok-4.5",
-    sonnet: "grok-4.5",
-    opus: "grok-4.5",
+    haiku: "muse-spark-1.2",
+    sonnet: "muse-spark-1.2",
+    opus: "muse-spark-1.2",
   };
   const modelId = modelMap[options.model || "haiku"] || modelMap.haiku;
 

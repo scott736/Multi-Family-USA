@@ -81,7 +81,7 @@ async function llmRewrite(args: {
 async function main() {
   const { dryRun, useApi, max } = parseArgs(process.argv.slice(2));
   const { posts, catalog } = await loadBlogAndCatalog();
-  const client = useApi && process.env.XAI_API_KEY ? new LlmClient() : null;
+  const client = useApi && (process.env.MODEL_API_KEY || process.env.XAI_API_KEY) ? new LlmClient() : null;
 
   let upgraded = 0;
   let scanned = 0;

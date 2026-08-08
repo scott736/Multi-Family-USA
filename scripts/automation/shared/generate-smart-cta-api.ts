@@ -1,7 +1,7 @@
 // ============================================
-// Smart CTA — AI-Powered CTA Generation via xAI Grok API
+// Smart CTA — AI-Powered CTA Generation via Meta Muse Spark API
 // ============================================
-// Calls Grok 4.5 to generate article-specific CTA sentences.
+// Calls Muse Spark 1.2 to generate article-specific CTA sentences.
 // Returns sentences with {link} placeholders, matching the
 // format used by the template system in smart-cta.ts.
 //
@@ -43,7 +43,7 @@ const MAX_TOKENS = 1024;
 // ----------------
 
 /**
- * Generate 1-2 article-specific CTA sentences using Grok 4.5 API.
+ * Generate 1-2 article-specific CTA sentences using Muse Spark 1.2 API.
  * Returns sentences with {link} placeholder for the booking URL.
  * Returns empty array on failure (caller should fall back to templates).
  *
@@ -56,9 +56,9 @@ export async function generateSmartCTAs(
   metadata: SmartCTAMetadata,
   verbose?: boolean
 ): Promise<string[]> {
-  const apiKey = process.env.XAI_API_KEY;
+  const apiKey = (process.env.MODEL_API_KEY || process.env.XAI_API_KEY);
   if (!apiKey) {
-    if (verbose) console.error("XAI_API_KEY not set — skipping AI CTA generation");
+    if (verbose) console.error("MODEL_API_KEY (or legacy XAI_API_KEY) not set — skipping AI CTA generation");
     return [];
   }
 

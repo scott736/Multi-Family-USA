@@ -1,7 +1,7 @@
 // ============================================
 // Smart Linker v4 — Monthly Link Audit
 // ============================================
-// Scans published articles via xAI Grok API to find new link opportunities.
+// Scans published articles via Meta Muse Spark API to find new link opportunities.
 // Uses category-filtered catalogs to reduce token usage and cost.
 // Designed to run monthly via GitHub Action with Haiku 4.5.
 //
@@ -50,12 +50,12 @@ export async function auditLinks(options: CLIOptions): Promise<void> {
     return;
   }
 
-  if (!process.env.XAI_API_KEY) {
-    console.error("XAI_API_KEY environment variable required.");
+  if (!(process.env.MODEL_API_KEY || process.env.XAI_API_KEY)) {
+    console.error("MODEL_API_KEY (or legacy XAI_API_KEY) environment variable required.");
     return;
   }
 
-  console.log("Monthly link audit via xAI Grok API...\n");
+  console.log("Monthly link audit via Meta Muse Spark API...\n");
   console.log(`  Model: ${MODEL}`);
   console.log(`  Mode: ${dryRun ? "dry-run" : "write suggestions"}\n`);
 
